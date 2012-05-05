@@ -25,3 +25,9 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+
+# OS-X thumbnails
+.DS_Store
+
+# vi swap files
+*.swp
