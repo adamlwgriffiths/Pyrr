@@ -22,6 +22,10 @@ Pyrr requires the following software:
    * Python 2(.6?)+
    * NumPy
 
+You can install dependencies easily by using the command:
+```pip install -r requirements.txt
+```
+
 License
 ---------------
 
