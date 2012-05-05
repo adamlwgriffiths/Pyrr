@@ -7,7 +7,7 @@ Created on 29/05/2011
 import numpy
 import numpy.linalg
 
-import maths.vector
+import vector
 
 
 # the indices of each component in the
@@ -71,8 +71,8 @@ def plane_from_position( position, normal, up, out = None ):
     out[ 1 ] = numpy.array( normal, dtype = float )
     out[ 2 ] = numpy.array( up, dtype = float )
     
-    maths.vector.normalise( out[ 1 ] )
-    maths.vector.normalise( out[ 2 ] )
+    vector.normalise( out[ 1 ] )
+    vector.normalise( out[ 2 ] )
     
     if numpy.dot( out[ 1 ], out[ 2 ] ) != 0.0:
         raise ValueError( "Vectors are not co-planar" )
