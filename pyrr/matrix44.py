@@ -12,18 +12,34 @@ import matrix33
 
 
 def identity( out = None ):
+    """
+    Creates a new matrix44 and sets it to
+    an identity matrix.
+    """
     if out == None:
-        out = numpy.empty( (4, 4), dtype = float )
-    
-    out[:] = [
-        [ 1.0, 0.0, 0.0, 0.0 ],
-        [ 0.0, 1.0, 0.0, 0.0 ],
-        [ 0.0, 0.0, 1.0, 0.0 ],
-        [ 0.0, 0.0, 0.0, 1.0 ]
-        ]
+        out = numpy.identity( 4, dtype = float )
+    else:
+        out[:] = [
+            [ 1.0, 0.0, 0.0, 0.0 ],
+            [ 0.0, 1.0, 0.0, 0.0 ],
+            [ 0.0, 0.0, 1.0, 0.0 ],
+            [ 0.0, 0.0, 0.0, 1.0 ]
+            ]
     return out
 
-def setup( eulers, out = None ):
+def to_matrix33( mat ):
+    """
+    Converts a matrix44 to a matrix33.
+    This is essentially a wrapper around the
+    slice function mat[ 0:3, 0:3 ]
+
+    @param mat: A matrix44
+    @result: A matrix33 sliced from the specified
+    matrix.
+    """
+    return mat[ 0:3, 0:3 ]
+
+def create_from_eulers( eulers, out = None ):
     """
     Proper matrix layout and layout used for DirectX.
     For OpenGL, transpose the matrix after calling this.
@@ -34,11 +50,56 @@ def setup( eulers, out = None ):
     
     # we'll use Matrix33 for our conversion
     mat33 = out[ 0:3, 0:3 ]
-    mat33 = matrix33.setup( eulers, mat33 )
+    out[ 0:3, 0:3 ] = matrix33.create_from_eulers( eulers, mat33 )
     
     return out
 
-def from_inertial_to_object_quaternion( quat, out = None ):
+def create_from_quaternion( quat, out = None ):
+    """
+    Creates a matrix that applies a quaternions translations.
+
+    This can be used to go from intertial space to object space.
+
+    Proper matrix layout and layout used for DirectX.
+    For OpenGL, transpose the matrix after calling this.
+
+    @param quat: The quaternion to create the matrix from.
+    @result: The matrix that represents the quaternion.
+    """
+    # set to identity matrix
+    # this will populate our extra rows for us
+    out = identity( out )
+    
+    # we'll use Matrix33 for our conversion
+    mat33 = out[ 0:3, 0:3 ]
+    matrix33.create_from_quaternion( quat, mat33 )
+    
+    return out
+
+def create_from_inverse_of_quaternion( quat, out = None ):
+    """
+    Creates a matrix that applies the inverse of a quaternion's
+    translations.
+
+    This can be used to go from object space to intertial space.
+
+    Proper matrix layout and layout used for DirectX.
+    For OpenGL, transpose the matrix after calling this.
+
+    @param quat: The quaternion to make the matri from.
+    @result: The matrix that respresents the inverse of the quaternion.
+    """
+    # set to identity matrix
+    # this will populate our extra rows for us
+    out = identity( out )
+    
+    # we'll use Matrix33 for our conversion
+    mat33 = out[ 0:3, 0:3 ]
+    matrix33.create_from_inverse_of_quaternion( quat, mat33 )
+    
+    return out
+
+def apply_to_vector( vector, matrix, out = None ):
     """
     Proper matrix layout and layout used for DirectX.
     For OpenGL, transpose the matrix after calling this.
@@ -49,44 +110,34 @@ def from_inertial_to_object_quaternion( quat, out = None ):
     
     # we'll use Matrix33 for our conversion
     mat33 = out[ 0:3, 0:3 ]
-    matrix33.from_inertial_to_object_quaternion( quat, mat33 )
-    
-    return out
-
-def from_object_to_inertial_quaternion( quat, out = None ):
-    """
-    Proper matrix layout and layout used for DirectX.
-    For OpenGL, transpose the matrix after calling this.
-    """
-    # set to identity matrix
-    # this will populate our extra rows for us
-    out = identity( out )
-    
-    # we'll use Matrix33 for our conversion
-    mat33 = out[ 0:3, 0:3 ]
-    matrix33.from_object_to_inertial_quaternion( quat, mat33 )
-    
-    return out
-
-def inertial_to_object( vector, matrix, out = None ):
-    """
-    Proper matrix layout and layout used for DirectX.
-    For OpenGL, transpose the matrix after calling this.
-    """
-    # set to identity matrix
-    # this will populate our extra rows for us
-    out = identity( out )
-    
-    # we'll use Matrix33 for our conversion
-    mat33 = out[ 0:3, 0:3 ]
-    matrix33.inertial_to_object( vector, mat33 )
+    matrix33.apply_to_vector( vector, mat33 )
     
     return out
 
 def multiply( m1, m2, out = None ):
+    """
+    Multiplies two matrixies, m1 . m2.
+    This is essentially a wrapper around
+    numpy.dot( m1, m2 )
+
+    @param m1: The base matrix
+    @param m2: The matrix to multiply with
+    @result: The new matrix formed from multiplying
+    m1 with m2.
+    """
     if out == None:
         out = numpy.empty( (4, 4), dtype = float )
     out[:] = numpy.dot( m1, m2 )
+    return out
+
+def translate( matrix, vector, out = None ):
+    if out == None:
+        out = numpy.empty( (4, 4), dtype = float )
+    
+    out[:] = matrix
+    # apply the vector to the first 3 values of the last row
+    out[ 3, 0:3 ] += vector
+    
     return out
 
 def set_translation( matrix, vector, out = None ):
@@ -100,9 +151,6 @@ def set_translation( matrix, vector, out = None ):
     return out
 
 def scale( matrix, scale, out = None ):
-    if out == None:
-        out = identity() 
-    
     # apply the scale to the values diagonally
     # down the matrix
     scale_matrix = numpy.diagflat(
@@ -113,8 +161,8 @@ def scale( matrix, scale, out = None ):
             1.0
             ]
         )
-    multiply( matrix, scale_matrix, out )
-    
+    out = numpy.dot( matrix, scale_matrix, out )
+
     return out
 
 def create_projection_view_matrix(

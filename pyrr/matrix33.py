@@ -22,7 +22,7 @@ def identity( out = None ):
         ]
     return out
 
-def setup( eulers, out = None ):
+def create_from_eulers( eulers, out = None ):
     """
     Proper matrix layout and layout used for DirectX.
     For OpenGL, transpose the matrix after calling this.
@@ -72,7 +72,7 @@ def setup( eulers, out = None ):
         ]
     return out
 
-def from_inertial_to_object_quaternion( quat, out = None ):
+def create_from_quaternion( quat, out = None ):
     """
     Proper matrix layout and layout used for DirectX.
     For OpenGL, transpose the matrix after calling this.
@@ -116,7 +116,7 @@ def from_inertial_to_object_quaternion( quat, out = None ):
         ]
     return out
 
-def from_object_to_inertial_quaternion( quat, out = None ):
+def create_from_inverse_of_quaternion( quat, out = None ):
     """
     Proper matrix layout and layout used for DirectX.
     For OpenGL, transpose the matrix after calling this.
@@ -160,7 +160,7 @@ def from_object_to_inertial_quaternion( quat, out = None ):
         ]
     return out
 
-def inertial_to_object( vector, matrix, out = None ):
+def apply_to_vector( vector, matrix, out = None ):
     """
     Proper matrix layout and layout used for DirectX.
     For OpenGL, transpose the matrix after calling this.
