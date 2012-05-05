@@ -196,22 +196,3 @@ def create_orthogonal_view_matrix(
 
     return out
 
-
-
-if __name__ == "__main__":
-    mat44 = identity()
-    # TODO: add more tests
-    
-    eulers = numpy.array( [ 1.0, 2.0, 0.5 ], dtype = float )
-    setup( eulers, mat44 )
-    assert mat44[ 3, 3 ] == 1.0
-    
-    out = numpy.empty( (4, 4), dtype = float )
-    set_translation( mat44, [ 1.0, 2.0, 3.0 ], out )
-    # translation goes down the last column in normal matrix
-    # opengl uses a transposed matrix
-    assert out[ 3 ][ 0 ] == 1.0
-    assert out[ 3 ][ 1 ] == 2.0
-    assert out[ 3 ][ 2 ] == 3.0
-    assert out is not mat44
-
