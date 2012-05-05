@@ -2,6 +2,10 @@ import pkgutil
 import os
 import pyrr
 
+# the version of software
+# this is used by the setup.py script
+__version__ = '20120506'
+
 # make 'from module import *' work dynamically.
 # otherwise we have to manually update the __all__ list.
 # http://stackoverflow.com/questions/1057431/loading-all-modules-in-a-folder-in-python
