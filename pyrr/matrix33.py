@@ -205,3 +205,26 @@ def object_to_inertial( vector, matrix, out = None ):
         ]
     return out
 
+def multiply( m1, m2, out = None ):
+    if out == None:
+        out = numpy.empty( (3, 3), dtype = float )
+    out[:] = numpy.dot( m1, m2 )
+    return out
+
+def scale( matrix, scale, out = None ):
+    if out == None:
+        out = identity() 
+    
+    # apply the scale to the values diagonally
+    # down the matrix
+    scale_matrix = numpy.diagflat(
+        [
+            scale[ 0 ],
+            scale[ 1 ],
+            scale[ 2 ],
+            ]
+        )
+    multiply( matrix, scale_matrix, out )
+    
+    return out
+
