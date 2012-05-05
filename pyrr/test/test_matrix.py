@@ -6,7 +6,7 @@ import numpy
 from pyrr import matrix
 
 
-class test_vector( unittest.TestCase ):
+class test_matrix( unittest.TestCase ):
 
     def setUp( self ):
         pass
