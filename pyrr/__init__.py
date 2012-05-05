@@ -1,6 +1,5 @@
 import pkgutil
 import os
-import pyrr
 
 # the version of software
 # this is used by the setup.py script
@@ -14,7 +13,6 @@ for module in os.listdir( os.path.dirname( __file__ ) ):
 
     # don't import ourself
     if name == '__init__':
-        print 'found init %s' % module
         continue
 
     # we can import .py, .pyc and .pyo file types
