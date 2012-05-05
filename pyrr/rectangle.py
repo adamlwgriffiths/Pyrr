@@ -26,7 +26,7 @@ def create_from_bounds( left, right, bottom, top, out = None, data_type = numpy.
         ]
     return out
 
-def extract_extents( rect ):
+def bounds( rect ):
     left = min(
         rect[ (0, 0) ],
         rect[ (0, 0) ] + rect[ (1, 0) ]
@@ -46,7 +46,7 @@ def extract_extents( rect ):
     return left, right, bottom, top
 
 def is_point_within_rect( point, rect ):
-    left, right, bottom, top = extract_extents( rect )
+    left, right, bottom, top = bounds( rect )
     if \
         point[ 0 ] < left or \
         point[ 0 ] > right or \
@@ -62,7 +62,7 @@ def is_relative_point_within_rect( point, rect ):
     This is done by checking the point is < width
     and height.
     """
-    left, right, bottom, top = extract_extents( rect )
+    left, right, bottom, top = bounds( rect )
     if \
         point[ 0 ] > (right - left) or \
         point[ 0 ] < 0 or \
@@ -78,7 +78,7 @@ def make_point_relative( point, rect ):
     the rect's x,y.
     This is the opposite of make_point_absolute.
     """
-    left, right, bottom, top = extract_extents( rect )
+    left, right, bottom, top = bounds( rect )
     return [
         point[ 0 ] - left,
         point[ 1 ] - bottom
@@ -91,7 +91,7 @@ def make_point_absolute( point, rect ):
     absolute. This is the opposite of
     make_point_relative.
     """
-    left, right, bottom, top = extract_extents( rect )
+    left, right, bottom, top = bounds( rect )
     return [
         point[ 0 ] + left,
         point[ 1 ] + bottom
@@ -99,7 +99,12 @@ def make_point_absolute( point, rect ):
 
 def scale_by_vector( rect, vec ):
     """
-    Scales a rectangle by a 2D vector
+    Scales a rectangle by a 2D vector.
+
+    Note that this will also scale the X,Y
+    value of the rectangle, which will cause
+    the rectangle to move, not just increase
+    in size.
 
     @param rect: the rectangle to scale.
     Both x,y and width,height will be scaled.
@@ -113,28 +118,4 @@ def scale_by_vector( rect, vec ):
     if len(vec) != 2:
         raise ValueError( "Vec must be length 2" )
     return rect * vec
-
-
-if __name__ == '__main__':
-    rect = zero()
-    rect[ 0 ] = [ 5.0, 5.0 ]
-    rect[ 1 ] = [ 10.0, 10.0 ]
-
-    assert False == is_point_within_rect( [ -1.0, 7.0 ], rect )
-    assert True == is_point_within_rect( [ 5.0, 5.0 ], rect )
-    assert False == is_point_within_rect( [ 20.0, 20.0 ], rect )
-
-    rect[ 0 ] = [ 15.0, 15.0 ]
-    rect[ 1 ] = [ -10.0, -10.0 ]
-    assert False == is_point_within_rect( [ -1.0, 7.0 ], rect )
-    assert True == is_point_within_rect( [ 5.0, 5.0 ], rect )
-    assert False == is_point_within_rect( [ 20.0, 20.0 ], rect )
-
-    rect[ 0 ] = [ 1.0, 1.0 ]
-    rect[ 1 ] = [ 10.0, 1.0 ]
-    scaled_rect = scale_by_vector( rect, [ 2.0, 1.0 ] )
-    assert scaled_rect[ (0, 0) ] == 2.0
-    assert scaled_rect[ (0, 1) ] == 1.0
-    assert scaled_rect[ (1, 0) ] == 20.0
-    assert scaled_rect[ (1, 1) ] == 1.0
 
