@@ -101,7 +101,6 @@ class test_ray( unittest.TestCase ):
             )
 
 
-
 if __name__ == '__main__':
     unittest.main()
 
