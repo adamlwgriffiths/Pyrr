@@ -78,34 +78,7 @@ def set_to_rotation_about_axis( axis, theta, out = None ):
         ]
     return out
 
-def set_to_rotation_object_to_inertial( eulers, out = None ):
-    if out == None:
-        out = numpy.empty( 4, dtype = float )
-    
-    pitchOver2 = eulers[ 0 ] * 0.5
-    rollOver2 = eulers[ 1 ] * 0.5
-    yawOver2 = eulers[ 2 ] * 0.5
-    
-    sinPitch = math.sin( pitchOver2 )
-    cosPitch = math.cos( pitchOver2 )
-    sinRoll = math.sin( rollOver2 )
-    cosRoll = math.cos( rollOver2 )
-    sinYaw = math.sin( yawOver2 )
-    cosYaw = math.cos( yawOver2 )
-    
-    out[:] = [
-        # cy * cp * cr + sy * sp * sr
-        (cosYaw * cosPitch * cosRoll) + (sinYaw * sinPitch * sinRoll),
-        # cy * sp * cr + sy * cp * sr
-        (cosYaw * sinPitch * cosRoll) + (sinYaw * cosPitch * sinRoll),
-        # -cy * sp * sr + sy * cp * cr
-        (-cosYaw * sinPitch * sinRoll) + (sinYaw * cosPitch * cosRoll),
-        # -sy * sp * cr + cy * cp * sr
-        (-sinYaw * sinPitch * cosRoll) + (cosYaw * cosPitch * sinRoll)
-        ]
-    return out
-
-def set_to_rotation_inertial_to_object( eulers, out = None ):
+def create_from_eulers( eulers, out = None ):
     if out == None:
         out = numpy.empty( 4, dtype = float )
     
@@ -129,6 +102,33 @@ def set_to_rotation_inertial_to_object( eulers, out = None ):
         (cosYaw * sinPitch * sinRoll) - (sinYaw * cosPitch * cosRoll),
         # sy * sp * cr - cy * cp * sr
         (sinYaw * sinPitch * cosRoll) - (cosYaw * cosPitch * sinRoll)
+        ]
+    return out
+
+def create_inverse_from_eulers( eulers, out = None ):
+    if out == None:
+        out = numpy.empty( 4, dtype = float )
+    
+    pitchOver2 = eulers[ 0 ] * 0.5
+    rollOver2 = eulers[ 1 ] * 0.5
+    yawOver2 = eulers[ 2 ] * 0.5
+    
+    sinPitch = math.sin( pitchOver2 )
+    cosPitch = math.cos( pitchOver2 )
+    sinRoll = math.sin( rollOver2 )
+    cosRoll = math.cos( rollOver2 )
+    sinYaw = math.sin( yawOver2 )
+    cosYaw = math.cos( yawOver2 )
+    
+    out[:] = [
+        # cy * cp * cr + sy * sp * sr
+        (cosYaw * cosPitch * cosRoll) + (sinYaw * sinPitch * sinRoll),
+        # cy * sp * cr + sy * cp * sr
+        (cosYaw * sinPitch * cosRoll) + (sinYaw * cosPitch * sinRoll),
+        # -cy * sp * sr + sy * cp * cr
+        (-cosYaw * sinPitch * sinRoll) + (sinYaw * cosPitch * cosRoll),
+        # -sy * sp * cr + cy * cp * sr
+        (-sinYaw * sinPitch * cosRoll) + (cosYaw * cosPitch * sinRoll)
         ]
     return out
 
