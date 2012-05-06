@@ -19,7 +19,7 @@ class test_plane( unittest.TestCase ):
     def tearDown( self ):
         pass
 
-    def test_plane_from_points( self ):
+    def test_create_from_points( self ):
         vecs = numpy.array(
             [
                 [ 0.0, 1.0, 0.0 ],
@@ -28,7 +28,7 @@ class test_plane( unittest.TestCase ):
                 ],
             dtype = numpy.float
             )
-        result = plane.plane_from_points(
+        result = plane.create_from_points(
             vecs[ 0 ],
             vecs[ 1 ],
             vecs[ 2 ]
@@ -49,7 +49,7 @@ class test_plane( unittest.TestCase ):
             "Plane normal incorrect"
             )
 
-    def test_plane_from_position( self ):
+    def test_create_from_position( self ):
         vecs = numpy.array(
             [
                 [ 0.0, 0.0, 0.0 ],
@@ -58,7 +58,7 @@ class test_plane( unittest.TestCase ):
                 ],
             dtype = numpy.float
             )
-        result = plane.plane_from_position(
+        result = plane.create_from_position(
             vecs[ 0 ],
             vecs[ 1 ],
             vecs[ 2 ]

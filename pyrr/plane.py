@@ -16,7 +16,7 @@ position = 0
 normal = 1
 up = 2
 
-def plane_from_points( vector1, vector2, vector3 ):
+def create_from_points( vector1, vector2, vector3 ):
     """
     Create a plane from 3 co-planar vectors.
 
@@ -43,13 +43,13 @@ def plane_from_points( vector1, vector2, vector3 ):
     normal = numpy.cross( relV1, relV2 )
     
     # create our plane
-    return plane_from_position(
+    return create_from_position(
         position = vector2,
         normal = normal,
         up = relV1
         )
 
-def plane_from_position( position, normal, up, out = None ):
+def create_from_position( position, normal, up, out = None ):
     """
     Creates a plane at position with the normal being above the plane
     and up being the rotation of the plane.
