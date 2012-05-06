@@ -88,29 +88,3 @@ def flip_normal( plane ):
     plane[ 1 ] *= -1.0
     return plane
 
-
-if __name__ == "__main__":
-    # create plane
-    vectors = numpy.array([
-        [ 0.0, 1.0, 0.0 ],
-        [ 0.0, 1.0,-1.0 ],
-        [ 1.0, 1.0, 1.0 ]
-        ])
-    new_plane = plane_from_points( vectors[ 0 ], vectors[ 1 ], vectors[ 2 ] )
-    print new_plane
-
-    # we cant be sure where the position is, we just need to know
-    # that the plane exists on the Y = 1 axis
-    # with the normal facing along the Y axis
-    # the order of the vertices we send determines which
-    # way the normal faces
-    assert new_plane[ 0 ][ 1 ] == 1.0
-    assert new_plane[ 1 ][ 1 ] > 0.0
-    print "plane position: %s" % str(new_plane[ 0 ])
-    print "plane normal: %s" % str(new_plane[ 1 ])
-    
-    flip_normal( new_plane )
-    print "plane position: %s" % str(new_plane[ 0 ])
-    print "plane normal: %s" % str(new_plane[ 1 ])
-    assert new_plane[ 0 ][ 1 ] == 1.0
-    assert new_plane[ 1 ][ 1 ] < 0.0
