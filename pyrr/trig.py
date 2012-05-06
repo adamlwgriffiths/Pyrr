@@ -7,33 +7,51 @@ Created on 29/04/2012
 import math
 
 
-def calculate_fov( height, distance ):
+def calculate_fov( zoom, height = 1.0 ):
     """
     Calculates the required FOV to set the
     view frustrum to have a view with the specified height
     at the specified distance.
 
+    @param zoom: The distance to calculate the FOV for.
     @param height: The desired view height at the specified
     distance.
-    @param distance: The distance to calculate the FOV for.
-    @return: The FOV to use.
+    The default is 1.0.
+    @return: The FOV to use in degrees.
     """
     # http://www.glprogramming.com/red/chapter03.html
-    rad_theta = 2.0 * math.atan2( height / 2.0, distance )
+    rad_theta = 2.0 * math.atan2( height / 2.0, zoom )
     return math.degrees( rad_theta )
 
-def calculate_height( fov, distance ):
+def calculate_zoom( fov, height = 1.0 ):
+    """
+    Calculates the zoom (distance) from the camera
+    with the specified FOV and height of image.
+
+    @param fov: The FOV to use.
+    @param height: The height of the image at the
+    desired distance.
+    @return Returns the zoom (distance) from the
+    camera for the desired height at the specified
+    FOV.
+    @raise ZeroDivisionError: Raised if the fov is
+    0.0.
+    """
+    return height / math.tan( fov / 2.0 )
+
+def calculate_height( fov, zoom ):
     """
     Performs the opposite of calculate_fov.
     Used to find the current height at a specific distance.
 
     @param fov: The current FOV.
-    @param distance: The distance to calculate the height
+    @param zoom: The distance to calculate the height
     for.
     @return: The height at the specified distance for the
     specified FOV.
     """
-    pass
+    height = zoom * ( math.tan( fov / 2.0 ) )
+    return height
 
 def calculate_plane_size( aspect_ratio, fov, distance ):
     """
