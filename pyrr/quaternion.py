@@ -132,7 +132,7 @@ def create_from_inverse_of_eulers( eulers, out = None ):
         ]
     return out
 
-def cross_product( quat1, quat2, out = None ):
+def cross( quat1, quat2, out = None ):
     """
     Returns the cross-product of the two quaternions.
     Order is important.
