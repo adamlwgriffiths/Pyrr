@@ -190,12 +190,12 @@ def squared_length( quat ):
     @param quat: The quaternion to measure.
     @return: The squared length of the quaternion.
     """
-    return \ 
+    return (
         quat[ w ]**2 + \
         quat[ x ]**2 + \
         quat[ y ]**2 + \
         quat[ z ]**2
-
+        )
 
 def length( quat ):
     """
