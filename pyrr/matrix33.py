@@ -80,38 +80,38 @@ def create_from_quaternion( quat, out = None ):
     if out == None:
         out = numpy.empty( (3, 3), dtype = float )
     
-    quatW = quat[ quaternion.w ]
-    quatX = quat[ quaternion.x ]
-    quatY = quat[ quaternion.y ]
-    quatZ = quat[ quaternion.z ]
+    w = quat[ 0 ]
+    x = quat[ 1 ]
+    y = quat[ 2 ]
+    z = quat[ 3 ]
     
     out[:] = [
         # m1
         [
             # m11 = 1.0 - 2.0 * (q.y * q.y + q.z * q.z)
-            1.0 - 2.0 * (quatY * quatY + quatZ * quatZ),
+            1.0 - 2.0 * (y * y + z * z),
             # m12 = 2.0 * (q.x * q.y + q.w * q.z)
-            2.0 * (quatX * quatY + quatW * quatZ),
+            2.0 * (x * y + w * z),
             # m13 = 2.0 * (q.x * q.z - q.w * q.y)
-            2.0 * (quatX * quatZ - quatW * quatY)
+            2.0 * (x * z - w * y)
             ],
         # m2
         [
             # m21 = 2.0 * (q.x * q.y - q.w * q.z)
-            2.0 * (quatX * quatY - quatW * quatZ),
+            2.0 * (x * y - w * z),
             # m22 = 1.0 - 2.0 * (q.x * q.x + q.z * q.z)
-            1.0 - 2.0 * (quatX * quatX + quatZ * quatZ),
+            1.0 - 2.0 * (x * x + z * z),
             # m23 = 2.0 * (q.y * q.z + q.w * q.x)
-            2.0 * (quatY * quatZ + quatW * quatX)
+            2.0 * (y * z + w * x)
             ],
         # m3
         [
             # m31 = 2.0 * (q.x * q.z + q.w * q.y)
-            2.0 * (quatX * quatZ + quatW * quatY),
+            2.0 * (x * z + w * y),
             # m32 = 2.0 * (q.y * q.z - q.w * q.x)
-            2.0 * (quatY * quatZ - quatW * quatX),
+            2.0 * (y * z - w * x),
             # m33 = 1.0 - 2.0 * (q.x * q.x + q.y * q.y)
-            1.0 - 2.0 * (quatX * quatX + quatY * quatY)
+            1.0 - 2.0 * (x * x + y * y)
             ]
         ]
     return out
@@ -124,38 +124,38 @@ def create_from_inverse_of_quaternion( quat, out = None ):
     if out == None:
         out = numpy.empty( (3, 3), dtype = float )
     
-    quatW = quat[ quaternion.w ]
-    quatX = quat[ quaternion.x ]
-    quatY = quat[ quaternion.y ]
-    quatZ = quat[ quaternion.z ]
+    w = quat[ 0 ]
+    x = quat[ 1 ]
+    y = quat[ 2 ]
+    z = quat[ 3 ]
     
     out[:] = [
         # m1
         [
             # m11 = 1.0 - 2.0 * (q.y * q.y + q.z * q.z)
-            1.0 - 2.0 * (quatY * quatY + quatZ * quatZ),
+            1.0 - 2.0 * (y * y + z * z),
             # m12 = 2.0 * (q.x * q.y - q.w * q.z)
-            2.0 * (quatX * quatY - quatW * quatZ),
+            2.0 * (x * y - w * z),
             # m13 = 2.0 * ( q.x * q.z + q.w * q.y)
-            2.0 * (quatX * quatZ + quatW * quatY)
+            2.0 * (x * z + w * y)
             ],
         # m2
         [
             # m21 = 2.0 * (q.x * q.y + q.w * q.z)
-            2.0 * (quatX * quatY + quatW * quatZ),
+            2.0 * (x * y + w * z),
             # m22 = 1.0 - 2.0 * (q.x * q.x + q.z * q.z)
-            1.0 - 2.0 * (quatX * quatX + quatZ * quatZ),
+            1.0 - 2.0 * (x * x + z * z),
             # m23 = 2.0 * (q.y * q.z - q.w * q.x)
-            2.0 * (quatY * quatZ - quatW * quatX)
+            2.0 * (y * z - w * x)
             ],
         # m3
         [
             # m31 = 2.0 * (q.x * q.z - q.w * q.y)
-            2.0 * (quatX * quatZ - quatW * quatY),
+            2.0 * (x * z - w * y),
             # m32 = 2.0 * (q.y * q.z + q.w * q.x)
-            2.0 * ( quatY * quatZ - quatW * quatX),
+            2.0 * ( y * z - w * x),
             # m33 = 1.0 - 2.0 * (q.x * q.x + q.y * q.y)
-            1.0 - 2.0 * (quatX * quatX + quatY * quatY)
+            1.0 - 2.0 * (x * x + y * y)
             ]
         ]
     return out
@@ -168,17 +168,17 @@ def apply_to_vector( vector, matrix, out = None ):
     if out == None:
         out = numpy.empty( 3, dtype = float )
     
-    vecX = vector[ 0 ]
-    vecY = vector[ 1 ]
-    vecZ = vector[ 2 ]
+    x = vector[ 0 ]
+    y = vector[ 1 ]
+    z = vector[ 2 ]
     
     out[:] = [
         # x = m11 * v.x + m21 * v.y + m31 * v.z
-        (matrix[ (0, 0) ] * vecX) + (matrix[ (1, 0) ] * vecY) + (matrix[ (2, 0) ] * vecZ),
+        (matrix[ (0, 0) ] * x) + (matrix[ (1, 0) ] * y) + (matrix[ (2, 0) ] * z),
         # y = m12 * v.x + m22 * v.y + m32 * v.z
-        (matrix[ (0, 1) ] * vecX) + (matrix[ (1, 1) ] * vecY) + (matrix[ (2, 1) ] * vecZ),
+        (matrix[ (0, 1) ] * x) + (matrix[ (1, 1) ] * y) + (matrix[ (2, 1) ] * z),
         # z = m13 * v.x + m23 * v.y + m33 * v.z
-        (matrix[ (0, 2) ] * vecX) + (matrix[ (1, 2) ] * vecY) + (matrix[ (2, 2) ] * vecZ)
+        (matrix[ (0, 2) ] * x) + (matrix[ (1, 2) ] * y) + (matrix[ (2, 2) ] * z)
         ]
     return out
 
@@ -190,18 +190,18 @@ def object_to_inertial( vector, matrix, out = None ):
     if out == None:
         out = numpy.empty( 3, dtype = float )
     
-    vecX = vector[ 0 ]
-    vecY = vector[ 1 ]
-    vecZ = vector[ 2 ]
+    x = vector[ 0 ]
+    y = vector[ 1 ]
+    z = vector[ 2 ]
     
     # Note: m11 and m12 are in the same column, not the same row
     out[:] = [
         # x = m11 * v.x + m12 * v.y + m13 * v.z
-        (matrix[ (0, 0) ] * vecX) + (matrix[ (0, 1) ] * vecY) + (matrix[ (0, 2) ] * vecZ),
+        (matrix[ (0, 0) ] * x) + (matrix[ (0, 1) ] * y) + (matrix[ (0, 2) ] * z),
         # y = m21 * v.x + m22 * v.y + m23 * v.z
-        (matrix[ (1, 0) ] * vecX) + (matrix[ (1, 1) ] * vecY) + (matrix[ (1, 2) ] * vecZ),
+        (matrix[ (1, 0) ] * x) + (matrix[ (1, 1) ] * y) + (matrix[ (1, 2) ] * z),
         # z = m31 * v.x + m32 * v.y + m33 * v.z
-        (matrix[ (2, 0) ] * vecX) + (matrix[ (2, 1) ] * vecY) + (matrix[ (2, 2) ] * vecZ)
+        (matrix[ (2, 0) ] * x) + (matrix[ (2, 1) ] * y) + (matrix[ (2, 2) ] * z)
         ]
     return out
 
