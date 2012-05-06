@@ -13,7 +13,8 @@ setup(
     author_email = 'adam.lw.griffiths@gmail.com',
     url = 'https://github.com/adamlwgriffiths/Pyrr',
     platforms = [ 'any' ],
-    packages = [ 'pyrr', ],
+    packages = [ 'pyrr', 'pyrr.test' ],
+    test_suite = "pyrr.test",
     classifiers = [
         'Intended Audience :: Developers',
         'Operating System :: MacOS :: MacOS X',
@@ -24,5 +25,5 @@ setup(
         'Topic :: Scientific/Engineering :: Mathematics',
         'Topic :: Software Development :: Libraries',
         'Topic :: Software Development :: Libraries :: Python Modules',
-        ]
+        ],
     )
