@@ -15,7 +15,7 @@ import numpy
 import vector
 
 
-def line_from_points( v1, v2 ):
+def create_from_points( v1, v2 ):
     """
     Creates a line from 2 independent vectors.
     This is just a convenience function that wraps
@@ -23,7 +23,7 @@ def line_from_points( v1, v2 ):
     """
     return numpy.array( [ v1, v2 ], dtype = numpy.float )
 
-def ray_to_line( ray, out = None ):
+def create_from_ray( ray, out = None ):
     """
     Converts a ray to a line.
     """
