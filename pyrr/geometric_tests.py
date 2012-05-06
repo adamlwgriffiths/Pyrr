@@ -14,7 +14,7 @@ import ray
 import vector
 
 
-def point_is_on_line( line, point ):
+def point_intersect_line( line, point ):
     """
     Determines if a point is on a line.
     Performed by checking if the cross-product
@@ -32,7 +32,7 @@ def point_is_on_line( line, point ):
         return False
     return True
 
-def point_is_on_line_segment( line, point ):
+def point_intersect_line_segment( line, point ):
     """
     Determines if a point is on a segment.
     Performed by checking if the cross-product
@@ -171,13 +171,13 @@ def closest_point_on_line_segment( segment, point ):
     # perform the same calculation as closest_point_on_line
     return segment[ 0 ] + (rl * dot)
 
-def intersection_of_rays( ray1, ray2 ):
+def ray_intersect_ray( ray1, ray2 ):
     pass
 
-def intersection_of_lines( line1, line2 ):
+def line_intersect_line( line1, line2 ):
     pass
 
-def intersection_of_line_segments( segment1, segment2 ):
+def line_segment_intersect_line_segment( segment1, segment2 ):
     pass
 
 def height_above_plane( plane, vector ):
@@ -205,4 +205,54 @@ def closest_point_on_plane( plane, vector ):
     plane_dot = numpy.dot( plane[ 1 ], plane[ 0 ] )
     vector_dot = numpy.dot( vector, plane[ 1 ] )
     return vector + (  plane[ 1 ] * (plane_dot - vector_dot) )
+
+def does_sphere_intersect_sphere( c1, c2 ):
+    """
+    Determines if two spheres overlap.
+
+    Note: This will return True if the two spheres are
+    touching perfectly but sphere_penetration_sphere
+    will return 0.0 as the touch but don't penetrate.
+
+    This is faster than circle_penetrate_amount_circle
+    as it avoids a square root calculation.
+
+    @param c1: The first circle.
+    @param c2: The second circle.
+    @return: Returns True if the circles overlap.
+    Otherwise, returns False.
+    """
+    delta = c2[ 0 ] - c1[ 0 ]
+    distance_squared = vector.length_squared( delta )
+
+    radii_squared = math.pow( c1[ 1 ] + c2[ 1 ], 2.0 )
+
+    if distance_squared > radii_squared:
+        return False
+    return True
+
+def sphere_penetration_sphere( c1, c2 ):
+    """
+    Calculates the distance two spheres have
+    penetrated into one another.
+
+    @param c1: The first circle.
+    @param c2: The second circle.
+    @return: The total overlap of the two spheres.
+    This is essentially:
+    r1 + r2 - distance 
+    Where r1 and r2 are the radii of circle 1 and 2
+    and distance is the length of the vector p2 - p1.
+    Will return 0.0 if the circles do not overlap.
+    """
+    delta = c2[ 0 ] - c1[ 0 ]
+    distance = vector.length( delta )
+
+    combined_radii = c1[ 1 ] + c2[ 1 ]
+    penetration = combined_radii - distance
+
+    if penetration <= 0.0:
+        return 0.0
+    return penetration
+
 
