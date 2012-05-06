@@ -105,7 +105,7 @@ def create_from_eulers( eulers, out = None ):
         ]
     return out
 
-def create_inverse_from_eulers( eulers, out = None ):
+def create_from_inverse_of_eulers( eulers, out = None ):
     if out == None:
         out = numpy.empty( 4, dtype = float )
     
