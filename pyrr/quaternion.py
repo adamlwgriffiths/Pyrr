@@ -14,8 +14,6 @@ x = 1
 y = 2
 z = 3
 
-# TODO: slerp, lerp
-
 def identity( out = None ):
     if out == None:
         out = numpy.empty( 4, dtype = float )
@@ -160,7 +158,53 @@ def cross_product( quat1, quat2, out = None ):
         ]
     return out
 
+def is_zero_length( quat ):
+    """
+    Checks if a quaternion is zero length.
+
+    @param quat: The quaternion to check.
+    @return: Returns True if the quaternion is
+    zero length, otherwise returns False.
+    """
+    return quat[ 0 ] == quat[ 1 ] == quat[ 2 ] == quat[ 3 ] == 0.0
+
+def is_non_zero_length( quat ):
+    """
+    Checks if a quaternion is not zero length.
+
+    This is the opposite to 'is_zero_length'.
+    This is provided for readabilities sake.
+
+    @param quat: The quaternion to check.
+    @return: Returns False if the quaternion is
+    zero length, otherwise returns True.
+    """
+    return not is_zero_length( quat )
+
+def squared_length( quat ):
+    """
+    Returns the squared length of a quaternion.
+    Useful for avoiding the performanc penalty of
+    the square root function.
+
+    @param quat: The quaternion to measure.
+    @return: The squared length of the quaternion.
+    """
+    return \ 
+        quat[ w ]**2 + \
+        quat[ x ]**2 + \
+        quat[ y ]**2 + \
+        quat[ z ]**2
+
+
 def length( quat ):
+    """
+    Length of a quaternion is defined as
+    sqrt( w^2 + x^2 + y^2 + z^2 )
+    
+    @param quat: The quaternion to measure.
+    @return: The length of the quaternion.
+    """
     return math.sqrt(
         quat[ w ]**2 + \
         quat[ x ]**2 + \
@@ -169,19 +213,17 @@ def length( quat ):
         )
 
 def normalise( quat ):
+    """
+    Normalise a quaternion by finding it's length
+    then dividing each component by 1.0 / length.
+    """
     mag = length( quat )
     if mag > 0.0:
-        oneOverMag = 1.0 / mag
-        quat[ w ] *= oneOverMag
-        quat[ x ] *= oneOverMag
-        quat[ y ] *= oneOverMag
-        quat[ z ] *= oneOverMag
+        quat /= numpy.linalg.norm( quat, ord = None )
     else:
-        assert False
-    assert 0.9 < length( quat )
-    assert 1.1 > length( quat )
-    #quat /= numpy.linalg.norm( quat, ord = None )
-    #assert numpy.linalg.norm( quat, ord = None ) == 1.0
+        raise ValueError(
+            "Cannot normalise zero length quaternion"
+            )
     return quat
 
 def get_rotation_angle( quat ):
@@ -260,38 +302,4 @@ def power( quat, exponent, out = None ):
         quat[ z ] * multi
         ]
     return out
-
-
-if __name__ == "__main__":
-    quat = numpy.array( [0.0, 0.0, 0.0, 0.0], dtype = float )
-    quat2 = quat
-    
-    identity( quat )
-    assert quat[ w ] == 1.0
-    assert quat[ x ] == 0.0
-    assert quat[ y ] == 0.0
-    assert quat[ z ] == 0.0
-    assert quat2 is quat
-    
-    quat = identity()
-    assert quat[ w ] == 1.0
-    assert quat[ x ] == 0.0
-    assert quat[ y ] == 0.0
-    assert quat[ z ] == 0.0
-    assert quat2 is not quat
-    
-    normalise( quat )
-    assert quat[ w ] == 1.0
-    assert quat[ x ] == 0.0
-    assert quat[ y ] == 0.0
-    assert quat[ z ] == 0.0
-    
-    quat[ w ] = 2.0
-    normalise( quat )
-    assert quat[ w ] == 1.0
-    assert quat[ x ] == 0.0
-    assert quat[ y ] == 0.0
-    assert quat[ z ] == 0.0
-    
-    del quat2
 
