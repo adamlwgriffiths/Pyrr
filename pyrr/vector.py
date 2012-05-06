@@ -13,6 +13,24 @@ import numpy
 def zeros():
     return numpy.zeros( 3, dtype = float )
 
+def unit_length_x( out = None ):
+    if out == None:
+        out = numpy.empty( 3, dtype = float )
+    out[:] = [ 1.0, 0.0, 0.0 ]
+    return out
+
+def unit_length_y( out = None ):
+    if out == None:
+        out = numpy.empty( 3, dtype = float )
+    out[:] = [ 0.0, 1.0, 0.0 ]
+    return out
+
+def unit_length_z( out = None ):
+    if out == None:
+        out = numpy.empty( 3, dtype = float )
+    out[:] = [ 0.0, 0.0, 1.0 ]
+    return out
+
 def normalise( vec ):
     """
     Normalises an Nd list of vectors or a single vector
