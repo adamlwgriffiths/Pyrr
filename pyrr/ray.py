@@ -27,7 +27,7 @@ import vector
 origin = 0
 direction = 1
 
-def line_to_ray( line, out = None ):
+def create_from_line( line, out = None ):
     """
     Converts a line or line segment to a ray.
     TODO: make this work with a list of rays
@@ -44,40 +44,4 @@ def line_to_ray( line, out = None ):
     vector.normalise( out[ 1 ] )
 
     return out
-
-
-if __name__ == '__main__':
-    ray = line_to_ray(
-        numpy.array(
-            [
-                [ 0.0, 0.0, 0.0 ],
-                [10.0, 0.0, 0.0 ]
-                ],
-            dtype = numpy.float
-            )
-        )
-
-    assert ray[ 0 ][ 0 ] == 0.0
-    assert ray[ 0 ][ 1 ] == 0.0
-    assert ray[ 0 ][ 2 ] == 0.0
-    assert ray[ 1 ][ 0 ] == 10.0
-    assert ray[ 1 ][ 1 ] == 0.0
-    assert ray[ 1 ][ 2 ] == 0.0
-
-    ray = line_to_ray(
-        numpy.array(
-            [
-                [ 0.0,10.0, 0.0 ],
-                [10.0,10.0, 0.0 ]
-                ],
-            dtype = numpy.float
-            )
-        )
-
-    assert ray[ 0 ][ 0 ] == 0.0
-    assert ray[ 0 ][ 1 ] == 10.0
-    assert ray[ 0 ][ 2 ] == 0.0
-    assert ray[ 1 ][ 0 ] == 10.0
-    assert ray[ 1 ][ 1 ] == 0.0
-    assert ray[ 1 ][ 2 ] == 0.0
 
