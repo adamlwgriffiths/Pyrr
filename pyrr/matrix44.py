@@ -153,6 +153,8 @@ def set_translation( matrix, vector, out = None ):
 def scale( matrix, scale, out = None ):
     # apply the scale to the values diagonally
     # down the matrix
+    if out == None:
+        out = numpy.empty( (4, 4), dtype = float )
     scale_matrix = numpy.diagflat(
         [
             scale[ 0 ],
@@ -161,7 +163,8 @@ def scale( matrix, scale, out = None ):
             1.0
             ]
         )
-    out = numpy.dot( matrix, scale_matrix, out )
+
+    multiply( matrix, scale_matrix, out )
 
     return out
 
