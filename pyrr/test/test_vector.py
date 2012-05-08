@@ -33,18 +33,21 @@ class test_vector( unittest.TestCase ):
 
     def test_zeroes( self ):
         vec = vector.zeros()
-        for value in vec:
-            self.assertEqual(
-                value,
-                0.0,
-                "Vector not zeroed"
-                )
+
+        self.assertTrue(
+            numpy.array_equal(
+                vec,
+                [ 0.0, 0.0, 0.0 ],
+                ),
+            "Vector not zeroed"
+            )
     
     def test_normalise( self ):
         vec = numpy.array( [ 1.0, 1.0, 1.0 ], dtype = float )
         vector.normalise( vec )
+
         self.assertEqual(
-            vector.length( vec ),
+            vec_length( vec ),
             1.0,
             "Vector not unit length"
             )
@@ -65,6 +68,7 @@ class test_vector( unittest.TestCase ):
 
     def test_squared_length( self ):
         vec = numpy.array( [ 1.0, 1.0, 1.0 ], dtype = float )
+
         self.assertEqual(
             vector.squared_length( vec ),
             vec_sqr_length( vec ),
@@ -105,6 +109,7 @@ class test_vector( unittest.TestCase ):
     def test_set_length( self ):
         vec = numpy.array( [ 1.0, 1.0, 1.0 ], dtype = float )
         vector.set_length( vec, 2.0 )
+
         self.assertEqual(
             vec_length( vec ),
             2.0,
@@ -114,6 +119,7 @@ class test_vector( unittest.TestCase ):
     def test_dot( self ):
         vec1 = numpy.array( [1.0, 0.0, 0.0], dtype = float )
         vec2 = numpy.array( [0.0, 1.0, 0.0], dtype = float )
+
         self.assertEqual(
             vector.dot( vec1, vec2 ),
             0.0,
@@ -122,6 +128,7 @@ class test_vector( unittest.TestCase ):
 
         vec1 = numpy.array( [0.0, 1.0, 0.0], dtype = float )
         vec2 = numpy.array( [0.0, 1.0, 0.0], dtype = float )
+
         self.assertEqual(
             vector.dot( vec1, vec2 ),
             1.0,
@@ -139,8 +146,10 @@ class test_vector( unittest.TestCase ):
     def test_cross_product( self ):
         vec1 = numpy.array( [1.0, 0.0, 0.0], dtype = float )
         vec2 = numpy.array( [0.0, 1.0, 0.0], dtype = float )
+
         result = vector.cross( vec1, vec2 )
         test_result = vec_cross( vec1, vec2 )
+
         for a, b in zip( result, test_result ):
             self.assertEqual(
                 a,
@@ -157,13 +166,16 @@ class test_vector( unittest.TestCase ):
             [ 1.0, 1.0, 1.0 ],
             dtype = numpy.float
             )
+
         result = vector.interpolate( vec1, vec2, 0.5 )
-        for value in result:
-            self.assertEqual(
-                value,
-                0.5,
-                "Interoplation value incorrect"
-                )
+
+        self.assertTrue(
+            numpy.array_equal(
+                result,
+                [ 0.5, 0.5, 0.5 ],
+                ),
+            "Interoplation value incorrect"
+            )
 
     
 if __name__ == '__main__':
