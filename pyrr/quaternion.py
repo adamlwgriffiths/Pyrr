@@ -320,7 +320,7 @@ def inverse( quat, out = None ):
     out = conjugate( quat, out )
     return out / length( quat )
 
-def negate( quat, out = None )
+def negate( quat, out = None ):
     if out == None:
         out = empty()
 
