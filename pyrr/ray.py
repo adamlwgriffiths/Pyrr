@@ -30,17 +30,15 @@ direction = 1
 def create_from_line( line, out = None ):
     """
     Converts a line or line segment to a ray.
-    TODO: make this work with a list of rays
-    Ie. Nx2x3 dimension arrays
     """
     if out == None:
         out = numpy.empty( (2,3), dtype = numpy.float )
 
-    out[ 0 ] = line[ 0 ]
-    out[ 1 ] = line[ 1 ]
-
     # direction = vend - vstart
-    out[ 1 ] -= out[ 0 ]
+    out[ 0 ] = line[ 0 ]
+    out[ 1 ] = line[ 1 ] - line[ 0 ]
+
+    # normalise the ray length
     vector.normalise( out[ 1 ] )
 
     return out
