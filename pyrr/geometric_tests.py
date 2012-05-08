@@ -12,9 +12,10 @@ import numpy
 
 import ray
 import vector
+import rectangle
 
 
-def point_intersect_line( line, point ):
+def does_point_intersect_line( line, point ):
     """
     Determines if a point is on a line.
     Performed by checking if the cross-product
@@ -32,7 +33,7 @@ def point_intersect_line( line, point ):
         return False
     return True
 
-def point_intersect_line_segment( line, point ):
+def does_point_intersect_line_segment( line, point ):
     """
     Determines if a point is on a segment.
     Performed by checking if the cross-product
@@ -55,6 +56,24 @@ def point_intersect_line_segment( line, point ):
     if \
         dot < 0.0 or \
         dot > squared_length:
+        return False
+    return True
+
+def does_point_intersect_rectangle( point, rect ):
+    """
+    Determines if a point is within a 2D rectangle.
+
+    For 3D points, the Z axis will be ignored.
+
+    @return: Returns True if the point is touching
+    or within the rectangle.
+    """
+    left, right, bottom, top = rectangle.bounds( rect )
+    if \
+        point[ 0 ] <= left or \
+        point[ 0 ] >= right or \
+        point[ 1 ] <= bottom or \
+        point[ 1 ] >= top:
         return False
     return True
 

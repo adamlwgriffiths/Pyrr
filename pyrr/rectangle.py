@@ -45,16 +45,6 @@ def bounds( rect ):
         )
     return left, right, bottom, top
 
-def is_point_within_rect( point, rect ):
-    left, right, bottom, top = bounds( rect )
-    if \
-        point[ 0 ] < left or \
-        point[ 0 ] > right or \
-        point[ 1 ] < bottom or \
-        point[ 1 ] > top:
-        return False
-    return True
-
 def is_relative_point_within_rect( point, rect ):
     """
     Checks a point that is relative to a rect
