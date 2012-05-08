@@ -11,7 +11,7 @@ import numpy
 import quaternion
 
 
-def empty():
+def _empty():
     return numpy.empty( (3,3), dtype = numpy.float )
 
 def identity( out = None ):
@@ -31,7 +31,7 @@ def create_from_eulers( eulers, out = None ):
     For OpenGL, transpose the matrix after calling this.
     """
     if out == None:
-        out = empty()
+        out = _empty()
     
     pitchOver2 = eulers[ 0 ] * 0.5
     rollOver2 = eulers[ 1 ] * 0.5
@@ -81,7 +81,7 @@ def create_from_quaternion( quat, out = None ):
     For OpenGL, transpose the matrix after calling this.
     """
     if out == None:
-        out = empty()
+        out = _empty()
     
     w = quat[ 0 ]
     x = quat[ 1 ]
@@ -125,7 +125,7 @@ def create_from_inverse_of_quaternion( quat, out = None ):
     For OpenGL, transpose the matrix after calling this.
     """
     if out == None:
-        out = empty()
+        out = _empty()
     
     w = quat[ 0 ]
     x = quat[ 1 ]
@@ -210,14 +210,14 @@ def apply_tranpose_to_vector( vector, matrix, out = None ):
 
 def multiply( m1, m2, out = None ):
     if out == None:
-        out = empty()
+        out = _empty()
 
     out[:] = numpy.dot( m1, m2 )
     return out
 
 def scale( matrix, scale, out = None ):
     if out == None:
-        out = empty()
+        out = _empty()
     
     # apply the scale to the values diagonally
     # down the matrix

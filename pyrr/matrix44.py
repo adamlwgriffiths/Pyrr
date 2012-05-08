@@ -11,7 +11,7 @@ import numpy
 import matrix33
 
 
-def empty():
+def _empty():
     return numpy.empty( (4,4), dtype = numpy.float )
 
 def identity( out = None ):
@@ -137,14 +137,14 @@ def multiply( m1, m2, out = None ):
     m1 with m2.
     """
     if out == None:
-        out = empty()
+        out = _empty()
 
     out[:] = numpy.dot( m1, m2 )
     return out
 
 def translate( matrix, vector, out = None ):
     if out == None:
-        out = empty()
+        out = _empty()
     
     out[:] = matrix
     # apply the vector to the first 3 values of the last row
@@ -154,7 +154,7 @@ def translate( matrix, vector, out = None ):
 
 def set_translation( matrix, vector, out = None ):
     if out == None:
-        out = empty()
+        out = _empty()
     
     out[:] = matrix
     # apply the vector to the first 3 values of the last row
@@ -166,7 +166,7 @@ def scale( matrix, scale, out = None ):
     # apply the scale to the values diagonally
     # down the matrix
     if out == None:
-        out = empty()
+        out = _empty()
 
     scale_matrix = numpy.diagflat(
         [
@@ -206,7 +206,7 @@ def create_projection_view_matrix(
     F = 2*near/(top-bottom)
     """
     if out == None:
-        out = empty()
+        out = _empty()
 
     A = (right + left) / (right - left)
     B = (top + bottom) / (top - bottom)
@@ -245,7 +245,7 @@ def create_orthogonal_view_matrix(
     C = -2 / (far - near)
     """
     if out == None:
-        out = empty()
+        out = _empty()
 
     A = 2 / (right - left)
     B = 2 / (top - bottom)
