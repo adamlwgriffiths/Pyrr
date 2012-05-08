@@ -51,7 +51,7 @@ def create_from_points( vector1, vector2, vector3, out = None):
         position = vector2,
         normal = normal,
         up = relV1,
-        out
+        out = out
         )
 
 def create_from_position( position, normal, up, out = None ):
