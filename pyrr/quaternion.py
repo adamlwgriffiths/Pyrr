@@ -14,7 +14,7 @@ x = 1
 y = 2
 z = 3
 
-def empty()
+def empty():
     return numpy.empty( 4, dtype = float )
 
 def identity( out = None ):
