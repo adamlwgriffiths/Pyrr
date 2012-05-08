@@ -15,20 +15,32 @@ import numpy
 import vector
 
 
-def create_from_points( v1, v2 ):
+def _empty():
+    return numpy.empty( (2,3), dtype = numpy.float )
+
+def zeros():
+    return numpy.zeros( (2,3), dtype = numpy.float )
+
+def create_from_points( v1, v2, out = None ):
     """
     Creates a line from 2 independent vectors.
     This is just a convenience function that wraps
     two vectors into a single array.
     """
-    return numpy.array( [ v1, v2 ], dtype = numpy.float )
+    if out == None:
+        out = _empty()
+
+    out[ 0 ] = v1
+    out[ 1 ] = v2
+
+    return out
 
 def create_from_ray( ray, out = None ):
     """
     Converts a ray to a line.
     """
     if out == None:
-        out = numpy.empty( (2,3), dtype = numpy.float )
+        out = _empty()
 
     # convert ray relative direction to absolute
     # position
