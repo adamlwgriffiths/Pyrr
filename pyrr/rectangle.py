@@ -45,48 +45,6 @@ def bounds( rect ):
         )
     return left, right, bottom, top
 
-def does_relative_point_intersect_rectangle( point, rect ):
-    """
-    Checks a point that is relative to a rect
-    is within the rect itself.
-    This is done by checking the point is < width
-    and height.
-    """
-    left, right, bottom, top = bounds( rect )
-    if \
-        point[ 0 ] > (right - left) or \
-        point[ 0 ] < 0 or \
-        point[ 1 ] > (top - bottom) or \
-        point[ 1 ] < 0:
-        return False
-    return True
-
-def create_relative_point( absolute_point, rect ):
-    """
-    Takes an absolute point and makes it
-    relative to a rect by subtracting
-    the rect's x,y.
-    This is the opposite of make_point_absolute.
-    """
-    left, right, bottom, top = bounds( rect )
-    return [
-        absolute_point[ 0 ] - left,
-        absolute_point[ 1 ] - bottom
-        ]
-
-def create_absolute_point( relative_point, rect ):
-    """
-    Takes a point that is relative to a rect
-    and adds the rect's x,y to it to make it
-    absolute. This is the opposite of
-    make_point_relative.
-    """
-    left, right, bottom, top = bounds( rect )
-    return [
-        relative_point[ 0 ] + left,
-        relative_point[ 1 ] + bottom
-        ]
-
 def scale_by_vector( rect, vec ):
     """
     Scales a rectangle by a 2D vector.
