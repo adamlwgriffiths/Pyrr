@@ -8,7 +8,7 @@ setup(
     name = 'Pyrr',
     version = pyrr.__version__,
     description = '3D mathematical functions using NumPy',
-    license = 'MIT',
+    license = 'BSD',
     author = 'Adam Griffiths',
     author_email = 'adam.lw.griffiths@gmail.com',
     url = 'https://github.com/adamlwgriffiths/Pyrr',
