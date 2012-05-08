@@ -11,15 +11,18 @@ import numpy
 import quaternion
 
 
+def empty():
+    return numpy.empty( (3,3), dtype = numpy.float )
+
 def identity( out = None ):
     if out == None:
-        out = numpy.empty( (3, 3), dtype = float )
-    
-    out[:] = [
-        [ 1.0, 0.0, 0.0 ],
-        [ 0.0, 1.0, 0.0 ],
-        [ 0.0, 0.0, 1.0 ]
-        ]
+        out = numpy.identity( 3, dtype = numpy.float )
+    else:    
+        out[:] = [
+            [ 1.0, 0.0, 0.0 ],
+            [ 0.0, 1.0, 0.0 ],
+            [ 0.0, 0.0, 1.0 ]
+            ]
     return out
 
 def create_from_eulers( eulers, out = None ):
@@ -28,7 +31,7 @@ def create_from_eulers( eulers, out = None ):
     For OpenGL, transpose the matrix after calling this.
     """
     if out == None:
-        out = numpy.empty( (3, 3), dtype = float )
+        out = empty()
     
     pitchOver2 = eulers[ 0 ] * 0.5
     rollOver2 = eulers[ 1 ] * 0.5
@@ -78,7 +81,7 @@ def create_from_quaternion( quat, out = None ):
     For OpenGL, transpose the matrix after calling this.
     """
     if out == None:
-        out = numpy.empty( (3, 3), dtype = float )
+        out = empty()
     
     w = quat[ 0 ]
     x = quat[ 1 ]
@@ -122,7 +125,7 @@ def create_from_inverse_of_quaternion( quat, out = None ):
     For OpenGL, transpose the matrix after calling this.
     """
     if out == None:
-        out = numpy.empty( (3, 3), dtype = float )
+        out = empty()
     
     w = quat[ 0 ]
     x = quat[ 1 ]
@@ -166,7 +169,7 @@ def apply_to_vector( vector, matrix, out = None ):
     For OpenGL, transpose the matrix after calling this.
     """
     if out == None:
-        out = numpy.empty( 3, dtype = float )
+        out = numpy.empty( 3, dtype = numpy.float )
     
     x = vector[ 0 ]
     y = vector[ 1 ]
@@ -182,13 +185,13 @@ def apply_to_vector( vector, matrix, out = None ):
         ]
     return out
 
-def object_to_inertial( vector, matrix, out = None ):
+def apply_tranpose_to_vector( vector, matrix, out = None ):
     """
     Proper matrix layout and layout used for DirectX.
     For OpenGL, transpose the matrix after calling this.
     """
     if out == None:
-        out = numpy.empty( 3, dtype = float )
+        out = numpy.empty( 3, dtype = numpy.float )
     
     x = vector[ 0 ]
     y = vector[ 1 ]
@@ -207,13 +210,14 @@ def object_to_inertial( vector, matrix, out = None ):
 
 def multiply( m1, m2, out = None ):
     if out == None:
-        out = numpy.empty( (3, 3), dtype = float )
+        out = empty()
+
     out[:] = numpy.dot( m1, m2 )
     return out
 
 def scale( matrix, scale, out = None ):
     if out == None:
-        out = identity() 
+        out = empty()
     
     # apply the scale to the values diagonally
     # down the matrix
