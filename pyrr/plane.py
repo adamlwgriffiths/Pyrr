@@ -16,7 +16,11 @@ position = 0
 normal = 1
 up = 2
 
-def create_from_points( vector1, vector2, vector3 ):
+
+def _empty():
+    return numpy.empty( (3,3), dtype = numpy.float )
+
+def create_from_points( vector1, vector2, vector3, out = None):
     """
     Create a plane from 3 co-planar vectors.
 
@@ -46,7 +50,8 @@ def create_from_points( vector1, vector2, vector3 ):
     return create_from_position(
         position = vector2,
         normal = normal,
-        up = relV1
+        up = relV1,
+        out
         )
 
 def create_from_position( position, normal, up, out = None ):
@@ -65,7 +70,7 @@ def create_from_position( position, normal, up, out = None ):
     @raise ValueError: Raised if the up vector is not co-planar.
     """
     if out == None:
-        out = numpy.empty( (3,3), dtype = numpy.float )
+        out = _empty()
 
     out[ 0 ] = numpy.array( position, dtype = float )
     out[ 1 ] = numpy.array( normal, dtype = float )
