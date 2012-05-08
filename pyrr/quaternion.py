@@ -14,19 +14,19 @@ x = 1
 y = 2
 z = 3
 
-def empty():
+def _empty():
     return numpy.empty( 4, dtype = float )
 
 def identity( out = None ):
     if out == None:
-        out = empty()
+        out = _empty()
     
     out[:] = [ 1.0, 0.0, 0.0, 0.0 ]
     return out
 
 def set_to_rotation_about_x( theta, out = None ):
     if out == None:
-        out = empty()
+        out = _empty()
     
     thetaOver2 = theta * 0.5
     out[:] = [
@@ -39,7 +39,7 @@ def set_to_rotation_about_x( theta, out = None ):
 
 def set_to_rotation_about_y( theta, out = None ):
     if out == None:
-        out = empty()
+        out = _empty()
     
     thetaOver2 = theta * 0.5
     out[:] = [
@@ -52,7 +52,7 @@ def set_to_rotation_about_y( theta, out = None ):
 
 def set_to_rotation_about_z( theta, out = None ):
     if out == None:
-        out = empty()
+        out = _empty()
     
     thetaOver2 = theta * 0.5
     out[:] = [
@@ -65,7 +65,7 @@ def set_to_rotation_about_z( theta, out = None ):
 
 def set_to_rotation_about_axis( axis, theta, out = None ):
     if out == None:
-        out = empty()
+        out = _empty()
     
     # make sure the vector is normalised
     assert (numpy.linalg.norm( axis, ord = None ) - 1.0) < 0.01
@@ -83,7 +83,7 @@ def set_to_rotation_about_axis( axis, theta, out = None ):
 
 def create_from_eulers( eulers, out = None ):
     if out == None:
-        out = empty()
+        out = _empty()
     
     pitchOver2 = eulers[ 0 ] * 0.5
     rollOver2 = eulers[ 1 ] * 0.5
@@ -110,7 +110,7 @@ def create_from_eulers( eulers, out = None ):
 
 def create_from_inverse_of_eulers( eulers, out = None ):
     if out == None:
-        out = empty()
+        out = _empty()
     
     pitchOver2 = eulers[ 0 ] * 0.5
     rollOver2 = eulers[ 1 ] * 0.5
@@ -143,7 +143,7 @@ def cross( quat1, quat2, out = None ):
     is the equivalent of matrix multiplication.
     """
     if out == None:
-        out = empty()
+        out = _empty()
 
     out[:] = [
         # q1.w * q2.w - q1.x * q2.x - q1.y * q2.y - q1.z * q2.z
@@ -271,7 +271,7 @@ def conjugate( quat, out = None ):
     Returns a quaternion with the opposite rotation as the original quaternion
     """
     if out == None:
-        out = empty()
+        out = _empty()
     
     out[:] = [
         quat[ w ],
@@ -283,7 +283,7 @@ def conjugate( quat, out = None ):
 
 def power( quat, exponent, out = None ):
     if out == None:
-        out = empty()
+        out = _empty()
     
     # check for identify quaternion
     if math.fabs( quat[ w ] ) > 0.9999:
@@ -322,7 +322,7 @@ def inverse( quat, out = None ):
 
 def negate( quat, out = None ):
     if out == None:
-        out = empty()
+        out = _empty()
 
     out[:] = quat
     out *= -1.0
