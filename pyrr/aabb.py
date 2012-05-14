@@ -77,12 +77,12 @@ def clamp_points( aabb, points, out = None ):
         # http://stackoverflow.com/questions/5564098/repeat-numpy-array-without-replicating-data
         aabb_min = np.lib.stride_tricks.as_strided(
             aabb[ 0 ],
-            (points.ndim, aabb[ 0 ].size),
+            (points.shape[ 0 ], aabb[ 0 ].size),
             (0, aabb[ 0 ].itemsize)
             )
         aabb_max = np.lib.stride_tricks.as_strided(
             aabb[ 1 ],
-            (points.ndim, aabb[ 1 ].size),
+            (points.shape[ 0 ], aabb[ 1 ].size),
             (0, aabb[ 1 ].itemsize)
             )
     numpy.maximum( points, aabb_min, out = out[ 0 ] )
