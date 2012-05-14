@@ -15,7 +15,7 @@ import vector
 import rectangle
 
 
-def does_point_intersect_line( line, point ):
+def point_intersect_line( line, point ):
     """
     Determines if a point is on a line.
     Performed by checking if the cross-product
@@ -30,10 +30,10 @@ def does_point_intersect_line( line, point ):
         cross[ 0 ] != 0.0 or \
         cross[ 1 ] != 0.0 or \
         cross[ 2 ] != 0.0:
-        return False
-    return True
+        return None
+    return point
 
-def does_point_intersect_line_segment( line, point ):
+def point_intersect_line_segment( line, point ):
     """
     Determines if a point is on a segment.
     Performed by checking if the cross-product
@@ -52,14 +52,14 @@ def does_point_intersect_line_segment( line, point ):
         cross[ 0 ] != 0.0 or \
         cross[ 1 ] != 0.0 or \
         cross[ 2 ] != 0.0:
-        return False
+        return None
     if \
         dot < 0.0 or \
         dot > squared_length:
-        return False
-    return True
+        return None
+    return point
 
-def does_point_intersect_rectangle( point, rect ):
+def point_intersect_rectangle( point, rect ):
     """
     Determines if a point is within a 2D rectangle.
 
@@ -74,8 +74,8 @@ def does_point_intersect_rectangle( point, rect ):
         point[ 0 ] >= right or \
         point[ 1 ] <= bottom or \
         point[ 1 ] >= top:
-        return False
-    return True
+        return None
+    return point
 
 def ray_intersect_plane( ray, plane, front_only = False ):
     """
@@ -189,6 +189,40 @@ def closest_point_on_line_segment( segment, point ):
     # within segment
     # perform the same calculation as closest_point_on_line
     return segment[ 0 ] + (rl * dot)
+
+def are_rays_parallel( ray1, ray2 ):
+    cross = vector.cross( ray1[ 1 ], ray2[ 1 ] )
+    if \
+        cross[ 0 ] != 0.0 or \
+        cross[ 1 ] != 0.0 or \
+        cross[ 2 ] != 0.0:
+        return False
+    return True
+
+def are_rays_coincident( ray1, ray2 ):
+    # ensure the ray's directions are the same
+    if \
+        ray1[ 0, 0 ] != ray2[ 0, 0 ] or \
+        ray1[ 0, 1 ] != ray2[ 0, 1 ] or \
+        ray1[ 0, 2 ] != ray2[ 0, 2 ]:
+        return False
+
+    # get the delta between the two ray's start point
+    delta = ray2[ 0 ] - ray1[ 0 ]
+
+    # get the cross product of the ray delta and
+    # the direction of the rays
+    cross = vector.cross( ray1[ 1 ], ray2[ 1 ] )
+
+    # if the cross product is zero, the start of the
+    # second ray is in line with the direction of the
+    # first ray
+    if \
+        cross[ 0 ] != 0.0 or \
+        cross[ 1 ] != 0.0 or \
+        cross[ 2 ] != 0.0:
+        return False
+    return True
 
 def ray_intersect_ray( ray1, ray2 ):
     pass
