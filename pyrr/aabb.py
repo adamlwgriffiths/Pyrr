@@ -60,3 +60,15 @@ def minimum( aabb ):
 def maximum( aabb ):
     return aabb[ 1 ]
 
+def clamp_point( aabb, point, out = None ):
+    if out == None:
+        out = numpy.empty( 3, dtype = numpy.float )
+
+    # clamp the point by getting the maximum of the
+    # point and the AABB's minimum
+    # then the minimum of the point and the AABB's
+    # maximum
+    numpy.maximum( point, aabb[ 0 ], out = out[ 0 ] )
+    numpy.minimum( point, aabb[ 1 ], out = out[ 1 ] )
+    return out
+
