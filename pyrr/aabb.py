@@ -35,7 +35,7 @@ def add_points( aabb, points, out = None ):
     if out == None:
         out = empty()
 
-    if points.ndim = 1:
+    if points.ndim == 1:
         numpy.minimum( point, aabb[ 0 ] out = out[ 0 ] )
         numpy.maximum( point, aabb[ 1 ] out = out[ 1 ] )
     else:
@@ -60,7 +60,7 @@ def minimum( aabb ):
 def maximum( aabb ):
     return aabb[ 1 ]
 
-def clamp_point( aabb, point, out = None ):
+def clamp_points( aabb, points, out = None ):
     if out == None:
         out = numpy.empty( 3, dtype = numpy.float )
 
@@ -68,7 +68,25 @@ def clamp_point( aabb, point, out = None ):
     # point and the AABB's minimum
     # then the minimum of the point and the AABB's
     # maximum
-    numpy.maximum( point, aabb[ 0 ], out = out[ 0 ] )
-    numpy.minimum( point, aabb[ 1 ], out = out[ 1 ] )
+    if points.ndim == 1:
+        aabb_min = aabb[ 0 ]
+        aabb_max = aabb[ 1 ]
+    else:
+        # use a stride trick to repeat the AABB arrays
+        # without actually allocating any data
+        # http://stackoverflow.com/questions/5564098/repeat-numpy-array-without-replicating-data
+        aabb_min = np.lib.stride_tricks.as_strided(
+            aabb[ 0 ],
+            (points.ndim, aabb[ 0 ].size),
+            (0, aabb[ 0 ].itemsize)
+            )
+        aabb_max = np.lib.stride_tricks.as_strided(
+            aabb[ 1 ],
+            (points.ndim, aabb[ 1 ].size),
+            (0, aabb[ 1 ].itemsize)
+            )
+    numpy.maximum( points, aabb_min, out = out[ 0 ] )
+    numpy.minimum( points, aabb_max, out = out[ 1 ] )
+
     return out
 
