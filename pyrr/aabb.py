@@ -4,11 +4,6 @@ Created on 09/04/2012
 @author: adam
 
 TODO: add transform( matrix )
-TODO: add get_clamped_point( self, point )
-
-TODO: bounding sphere
-
-http://en.wikipedia.org/wiki/Bounding_volume
 '''
 
 import numpy
