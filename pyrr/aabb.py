@@ -19,46 +19,44 @@ def empty():
 
 def create_from_bounds( min, max ):
     return numpy.array(
-        [
-            min,
-            max
-            ],
+        [ min, max ],
         dtype = numpy.float
         )
 
-def add_point( aabb, point, out = None ):
+def create_from_points( points, out = None ):
     if out == None:
         out = empty()
 
-    numpy.minimum(
-        point,
-        aabb[ 0 ]
-        out = out[ 0 ]
-        )
-    numpy.maximum(
-        point,
-        aabb[ 1 ]
-        out = out[ 1 ]
-        )
+    numpy.amin( points, axis = 0, out = out[ 0 ] ),
+    numpy.amax( points, axis = 0, out = out[ 1 ] )
+    return out
+
+def add_points( aabb, points, out = None ):
+    if out == None:
+        out = empty()
+
+    if points.ndim = 1:
+        numpy.minimum( point, aabb[ 0 ] out = out[ 0 ] )
+        numpy.maximum( point, aabb[ 1 ] out = out[ 1 ] )
+    else:
+        numpy.amin( points, axis = 0, out = out[ 0 ] ),
+        numpy.amax( points, axis = 0, out = out[ 1 ] )
     return out
 
 def add_aabb( aabb1, aabb2, out = None ):
     if out == None:
         out = empty()
 
-    numpy.minimum(
-        aabb1[ 0 ],
-        aabb2[ 0 ]
-        out = out[ 0 ]
-        )
-    numpy.maximum(
-        aabb1[ 1 ],
-        aabb2[ 1 ]
-        out = out[ 1 ]
-        )
+    numpy.minimum( aabb1[ 0 ], aabb2[ 0 ] out = out[ 0 ] )
+    numpy.maximum( aabb1[ 1 ], aabb2[ 1 ] out = out[ 1 ] )
     return out
 
-
-def centre( aabb ):
+def centre_point( aabb ):
     return (aabb[ 0 ] + aabb[ 1 ]) * 0.5
+
+def minimum( aabb ):
+    return aabb[ 0 ]
+
+def maximum( aabb ):
+    return aabb[ 1 ]
 
