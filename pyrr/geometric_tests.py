@@ -26,10 +26,7 @@ def point_intersect_line( line, point ):
     rp = point - line[ 0 ]
     cross = vector.cross( rl, rp )
 
-    if \
-        cross[ 0 ] != 0.0 or \
-        cross[ 1 ] != 0.0 or \
-        cross[ 2 ] != 0.0:
+    if False == numpy.array_equal( cross, [ 0.0, 0.0, 0.0 ] ):
         return None
     return point
 
@@ -48,11 +45,10 @@ def point_intersect_line_segment( line, point ):
     cross = vector.cross( rl, rp )
     dot = vector.dot( rp, rl )
     squared_length = vector.squared_length( rl )
-    if \
-        cross[ 0 ] != 0.0 or \
-        cross[ 1 ] != 0.0 or \
-        cross[ 2 ] != 0.0:
+
+    if False == numpy.array_equal( cross, [ 0.0, 0.0, 0.0 ] ):
         return None
+
     if \
         dot < 0.0 or \
         dot > squared_length:
@@ -192,19 +188,13 @@ def closest_point_on_line_segment( segment, point ):
 
 def are_rays_parallel( ray1, ray2 ):
     cross = vector.cross( ray1[ 1 ], ray2[ 1 ] )
-    if \
-        cross[ 0 ] != 0.0 or \
-        cross[ 1 ] != 0.0 or \
-        cross[ 2 ] != 0.0:
+    if False == numpy.array_equal( cross, [ 0.0, 0.0, 0.0 ] ):
         return False
     return True
 
 def are_rays_coincident( ray1, ray2 ):
     # ensure the ray's directions are the same
-    if \
-        ray1[ 0, 0 ] != ray2[ 0, 0 ] or \
-        ray1[ 0, 1 ] != ray2[ 0, 1 ] or \
-        ray1[ 0, 2 ] != ray2[ 0, 2 ]:
+    if False == numpy.array_equal( ray1[ 0 ], ray2[ 0 ] ):
         return False
 
     # get the delta between the two ray's start point
@@ -217,10 +207,7 @@ def are_rays_coincident( ray1, ray2 ):
     # if the cross product is zero, the start of the
     # second ray is in line with the direction of the
     # first ray
-    if \
-        cross[ 0 ] != 0.0 or \
-        cross[ 1 ] != 0.0 or \
-        cross[ 2 ] != 0.0:
+    if False == numpy.array_equal( cross, [ 0.0, 0.0, 0.0 ] ):
         return False
     return True
 
