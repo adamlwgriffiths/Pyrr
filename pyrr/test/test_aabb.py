@@ -17,7 +17,13 @@ class test_ray( unittest.TestCase ):
     def test_add_point( self ):
         obj = aabb.empty()
 
-        aabb.add_point( obj, [-1.0,-1.0,-1.0] )
+        aabb.add_points(
+            obj,
+            numpy.array(
+                [-1.0,-1.0,-1.0],
+                dtype = numpy.float
+                )
+            )
         self.assertTrue(
             numpy.array_equal( obj[ 0 ], [-1.0,-1.0,-1.0 ] ),
             "Add point failed"
@@ -31,7 +37,13 @@ class test_ray( unittest.TestCase ):
             "Add point failed"
             )
 
-        aabb.add_point( obj, [ 1.0,-1.0,-1.0] )
+        aabb.add_points(
+            obj,
+            numpy.array(
+                [ 1.0,-1.0,-1.0],
+                dtype = numpy.float
+                )
+            )
         self.assertTrue(
             numpy.array_equal( obj[ 0 ], [-1.0,-1.0,-1.0] ),
             "Add point failed"
@@ -47,8 +59,16 @@ class test_ray( unittest.TestCase ):
 
     def test_add_aabb( self ):
         obj = aabb.empty()
-        aabb.add_point( obj, [-1.0,-1.0,-1.0] )
-        aabb.add_point( obj, [ 1.0,-1.0,-1.0] )
+        aabb.add_points(
+            obj,
+            numpy.array(
+                [
+                    [-1.0,-1.0,-1.0],
+                    [ 1.0,-1.0,-1.0]
+                    ],
+                dtype = numpy.float
+                )
+            )
 
         obj2 = aabb.create_from_bounds( [1.0,-2.0, 1.0], [2.0,-1.0, 1.0] )
         aabb.add_aabb( obj, obj2 )
