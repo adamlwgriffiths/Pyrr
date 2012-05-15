@@ -22,25 +22,16 @@ def create_from_points( points, out = None ):
     if out == None:
         out = _empty()
 
-    # check for only a single point
-    if points.ndim == 1:
-        # assign our AABB to the point
-        out[:] = points
-    else:
-        numpy.amin( points, axis = 0, out = out[ 0 ] ),
-        numpy.amax( points, axis = 0, out = out[ 1 ] )
+    numpy.amin( points, axis = 0, out = out[ 0 ] ),
+    numpy.amax( points, axis = 0, out = out[ 1 ] )
     return out
 
 def add_points( aabb, points, out = None ):
     if out == None:
         out = _empty()
 
-    if points.ndim == 1:
-        numpy.minimum( points, aabb[ 0 ], out = out[ 0 ] )
-        numpy.maximum( points, aabb[ 1 ], out = out[ 1 ] )
-    else:
-        numpy.amin( points, axis = 0, out = out[ 0 ] ),
-        numpy.amax( points, axis = 0, out = out[ 1 ] )
+    numpy.amin( points, axis = 0, out = out[ 0 ] ),
+    numpy.amax( points, axis = 0, out = out[ 1 ] )
     return out
 
 def add_aabb( aabb1, aabb2, out = None ):

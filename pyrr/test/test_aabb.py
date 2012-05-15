@@ -17,7 +17,7 @@ class test_ray( unittest.TestCase ):
     def test_add_point( self ):
         obj = aabb.create_from_points(
             numpy.array(
-                [-1.0,-1.0,-1.0],
+                [[-1.0,-1.0,-1.0]],
                 dtype = numpy.float
                 )
             )
@@ -37,7 +37,7 @@ class test_ray( unittest.TestCase ):
         aabb.add_points(
             obj,
             numpy.array(
-                [ 1.0,-1.0,-1.0],
+                [[ 1.0,-1.0,-1.0]],
                 dtype = numpy.float
                 ),
             out = obj
