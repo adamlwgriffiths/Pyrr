@@ -27,6 +27,12 @@ import vector
 origin = 0
 direction = 1
 
+def create_ray( start, direction, out = None ):
+    if out == None:
+        out = numpy.empty( (2,3), dtype = numpy.float )
+    out[:] = [ start, direction ]
+    return out
+
 def create_from_line( line, out = None ):
     """
     Converts a line or line segment to a ray.
