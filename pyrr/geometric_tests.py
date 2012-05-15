@@ -211,6 +211,34 @@ def are_rays_coincident( ray1, ray2 ):
         return False
     return True
 
+def ray_intersect_aabb( ray, aabb ):
+    # http://gamedev.stackexchange.com/questions/18436/most-efficient-aabb-vs-ray-collision-algorithms
+    dir_fraction = numpy.divide( 1.0, aabb[ 1 ] )
+
+    t1 = (aabb[0,0] - ray[0,0]) * dir_fraction[ 0 ];
+    t2 = (aabb[1,0] - ray[0,0]) * dir_fraction[ 0 ];
+    t3 = (aabb[0,1] - ray[0,1]) * dir_fraction[ 1 ];
+    t4 = (aabb[1,1] - ray[0,1]) * dir_fraction[ 1 ];
+    t5 = (aabb[0,2] - ray[0,2]) * dir_fraction[ 2 ];
+    t6 = (aabb[1,2] - ray[0,2]) * dir_fraction[ 2 ];
+
+    tmin = max(max(min(t1, t2), min(t3, t4)), min(t5, t6));
+    tmax = min(min(max(t1, t2), max(t3, t4)), max(t5, t6));
+
+    # if tmax < 0, ray (line) is intersecting AABB
+    # but the whole AABB is behind the ray start
+    if tmax < 0:
+        return None
+
+    # if tmin > tmax, ray doesn't intersect AABB
+    if tmin > tmax:
+        return None
+
+    # t is the distance from the ray point
+    # to intersection
+    point = ray[ 0 ] + (ray[ 1 ] * tmin)
+    return point
+
 def ray_intersect_ray( ray1, ray2 ):
     pass
 
