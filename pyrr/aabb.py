@@ -26,11 +26,20 @@ def create_from_points( points, out = None ):
     numpy.amax( points, axis = 0, out = out[ 1 ] )
     return out
 
+def create_from_aabbs( aabbs, out = None ):
+    if out == None:
+        out = _empty()
+
+    # extract the minimum and maximums from the list
+    numpy.amin( aabbs[:, 0], axis = 0, out = out[ 0 ] )
+    numpy.amax( aabbs[:, 1], axis = 0, out = out[ 1 ] )
+    return out
+
 def add_points( aabb, points, out = None ):
     if out == None:
         out = _empty()
 
-    numpy.amin( points, axis = 0, out = out[ 0 ] ),
+    numpy.amin( points, axis = 0, out = out[ 0 ] )
     numpy.amax( points, axis = 0, out = out[ 1 ] )
     return out
 
