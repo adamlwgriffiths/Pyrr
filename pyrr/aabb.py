@@ -31,8 +31,8 @@ def add_points( aabb, points, out = None ):
         out = empty()
 
     if points.ndim == 1:
-        numpy.minimum( point, aabb[ 0 ] out = out[ 0 ] )
-        numpy.maximum( point, aabb[ 1 ] out = out[ 1 ] )
+        numpy.minimum( point, aabb[ 0 ], out = out[ 0 ] )
+        numpy.maximum( point, aabb[ 1 ], out = out[ 1 ] )
     else:
         numpy.amin( points, axis = 0, out = out[ 0 ] ),
         numpy.amax( points, axis = 0, out = out[ 1 ] )
@@ -42,8 +42,8 @@ def add_aabb( aabb1, aabb2, out = None ):
     if out == None:
         out = empty()
 
-    numpy.minimum( aabb1[ 0 ], aabb2[ 0 ] out = out[ 0 ] )
-    numpy.maximum( aabb1[ 1 ], aabb2[ 1 ] out = out[ 1 ] )
+    numpy.minimum( aabb1[ 0 ], aabb2[ 0 ], out = out[ 0 ] )
+    numpy.maximum( aabb1[ 1 ], aabb2[ 1 ], out = out[ 1 ] )
     return out
 
 def centre_point( aabb ):
