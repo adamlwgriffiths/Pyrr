@@ -39,8 +39,14 @@ def add_points( aabb, points, out = None ):
     if out == None:
         out = _empty()
 
-    numpy.amin( points, axis = 0, out = out[ 0 ] )
-    numpy.amax( points, axis = 0, out = out[ 1 ] )
+    # find the minimum and maximum point values
+    minimum = numpy.amin( points, axis = 0 )
+    maximum = numpy.amax( points, axis = 0 )
+
+    # compare to existing AABB
+    numpy.minimum( aabb[ 0 ], minimum, out = out[ 0 ] )
+    numpy.maximum( aabb[ 1 ], maximum, out = out[ 1 ] )
+
     return out
 
 def add_aabb( aabb1, aabb2, out = None ):
