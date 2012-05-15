@@ -101,6 +101,80 @@ class test_geometric_tests( unittest.TestCase ):
             "Closest point on plane incorrect"
             )
 
+    def test_point_intersect_rectangle( self ):
+        rect = numpy.array(
+            [
+                [0.0, 0.0],
+                [5.0, 5.0]
+                ]
+            )
+
+        point = [ 0.0, 0.0 ]
+        self.assertTrue(
+            numpy.array_equal(
+                geometric_tests.point_intersect_rectangle(
+                    point,
+                    rect
+                    ),
+                point
+                )
+            )
+
+        point = [ 5.0, 5.0 ]
+        self.assertTrue(
+            numpy.array_equal(
+                geometric_tests.point_intersect_rectangle(
+                    point,
+                    rect
+                    ),
+                point
+                )
+            )
+
+        point = [ 1.0, 1.0 ]
+        self.assertTrue(
+            numpy.array_equal(
+                geometric_tests.point_intersect_rectangle(
+                    point,
+                    rect
+                    ),
+                point
+                )
+            )
+
+        point = [-1.0, 1.0 ]
+        self.assertFalse(
+            numpy.array_equal(
+                geometric_tests.point_intersect_rectangle(
+                    point,
+                    rect
+                    ),
+                point
+                )
+            )
+
+        point = [ 1.0, 10.0 ]
+        self.assertFalse(
+            numpy.array_equal(
+                geometric_tests.point_intersect_rectangle(
+                    point,
+                    rect
+                    ),
+                point
+                )
+            )
+
+        point = [ 1.0,-1.0 ]
+        self.assertFalse(
+            numpy.array_equal(
+                geometric_tests.point_intersect_rectangle(
+                    point,
+                    rect
+                    ),
+                point
+                )
+            )
+
 
 if __name__ == '__main__':
     unittest.main()
