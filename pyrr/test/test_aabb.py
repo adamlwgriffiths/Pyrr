@@ -99,7 +99,7 @@ class test_ray( unittest.TestCase ):
             "Add point failed"
             )
 
-    def test_add_aabb( self ):
+    def test_add_aabbs( self ):
         obj = aabb.create_from_points(
             numpy.array(
                 [
@@ -111,7 +111,11 @@ class test_ray( unittest.TestCase ):
             )
 
         obj2 = aabb.create_from_bounds( [1.0,-2.0, 1.0], [2.0,-1.0, 1.0] )
-        aabb.add_aabb( obj, obj2, out = obj )
+        aabb.add_aabbs(
+            obj,
+            numpy.array( [ obj2 ] ),
+            out = obj
+            )
 
         self.assertTrue(
             numpy.array_equal( aabb.minimum(obj), [-1.0,-2.0,-1.0] ),
