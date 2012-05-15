@@ -49,12 +49,15 @@ def add_points( aabb, points, out = None ):
 
     return out
 
-def add_aabb( aabb1, aabb2, out = None ):
+def add_aabbs( aabb, aabbs, out = None ):
     if out == None:
         out = _empty()
 
-    numpy.minimum( aabb1[ 0 ], aabb2[ 0 ], out = out[ 0 ] )
-    numpy.maximum( aabb1[ 1 ], aabb2[ 1 ], out = out[ 1 ] )
+    minimum = numpy.amin( aabbs[:, 0], axis = 0 )
+    maximum = numpy.amax( aabbs[:, 1], axis = 0 )
+
+    numpy.minimum( aabb[ 0 ], minimum, out = out[ 0 ] )
+    numpy.maximum( aabb[ 1 ], maximum, out = out[ 1 ] )
     return out
 
 def centre_point( aabb ):
