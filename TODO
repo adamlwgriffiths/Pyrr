@@ -1,0 +1,43 @@
+Quaternion
+Add slerp
+Add lerp
+Add 'difference'
+Add log
+Add exponential
+Add squad
+Add create_from_matrix
+
+
+Add more maths functions from here
+http://vvvv.org/documentation/3d-vector-mathematics
+
+array_index: make this take an N long array and calculate the index dynamically.
+collision: complete collision detection algs
+sphere / plane
+point / frustrum
+sphere / box
+sphere / sphere
+sphere / triangle
+sphere / N triangles
+box / plane
+box / frustrum
+box / box
+box / triangle
+box / N triangles
+point / sphere
+point / box
+point / plane
+point / frustrum
+point / point
+point / triangle
+point / N triangles
+triangle / triangle
+triangle / plane
+triangle / frustrum
+triangle / N triangles
+
+Interpolate:
+move vector.interpolate into here
+rename to linear
+add sin_interpolate
+etc
