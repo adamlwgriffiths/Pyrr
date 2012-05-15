@@ -66,10 +66,10 @@ def point_intersect_rectangle( point, rect ):
     """
     left, right, bottom, top = rectangle.bounds( rect )
     if \
-        point[ 0 ] <= left or \
-        point[ 0 ] >= right or \
-        point[ 1 ] <= bottom or \
-        point[ 1 ] >= top:
+        point[ 0 ] < left or \
+        point[ 0 ] > right or \
+        point[ 1 ] < bottom or \
+        point[ 1 ] > top:
         return None
     return point
 
