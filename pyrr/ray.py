@@ -49,3 +49,9 @@ def create_from_line( line, out = None ):
 
     return out
 
+def origin( ray ):
+    return ray[ 0 ]
+
+def direction( ray ):
+    return ray[ 1 ]
+
