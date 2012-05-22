@@ -28,22 +28,40 @@ def create_from_bounds( left, right, bottom, top, out = None, data_type = numpy.
 
 def bounds( rect ):
     left = min(
-        rect[ (0, 0) ],
-        rect[ (0, 0) ] + rect[ (1, 0) ]
+        rect[ 0,0 ],
+        rect[ 0,0 ] + rect[ 1,0 ]
         )
     right = max(
-        rect[ (0, 0) ],
-        rect[ (0, 0) ] + rect[ (1, 0) ]
+        rect[ 0,0 ],
+        rect[ 0,0 ] + rect[ 1,0 ]
         )
     bottom = min(
-        rect[ (0, 1) ],
-        rect[ (0, 1) ] + rect[ (1, 1) ]
+        rect[ 0,1 ],
+        rect[ 0,1 ] + rect[ 1,1 ]
         )
     top = max(
-        rect[ (0, 1) ],
-        rect[ (0, 1) ] + rect[ (1, 1) ]
+        rect[ 0,1 ],
+        rect[ 0,1 ] + rect[ 1,1 ]
         )
     return left, right, bottom, top
+
+def width( rect ):
+    return rect[ 1,0 ]
+
+def height( rect ):
+    return rect[ 1,1 ]
+
+def top( rect ):
+    return rect[ 0,1 ] + rect[ 1,1 ]
+
+def bottom( rect ):
+    return rect[ 0,1 ]
+
+def left( rect ):
+    return rect[ 0,0 ]
+
+def right( rect ):
+    return rect[ 0,0 ] + rect[ 1,0 ]
 
 def scale_by_vector( rect, vec ):
     """
