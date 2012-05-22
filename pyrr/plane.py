@@ -93,3 +93,12 @@ def flip_normal( plane ):
     plane[ 1 ] *= -1.0
     return plane
 
+def position( plane ):
+    return plane[ 0 ]
+
+def normal( plane ):
+    return plane[ 1 ]
+
+def up( plane ):
+    return plane[ 2 ]
+
