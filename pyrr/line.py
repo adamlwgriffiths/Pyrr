@@ -49,3 +49,9 @@ def create_from_ray( ray, out = None ):
 
     return out
 
+def start( line ):
+    return line[ 0 ]
+
+def end( line ):
+    return line[ 1 ]
+
