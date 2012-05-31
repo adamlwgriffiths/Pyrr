@@ -163,6 +163,15 @@ def create_from_inverse_of_quaternion( quat, out = None ):
         ]
     return out
 
+def create_from_scale( scale, out = None ):
+    if out == None:
+        out = _empty()
+    
+    # apply the scale to the values diagonally
+    # down the matrix
+    out[:] = numpy.diagflat( scale )
+    return out
+
 def apply_to_vector( vector, matrix, out = None ):
     """
     Proper matrix layout and layout used for DirectX.
@@ -213,22 +222,5 @@ def multiply( m1, m2, out = None ):
         out = _empty()
 
     out[:] = numpy.dot( m1, m2 )
-    return out
-
-def scale( matrix, scale, out = None ):
-    if out == None:
-        out = _empty()
-    
-    # apply the scale to the values diagonally
-    # down the matrix
-    scale_matrix = numpy.diagflat(
-        [
-            scale[ 0 ],
-            scale[ 1 ],
-            scale[ 2 ],
-            ]
-        )
-    multiply( matrix, scale_matrix, out )
-    
     return out
 

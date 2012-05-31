@@ -102,6 +102,41 @@ def create_from_inverse_of_quaternion( quat, out = None ):
     
     return out
 
+def create_from_translation( vector, out = None ):
+    """
+    Creates an identity matrix with the translation set.
+
+    @param vector: An array of shape (3).
+    @param out: Optional parameter of where to store the
+    output.
+    @return: Returns an identity matrix with the translation
+    set to the specified vector.
+    """
+    out = identity( out )
+
+    out[ 3, 0:3 ] = vector
+    return out
+
+def create_from_scale( scale, out = None ):
+    """
+    Creates an identity matrix with the scale set.
+
+    @param vector: An array of shape (3).
+    @param out: Optional parameter of where to store the
+    output.
+    @return: Returns an identity matrix with the scale 
+    set to the specified vector.
+    """
+    if out == None:
+        out = _empty()
+
+    # we need to expand 'scale' into it's components
+    # because numpy isn't flattening them properly.
+    out[:] = numpy.diagflat(
+        [ scale[ 0 ], scale[ 1 ], scale[ 2 ], 1.0 ]
+        )
+    return out
+
 def apply_to_vector( vector, matrix, out = None ):
     """
     Proper matrix layout and layout used for DirectX.
@@ -127,7 +162,7 @@ def apply_transpose_to_vector( vector, matrix, out = None ):
 
 def multiply( m1, m2, out = None ):
     """
-    Multiplies two matrixies, m1 . m2.
+    Multiplies two matricies, m1 . m2.
     This is essentially a wrapper around
     numpy.dot( m1, m2 )
 
@@ -140,45 +175,6 @@ def multiply( m1, m2, out = None ):
         out = _empty()
 
     out[:] = numpy.dot( m1, m2 )
-    return out
-
-def translate( matrix, vector, out = None ):
-    if out == None:
-        out = _empty()
-    
-    out[:] = matrix
-    # apply the vector to the first 3 values of the last row
-    out[ 3, 0:3 ] += vector
-    
-    return out
-
-def set_translation( matrix, vector, out = None ):
-    if out == None:
-        out = _empty()
-    
-    out[:] = matrix
-    # apply the vector to the first 3 values of the last row
-    out[ 3, 0:3 ] = vector
-    
-    return out
-
-def scale( matrix, scale, out = None ):
-    # apply the scale to the values diagonally
-    # down the matrix
-    if out == None:
-        out = _empty()
-
-    scale_matrix = numpy.diagflat(
-        [
-            scale[ 0 ],
-            scale[ 1 ],
-            scale[ 2 ],
-            1.0
-            ]
-        )
-
-    multiply( matrix, scale_matrix, out )
-
     return out
 
 def create_projection_view_matrix(

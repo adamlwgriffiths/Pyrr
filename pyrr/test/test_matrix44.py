@@ -34,9 +34,8 @@ class test_matrix44( unittest.TestCase ):
                         "Not an identity matrix"
                         )
 
-    def test_set_translation( self ):
-        mat = matrix44.identity()
-        mat = matrix44.set_translation( mat, [ 1.0, 2.0, 3.0 ] )
+    def test_create_from_translation( self ):
+        mat = matrix44.create_from_translation( [ 1.0, 2.0, 3.0 ] )
 
         # translation goes down the last column in normal matrix
         self.assertEqual(
