@@ -194,29 +194,6 @@ def apply_to_vector( vector, matrix, out = None ):
         ]
     return out
 
-def apply_tranpose_to_vector( vector, matrix, out = None ):
-    """
-    Proper matrix layout and layout used for DirectX.
-    For OpenGL, transpose the matrix after calling this.
-    """
-    if out == None:
-        out = numpy.empty( 3, dtype = numpy.float )
-    
-    x = vector[ 0 ]
-    y = vector[ 1 ]
-    z = vector[ 2 ]
-    
-    # Note: m11 and m12 are in the same column, not the same row
-    out[:] = [
-        # x = m11 * v.x + m12 * v.y + m13 * v.z
-        (matrix[ (0, 0) ] * x) + (matrix[ (0, 1) ] * y) + (matrix[ (0, 2) ] * z),
-        # y = m21 * v.x + m22 * v.y + m23 * v.z
-        (matrix[ (1, 0) ] * x) + (matrix[ (1, 1) ] * y) + (matrix[ (1, 2) ] * z),
-        # z = m31 * v.x + m32 * v.y + m33 * v.z
-        (matrix[ (2, 0) ] * x) + (matrix[ (2, 1) ] * y) + (matrix[ (2, 2) ] * z)
-        ]
-    return out
-
 def multiply( m1, m2, out = None ):
     if out == None:
         out = _empty()

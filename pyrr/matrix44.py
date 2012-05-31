@@ -138,27 +138,11 @@ def create_from_scale( scale, out = None ):
     return out
 
 def apply_to_vector( vector, matrix, out = None ):
-    """
-    Proper matrix layout and layout used for DirectX.
-    For OpenGL, transpose the matrix after calling this.
-    """
     # we'll use Matrix33 for our conversion
     mat33 = matrix[ 0:3, 0:3 ]
     matrix33.apply_to_vector( vector, mat33, out )
     
     return out
-
-def apply_transpose_to_vector( vector, matrix, out = None ):
-    """
-    Proper matrix layout and layout used for DirectX.
-    For OpenGL, transpose the matrix after calling this.
-    """
-    # we'll use Matrix33 for our conversion
-    mat33 = matrix[ 0:3, 0:3 ]
-    matrix33.apply_transpose_to_vector( vector, mat33, out )
-    
-    return out
-
 
 def multiply( m1, m2, out = None ):
     """
