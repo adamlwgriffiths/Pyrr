@@ -22,14 +22,14 @@ class test_matrix44( unittest.TestCase ):
                 if x == y:
                     # assert the diagonal is 1.0
                     self.assertEqual(
-                        mat[ (x, y) ],
+                        mat[ x, y ],
                         1.0,
                         "Not an identity matrix"
                         )
                 else:
                     # all other values are 0.0
                     self.assertEqual(
-                        mat[ (x, y) ],
+                        mat[ x, y ],
                         0.0,
                         "Not an identity matrix"
                         )
@@ -39,19 +39,39 @@ class test_matrix44( unittest.TestCase ):
 
         # translation goes down the last column in normal matrix
         self.assertEqual(
-            mat[ 3 ][ 0 ],
+            mat[ 3, 0 ],
             1.0,
             "Translation not set properly"
             )
         self.assertEqual(
-            mat[ 3 ][ 1 ],
+            mat[ 3, 1 ],
             2.0,
             "Translation not set properly"
             )
         self.assertEqual(
-            mat[ 3 ][ 2 ],
+            mat[ 3, 2 ],
             3.0,
             "Translation not set properly"
+            )
+
+    def test_create_from_scale( self ):
+        mat = matrix44.create_from_scale( [ 1.0, 2.0, 3.0 ] )
+
+        # scale
+        self.assertEqual(
+            mat[ 0, 0 ],
+            1.0,
+            "Scale not set properly"
+            )
+        self.assertEqual(
+            mat[ 1, 1 ],
+            2.0,
+            "Scale not set properly"
+            )
+        self.assertEqual(
+            mat[ 2, 2 ],
+            3.0,
+            "Scale not set properly"
             )
 
     
