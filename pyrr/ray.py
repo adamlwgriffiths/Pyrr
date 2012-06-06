@@ -31,6 +31,10 @@ def create_ray( start, direction, out = None ):
     if out == None:
         out = numpy.empty( (2,3), dtype = numpy.float )
     out[:] = [ start, direction ]
+
+    # normalise the ray length
+    vector.normalise( out[ 1 ] )
+
     return out
 
 def create_from_line( line, out = None ):
