@@ -45,6 +45,12 @@ def bounds( rect ):
         )
     return left, right, bottom, top
 
+def position( rect ):
+    return rect[ 0 ]
+
+def size( rect ):
+    return rect[ 1 ]
+
 def width( rect ):
     return rect[ 1,0 ]
 
