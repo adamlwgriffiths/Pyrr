@@ -61,10 +61,9 @@ def squared_length( vec ):
     Useful when trying to avoid the performance
     penalty of a square root operation.
     """
-    return \
-        vec[ 0 ] * vec[ 0 ] + \
-        vec[ 1 ] * vec[ 1 ] + \
-        vec[ 2 ] * vec[ 2 ]
+    lengths = numpy.sum( vec * vec, axis = -1 )
+
+    return lengths
 
 def length( vec ):
     """
@@ -124,12 +123,13 @@ def set_length( vec, length ):
 
 def dot( a, b ):
     """
-    @param a: a 1d array with 3 elements (a vector)
-    @param b: a 1d array with 3 elements (a vector)
+    @param a: an Nd array with the final dimension
+    being size 3. (a vector)
+    @param b: an Nd array with the final dimension
+    being size 3 (a vector)
     @return: the dot product of vectors a and b.
     """
-    assert len( a ) == len( b ) == 3
-    return numpy.dot( a, b )
+    return numpy.sum( a * b, axis = -1 )
 
 def cross( vector1, vector2 ):
     """
