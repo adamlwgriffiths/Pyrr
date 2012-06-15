@@ -75,6 +75,22 @@ class test_vector( unittest.TestCase ):
             "Squared length incorrect"
             )
 
+    def test_batch_square_lengths( self ):
+        #
+        # group length calc
+        #
+        vecs = numpy.array([
+            [ 1.0, 1.0, 1.0 ],
+            [ 0.0, 2.0, 0.0 ]
+            ])
+        lengths = vector.squared_length( vecs )
+        for vec, length in zip( vecs, lengths ):
+            self.assertEqual(
+                vec_sqr_length( vec ),
+                length,
+                "Incorrect squared length calculation"
+                )
+
     def test_length( self ):
         vec = numpy.array( [ 1.0, 1.0, 1.0 ], dtype = float )
 
@@ -142,6 +158,22 @@ class test_vector( unittest.TestCase ):
             vec_dot( vec1, vec2 ),
             "Dot product of adjacent vectors incorrect"
             )
+
+    def test_batch_dots( self ):
+        #
+        # group length calc
+        #
+        vecs = numpy.array([
+            [ 1.0, 1.0, 1.0 ],
+            [ 0.0, 2.0, 0.0 ]
+            ])
+        lengths = vector.dot( vecs, vecs )
+        for vec, length in zip( vecs, lengths ):
+            self.assertEqual(
+                vec_dot( vec, vec ),
+                length,
+                "Incorrect length calculation"
+                )
 
     def test_cross_product( self ):
         vec1 = numpy.array( [1.0, 0.0, 0.0], dtype = float )
