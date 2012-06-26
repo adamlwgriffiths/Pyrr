@@ -11,7 +11,7 @@ Features:
    * Ray
    * Line / Line Segment (3D)
    * Rectangle (2D)
-   * Array indexing
+   * AABB
    * Geometric collision / intersection tests
 
 Installation
