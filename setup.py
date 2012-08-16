@@ -2,11 +2,11 @@
 
 from distutils.core import setup
 
-import pyrr
+from pyrr import __version__
 
 setup(
     name = 'pyrr',
-    version = pyrr.__version__,
+    version = __version__,
     description = '3D mathematical functions using NumPy',
     license = 'BSD',
     author = 'Adam Griffiths',
