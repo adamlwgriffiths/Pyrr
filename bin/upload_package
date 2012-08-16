@@ -11,7 +11,7 @@ pushd $DIR
 cd ..
 
 # run our test
-python setup.py sdist bdist_wininst upload
+python setup.py sdist upload
 
 
 # return our path to its original state
