@@ -3,7 +3,7 @@ import os
 
 # the version of software
 # this is used by the setup.py script
-__version__ = '20120816'
+from version import __version__
 
 # make 'from module import *' work dynamically.
 # otherwise we have to manually update the __all__ list.
