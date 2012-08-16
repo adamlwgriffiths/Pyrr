@@ -30,9 +30,15 @@ Pyrr requires the following software:
 Source Installation
 -------------------
 
+Install Pyrr
+```
+git clone git@github.com:adamlwgriffiths/Pyrr.git
+```
+
 You can install dependencies easily by using the command:
 ```
-pip install -r requirements.txt
+cd Pyrr
+pip install -r pyrr/requirements.txt
 ```
 
 Development
