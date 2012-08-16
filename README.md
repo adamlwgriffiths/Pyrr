@@ -17,10 +17,18 @@ Features:
 Installation
 ------------
 
+Pyrr is in the PyPi database and can be installed via pip:
+```
+pip install pyrr
+```
+
 Pyrr requires the following software:
 
    * Python 2(.6?)+
    * NumPy
+
+Source Installation
+-------------------
 
 You can install dependencies easily by using the command:
 ```
