@@ -35,10 +35,17 @@ You can install dependencies easily by using the command:
 pip install -r requirements.txt
 ```
 
+Development
+-----------------------
+
+<img src="http://twistedpairdevelopment.files.wordpress.com/2010/10/twisted_pair-0086.png">
+
+Pyrr is developed by [Twisted Pair Development](http://twistedpairdevelopment.wordpress.com).
+
+Contributions are welcome.
+
 License
 ---------------
-
-Pyrr is developed by Twisted Pair Development (twistedpairdevelopment.wordpress.com).
 
 Pyrr is released under the BSD 2-clause license (a very relaxed licence), but it is encouraged that any modifications are submitted back to the master for inclusion.
 
