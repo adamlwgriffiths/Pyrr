@@ -86,17 +86,12 @@ def add_aabbs( aabb, aabbs, out = None ):
     """ Extend an AABB to encompass a list
     of other AABBs.
     """
-    if out == None:
-        out = _empty()
+    # convert to points and use our existing add_points
+    # function
+    points = aabbs.view()
+    points.shape = (-1, 3)
 
-    # extract the AABB's minimum and maximum
-    minimum = numpy.amin( aabbs[:, 0], axis = 0 )
-    maximum = numpy.amax( aabbs[:, 1], axis = 0 )
-
-    # compare to our existing AABB
-    numpy.minimum( aabb[ 0 ], minimum, out = out[ 0 ] )
-    numpy.maximum( aabb[ 1 ], maximum, out = out[ 1 ] )
-    return out
+    return add_points( aabb, points, out )
 
 def centre_point( aabb ):
     """ Returns the centre point of the AABB.
