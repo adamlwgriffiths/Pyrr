@@ -1,5 +1,8 @@
 """ Provides functions to calculate and manipulate
-Axis-Aligned Bounding Boxes.
+Axis-Aligned Bounding Boxes (AABB).
+
+AABB are a simple 3D rectangle with no orientation.
+It is up to the user to provide translation.
 
 An AABB is represented by an array of 2 x 3D vectors.
 The first vector represents the minimum extent.
