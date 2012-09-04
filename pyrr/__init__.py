@@ -16,10 +16,12 @@ for module in os.listdir( os.path.dirname( __file__ ) ):
         continue
 
     # we can import .py, .pyc and .pyo file types
-    if \
-        extension != '.py' and \
-        extension != '.pyc' and \
-        extension != '.pyo':
+    extensions = [
+        '.py',
+        '.pyc',
+        '.pyo'
+        ]
+    if extension not in extensions:
         continue
 
     # file type is ok, import it
