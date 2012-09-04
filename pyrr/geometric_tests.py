@@ -274,6 +274,10 @@ def closest_point_on_plane( plane, vector ):
     vector_dot = numpy.dot( vector, plane[ 1 ] )
     return vector + (  plane[ 1 ] * (plane_dot - vector_dot) )
 
+def does_aabb_intersect_aabb( a1, a2 ):
+    if a1[
+    pass
+
 def does_sphere_intersect_sphere( c1, c2 ):
     """
     Determines if two spheres overlap.

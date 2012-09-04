@@ -6,9 +6,15 @@ It is up to the user to provide translation.
 AAMBB differ from AABB in that they allow for the
 content to rotate freely and still be within the AAMBB.
 
-An AABB is represented by an array of 2 x 3D vectors.
+An AAMBB is represented in the same way an AABB is;
+a array of 2 x 3D vectors.
 The first vector represents the minimum extent.
 The second vector represents the maximum extent.
+
+Note that because the AAMBB set's it's dimensions using
+the vector length of any points set within it, the user
+should be careful to avoid adding the AAMBB to itself
+or the AAMBB will continue to grow.
 
 TODO: add transform( matrix )
 TODO: add point_within_aabb
