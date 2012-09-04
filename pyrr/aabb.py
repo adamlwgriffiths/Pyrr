@@ -57,13 +57,11 @@ def create_from_aabbs( aabbs, out = None ):
         AABB,
     ]
     """
-    if out == None:
-        out = _empty()
+    # reshape the AABBs as a series of points
+    points = aabbs.view()
+    points.shape = (-1, 3 )
 
-    # extract the minimum and maximums from the list
-    numpy.amin( aabbs[:, 0], axis = 0, out = out[ 0 ] )
-    numpy.amax( aabbs[:, 1], axis = 0, out = out[ 1 ] )
-    return out
+    return create_from_points( points, out )
 
 def add_points( aabb, points, out = None ):
     """ Extends an AABB to encompass a list
