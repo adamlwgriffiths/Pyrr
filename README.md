@@ -11,7 +11,7 @@ Features:
    * Ray
    * Line / Line Segment (3D)
    * Rectangle (2D)
-   * AABB
+   * Axis Aligned Bounding Boxes (AABB / AAMBB)
    * Geometric collision / intersection tests
 
 Installation
