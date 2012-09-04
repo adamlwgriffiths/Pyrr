@@ -1,0 +1,5 @@
+#!/bin/bash
+# This hook is run after this virtualenv is activated.
+
+export PYTHONPATH=$WORKON_HOME/pyrr/src/pyrr
+export PYTHONPATH=$WORKON_HOME/pyrr/src:$PYTHONPATH
