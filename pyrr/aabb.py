@@ -8,6 +8,12 @@ An AABB is represented by an array of 2 x 3D vectors.
 The first vector represents the minimum extent.
 The second vector represents the maximum extent.
 
+It should be noted that rotating the object within
+an AABB will invalidate the AABB.
+It is up to the user to either:
+    * recalculate the AABB.
+    * use an AAMBB instead.
+
 TODO: add transform( matrix )
 """
 
@@ -17,14 +23,14 @@ import numpy
 def _empty():
     return numpy.empty( (2,3), dtype = numpy.float )
 
-def create_from_bounds( min, max ):
+def create_from_bounds( min, max, out = None ):
     """ Creates an AABB using the specified minimum
     and maximum values.
     """
-    return numpy.array(
-        [ min, max ],
-        dtype = numpy.float
-        )
+    if out == None:
+        out = _empty()
+
+    out[:] = [ min, max ]
 
 def create_from_points( points, out = None ):
     """ Creates an AABB from the list of specified points.
