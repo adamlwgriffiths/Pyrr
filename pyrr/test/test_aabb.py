@@ -6,7 +6,7 @@ import numpy
 from pyrr import aabb
 
 
-class test_ray( unittest.TestCase ):
+class test_aabb( unittest.TestCase ):
 
     def setUp( self ):
         pass
