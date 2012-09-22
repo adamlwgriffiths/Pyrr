@@ -241,7 +241,7 @@ def get_rotation_axis( quat, out = None ):
     
     if sinThetaOver2Sq <= 0.0:
         # assert here for the time being
-        #assert False
+        assert False
         print "rotation axis was identity"
         
         # identity quaternion or numerical imprecision.
