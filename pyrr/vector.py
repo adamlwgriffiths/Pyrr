@@ -133,8 +133,10 @@ def dot( a, b ):
 
 def cross( vector1, vector2 ):
     """
-    @param vector1: a 1d array with 3 elements (a vector)
-    @param vector2: a 1d array with 3 elements (a vector)
+    @param vector1: an Nd array with 3 elements (a vector)
+    @param vector2: an Nd array with 3 elements (a vector)
+    (eg. numpy.array( [ x, y, z ]) )
+    (eg. numpy.array( [ [ x1, y1, z1 ], [x2, y2, z2] ]) )
     """
     return numpy.cross( vector1, vector2 )
 
@@ -159,3 +161,31 @@ def interpolate( v1, v2, delta ):
     delta_t = t1 - t0
     return (t1 - t) / delta_t * v1 + (t - t0) / delta_t * v2
 
+def generate_normal( v1, v2, v3 ):
+    """Generates a normal vector for 3 vertices.
+    The result is a normalised vector.
+    """
+    a = v2 - v1
+    b = v3 - v1
+    return normalise( cross( a, b ) )
+
+def generate_normals( vectors ):
+    """Generates a list of normal vectors from a list
+    of vertices.
+
+    vertices must be an Nd array in the following format:
+    vectors = numpy.array( [
+        [ [1x1, 1y1, 1z1], [1x2, 1y2, 1z2], [1x3, 1y3, 1z3] ],
+        [ [2x1, 2y1, 2z1], [2x2, 2y2, 2z2], [2x3, 2y3, 2z3] ],
+        ])
+
+    The result will be in the format:
+    numpy.array([
+        [ 1x, 1y, 1z ],
+        [ 2x, 2y, 2x ]
+        ]
+        )
+    """
+    a = vectors[ :, 1 ] - vectors[ :, 0 ]
+    b = vectors[ :, 2 ] - vectors[ :, 0 ]
+    return normalise( numpy.cross( a, b ) )
