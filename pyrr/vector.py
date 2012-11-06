@@ -161,31 +161,37 @@ def interpolate( v1, v2, delta ):
     delta_t = t1 - t0
     return (t1 - t) / delta_t * v1 + (t - t0) / delta_t * v2
 
-def generate_normal( v1, v2, v3 ):
+def generate_normals( v1, v2, v3, normalise_result = True ):
     """Generates a normal vector for 3 vertices.
     The result is a normalised vector.
+    
+    The vertices are Nd arrays and may be 1d or Nd.
+    As long as the final axis is of size 3.
+
+    eg. For 1d arrays:
+    vertices = numpy.array([
+        x, y, z
+        ])
+
+    result = numpy.array([
+        x, y, z
+        ])
+
+    eg. For Nd arrays:
+    vertices = numpy.array([
+        [x1, y1, z1],
+        [x2, y2, z2],
+        [x3, y3, z3]
+        ])
+
+    result = numpy.array([
+        [ 1x, 1y, 1z ],
+        [ 2x, 2y, 2x ]
+        ])
     """
     a = v2 - v1
     b = v3 - v1
-    return normalise( cross( a, b ) )
-
-def generate_normals( vectors ):
-    """Generates a list of normal vectors from a list
-    of vertices.
-
-    vertices must be an Nd array in the following format:
-    vectors = numpy.array( [
-        [ [1x1, 1y1, 1z1], [1x2, 1y2, 1z2], [1x3, 1y3, 1z3] ],
-        [ [2x1, 2y1, 2z1], [2x2, 2y2, 2z2], [2x3, 2y3, 2z3] ],
-        ])
-
-    The result will be in the format:
-    numpy.array([
-        [ 1x, 1y, 1z ],
-        [ 2x, 2y, 2x ]
-        ]
-        )
-    """
-    a = vectors[ :, 1 ] - vectors[ :, 0 ]
-    b = vectors[ :, 2 ] - vectors[ :, 0 ]
-    return normalise( numpy.cross( a, b ) )
+    n = cross( a, b )
+    if normalise_result:
+        n = normalise( n )
+    return n
