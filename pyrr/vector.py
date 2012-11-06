@@ -165,6 +165,13 @@ def generate_normals( v1, v2, v3, normalise_result = True ):
     """Generates a normal vector for 3 vertices.
     The result is a normalised vector.
     
+    It is assumed the ordering is counter-clockwise starting
+    at v1, v2 then v3.
+
+    v1      v3
+      \    /
+        v2
+
     The vertices are Nd arrays and may be 1d or Nd.
     As long as the final axis is of size 3.
 
@@ -189,9 +196,11 @@ def generate_normals( v1, v2, v3, normalise_result = True ):
         [ 2x, 2y, 2x ]
         ])
     """
-    a = v2 - v1
-    b = v3 - v1
-    n = cross( a, b )
+    # make vectors relative to v2
+    # we assume opengl counter-clockwise ordering
+    a = v1 - v2
+    b = v3 - v2
+    n = cross( b, a )
     if normalise_result:
-        n = normalise( n )
+        normalise( n )
     return n
