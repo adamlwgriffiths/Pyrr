@@ -8,6 +8,8 @@ import math
 
 import numpy
 
+import vector
+
 
 w = 0
 x = 1
@@ -328,3 +330,18 @@ def negate( quat, out = None ):
     out *= -1.0
     return out
 
+def apply_to_vector( quat, vec ):
+    """Rotates a vector by a quaternion.
+
+    quat and vec must be 1d arrays.
+    
+    http://content.gpwiki.org/index.php/OpenGL:Tutorials:Using_Quaternions_to_represent_rotation
+    """
+    # create a new quaternion
+    vq = numpy.array( [ 0.0, vec[ 0 ], vec[ 1 ], vec[ 2 ] ], dtype = float )
+
+    # quat * vec * quat^-1
+    result = cross( quat, cross( vq, conjugate( quat ) ) )
+
+    # ignore w component
+    return result[ 1: ]
