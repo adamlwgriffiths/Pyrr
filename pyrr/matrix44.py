@@ -240,3 +240,10 @@ def create_orthogonal_view_matrix(
 
     return out
 
+def inverse( m, out = None ):
+    if out == None:
+        out = _empty()
+
+    out[:] = numpy.linalg.inv( m )
+
+    return out

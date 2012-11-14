@@ -201,3 +201,11 @@ def multiply( m1, m2, out = None ):
     out[:] = numpy.dot( m1, m2 )
     return out
 
+def inverse( m, out = None ):
+    if out == None:
+        out = _empty()
+
+    out[:] = numpy.linalg.inv( m )
+
+    return out
+
