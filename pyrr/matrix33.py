@@ -83,38 +83,48 @@ def create_from_quaternion( quat, out = None ):
     if out == None:
         out = _empty()
     
-    w = quat[ 0 ]
-    x = quat[ 1 ]
-    y = quat[ 2 ]
-    z = quat[ 3 ]
+    x = quat[ quaternion.x ]
+    y = quat[ quaternion.y ]
+    z = quat[ quaternion.z ]
+    w = quat[ quaternion.w ]
+
+    y2 = y**2
+    x2 = x**2
+    z2 = z**2
+    xy = x * y
+    xz = x * z
+    yz = y * z
+    wx = w * x
+    wy = w * y
+    wz = w * z
     
     out[:] = [
         # m1
         [
             # m11 = 1.0 - 2.0 * (q.y * q.y + q.z * q.z)
-            1.0 - 2.0 * (y * y + z * z),
+            1.0 - 2.0 * (y2 + z2),
             # m12 = 2.0 * (q.x * q.y + q.w * q.z)
-            2.0 * (x * y + w * z),
+            2.0 * (xy + wz),
             # m13 = 2.0 * (q.x * q.z - q.w * q.y)
-            2.0 * (x * z - w * y)
+            2.0 * (xz - wy)
             ],
         # m2
         [
             # m21 = 2.0 * (q.x * q.y - q.w * q.z)
-            2.0 * (x * y - w * z),
+            2.0 * (xy - wz),
             # m22 = 1.0 - 2.0 * (q.x * q.x + q.z * q.z)
-            1.0 - 2.0 * (x * x + z * z),
+            1.0 - 2.0 * (x2 + z2),
             # m23 = 2.0 * (q.y * q.z + q.w * q.x)
-            2.0 * (y * z + w * x)
+            2.0 * (yz + wx)
             ],
         # m3
         [
             # m31 = 2.0 * (q.x * q.z + q.w * q.y)
-            2.0 * (x * z + w * y),
+            2.0 * (xz + wy),
             # m32 = 2.0 * (q.y * q.z - q.w * q.x)
-            2.0 * (y * z - w * x),
+            2.0 * (yz - wx),
             # m33 = 1.0 - 2.0 * (q.x * q.x + q.y * q.y)
-            1.0 - 2.0 * (x * x + y * y)
+            1.0 - 2.0 * (x2 + y2)
             ]
         ]
     return out
@@ -127,38 +137,48 @@ def create_from_inverse_of_quaternion( quat, out = None ):
     if out == None:
         out = _empty()
     
-    w = quat[ 0 ]
-    x = quat[ 1 ]
-    y = quat[ 2 ]
-    z = quat[ 3 ]
+    x = quat[ quaternion.x ]
+    y = quat[ quaternion.y ]
+    z = quat[ quaternion.z ]
+    w = quat[ quaternion.w ]
+
+    x2 = x**2
+    y2 = y**2
+    z2 = z**2
+    xy = x * y
+    xz = x * z
+    yz = y * z
+    wx = w * x
+    wy = w * y
+    wz = w * z
     
     out[:] = [
         # m1
         [
             # m11 = 1.0 - 2.0 * (q.y * q.y + q.z * q.z)
-            1.0 - 2.0 * (y * y + z * z),
+            1.0 - 2.0 * (y2 + z2),
             # m12 = 2.0 * (q.x * q.y - q.w * q.z)
-            2.0 * (x * y - w * z),
+            2.0 * (xy - wz),
             # m13 = 2.0 * ( q.x * q.z + q.w * q.y)
-            2.0 * (x * z + w * y)
+            2.0 * (xz + wy)
             ],
         # m2
         [
             # m21 = 2.0 * (q.x * q.y + q.w * q.z)
-            2.0 * (x * y + w * z),
+            2.0 * (xy + wz),
             # m22 = 1.0 - 2.0 * (q.x * q.x + q.z * q.z)
-            1.0 - 2.0 * (x * x + z * z),
+            1.0 - 2.0 * (x2 + z2),
             # m23 = 2.0 * (q.y * q.z - q.w * q.x)
-            2.0 * (y * z - w * x)
+            2.0 * (yz - wx)
             ],
         # m3
         [
             # m31 = 2.0 * (q.x * q.z - q.w * q.y)
-            2.0 * (x * z - w * y),
+            2.0 * (xz - wy),
             # m32 = 2.0 * (q.y * q.z + q.w * q.x)
-            2.0 * ( y * z - w * x),
+            2.0 * ( yz - wx),
             # m33 = 1.0 - 2.0 * (q.x * q.x + q.y * q.y)
-            1.0 - 2.0 * (x * x + y * y)
+            1.0 - 2.0 * (x2 + y2)
             ]
         ]
     return out
