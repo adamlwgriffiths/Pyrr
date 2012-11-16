@@ -1,8 +1,8 @@
-'''
-Created on 23/06/2011
-
-@author: adam
-'''
+"""
+TODO: provide apply_to_vector3
+TODO: provide apply_to_vector4
+TODO: map apply_to_vector to either 3 or 4 depending on size
+"""
 
 import math
 
@@ -138,9 +138,28 @@ def create_from_scale( scale, out = None ):
     return out
 
 def apply_to_vector( vector, matrix, out = None ):
-    # we'll use Matrix33 for our conversion
-    mat33 = matrix[ 0:3, 0:3 ]
-    return matrix33.apply_to_vector( vector, mat33, out )
+    """
+    Rotates and translates a vector by the specified matrix.
+
+    For the time being, this only supports vectors of size 3.
+    """
+    if out == None:
+        out = numpy.empty( 3, dtype = numpy.float )
+    
+    x = vector[ 0 ]
+    y = vector[ 1 ]
+    z = vector[ 2 ]
+    w = 1.0
+    
+    out[:] = [
+        # x = m11 * v.x + m21 * v.y + m31 * v.z + m41 * v.w
+        (matrix[0,0] * x) + (matrix[1,0] * y) + (matrix[2,0] * z) + (matrix[3,0] * w),
+        # y = m12 * v.x + m22 * v.y + m32 * v.z + m42 * v.w
+        (matrix[0,1] * x) + (matrix[1,1] * y) + (matrix[2,1] * z) + (matrix[3,1] * w),
+        # z = m13 * v.x + m23 * v.y + m33 * v.z + m43 * v.w
+        (matrix[0,2] * x) + (matrix[1,2] * y) + (matrix[2,2] * z) + (matrix[3,2] * w)
+        ]
+    return out
 
 def multiply( m1, m2, out = None ):
     """
