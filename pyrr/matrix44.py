@@ -140,9 +140,7 @@ def create_from_scale( scale, out = None ):
 def apply_to_vector( vector, matrix, out = None ):
     # we'll use Matrix33 for our conversion
     mat33 = matrix[ 0:3, 0:3 ]
-    matrix33.apply_to_vector( vector, mat33, out )
-    
-    return out
+    return matrix33.apply_to_vector( vector, mat33, out )
 
 def multiply( m1, m2, out = None ):
     """
