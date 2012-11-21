@@ -11,19 +11,27 @@ import numpy
 import vector
 
 
-w = 0
-x = 1
-y = 2
-z = 3
+x = 0
+y = 1
+z = 2
+w = 3
 
 def _empty():
     return numpy.empty( 4, dtype = float )
 
+def create( x, y, z, w ):
+    return numpy.array( [ x, y, z, w ], dtype = float )
+
 def identity( out = None ):
     if out == None:
         out = _empty()
-    
-    out[:] = [ 1.0, 0.0, 0.0, 0.0 ]
+
+    qw = 1.0
+    qx = 0.0
+    qy = 0.0
+    qz = 0.0
+
+    out[:] = [ qx, qy, qz, qw ]
     return out
 
 def set_to_rotation_about_x( theta, out = None ):
@@ -31,12 +39,12 @@ def set_to_rotation_about_x( theta, out = None ):
         out = _empty()
     
     thetaOver2 = theta * 0.5
-    out[:] = [
-        math.cos( thetaOver2 ),
-        math.sin( thetaOver2 ),
-        0,
-        0
-        ]
+    qw = math.cos( thetaOver2 )
+    qx = math.sin( thetaOver2 )
+    qy = 0.0
+    qz = 0.0
+
+    out[:] = [ qx, qy, qz, qw ]
     return out
 
 def set_to_rotation_about_y( theta, out = None ):
@@ -44,12 +52,13 @@ def set_to_rotation_about_y( theta, out = None ):
         out = _empty()
     
     thetaOver2 = theta * 0.5
-    out[:] = [
-        math.cos( thetaOver2 ),
-        0,
-        math.sin( thetaOver2 ),
-        0
-        ]
+    qw = math.cos( thetaOver2 )
+    qx = 0.0
+    qy = math.sin( thetaOver2 )
+    qz = 0.0
+
+    out[:] = [ qx, qy, qz, qw ]
+
     return out
 
 def set_to_rotation_about_z( theta, out = None ):
@@ -57,12 +66,13 @@ def set_to_rotation_about_z( theta, out = None ):
         out = _empty()
     
     thetaOver2 = theta * 0.5
-    out[:] = [
-        math.cos( thetaOver2 ),
-        0,
-        0,
-        math.sin( thetaOver2 )
-        ]
+
+    qw = math.cos( thetaOver2 )
+    qx = 0.0
+    qy = 0.0
+    qz = math.sin( thetaOver2 )
+
+    out[:] = [ qx, qy, qz, qw ]
     return out
 
 def set_to_rotation_about_axis( axis, theta, out = None ):
@@ -75,66 +85,80 @@ def set_to_rotation_about_axis( axis, theta, out = None ):
     thetaOver2 = theta * 0.5
     sinThetaOver2 = math.sin( thetaOver2 )
     
-    out[:] = [
-        math.cos( thetaOver2 ),
-        axis[ 0 ] * sinThetaOver2,
-        axis[ 1 ] * sinThetaOver2,
-        axis[ 2 ] * sinThetaOver2
-        ]
+    qw = math.cos( thetaOver2 )
+    qx = axis[ 0 ] * sinThetaOver2
+    qy = axis[ 1 ] * sinThetaOver2
+    qz = axis[ 2 ] * sinThetaOver2
+
+    out[:] = [ qx, qy, qz, qw ]
     return out
 
 def create_from_eulers( eulers, out = None ):
+    """
+    Creates a quaternion from a set of Euler angles.
+
+    Eulers are an array of length 3 in the following order:
+        [ yaw, pitch, roll ]
+    """
     if out == None:
         out = _empty()
     
-    pitchOver2 = eulers[ 0 ] * 0.5
-    rollOver2 = eulers[ 1 ] * 0.5
-    yawOver2 = eulers[ 2 ] * 0.5
+    halfYaw = eulers[ 0 ] * 0.5
+    sinYaw = math.sin( halfYaw )
+    cosYaw = math.cos( halfYaw )
+
+    halfPitch = eulers[ 1 ] * 0.5
+    sinPitch = math.sin( halfPitch )
+    cosPitch = math.cos( halfPitch )
+
+    halfRoll = eulers[ 2 ] * 0.5
+    sinRoll = math.sin( halfRoll )
+    cosRoll = math.cos( halfRoll )
     
-    sinPitch = math.sin( pitchOver2 )
-    cosPitch = math.cos( pitchOver2 )
-    sinRoll = math.sin( rollOver2 )
-    cosRoll = math.cos( rollOver2 )
-    sinYaw = math.sin( yawOver2 )
-    cosYaw = math.cos( yawOver2 )
-    
-    out[:] = [
-        # cy * cp * cr + sy * sp * sr
-        (cosYaw * cosPitch * cosRoll) + (sinYaw * sinPitch * sinRoll), 
-        # -cy * sp * cr - sy * cp * sr
-        (-cosYaw * sinPitch * cosRoll) - (sinYaw * cosPitch * sinRoll),
-        # cy * sp * sr - sy * cp * cr
-        (cosYaw * sinPitch * sinRoll) - (sinYaw * cosPitch * cosRoll),
-        # sy * sp * cr - cy * cp * sr
-        (sinYaw * sinPitch * cosRoll) - (cosYaw * cosPitch * sinRoll)
-        ]
+    # cy * cp * cr + sy * sp * sr
+    qw = (cosYaw * cosPitch * cosRoll) + (sinYaw * sinPitch * sinRoll) 
+    # -cy * sp * cr - sy * cp * sr
+    qx = (-cosYaw * sinPitch * cosRoll) - (sinYaw * cosPitch * sinRoll)
+    # cy * sp * sr - sy * cp * cr
+    qy = (cosYaw * sinPitch * sinRoll) - (sinYaw * cosPitch * cosRoll)
+    # sy * sp * cr - cy * cp * sr
+    qz = (sinYaw * sinPitch * cosRoll) - (cosYaw * cosPitch * sinRoll)
+
+    out[:] = [ qx, qy, qz, qw ]
     return out
 
 def create_from_inverse_of_eulers( eulers, out = None ):
+    """
+    Creates a quaternion from the inverse of a set of Euler angles.
+
+    Eulers are an array of length 3 in the following order:
+        [ yaw, pitch, roll ]
+    """
     if out == None:
         out = _empty()
     
-    pitchOver2 = eulers[ 0 ] * 0.5
-    rollOver2 = eulers[ 1 ] * 0.5
-    yawOver2 = eulers[ 2 ] * 0.5
+    halfYaw = eulers[ 0 ] * 0.5
+    sinYaw = math.sin( halfYaw )
+    cosYaw = math.cos( halfYaw )
+
+    halfPitch = eulers[ 1 ] * 0.5
+    sinPitch = math.sin( halfPitch )
+    cosPitch = math.cos( halfPitch )
     
-    sinPitch = math.sin( pitchOver2 )
-    cosPitch = math.cos( pitchOver2 )
-    sinRoll = math.sin( rollOver2 )
-    cosRoll = math.cos( rollOver2 )
-    sinYaw = math.sin( yawOver2 )
-    cosYaw = math.cos( yawOver2 )
+    halfRoll = eulers[ 2 ] * 0.5
+    sinRoll = math.sin( halfRoll )
+    cosRoll = math.cos( halfRoll )
     
-    out[:] = [
-        # cy * cp * cr + sy * sp * sr
-        (cosYaw * cosPitch * cosRoll) + (sinYaw * sinPitch * sinRoll),
-        # cy * sp * cr + sy * cp * sr
-        (cosYaw * sinPitch * cosRoll) + (sinYaw * cosPitch * sinRoll),
-        # -cy * sp * sr + sy * cp * cr
-        (-cosYaw * sinPitch * sinRoll) + (sinYaw * cosPitch * cosRoll),
-        # -sy * sp * cr + cy * cp * sr
-        (-sinYaw * sinPitch * cosRoll) + (cosYaw * cosPitch * sinRoll)
-        ]
+    # cy * cp * cr + sy * sp * sr
+    qw = (cosYaw * cosPitch * cosRoll) + (sinYaw * sinPitch * sinRoll)
+    # cy * sp * cr + sy * cp * sr
+    qx = (cosYaw * sinPitch * cosRoll) + (sinYaw * cosPitch * sinRoll)
+    # -cy * sp * sr + sy * cp * cr
+    qy = (-cosYaw * sinPitch * sinRoll) + (sinYaw * cosPitch * cosRoll)
+    # -sy * sp * cr + cy * cp * sr
+    qz = (-sinYaw * sinPitch * cosRoll) + (cosYaw * cosPitch * sinRoll)
+
+    out[:] = [ qx, qy, qz, qw ]
     return out
 
 def cross( quat1, quat2, out = None ):
@@ -147,20 +171,16 @@ def cross( quat1, quat2, out = None ):
     if out == None:
         out = _empty()
 
-    out[:] = [
-        # q1.w * q2.w - q1.x * q2.x - q1.y * q2.y - q1.z * q2.z
-        (quat1[ w ] * quat2[ w ]) - (quat1[ x ] * quat2[ x ]) - \
-            (quat1[ y ] * quat2[ y ]) - (quat1[ z ] * quat2[ z ]),
-        # q1.w * q2.x + q1.x * q2.w + q1.z * q2.y - q1.y * q2.z 
-        (quat1[ w ] * quat2[ x ]) + (quat1[ x ] * quat2[ w ]) + \
-            (quat1[ z ] * quat2[ y ]) - (quat1[ y ] * quat2[ z ]),
-        # q1.w * q2.y + q1.y * q2.w + q1.x * q2.z - q1.z * q2.x
-        (quat1[ w ] * quat2[ y ]) + (quat1[ y ] * quat2[ w ]) + \
-            (quat1[ x ] * quat2[ z ]) - (quat1[ z ] * quat2[ x ]),
-        # q1.w * q2.z + q1.z * q2.w + q1.y * q2.x - q1.x * q2.y
-        (quat1[ w ] * quat2[ z ]) + (quat1[ z ] * quat2[ w ]) + \
-            (quat1[ y ] * quat2[ x ]) - (quat1[ x ] * quat2[ y ]), 
-        ]
+    # q1.w * q2.w - q1.x * q2.x - q1.y * q2.y - q1.z * q2.z
+    qw = (quat1[ w ] * quat2[ w ]) - (quat1[ x ] * quat2[ x ]) - (quat1[ y ] * quat2[ y ]) - (quat1[ z ] * quat2[ z ])
+    # q1.w * q2.x + q1.x * q2.w + q1.z * q2.y - q1.y * q2.z 
+    qx = (quat1[ w ] * quat2[ x ]) + (quat1[ x ] * quat2[ w ]) + (quat1[ z ] * quat2[ y ]) - (quat1[ y ] * quat2[ z ])
+    # q1.w * q2.y + q1.y * q2.w + q1.x * q2.z - q1.z * q2.x
+    qy = (quat1[ w ] * quat2[ y ]) + (quat1[ y ] * quat2[ w ]) + (quat1[ x ] * quat2[ z ]) - (quat1[ z ] * quat2[ x ])
+    # q1.w * q2.z + q1.z * q2.w + q1.y * q2.x - q1.x * q2.y
+    qz = (quat1[ w ] * quat2[ z ]) + (quat1[ z ] * quat2[ w ]) + (quat1[ y ] * quat2[ x ]) - (quat1[ x ] * quat2[ y ])
+
+    out[:] = [ qx, qy, qz, qw ]
     return out
 
 def is_zero_length( quat ):
@@ -195,12 +215,7 @@ def squared_length( quat ):
     @param quat: The quaternion to measure.
     @return: The squared length of the quaternion.
     """
-    return (
-        quat[ w ]**2 + \
-        quat[ x ]**2 + \
-        quat[ y ]**2 + \
-        quat[ z ]**2
-        )
+    return quat[ w ]**2 + quat[ x ]**2 + quat[ y ]**2 + quat[ z ]**2
 
 def length( quat ):
     """
@@ -210,12 +225,7 @@ def length( quat ):
     @param quat: The quaternion to measure.
     @return: The length of the quaternion.
     """
-    return math.sqrt(
-        quat[ w ]**2 + \
-        quat[ x ]**2 + \
-        quat[ y ]**2 + \
-        quat[ z ]**2
-        )
+    return math.sqrt( quat[ w ]**2 + quat[ x ]**2 + quat[ y ]**2 + quat[ z ]**2 )
 
 def normalise( quat ):
     """
@@ -226,9 +236,8 @@ def normalise( quat ):
     if mag > 0.0:
         quat /= numpy.linalg.norm( quat, ord = None )
     else:
-        raise ValueError(
-            "Cannot normalise zero length quaternion"
-            )
+        raise ValueError( "Cannot normalise zero length quaternion" )
+
     return quat
 
 def get_rotation_angle( quat ):
@@ -239,7 +248,7 @@ def get_rotation_axis( quat, out = None ):
     if out == None:
         out = numpy.empty( 3, dtype = float )
     
-    sinThetaOver2Sq = 1.0 - (quat[ w ]**quat[ w ])
+    sinThetaOver2Sq = 1.0 - ( quat[ w ] * quat[ w ] )
     
     if sinThetaOver2Sq <= 0.0:
         # assert here for the time being
@@ -262,11 +271,12 @@ def get_rotation_axis( quat, out = None ):
     return out
 
 def dot_product( quat1, quat2 ):
-    return \
+    return (
         (quat1[ w ] * quat2[ w ]) + \
         (quat1[ x ] * quat2[ x ]) + \
         (quat1[ y ] * quat2[ y ]) + \
         (quat1[ z ] * quat2[ z ])
+        )
 
 def conjugate( quat, out = None ):
     """
@@ -275,12 +285,12 @@ def conjugate( quat, out = None ):
     if out == None:
         out = _empty()
     
-    out[:] = [
-        quat[ w ],
-        -quat[ x ],
-        -quat[ y ],
-        -quat[ z ]
-        ]
+    qw = quat[ w  ]
+    qx = -quat[ x ]
+    qy = -quat[ y ]
+    qz = -quat[ z ]
+
+    out[:] = [ qx, qy, qz, qw ]
     return out
 
 def power( quat, exponent, out = None ):
@@ -300,12 +310,12 @@ def power( quat, exponent, out = None ):
     newAlpha = alpha * exponent
     multi = math.sin( newAlpha ) / math.sin( alpha )
     
-    out[:] = [
-        math.cos( newAlpha ),
-        quat[ x ] * multi,
-        quat[ y ] * multi,
-        quat[ z ] * multi
-        ]
+    qw = math.cos( newAlpha )
+    qx = quat[ x ] * multi
+    qy = quat[ y ] * multi
+    qz = quat[ z ] * multi
+
+    out[:] = [ qx, qy, qz, qw ]
     return out
 
 def inverse( quat, out = None ):
@@ -320,7 +330,9 @@ def inverse( quat, out = None ):
     @return: Returns the inverse quaternion.
     """
     out = conjugate( quat, out )
-    return out / length( quat )
+    out /= length( quat )
+
+    return out
 
 def negate( quat, out = None ):
     if out == None:
@@ -328,6 +340,7 @@ def negate( quat, out = None ):
 
     out[:] = quat
     out *= -1.0
+
     return out
 
 def apply_to_vector( quat, vec ):
@@ -338,7 +351,7 @@ def apply_to_vector( quat, vec ):
     http://content.gpwiki.org/index.php/OpenGL:Tutorials:Using_Quaternions_to_represent_rotation
     """
     # create a new quaternion
-    vq = numpy.array( [ 0.0, vec[ 0 ], vec[ 1 ], vec[ 2 ] ], dtype = float )
+    vq = create( w = 0.0, x = vec[ 0 ], y = vec[ 1 ], z = vec[ 2 ] )
 
     # quat * vec * quat^-1
     result = cross( quat, cross( vq, conjugate( quat ) ) )
