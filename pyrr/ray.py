@@ -24,16 +24,18 @@ import vector
 
 # the indices of each component in the
 # ray array
-origin = 0
-direction = 1
+class index:
+    origin = 0
+    direction = 1
 
 def create_ray( start, direction, out = None ):
     if out == None:
         out = numpy.empty( (2,3), dtype = numpy.float )
+        
     out[:] = [ start, direction ]
 
     # normalise the ray length
-    vector.normalise( out[ 1 ] )
+    vector.normalise( out[ 1 ], out = out[ 1 ] )
 
     return out
 
@@ -49,7 +51,7 @@ def create_from_line( line, out = None ):
     out[ 1 ] = line[ 1 ] - line[ 0 ]
 
     # normalise the ray length
-    vector.normalise( out[ 1 ] )
+    vector.normalise( out[ 1 ], out = out[ 1 ] )
 
     return out
 

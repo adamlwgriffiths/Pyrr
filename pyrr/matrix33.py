@@ -83,10 +83,10 @@ def create_from_quaternion( quat, out = None ):
     if out == None:
         out = _empty()
     
-    x = quat[ quaternion.x ]
-    y = quat[ quaternion.y ]
-    z = quat[ quaternion.z ]
-    w = quat[ quaternion.w ]
+    x = quat[ 0 ]
+    y = quat[ 1 ]
+    z = quat[ 2 ]
+    w = quat[ 3 ]
 
     y2 = y**2
     x2 = x**2
@@ -137,20 +137,20 @@ def create_from_inverse_of_quaternion( quat, out = None ):
     if out == None:
         out = _empty()
     
-    x = quat[ quaternion.x ]
-    y = quat[ quaternion.y ]
-    z = quat[ quaternion.z ]
-    w = quat[ quaternion.w ]
+    x = quat[ 0 ]
+    y = quat[ 1 ]
+    z = quat[ 2 ]
+    w = quat[ 3 ]
 
     x2 = x**2
     y2 = y**2
     z2 = z**2
-    xy = x * y
-    xz = x * z
-    yz = y * z
     wx = w * x
     wy = w * y
+    xy = x * y
     wz = w * z
+    xz = x * z
+    yz = y * z
     
     out[:] = [
         # m1
@@ -176,7 +176,7 @@ def create_from_inverse_of_quaternion( quat, out = None ):
             # m31 = 2.0 * (q.x * q.z - q.w * q.y)
             2.0 * (xz - wy),
             # m32 = 2.0 * (q.y * q.z + q.w * q.x)
-            2.0 * ( yz - wx),
+            2.0 * (yz - wx),
             # m33 = 1.0 - 2.0 * (q.x * q.x + q.y * q.y)
             1.0 - 2.0 * (x2 + y2)
             ]
@@ -206,11 +206,11 @@ def apply_to_vector( vector, matrix, out = None ):
     
     out[:] = [
         # x = m11 * v.x + m21 * v.y + m31 * v.z
-        (matrix[ (0, 0) ] * x) + (matrix[ (1, 0) ] * y) + (matrix[ (2, 0) ] * z),
+        (matrix[0,0] * x) + (matrix[1,0] * y) + (matrix[2,0] * z),
         # y = m12 * v.x + m22 * v.y + m32 * v.z
-        (matrix[ (0, 1) ] * x) + (matrix[ (1, 1) ] * y) + (matrix[ (2, 1) ] * z),
+        (matrix[0,1] * x) + (matrix[1,1] * y) + (matrix[2,1] * z),
         # z = m13 * v.x + m23 * v.y + m33 * v.z
-        (matrix[ (0, 2) ] * x) + (matrix[ (1, 2) ] * y) + (matrix[ (2, 2) ] * z)
+        (matrix[0,2] * x) + (matrix[1,2] * y) + (matrix[2,2] * z)
         ]
     return out
 
