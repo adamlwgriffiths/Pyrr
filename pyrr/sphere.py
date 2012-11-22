@@ -9,6 +9,9 @@ a radius (float).
 
 import numpy
 
+class index:
+    position = 0
+    radius = 1
 
 def create_from_points( points ):
     """
