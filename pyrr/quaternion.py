@@ -333,11 +333,11 @@ def power( quat, exponent, out = None ):
     
     out[:] = [
         # x
-        quat[ index.x ] * multi
+        quat[ index.x ] * multi,
         # y
-        quat[ index.y ] * multi
+        quat[ index.y ] * multi,
         # z
-        quat[ index.z ] * multi
+        quat[ index.z ] * multi,
         # w
         math.cos( newAlpha )
         ]
