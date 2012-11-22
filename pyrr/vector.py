@@ -31,7 +31,7 @@ def create_unit_length_z( out = None ):
     out[:] = [ 0.0, 0.0, 1.0 ]
     return out
 
-def normalise( vec ):
+def normalise( vec, out = None ):
     """
     Normalises an Nd list of vectors or a single vector
     to unit length.
@@ -45,15 +45,11 @@ def normalise( vec ):
     This value will be updated in place.
     @return the normalised value
     """
-    lengths = numpy.apply_along_axis(
-        numpy.linalg.norm,
-        vec.ndim - 1,
-        vec
-        )
-    shape = list( vec.shape )
-    shape[ -1 ] = 1
-    vec /= lengths.reshape( shape )
-    return vec
+    if out == None:
+        out = numpy.empty_like( vec )
+
+    out = vec / length( vec )
+    return out
 
 def squared_length( vec ):
     """
@@ -61,7 +57,7 @@ def squared_length( vec ):
     Useful when trying to avoid the performance
     penalty of a square root operation.
     """
-    lengths = numpy.sum( vec * vec, axis = -1 )
+    lengths = numpy.sum( vec ** 2, axis = -1 )
 
     return lengths
 
@@ -90,7 +86,7 @@ def length( vec ):
 
     return lengths
 
-def set_length( vec, length ):
+def set_length( vec, length, out = None ):
     """
     Changes the length of an Nd list of vectors or
     a single vector to 'length'.
@@ -104,24 +100,20 @@ def set_length( vec, length ):
     This value will be updated in place.
     @return the updated vectors
     """
-    lengths = numpy.apply_along_axis(
-        numpy.linalg.norm,
-        vec.ndim - 1,
-        vec
-        )
-    shape = list( vec.shape )
-    shape[ -1 ] = 1
-    lengths.reshape( shape )
+    if out == None:
+        out = numpy.empty_like( vec )
 
-    scale = numpy.empty_like( lengths )
+    lengths = length( vec )
+
+    scale = numpy.empty_like( lengths ).reshape( shape )
     scale.fill( length )
     scale /= lengths
 
-    vec *= scale.reshape( shape )
+    out[:] = vec * scale
 
-    return vec
+    return out
 
-def dot( a, b ):
+def dot( v1, v2 ):
     """
     @param a: an Nd array with the final dimension
     being size 3. (a vector)
@@ -129,16 +121,16 @@ def dot( a, b ):
     being size 3 (a vector)
     @return: the dot product of vectors a and b.
     """
-    return numpy.sum( a * b, axis = -1 )
+    return numpy.sum( v1 * v2, axis = -1 )
 
-def cross( vector1, vector2 ):
+def cross( v1, v2 ):
     """
     @param vector1: an Nd array with 3 elements (a vector)
     @param vector2: an Nd array with 3 elements (a vector)
     (eg. numpy.array( [ x, y, z ]) )
     (eg. numpy.array( [ [ x1, y1, z1 ], [x2, y2, z2] ]) )
     """
-    return numpy.cross( vector1, vector2 )
+    return numpy.cross( v1, v2 )
 
 def interpolate( v1, v2, delta ):
     """
