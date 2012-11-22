@@ -11,10 +11,11 @@ import numpy
 import vector
 
 
-x = 0
-y = 1
-z = 2
-w = 3
+class index:
+    x = 0
+    y = 1
+    z = 2
+    w = 3
 
 def _empty():
     return numpy.empty( 4, dtype = float )
@@ -26,12 +27,7 @@ def identity( out = None ):
     if out == None:
         out = _empty()
 
-    qw = 1.0
-    qx = 0.0
-    qy = 0.0
-    qz = 0.0
-
-    out[:] = [ qx, qy, qz, qw ]
+    out[:] = [ 0.0, 0.0, 0.0, 1.0 ]
     return out
 
 def set_to_rotation_about_x( theta, out = None ):
@@ -39,12 +35,17 @@ def set_to_rotation_about_x( theta, out = None ):
         out = _empty()
     
     thetaOver2 = theta * 0.5
-    qw = math.cos( thetaOver2 )
-    qx = math.sin( thetaOver2 )
-    qy = 0.0
-    qz = 0.0
 
-    out[:] = [ qx, qy, qz, qw ]
+    out[:] = [
+        # x
+        math.sin( thetaOver2 ),
+        # y
+        0.0,
+        # z
+        0.0,
+        # w
+        math.cos( thetaOver2 )
+        ]
     return out
 
 def set_to_rotation_about_y( theta, out = None ):
@@ -52,12 +53,17 @@ def set_to_rotation_about_y( theta, out = None ):
         out = _empty()
     
     thetaOver2 = theta * 0.5
-    qw = math.cos( thetaOver2 )
-    qx = 0.0
-    qy = math.sin( thetaOver2 )
-    qz = 0.0
 
-    out[:] = [ qx, qy, qz, qw ]
+    out[:] = [
+        # x
+        0.0,
+        # y
+        math.sin( thetaOver2 ),
+        # z
+        0.0,
+        # w
+        math.cos( thetaOver2 )
+        ]
 
     return out
 
@@ -67,12 +73,16 @@ def set_to_rotation_about_z( theta, out = None ):
     
     thetaOver2 = theta * 0.5
 
-    qw = math.cos( thetaOver2 )
-    qx = 0.0
-    qy = 0.0
-    qz = math.sin( thetaOver2 )
-
-    out[:] = [ qx, qy, qz, qw ]
+    out[:] = [
+        # x
+        0.0,
+        # y
+        0.0,
+        # z
+        math.sin( thetaOver2 ),
+        # w
+        math.cos( thetaOver2 )
+        ]
     return out
 
 def set_to_rotation_about_axis( axis, theta, out = None ):
@@ -85,12 +95,16 @@ def set_to_rotation_about_axis( axis, theta, out = None ):
     thetaOver2 = theta * 0.5
     sinThetaOver2 = math.sin( thetaOver2 )
     
-    qw = math.cos( thetaOver2 )
-    qx = axis[ 0 ] * sinThetaOver2
-    qy = axis[ 1 ] * sinThetaOver2
-    qz = axis[ 2 ] * sinThetaOver2
-
-    out[:] = [ qx, qy, qz, qw ]
+    out[:] = [
+        # x
+        axis[ 0 ] * sinThetaOver2,
+        # y
+        axis[ 1 ] * sinThetaOver2,
+        # z
+        axis[ 2 ] * sinThetaOver2,
+        # w
+        math.cos( thetaOver2 )
+        ]
     return out
 
 def create_from_eulers( eulers, out = None ):
@@ -115,16 +129,16 @@ def create_from_eulers( eulers, out = None ):
     sinRoll = math.sin( halfRoll )
     cosRoll = math.cos( halfRoll )
     
-    # cy * cp * cr + sy * sp * sr
-    qw = (cosYaw * cosPitch * cosRoll) + (sinYaw * sinPitch * sinRoll) 
-    # -cy * sp * cr - sy * cp * sr
-    qx = (-cosYaw * sinPitch * cosRoll) - (sinYaw * cosPitch * sinRoll)
-    # cy * sp * sr - sy * cp * cr
-    qy = (cosYaw * sinPitch * sinRoll) - (sinYaw * cosPitch * cosRoll)
-    # sy * sp * cr - cy * cp * sr
-    qz = (sinYaw * sinPitch * cosRoll) - (cosYaw * cosPitch * sinRoll)
-
-    out[:] = [ qx, qy, qz, qw ]
+    out[:] = [
+        # x = -cy * sp * cr - sy * cp * sr
+        (-cosYaw * sinPitch * cosRoll) - (sinYaw * cosPitch * sinRoll),
+        # y = cy * sp * sr - sy * cp * cr
+        (cosYaw * sinPitch * sinRoll) - (sinYaw * cosPitch * cosRoll),
+        # z = sy * sp * cr - cy * cp * sr
+        (sinYaw * sinPitch * cosRoll) - (cosYaw * cosPitch * sinRoll),
+        # w = cy * cp * cr + sy * sp * sr
+        (cosYaw * cosPitch * cosRoll) + (sinYaw * sinPitch * sinRoll) 
+        ]
     return out
 
 def create_from_inverse_of_eulers( eulers, out = None ):
@@ -149,16 +163,16 @@ def create_from_inverse_of_eulers( eulers, out = None ):
     sinRoll = math.sin( halfRoll )
     cosRoll = math.cos( halfRoll )
     
-    # cy * cp * cr + sy * sp * sr
-    qw = (cosYaw * cosPitch * cosRoll) + (sinYaw * sinPitch * sinRoll)
-    # cy * sp * cr + sy * cp * sr
-    qx = (cosYaw * sinPitch * cosRoll) + (sinYaw * cosPitch * sinRoll)
-    # -cy * sp * sr + sy * cp * cr
-    qy = (-cosYaw * sinPitch * sinRoll) + (sinYaw * cosPitch * cosRoll)
-    # -sy * sp * cr + cy * cp * sr
-    qz = (-sinYaw * sinPitch * cosRoll) + (cosYaw * cosPitch * sinRoll)
-
-    out[:] = [ qx, qy, qz, qw ]
+    out[:] = [
+        # x = cy * sp * cr + sy * cp * sr
+        (cosYaw * sinPitch * cosRoll) + (sinYaw * cosPitch * sinRoll),
+        # y = -cy * sp * sr + sy * cp * cr
+        (-cosYaw * sinPitch * sinRoll) + (sinYaw * cosPitch * cosRoll),
+        # z = -sy * sp * cr + cy * cp * sr
+        (-sinYaw * sinPitch * cosRoll) + (cosYaw * cosPitch * sinRoll),
+        # w = cy * cp * cr + sy * sp * sr
+        (cosYaw * cosPitch * cosRoll) + (sinYaw * sinPitch * sinRoll)
+        ]
     return out
 
 def cross( quat1, quat2, out = None ):
@@ -171,16 +185,19 @@ def cross( quat1, quat2, out = None ):
     if out == None:
         out = _empty()
 
-    # q1.w * q2.w - q1.x * q2.x - q1.y * q2.y - q1.z * q2.z
-    qw = (quat1[ w ] * quat2[ w ]) - (quat1[ x ] * quat2[ x ]) - (quat1[ y ] * quat2[ y ]) - (quat1[ z ] * quat2[ z ])
-    # q1.w * q2.x + q1.x * q2.w + q1.z * q2.y - q1.y * q2.z 
-    qx = (quat1[ w ] * quat2[ x ]) + (quat1[ x ] * quat2[ w ]) + (quat1[ z ] * quat2[ y ]) - (quat1[ y ] * quat2[ z ])
-    # q1.w * q2.y + q1.y * q2.w + q1.x * q2.z - q1.z * q2.x
-    qy = (quat1[ w ] * quat2[ y ]) + (quat1[ y ] * quat2[ w ]) + (quat1[ x ] * quat2[ z ]) - (quat1[ z ] * quat2[ x ])
-    # q1.w * q2.z + q1.z * q2.w + q1.y * q2.x - q1.x * q2.y
-    qz = (quat1[ w ] * quat2[ z ]) + (quat1[ z ] * quat2[ w ]) + (quat1[ y ] * quat2[ x ]) - (quat1[ x ] * quat2[ y ])
+    q1x, q1y, q1z, q1w = quat1
+    q2x, q2y, q2z, q2w = quat2
 
-    out[:] = [ qx, qy, qz, qw ]
+    out[:] = [
+        # x = q1.w * q2.x + q1.x * q2.w + q1.z * q2.y - q1.y * q2.z 
+        (q1w * q2x) + (q1x * q2w) + (q1z * q2y) - (q1y * q2z),
+        # y = q1.w * q2.y + q1.y * q2.w + q1.x * q2.z - q1.z * q2.x
+        (q1w * q2y) + (q1y * q2w) + (q1x * q2z) - (q1z * q2x),
+        # z = q1.w * q2.z + q1.z * q2.w + q1.y * q2.x - q1.x * q2.y
+        (q1w * q2z) + (q1z * q2w) + (q1y * q2x) - (q1x * q2y),
+        # w = q1.w * q2.w - q1.x * q2.x - q1.y * q2.y - q1.z * q2.z
+        (q1w * q2w) - (q1x * q2x) - (q1y * q2y) - (q1z * q2z)
+        ]
     return out
 
 def is_zero_length( quat ):
@@ -215,7 +232,7 @@ def squared_length( quat ):
     @param quat: The quaternion to measure.
     @return: The squared length of the quaternion.
     """
-    return quat[ w ]**2 + quat[ x ]**2 + quat[ y ]**2 + quat[ z ]**2
+    return quat[ 0 ]**2 + quat[ 1 ]**2 + quat[ 2 ]**2 + quat[ 3 ]**2
 
 def length( quat ):
     """
@@ -225,7 +242,7 @@ def length( quat ):
     @param quat: The quaternion to measure.
     @return: The length of the quaternion.
     """
-    return math.sqrt( quat[ w ]**2 + quat[ x ]**2 + quat[ y ]**2 + quat[ z ]**2 )
+    return math.sqrt( squared_length( quat ) )
 
 def normalise( quat ):
     """
@@ -241,14 +258,16 @@ def normalise( quat ):
     return quat
 
 def get_rotation_angle( quat ):
-    thetaOver2 = math.acos( quat[ w ] )
+    # extract the W component
+    thetaOver2 = math.acos( quat[ 3 ] )
     return thetaOver2 * 2.0
 
 def get_rotation_axis( quat, out = None ):
     if out == None:
         out = numpy.empty( 3, dtype = float )
     
-    sinThetaOver2Sq = 1.0 - ( quat[ w ] * quat[ w ] )
+    # extract W component
+    sinThetaOver2Sq = 1.0 - (quat[ 3 ] ** 2)
     
     if sinThetaOver2Sq <= 0.0:
         # assert here for the time being
@@ -256,26 +275,27 @@ def get_rotation_axis( quat, out = None ):
         print "rotation axis was identity"
         
         # identity quaternion or numerical imprecision.
-        # just return a valid vector
+        # return a valid vector
         # we'll treat -Z as the default
         out[:] = [ 0.0, 0.0, -1.0 ]
         return out
     
     oneOverSinThetaOver2 = 1.0 / math.sqrt( sinThetaOver2Sq )
     
+    # we use the x,y,z values
     out[:] = [
-        quat[ x ] * oneOverSinThetaOver2,
-        quat[ y ] * oneOverSinThetaOver2,
-        quat[ z ] * oneOverSinThetaOver2
+        quat[ 0 ] * oneOverSinThetaOver2,
+        quat[ 1 ] * oneOverSinThetaOver2,
+        quat[ 2 ] * oneOverSinThetaOver2
         ]
     return out
 
 def dot_product( quat1, quat2 ):
     return (
-        (quat1[ w ] * quat2[ w ]) + \
-        (quat1[ x ] * quat2[ x ]) + \
-        (quat1[ y ] * quat2[ y ]) + \
-        (quat1[ z ] * quat2[ z ])
+        (quat1[ 0 ] * quat2[ 0 ]) + \
+        (quat1[ 1 ] * quat2[ 1 ]) + \
+        (quat1[ 2 ] * quat2[ 2 ]) + \
+        (quat1[ 3 ] * quat2[ 3 ])
         )
 
 def conjugate( quat, out = None ):
@@ -285,12 +305,13 @@ def conjugate( quat, out = None ):
     if out == None:
         out = _empty()
     
-    qw = quat[ w  ]
-    qx = -quat[ x ]
-    qy = -quat[ y ]
-    qz = -quat[ z ]
-
-    out[:] = [ qx, qy, qz, qw ]
+    # invert x,y,z and leave w as is
+    out[:] = [
+        -quat[ 0 ],
+        -quat[ 1 ],
+        -quat[ 2 ],
+        quat[ 3 ]
+        ]
     return out
 
 def power( quat, exponent, out = None ):
@@ -306,16 +327,20 @@ def power( quat, exponent, out = None ):
         out[:] = quat
         return out
     
-    alpha = math.acos( quat[ w ] )
+    alpha = math.acos( quat[ index.w ] )
     newAlpha = alpha * exponent
     multi = math.sin( newAlpha ) / math.sin( alpha )
     
-    qw = math.cos( newAlpha )
-    qx = quat[ x ] * multi
-    qy = quat[ y ] * multi
-    qz = quat[ z ] * multi
-
-    out[:] = [ qx, qy, qz, qw ]
+    out[:] = [
+        # x
+        quat[ index.x ] * multi
+        # y
+        quat[ index.y ] * multi
+        # z
+        quat[ index.z ] * multi
+        # w
+        math.cos( newAlpha )
+        ]
     return out
 
 def inverse( quat, out = None ):
@@ -338,9 +363,7 @@ def negate( quat, out = None ):
     if out == None:
         out = _empty()
 
-    out[:] = quat
-    out *= -1.0
-
+    out[:] = quat * -1.0
     return out
 
 def apply_to_vector( quat, vec ):
@@ -351,10 +374,11 @@ def apply_to_vector( quat, vec ):
     http://content.gpwiki.org/index.php/OpenGL:Tutorials:Using_Quaternions_to_represent_rotation
     """
     # create a new quaternion
-    vq = create( w = 0.0, x = vec[ 0 ], y = vec[ 1 ], z = vec[ 2 ] )
+    vq = create( x = vec[ 0 ], y = vec[ 1 ], z = vec[ 2 ], w = 0.0 )
 
     # quat * vec * quat^-1
     result = cross( quat, cross( vq, conjugate( quat ) ) )
 
     # ignore w component
-    return result[ 1: ]
+    return result[ :-1 ]
+
