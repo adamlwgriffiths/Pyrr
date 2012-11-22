@@ -12,9 +12,10 @@ import vector
 
 # the indices of each component in the
 # plane array
-position = 0
-normal = 1
-up = 2
+class index:
+    position = 0
+    normal = 1
+    up = 2
 
 
 def _empty():
@@ -76,8 +77,9 @@ def create_from_position( position, normal, up, out = None ):
     out[ 1 ] = numpy.array( normal, dtype = float )
     out[ 2 ] = numpy.array( up, dtype = float )
     
-    vector.normalise( out[ 1 ] )
-    vector.normalise( out[ 2 ] )
+    # normalise the normal and up vectors
+    vector.normalise( out[ 1 ], out = out[ 1 ] )
+    vector.normalise( out[ 2 ], out = out[ 2 ] )
     
     if numpy.dot( out[ 1 ], out[ 2 ] ) != 0.0:
         raise ValueError( "Vectors are not co-planar" )
