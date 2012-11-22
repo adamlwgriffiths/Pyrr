@@ -83,10 +83,10 @@ def create_from_quaternion( quat, out = None ):
     if out == None:
         out = _empty()
     
-    w = quat[ 0 ]
-    x = quat[ 1 ]
-    y = quat[ 2 ]
-    z = quat[ 3 ]
+    x = quat[ 0 ]
+    y = quat[ 1 ]
+    z = quat[ 2 ]
+    w = quat[ 3 ]
     
     out[:] = [
         # m1
@@ -127,38 +127,48 @@ def create_from_inverse_of_quaternion( quat, out = None ):
     if out == None:
         out = _empty()
     
-    w = quat[ 0 ]
-    x = quat[ 1 ]
-    y = quat[ 2 ]
-    z = quat[ 3 ]
+    x = quat[ 0 ]
+    y = quat[ 1 ]
+    z = quat[ 2 ]
+    w = quat[ 3 ]
+
+    x2 = x**2
+    y2 = y**2
+    z2 = z**2
+    wx = w * x
+    wy = w * y
+    xy = x * y
+    wz = w * z
+    xz = x * z
+    yz = y * z
     
     out[:] = [
         # m1
         [
             # m11 = 1.0 - 2.0 * (q.y * q.y + q.z * q.z)
-            1.0 - 2.0 * (y * y + z * z),
+            1.0 - 2.0 * (y2 + z2),
             # m12 = 2.0 * (q.x * q.y - q.w * q.z)
-            2.0 * (x * y - w * z),
+            2.0 * (xy - wz),
             # m13 = 2.0 * ( q.x * q.z + q.w * q.y)
-            2.0 * (x * z + w * y)
+            2.0 * (xz + wy)
             ],
         # m2
         [
             # m21 = 2.0 * (q.x * q.y + q.w * q.z)
-            2.0 * (x * y + w * z),
+            2.0 * (xy + wz),
             # m22 = 1.0 - 2.0 * (q.x * q.x + q.z * q.z)
-            1.0 - 2.0 * (x * x + z * z),
+            1.0 - 2.0 * (x2 + z2),
             # m23 = 2.0 * (q.y * q.z - q.w * q.x)
-            2.0 * (y * z - w * x)
+            2.0 * (yz - wx)
             ],
         # m3
         [
             # m31 = 2.0 * (q.x * q.z - q.w * q.y)
-            2.0 * (x * z - w * y),
+            2.0 * (xz - wy),
             # m32 = 2.0 * (q.y * q.z + q.w * q.x)
-            2.0 * ( y * z - w * x),
+            2.0 * (yz - wx),
             # m33 = 1.0 - 2.0 * (q.x * q.x + q.y * q.y)
-            1.0 - 2.0 * (x * x + y * y)
+            1.0 - 2.0 * (x2 + y2)
             ]
         ]
     return out
@@ -186,11 +196,11 @@ def apply_to_vector( vector, matrix, out = None ):
     
     out[:] = [
         # x = m11 * v.x + m21 * v.y + m31 * v.z
-        (matrix[ (0, 0) ] * x) + (matrix[ (1, 0) ] * y) + (matrix[ (2, 0) ] * z),
+        (matrix[0,0] * x) + (matrix[1,0] * y) + (matrix[2,0] * z),
         # y = m12 * v.x + m22 * v.y + m32 * v.z
-        (matrix[ (0, 1) ] * x) + (matrix[ (1, 1) ] * y) + (matrix[ (2, 1) ] * z),
+        (matrix[0,1] * x) + (matrix[1,1] * y) + (matrix[2,1] * z),
         # z = m13 * v.x + m23 * v.y + m33 * v.z
-        (matrix[ (0, 2) ] * x) + (matrix[ (1, 2) ] * y) + (matrix[ (2, 2) ] * z)
+        (matrix[0,2] * x) + (matrix[1,2] * y) + (matrix[2,2] * z)
         ]
     return out
 
