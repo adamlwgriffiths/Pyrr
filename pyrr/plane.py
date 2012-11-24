@@ -18,10 +18,14 @@ class index:
     up = 2
 
 def identity():
+    """Creates a plane at the origin, with a normal of 0,0,1 and up of 0,1,0.
+
+    This is a plane that lies at the origin on the X,Y plane and faces +Z.
+    """
     return numpy.array(
         [
             [ 0.0, 0.0, 0.0 ],
-            [ 0.0, 0.0,-1.0 ],
+            [ 0.0, 0.0, 1.0 ],
             [ 0.0, 1.0, 0.0 ]
             ]
         )
@@ -93,8 +97,13 @@ def flip_normal( plane ):
 
     @return Returns the plane for convenience.
     """
-    plane[ 1 ] *= -1.0
-    return plane
+    return numpy.array(
+        [
+            plane[ 0 ],
+            plane[ 1 ] * -1.0,
+            plane[ 2 ]
+            ]
+        )
 
 def position( plane ):
     return plane[ 0 ]
