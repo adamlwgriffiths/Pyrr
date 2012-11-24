@@ -113,10 +113,7 @@ class test_geometric_tests( unittest.TestCase ):
         point = [ 0.0, 0.0 ]
         self.assertTrue(
             numpy.array_equal(
-                gt.point_intersect_rectangle(
-                    point,
-                    rect
-                    ),
+                gt.point_intersect_rectangle( point, rect ),
                 point
                 )
             )
@@ -124,10 +121,7 @@ class test_geometric_tests( unittest.TestCase ):
         point = [ 5.0, 5.0 ]
         self.assertTrue(
             numpy.array_equal(
-                gt.point_intersect_rectangle(
-                    point,
-                    rect
-                    ),
+                gt.point_intersect_rectangle( point, rect ),
                 point
                 )
             )
@@ -135,10 +129,7 @@ class test_geometric_tests( unittest.TestCase ):
         point = [ 1.0, 1.0 ]
         self.assertTrue(
             numpy.array_equal(
-                gt.point_intersect_rectangle(
-                    point,
-                    rect
-                    ),
+                gt.point_intersect_rectangle( point, rect ),
                 point
                 )
             )
@@ -146,10 +137,7 @@ class test_geometric_tests( unittest.TestCase ):
         point = [-1.0, 1.0 ]
         self.assertFalse(
             numpy.array_equal(
-                gt.point_intersect_rectangle(
-                    point,
-                    rect
-                    ),
+                gt.point_intersect_rectangle( point, rect ),
                 point
                 )
             )
@@ -157,10 +145,7 @@ class test_geometric_tests( unittest.TestCase ):
         point = [ 1.0, 10.0 ]
         self.assertFalse(
             numpy.array_equal(
-                gt.point_intersect_rectangle(
-                    point,
-                    rect
-                    ),
+                gt.point_intersect_rectangle( point, rect ),
                 point
                 )
             )
@@ -168,59 +153,55 @@ class test_geometric_tests( unittest.TestCase ):
         point = [ 1.0,-1.0 ]
         self.assertFalse(
             numpy.array_equal(
-                gt.point_intersect_rectangle(
-                    point,
-                    rect
-                    ),
+                gt.point_intersect_rectangle( point, rect ),
                 point
                 )
             )
 
-        def test_ray_intersect_aabb( self ):
-            # create an aabb that is
-            # 2, 2, 2 in dimensions
-            # and positioned at 0,0,-2
-            a = aabb.create_from_points(
-                numpy.array(
-                    [
-                        [-1.0,-1.0,-1.0 ],
-                        [ 1.0, 1.0,-3.0 ]
-                        ],
-                    dtype = numpy.float
-                    )
+    def test_ray_intersect_aabb( self ):
+        # create an aabb that is
+        # 2, 2, 2 in dimensions
+        # and positioned at 0,0,-2
+        a = aabb.create_from_points(
+            numpy.array(
+                [
+                    [-1.0,-1.0,-1.0 ],
+                    [ 1.0, 1.0,-3.0 ]
+                    ],
+                dtype = numpy.float
                 )
-            # create a ray at the origin
-            # pointing down -z
-            r = ray.create_ray(
-                [ 0.0, 0.0, 0.0 ],
+            )
+        # create a ray at the origin
+        # pointing down -z
+        r = ray.create_ray(
+            numpy.array([ 0.0, 0.0, 0.0 ]),
+            numpy.array([ 0.0, 0.0,-1.0 ])
+            )
+
+        intersection = gt.ray_intersect_aabb( r, a )
+        self.assertTrue(
+            numpy.array_equal(
+                intersection,
                 [ 0.0, 0.0,-1.0 ]
-                )
+                ),
+            "Ray vs AABB intersection incorrect"
+            )
 
-            intersection = gt.ray_intersect_aabb( r, o )
-            self.assertTrue(
-                numpy.array_equal(
-                    intersection,
-                    [ 0.0, 0.0,-1.0 ]
-                    ),
-                "Ray vs AABB intersection incorrect"
-                )
+        # create a ray at 0,0,20
+        # pointing down -z
+        r = ray.create_ray(
+            numpy.array( [ 0.0, 0.0,20.0 ] ),
+            numpy.array( [ 0.0, 0.0,-1.0 ] )
+            )
 
-            # create a ray at 0,0,20
-            # pointing down -z
-            r = ray.create_ray(
-                [ 0.0, 0.0,20.0 ],
+        intersection = gt.ray_intersect_aabb( r, a )
+        self.assertTrue(
+            numpy.array_equal(
+                intersection,
                 [ 0.0, 0.0,-1.0 ]
-                )
-
-            intersection = gt.ray_intersect_aabb( r, o )
-            self.assertTrue(
-                numpy.array_equal(
-                    intersection,
-                    [ 0.0, 0.0,-1.0 ]
-                    ),
-                "Ray vs AABB intersection incorrect"
-                )
-            print intersection
+                ),
+            "Ray vs AABB intersection incorrect"
+            )
 
 
 if __name__ == '__main__':

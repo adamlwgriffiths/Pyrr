@@ -6,7 +6,7 @@ import numpy
 from pyrr import rectangle
 
 
-class test_matrix44( unittest.TestCase ):
+class test_rectangle( unittest.TestCase ):
 
     def setUp( self ):
         pass
@@ -15,7 +15,7 @@ class test_matrix44( unittest.TestCase ):
         pass
 
     def test_zero( self ):
-        rect = rectangle.zero()
+        rect = rectangle.zeros()
 
         self.assertEqual(
             rect[ (0,0) ],

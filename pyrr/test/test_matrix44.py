@@ -4,6 +4,7 @@ import math
 import numpy
 
 from pyrr import matrix44
+from pyrr import quaternion
 
 
 class test_matrix44( unittest.TestCase ):
@@ -17,63 +18,53 @@ class test_matrix44( unittest.TestCase ):
     def test_identity( self ):
         mat = matrix44.identity()
 
-        for x in range( 4 ):
-            for y in range( 4 ):
-                if x == y:
-                    # assert the diagonal is 1.0
-                    self.assertEqual(
-                        mat[ x, y ],
-                        1.0,
-                        "Not an identity matrix"
-                        )
-                else:
-                    # all other values are 0.0
-                    self.assertEqual(
-                        mat[ x, y ],
-                        0.0,
-                        "Not an identity matrix"
-                        )
+        self.assertTrue(
+            numpy.array_equal(
+                mat,
+                numpy.eye( 4 )
+                ),
+            "Not an identity matrix"
+            )
 
     def test_create_from_translation( self ):
-        mat = matrix44.create_from_translation( [ 1.0, 2.0, 3.0 ] )
+        translation = numpy.array( [ 1.0, 2.0, 3.0 ])
+        mat = matrix44.create_from_translation( translation )
 
         # translation goes down the last column in normal matrix
-        self.assertEqual(
-            mat[ 3, 0 ],
-            1.0,
-            "Translation not set properly"
-            )
-        self.assertEqual(
-            mat[ 3, 1 ],
-            2.0,
-            "Translation not set properly"
-            )
-        self.assertEqual(
-            mat[ 3, 2 ],
-            3.0,
+        self.assertTrue(
+            numpy.array_equal( mat[ 3, 0:3 ], translation ),
             "Translation not set properly"
             )
 
     def test_create_from_scale( self ):
-        mat = matrix44.create_from_scale( [ 1.0, 2.0, 3.0 ] )
+        scale = numpy.array( [ 2.0, 3.0, 4.0 ] )
 
-        # scale
-        self.assertEqual(
-            mat[ 0, 0 ],
-            1.0,
-            "Scale not set properly"
-            )
-        self.assertEqual(
-            mat[ 1, 1 ],
-            2.0,
-            "Scale not set properly"
-            )
-        self.assertEqual(
-            mat[ 2, 2 ],
-            3.0,
+        mat = matrix44.create_from_scale( scale )
+
+        # extract the diagonal scale and ignore the last value
+        self.assertTrue(
+            numpy.array_equal( mat.diagonal()[ :-1 ], scale ),
             "Scale not set properly"
             )
 
+    def test_to_matrix33( self ):
+        mat = matrix44.identity()
+        mat = matrix44.to_matrix33( mat )
+
+        self.assertTrue(
+            numpy.array_equal( mat, numpy.eye( 3 ) ),
+            "Matrix33 not extracted properly"
+            )
+
+    def test_create_from_quaternion( self ):
+        # identity
+        quat = quaternion.identity()
+        mat = matrix44.create_from_quaternion( quat )
+
+        self.assertTrue(
+            numpy.array_equal( mat, numpy.eye( 4 ) ),
+            "Quaternion to Matrix conversion failed with identity quaternion"
+            )
     
 if __name__ == '__main__':
     unittest.main()
