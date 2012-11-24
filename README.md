@@ -5,14 +5,14 @@ Provides 3D mathematical functions using the power of NumPy.
 
 Features:
    * Matrix (3x3, 4x4)
-   * Quaternions
-   * Vectors
-   * Planes
+   * Quaternion
+   * Vector (3D, 4D)
+   * Plane
    * Ray
    * Line / Line Segment (3D)
    * Rectangle (2D)
-   * Axis Aligned Bounding Boxes (AABB / AAMBB)
-   * Geometric collision / intersection tests
+   * Axis Aligned Bounding Box (AABB / AAMBB)
+   * Geometric collision / intersection testing
 
 Installation
 ------------
