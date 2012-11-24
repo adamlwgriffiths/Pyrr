@@ -13,30 +13,21 @@ class index:
     position = 0
     size = 1
 
-def _empty( data_type = 'float' ):
-    return numpy.empty( 4, dtype = data_type )
+def zeros():
+    return numpy.zeros( (2,2) )
 
-def zero( out = None, data_type = 'float' ):
-    if out == None:
-        out = _empty( data_type )
-    
-    out[:] = [ [0.0, 0.0], [0.0, 0.0] ]
-    return out
-
-def create_from_bounds( left, right, bottom, top, out = None, data_type = 'float' ):
-    if out == None:
-        out = _empty( data_type )
-
+def create_from_bounds( left, right, bottom, top ):
     xmin = min( left, right )
     xmax = max( left, right )
     ymin = min( top, bottom )
     ymax = max( top, bottom )
 
-    out[:] = [
-        [ xmin, ymin ],
-        [ xmax - xmin, ymax - ymin ]
-        ]
-    return out
+    return numpy.array(
+        [
+            [ xmin, ymin ],
+            [ xmax - xmin, ymax - ymin ]
+            ]
+        )
 
 def bounds( rect ):
     left = rect[ 0,0 ]

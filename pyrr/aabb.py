@@ -20,19 +20,20 @@ TODO: add transform( matrix )
 import numpy
 
 
-def _empty():
-    return numpy.empty( (2,3), dtype = numpy.float )
+class index:
+    minimum = 0
+    maximum = 1
 
-def create_from_bounds( min, max, out = None ):
+def zeros():
+    return numpy.zeroes( (2,3) )
+
+def create_from_bounds( min, max):
     """ Creates an AABB using the specified minimum
     and maximum values.
     """
-    if out == None:
-        out = _empty()
+    return numpy.array( [ min, max ] )
 
-    out[:] = [ min, max ]
-
-def create_from_points( points, out = None ):
+def create_from_points( points ):
     """ Creates an AABB from the list of specified points.
 
     Points must be a 2D list. Ie:
@@ -41,14 +42,14 @@ def create_from_points( points, out = None ):
         [ x, y, z ],
     ]
     """
-    if out == None:
-        out = _empty()
+    return numpy.array(
+        [
+            numpy.amin( points, axis = 0 ),
+            numpy.amax( points, axis = 0 )
+            ]
+        )
 
-    numpy.amin( points, axis = 0, out = out[ 0 ] ),
-    numpy.amax( points, axis = 0, out = out[ 1 ] )
-    return out
-
-def create_from_aabbs( aabbs, out = None ):
+def create_from_aabbs( aabbs ):
     """ Creates an AABB from a list of existing AABBs.
 
     AABBs must be a 2D list. Ie:
@@ -61,35 +62,33 @@ def create_from_aabbs( aabbs, out = None ):
     points = aabbs.view()
     points.shape = (-1, 3 )
 
-    return create_from_points( points, out )
+    return create_from_points( points )
 
-def add_points( aabb, points, out = None ):
+def add_points( aabb, points ):
     """ Extends an AABB to encompass a list
     of points.
     """
-    if out == None:
-        out = _empty()
-
     # find the minimum and maximum point values
     minimum = numpy.amin( points, axis = 0 )
     maximum = numpy.amax( points, axis = 0 )
 
     # compare to existing AABB
-    numpy.minimum( aabb[ 0 ], minimum, out = out[ 0 ] )
-    numpy.maximum( aabb[ 1 ], maximum, out = out[ 1 ] )
+    return numpy.array(
+        [
+            numpy.minimum( aabb[ 0 ], minimum ),
+            numpy.maximum( aabb[ 1 ], maximum )
+            ]
+        )
 
-    return out
-
-def add_aabbs( aabb, aabbs, out = None ):
+def add_aabbs( aabb, aabbs ):
     """ Extend an AABB to encompass a list
     of other AABBs.
     """
     # convert to points and use our existing add_points
     # function
-    points = aabbs.view()
-    points.shape = (-1, 3)
+    points = aabbs.reshape( (-1, 3) )
 
-    return add_points( aabb, points, out )
+    return add_points( aabb, points )
 
 def centre_point( aabb ):
     """ Returns the centre point of the AABB.
@@ -106,13 +105,10 @@ def maximum( aabb ):
     """
     return aabb[ 1 ]
 
-def clamp_points( aabb, points, out = None ):
+def clamp_points( aabb, points ):
     """ Takes a list of points and modifies them to
     fit within the AABB.
     """
-    if out == None:
-        out = numpy.empty( 3, dtype = numpy.float )
-
     # we need to compare the points against our AABB.
     # minimum( point, AABB maximum )
     # maximum( point, AABB minimum )
@@ -145,8 +141,10 @@ def clamp_points( aabb, points, out = None ):
             (0, aabb[ 1 ].itemsize)
             )
 
-    numpy.maximum( points, aabb_min, out = out[ 0 ] )
-    numpy.minimum( points, aabb_max, out = out[ 1 ] )
-
-    return out
+    return numpy.array(
+        [
+            numpy.maximum( points, aabb_min ),
+            numpy.minimum( points, aabb_max )
+            ]
+        )
 

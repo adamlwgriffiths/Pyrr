@@ -11,24 +11,12 @@ import numpy
 import matrix33
 
 
-def _empty():
-    return numpy.empty( (4,4), dtype = numpy.float )
-
-def identity( out = None ):
+def identity():
     """
     Creates a new matrix44 and sets it to
     an identity matrix.
     """
-    if out == None:
-        out = numpy.identity( 4, dtype = numpy.float )
-    else:
-        out[:] = [
-            [ 1.0, 0.0, 0.0, 0.0 ],
-            [ 0.0, 1.0, 0.0, 0.0 ],
-            [ 0.0, 0.0, 1.0, 0.0 ],
-            [ 0.0, 0.0, 0.0, 1.0 ]
-            ]
-    return out
+    return numpy.identity( 4, dtype = 'float' )
 
 def to_matrix33( mat ):
     """
@@ -42,22 +30,22 @@ def to_matrix33( mat ):
     """
     return mat[ 0:3, 0:3 ]
 
-def create_from_eulers( eulers, out = None ):
+def create_from_eulers( eulers ):
     """
     Proper matrix layout and layout used for DirectX.
     For OpenGL, transpose the matrix after calling this.
     """
     # set to identity matrix
     # this will populate our extra rows for us
-    out = identity( out )
+    mat = identity()
     
     # we'll use Matrix33 for our conversion
-    mat33 = out[ 0:3, 0:3 ]
-    out[ 0:3, 0:3 ] = matrix33.create_from_eulers( eulers, mat33 )
+    mat33 = mat[ 0:3, 0:3 ]
+    mat[ 0:3, 0:3 ] = matrix33.create_from_eulers( eulers, mat33 )
     
-    return out
+    return mat
 
-def create_from_quaternion( quat, out = None ):
+def create_from_quaternion( quat ):
     """
     Creates a matrix that applies a quaternions translations.
 
@@ -71,15 +59,14 @@ def create_from_quaternion( quat, out = None ):
     """
     # set to identity matrix
     # this will populate our extra rows for us
-    out = identity( out )
+    mat = identity()
     
     # we'll use Matrix33 for our conversion
-    mat33 = out[ 0:3, 0:3 ]
-    matrix33.create_from_quaternion( quat, mat33 )
+    mat[ 0:3, 0:3 ] = matrix33.create_from_quaternion( quat )
     
-    return out
+    return mat
 
-def create_from_inverse_of_quaternion( quat, out = None ):
+def create_from_inverse_of_quaternion( quat ):
     """
     Creates a matrix that applies the inverse of a quaternion's
     translations.
@@ -94,15 +81,14 @@ def create_from_inverse_of_quaternion( quat, out = None ):
     """
     # set to identity matrix
     # this will populate our extra rows for us
-    out = identity( out )
+    mat = identity()
     
     # we'll use Matrix33 for our conversion
-    mat33 = out[ 0:3, 0:3 ]
-    matrix33.create_from_inverse_of_quaternion( quat, mat33 )
+    mat[ 0:3, 0:3 ] = matrix33.create_from_inverse_of_quaternion( quat )
     
-    return out
+    return mat
 
-def create_from_translation( vector, out = None ):
+def create_from_translation( vector ):
     """
     Creates an identity matrix with the translation set.
 
@@ -112,12 +98,11 @@ def create_from_translation( vector, out = None ):
     @return: Returns an identity matrix with the translation
     set to the specified vector.
     """
-    out = identity( out )
+    mat = identity()
+    mat[ 3, 0:3 ] = vector
+    return mat
 
-    out[ 3, 0:3 ] = vector
-    return out
-
-def create_from_scale( scale, out = None ):
+def create_from_scale( scale ):
     """
     Creates an identity matrix with the scale set.
 
@@ -127,39 +112,37 @@ def create_from_scale( scale, out = None ):
     @return: Returns an identity matrix with the scale 
     set to the specified vector.
     """
-    if out == None:
-        out = _empty()
-
     # we need to expand 'scale' into it's components
     # because numpy isn't flattening them properly.
-    out[:] = numpy.diagflat(
+    return numpy.diagflat(
         [ scale[ 0 ], scale[ 1 ], scale[ 2 ], 1.0 ]
-        )
-    return out
+        ).astype( 'float' )
 
-def apply_to_vector( vector, matrix, out = None ):
+def apply_to_vector( vector, matrix ):
     """
     Rotates and translates a vector by the specified matrix.
 
     For the time being, this only supports vectors of size 3.
     """
-    if out == None:
-        out = numpy.empty( 3, dtype = numpy.float )
-    
-    x = vector[ 0 ]
-    y = vector[ 1 ]
-    z = vector[ 2 ]
-    w = 1.0
-    
-    out[:] = [
-        # x = m11 * v.x + m21 * v.y + m31 * v.z + m41 * v.w
-        (matrix[0,0] * x) + (matrix[1,0] * y) + (matrix[2,0] * z) + (matrix[3,0] * w),
-        # y = m12 * v.x + m22 * v.y + m32 * v.z + m42 * v.w
-        (matrix[0,1] * x) + (matrix[1,1] * y) + (matrix[2,1] * z) + (matrix[3,1] * w),
-        # z = m13 * v.x + m23 * v.y + m33 * v.z + m43 * v.w
-        (matrix[0,2] * x) + (matrix[1,2] * y) + (matrix[2,2] * z) + (matrix[3,2] * w)
-        ]
-    return out
+    # convert to a vec4
+    vec = numpy.array(
+        [
+            vector[ 0 ],
+            vector[ 1 ],
+            vector[ 2 ],
+            1.0
+            ],
+        dtype = 'float'
+        )
+
+    vec = numpy.dot( matrix, vec )
+
+    # handle W value
+    if vec[-1] != 0.0:
+        vec /= vec[-1]
+
+    # convert back to vec3
+    return vec[:-1]
 
 def multiply( m1, m2, out = None ):
     """
@@ -172,11 +155,11 @@ def multiply( m1, m2, out = None ):
     @result: The new matrix formed from multiplying
     m1 with m2.
     """
-    if out == None:
-        out = _empty()
+    # using an input as the out value will cause corruption
+    if out == m1 or out == m2:
+        raise ValueError( "Output must not be one of the inputs, use assignment instead" )
 
-    out[:] = numpy.dot( m1, m2 )
-    return out
+    return numpy.dot( m1, m2, out = out )
 
 def create_projection_view_matrix(
     left,
@@ -184,8 +167,7 @@ def create_projection_view_matrix(
     top,
     bottom,
     near,
-    far,
-    out = None
+    far
     ):
     """
     http://www.gamedev.net/topic/264248-building-a-projection-matrix-without-api/
@@ -202,9 +184,6 @@ def create_projection_view_matrix(
     E = 2*near/(right-left)
     F = 2*near/(top-bottom)
     """
-    if out == None:
-        out = _empty()
-
     A = (right + left) / (right - left)
     B = (top + bottom) / (top - bottom)
     C = -(far + near) / (far - near)
@@ -212,14 +191,15 @@ def create_projection_view_matrix(
     E = 2.0 * near / (right - left)
     F = 2.0 * near / (top - bottom)
 
-    out[:] = [
-        [   E, 0.0, 0.0, 0.0 ],
-        [ 0.0,   F, 0.0, 0.0 ],
-        [   A,   B,   C,-1.0 ],
-        [ 0.0, 0.0,   D, 0.0 ],
-        ]
-
-    return out
+    return numpy.array(
+        [
+            [   E, 0.0, 0.0, 0.0 ],
+            [ 0.0,   F, 0.0, 0.0 ],
+            [   A,   B,   C,-1.0 ],
+            [ 0.0, 0.0,   D, 0.0 ],
+            ],
+            dtype = 'float'
+        )
 
 def create_orthogonal_view_matrix(
     left,
@@ -227,8 +207,7 @@ def create_orthogonal_view_matrix(
     top,
     bottom,
     near,
-    far,
-    out = None
+    far
     ):
     """
     http://msdn.microsoft.com/en-us/library/dd373965(v=vs.85).aspx
@@ -241,26 +220,19 @@ def create_orthogonal_view_matrix(
     B = 2 / (top - bottom)
     C = -2 / (far - near)
     """
-    if out == None:
-        out = _empty()
-
     A = 2 / (right - left)
     B = 2 / (top - bottom)
     C = -2 / (far - near)
 
-    out[:] = [
-        [   A, 0.0, 0.0, 0.0 ],
-        [ 0.0,   B, 0.0, 0.0 ],
-        [ 0.0, 0.0,   C, 0.0 ],
-        [ 0.0, 0.0, 0.0, 1.0 ],
-        ]
+    return numpy.array(
+        [
+            [   A, 0.0, 0.0, 0.0 ],
+            [ 0.0,   B, 0.0, 0.0 ],
+            [ 0.0, 0.0,   C, 0.0 ],
+            [ 0.0, 0.0, 0.0, 1.0 ],
+            ],
+            dtype = 'float'
+        )
 
-    return out
-
-def inverse( m, out = None ):
-    if out == None:
-        out = _empty()
-
-    out[:] = numpy.linalg.inv( m )
-
-    return out
+def inverse( m ):
+    return numpy.linalg.inv( m )

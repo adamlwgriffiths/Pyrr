@@ -11,27 +11,18 @@ import numpy
 
 
 def zeros():
-    return numpy.zeros( 3, dtype = numpy.float )
+    return numpy.zeros( 3 )
 
-def create_unit_length_x( out = None ):
-    if out == None:
-        out = numpy.empty( 3, dtype = numpy.float )
-    out[:] = [ 1.0, 0.0, 0.0 ]
-    return out
+def create_unit_length_x():
+    return numpy.array( [ 1.0, 0.0, 0.0 ] )
 
-def create_unit_length_y( out = None ):
-    if out == None:
-        out = numpy.empty( 3, dtype = numpy.float )
-    out[:] = [ 0.0, 1.0, 0.0 ]
-    return out
+def create_unit_length_y():
+    return numpy.array( [ 0.0, 1.0, 0.0 ] )
 
-def create_unit_length_z( out = None ):
-    if out == None:
-        out = numpy.empty( 3, dtype = numpy.float )
-    out[:] = [ 0.0, 0.0, 1.0 ]
-    return out
+def create_unit_length_z():
+    return numpy.array( [ 0.0, 0.0, 1.0 ] )
 
-def normalise( vec, out = None ):
+def normalise( vec ):
     """
     Normalises an Nd list of vectors or a single vector
     to unit length.
@@ -45,11 +36,19 @@ def normalise( vec, out = None ):
     This value will be updated in place.
     @return the normalised value
     """
-    if out == None:
-        out = numpy.empty_like( vec )
+    # calculate the length
+    # this is a duplicate of length(vec) because we
+    # always want an array, even a 0-d array.
+    lengths = numpy.apply_along_axis(
+        numpy.linalg.norm,
+        vec.ndim - 1,
+        vec
+        )
 
-    out = vec / length( vec )
-    return out
+    # repeat the value for each value of the vector
+    lengths = lengths.repeat( 3 ).reshape( vec.shape )
+
+    return vec / lengths
 
 def squared_length( vec ):
     """
@@ -80,13 +79,14 @@ def length( vec ):
         vec.ndim - 1,
         vec
         )
-    shape = list( vec.shape )
-    shape[ -1 ] = 1
-    lengths.reshape( shape )
 
+    # a single vector will return a 0-d array
+    # which doesn't act like a normal np array
+    if lengths.ndim == 0:
+        return lengths.item()
     return lengths
 
-def set_length( vec, length, out = None ):
+def set_length( vec, len ):
     """
     Changes the length of an Nd list of vectors or
     a single vector to 'length'.
@@ -100,18 +100,19 @@ def set_length( vec, length, out = None ):
     This value will be updated in place.
     @return the updated vectors
     """
-    if out == None:
-        out = numpy.empty_like( vec )
+    # calculate the length
+    # this is a duplicate of length(vec) because we
+    # always want an array, even a 0-d array.
+    lengths = numpy.apply_along_axis(
+        numpy.linalg.norm,
+        vec.ndim - 1,
+        vec
+        )
 
-    lengths = length( vec )
+    # repeat the value for each value of the vector
+    lengths = lengths.repeat( 3 ).reshape( vec.shape )
 
-    scale = numpy.empty_like( lengths ).reshape( shape )
-    scale.fill( length )
-    scale /= lengths
-
-    out[:] = vec * scale
-
-    return out
+    return vec / (lengths * (1.0 / len) )
 
 def dot( v1, v2 ):
     """

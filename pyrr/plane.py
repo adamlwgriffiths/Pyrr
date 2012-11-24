@@ -17,11 +17,16 @@ class index:
     normal = 1
     up = 2
 
+def identity():
+    return numpy.array(
+        [
+            [ 0.0, 0.0, 0.0 ],
+            [ 0.0, 0.0,-1.0 ],
+            [ 0.0, 1.0, 0.0 ]
+            ]
+        )
 
-def _empty():
-    return numpy.empty( (3,3), dtype = numpy.float )
-
-def create_from_points( vector1, vector2, vector3, out = None):
+def create_from_points( vector1, vector2, vector3 ):
     """
     Create a plane from 3 co-planar vectors.
 
@@ -51,11 +56,10 @@ def create_from_points( vector1, vector2, vector3, out = None):
     return create_from_position(
         position = vector2,
         normal = normal,
-        up = relV1,
-        out = out
+        up = relV1
         )
 
-def create_from_position( position, normal, up, out = None ):
+def create_from_position( position, normal, up ):
     """
     Creates a plane at position with the normal being above the plane
     and up being the rotation of the plane.
@@ -70,21 +74,18 @@ def create_from_position( position, normal, up, out = None ):
     undefined.
     @raise ValueError: Raised if the up vector is not co-planar.
     """
-    if out == None:
-        out = _empty()
-
-    out[ 0 ] = numpy.array( position, dtype = float )
-    out[ 1 ] = numpy.array( normal, dtype = float )
-    out[ 2 ] = numpy.array( up, dtype = float )
+    result = numpy.array(
+        [
+            position,
+            vector.normalise( normal ),
+            vector.normalise( up )
+            ]
+        )
     
-    # normalise the normal and up vectors
-    vector.normalise( out[ 1 ], out = out[ 1 ] )
-    vector.normalise( out[ 2 ], out = out[ 2 ] )
-    
-    if numpy.dot( out[ 1 ], out[ 2 ] ) != 0.0:
+    if numpy.dot( result[ 1 ], result[ 2 ] ) != 0.0:
         raise ValueError( "Vectors are not co-planar" )
 
-    return out
+    return result
 
 def flip_normal( plane ):
     """

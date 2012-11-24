@@ -27,18 +27,22 @@ import aabb
 import vector
 
 
-def _empty():
-    return numpy.empty( (2,3), dtype = numpy.float )
+class index:
+    minimum = 0
+    maximum = 1
 
-def create_from_bounds( min, max, out = None ):
+def zeros():
+    return numpy.zeroes( (2,3) )
+
+def create_from_bounds( min, max ):
     """ Creates an AAMBB using the specified minimum
     and maximum values.
     """
     # stack our bounds together and add them as points
     bounds = numpy.vstack( min, max )
-    return create_from_points( bounds, out )
+    return create_from_points( bounds )
 
-def create_from_points( points, out = None ):
+def create_from_points( points ):
     """ Creates an AAMBB from the list of specified points.
 
     Points must be a 2D list. Ie:
@@ -47,9 +51,6 @@ def create_from_points( points, out = None ):
         [ x, y, z ],
     ]
     """
-    if out == None:
-        out = _empty()
-
     # convert any negative values to positive
     abs_points = numpy.absolute( points )
 
@@ -61,12 +62,14 @@ def create_from_points( points, out = None ):
 
     # our AAMBB extends from +length to -length
     # in all directions
-    out[:] = [
-        [-length,-length,-length ],
-        [ length, length, length ]
-        ]
+    return numpy.array(
+        [
+            [-length,-length,-length ],
+            [ length, length, length ]
+            ]
+        )
 
-def create_from_aabbs( aabbs, out = None ):
+def create_from_aabbs( aabbs ):
     """ Creates an AAMBB from a list of existing AABBs.
 
     AABBs must be a 2D list. Ie:
@@ -76,12 +79,11 @@ def create_from_aabbs( aabbs, out = None ):
     ]
     """
     # reshape the AABBs as a series of points
-    points = aabbs.view()
-    points.shape = (-1, 3 )
+    points = aabbs.reshape( (-1, 3 ) )
 
-    return create_from_points( points, out )
+    return create_from_points( points )
 
-def add_points( aabb, points, out = None ):
+def add_points( aabb, points ):
     """ Extends an AAMBB to encompass a list
     of points.
 
@@ -90,9 +92,6 @@ def add_points( aabb, points, out = None ):
     Calling this using the min / max points from
     the AAMBB will create an even bigger AAMBB.
     """
-    if out == None:
-        out = _empty()
-
     # add our AABB to the list of points
     values = numpy.vstack( points, aabb[ 0 ], aabb[ 1 ] )
 
@@ -107,12 +106,14 @@ def add_points( aabb, points, out = None ):
 
     # our AAMBB extends from +length to -length
     # in all directions
-    out[:] = [
-        [-length,-length,-length ],
-        [ length, length, length ]
-        ]
+    return numpy.array(
+        [
+            [-length,-length,-length ],
+            [ length, length, length ]
+            ]
+        )
 
-def add_aabbs( aabb, aabbs, out = None ):
+def add_aabbs( aabb, aabbs ):
     """ Extend an AAMBB to encompass a list
     of other AABBs or AAMBBs.
 
@@ -122,11 +123,10 @@ def add_aabbs( aabb, aabbs, out = None ):
     will create an event bigger AAMBB.
     """
     # reshape the AABBs as a series of points
-    points = aabbs.view()
-    points.shape = (-1, 3 )
+    points = aabbs.reshape( (-1, 3 ) )
 
     # use the add_points
-    return add_points( aabb, points, out )
+    return add_points( aabb, points )
 
 def centre_point( aabb ):
     """ Returns the centre point of the AABB.
@@ -144,10 +144,10 @@ def maximum( aabb ):
     """
     return aabb[ 1 ]
 
-def clamp_points( aabb, points, out = None ):
+def clamp_points( aabb, points ):
     """ Takes a list of points and modifies them to
     fit within the AABB.
     """
     # use the same function as present in AABB
-    aabb.clamp_points( aabb, points, out )
+    aabb.clamp_points( aabb, points )
 

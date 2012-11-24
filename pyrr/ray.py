@@ -28,32 +28,33 @@ class index:
     origin = 0
     direction = 1
 
-def create_ray( start, direction, out = None ):
-    if out == None:
-        out = numpy.empty( (2,3), dtype = numpy.float )
-        
-    out[:] = [ start, direction ]
+def identity():
+    return numpy.array(
+        [
+            [ 0.0, 0.0, 0.0 ],
+            [ 0.0, 0.0,-1.0 ]
+            ]
+        )
 
-    # normalise the ray length
-    vector.normalise( out[ 1 ], out = out[ 1 ] )
+def create_ray( start, direction ):
+    return numpy.array(
+        [
+            start,
+            vector.normalise( direction )
+            ]
+        )
 
-    return out
-
-def create_from_line( line, out = None ):
+def create_from_line( line ):
     """
     Converts a line or line segment to a ray.
     """
-    if out == None:
-        out = numpy.empty( (2,3), dtype = numpy.float )
-
     # direction = vend - vstart
-    out[ 0 ] = line[ 0 ]
-    out[ 1 ] = line[ 1 ] - line[ 0 ]
-
-    # normalise the ray length
-    vector.normalise( out[ 1 ], out = out[ 1 ] )
-
-    return out
+    return numpy.array(
+        [
+            line[ 0 ],
+            vector.normalise( line[ 1 ] - line[ 0 ] )
+            ]
+        )
 
 def origin( ray ):
     return ray[ 0 ]
