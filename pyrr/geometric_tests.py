@@ -270,9 +270,9 @@ def closest_point_on_plane( plane, vector ):
     d is the value of normal dot position
     n is the plane normal
     """
-    plane_dot = numpy.dot( plane[ 1 ], plane[ 0 ] )
-    vector_dot = numpy.dot( vector, plane[ 1 ] )
-    return vector + (  plane[ 1 ] * (plane_dot - vector_dot) )
+    d = numpy.dot( plane[ 1 ], plane[ 0 ] )
+    qn = numpy.dot( vector, plane[ 1 ] )
+    return vector + ( plane[ 1 ] * (d - qn) )
 
 def does_sphere_intersect_sphere( c1, c2 ):
     """
