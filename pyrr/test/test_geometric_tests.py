@@ -24,182 +24,148 @@ class test_geometric_tests( unittest.TestCase ):
             [ 0.0, 0.0, 0.0 ],
             [10.0, 0.0, 0.0 ]
             )
+        points = numpy.array( [ 0.5, 1.0, 0.0 ] )
 
-        point = gt.closest_point_on_line(
-            new_line,
-            [ 0.5, 1.0, 0.0 ]
-            )
+        result = gt.closest_point_on_line( new_line, point )
+
+        expected = numpy.array( [ 0.5, 0.0, 0.0 ] )
+
         self.assertEqual(
-            point[ 0 ],
-            0.5
-            )
-        self.assertEqual(
-            point[ 1 ],
-            0.0
-            )
-        self.assertEqual(
-            point[ 2 ],
-            0.0
+            numpy.array_equal( result, expected )
             )
 
     def test_height_above_plane( self ):
-        vectors = numpy.array([
-            [ 0.0, 0.0, 1.0 ],
-            [ 1.0, 0.0, 1.0 ],
-            [ 0.0, 1.0, 1.0 ]
-            ])
-        new_plane = plane.create_from_points(
-            vectors[ 0 ],
-            vectors[ 1 ],
-            vectors[ 2 ]
-            )
-        plane.flip_normal( new_plane )
+        v1 = numpy.array( [ 0.0, 0.0, 1.0 ] )
+        v2 = numpy.array( [ 1.0, 0.0, 1.0 ] )
+        v3 = numpy.array( [ 0.0, 1.0, 1.0 ] )
+        point = numpy.array([ 0.0, 0.0, 20.0 ])
 
-        distance_vector = numpy.array([ 0.0, 0.0, 20.0 ])
-        distance = gt.height_above_plane(
-            new_plane,
-            distance_vector
-            )
+        p = plane.create_from_points( v1, v2, v3 )
+        p = plane.flip_normal( p )
+
+        result = gt.height_above_plane( p, point )
+
         # should be 19.0
+        expected = 19.0
+
         self.assertEqual(
-            distance,
-            19.0,
+            result,
+            expected,
             "Height above plane incorrect"
             )
 
     def test_closest_point_on_plane( self ):
-        vectors = numpy.array([
-            [ 0.0, 0.0, 1.0 ],
-            [ 1.0, 0.0, 1.0 ],
-            [ 0.0, 1.0, 1.0 ]
-            ])
-        new_plane = plane.create_from_points(
-            vectors[ 0 ],
-            vectors[ 1 ],
-            vectors[ 2 ]
+        p = numpy.array(
+            [
+                [ 0.0, 0.0, 0.0 ],
+                [ 0.0, 1.0, 0.0 ],
+                [ 0.0, 0.0, 1.0 ]
+                ]
             )
-        plane.flip_normal( new_plane )
+        point = numpy.array([ 5.0, 20.0, 5.0 ])
+        
+        result = gt.closest_point_on_plane( p, point )
 
-        distance_vector = numpy.array([ 0.0, 0.0, 20.0 ])
-        closest_point = gt.closest_point_on_plane(
-            new_plane,
-            distance_vector
-            )
         # should be # 0, 0, 1
-        self.assertEqual(
-            closest_point[ 0 ],
-            0.0,
-            "Closest point on plane incorrect"
-            )
-        self.assertEqual(
-            closest_point[ 1 ],
-            0.0,
-            "Closest point on plane incorrect"
-            )
-        self.assertEqual(
-            closest_point[ 2 ],
-            1.0,
+        expected = numpy.array( [ 5.0, 0.0, 5.0 ] )
+
+        self.assertTrue(
+            numpy.array_equal( result, expected ),
             "Closest point on plane incorrect"
             )
 
     def test_point_intersect_rectangle( self ):
-        rect = numpy.array(
-            [
-                [0.0, 0.0],
-                [5.0, 5.0]
-                ]
-            )
-
-        point = [ 0.0, 0.0 ]
-        self.assertTrue(
-            numpy.array_equal(
-                gt.point_intersect_rectangle( point, rect ),
-                point
+        def valid_intersections():
+            rect = numpy.array(
+                [
+                    [0.0, 0.0],
+                    [5.0, 5.0]
+                    ]
                 )
-            )
 
-        point = [ 5.0, 5.0 ]
-        self.assertTrue(
-            numpy.array_equal(
-                gt.point_intersect_rectangle( point, rect ),
-                point
-                )
-            )
+            def point_1():
+                point = [ 0.0, 0.0 ]
+                result = gt.point_intersect_rectangle( point, rect )
 
-        point = [ 1.0, 1.0 ]
-        self.assertTrue(
-            numpy.array_equal(
-                gt.point_intersect_rectangle( point, rect ),
-                point
-                )
-            )
+                self.assertTrue(
+                    numpy.array_equal( result, point )
+                    )
+            point_1()
 
-        point = [-1.0, 1.0 ]
-        self.assertFalse(
-            numpy.array_equal(
-                gt.point_intersect_rectangle( point, rect ),
-                point
-                )
-            )
+            def point_2():
+                point = [ 5.0, 5.0 ]
+                result = gt.point_intersect_rectangle( point, rect )
 
-        point = [ 1.0, 10.0 ]
-        self.assertFalse(
-            numpy.array_equal(
-                gt.point_intersect_rectangle( point, rect ),
-                point
-                )
-            )
+                self.assertTrue(
+                    numpy.array_equal( result, point )
+                    )
+            point_2()
 
-        point = [ 1.0,-1.0 ]
-        self.assertFalse(
-            numpy.array_equal(
-                gt.point_intersect_rectangle( point, rect ),
-                point
+            def point_3():
+                point = [ 1.0, 1.0 ]
+                result = gt.point_intersect_rectangle( point, rect )
+
+                self.assertTrue(
+                    numpy.array_equal( result, point )
+                    )
+            point_3()
+        valid_intersections()
+
+        def invalid_intersections():
+            rect = numpy.array(
+                [
+                    [0.0, 0.0],
+                    [5.0, 5.0]
+                    ]
                 )
-            )
+
+            def point_1():
+                point = [-1.0, 1.0 ]
+                result = gt.point_intersect_rectangle( point, rect )
+
+                self.assertFalse(
+                    numpy.array_equal( result, point )
+                    )
+            point_1()
+
+            def point_2():
+                point = [ 1.0, 10.0 ]
+                result = gt.point_intersect_rectangle( point, rect )
+
+                self.assertFalse(
+                    numpy.array_equal( result, point )
+                    )
+            point_2()
+
+            def point_3():
+                point = [ 1.0,-1.0 ]
+                result = gt.point_intersect_rectangle( point, rect )
+
+                self.assertFalse(
+                    numpy.array_equal( result, point )
+                    )
+            point_3()
+        invalid_intersections()
 
     def test_ray_intersect_aabb( self ):
-        # create an aabb that is
-        # 2, 2, 2 in dimensions
-        # and positioned at 0,0,-2
-        a = aabb.create_from_points(
-            numpy.array(
-                [
-                    [-1.0,-1.0,-1.0 ],
-                    [ 1.0, 1.0,-3.0 ]
-                    ],
-                dtype = numpy.float
-                )
+        a = numpy.array(
+            [
+                [-1.0,-1.0,-1.0 ],
+                [ 1.0, 1.0, 1.0 ]
+                ]
             )
-        # create a ray at the origin
-        # pointing down -z
-        r = ray.create_ray(
-            numpy.array([ 0.0, 0.0, 0.0 ]),
-            numpy.array([ 0.0, 0.0,-1.0 ])
-            )
-
-        intersection = gt.ray_intersect_aabb( r, a )
-        self.assertTrue(
-            numpy.array_equal(
-                intersection,
+        ray = numpy.array(
+            [
+                [ 0.5, 0.5, 5.0 ],
                 [ 0.0, 0.0,-1.0 ]
-                ),
-            "Ray vs AABB intersection incorrect"
+                ]
             )
+        result = gt.ray_intersect_aabb( ray, a )
 
-        # create a ray at 0,0,20
-        # pointing down -z
-        r = ray.create_ray(
-            numpy.array( [ 0.0, 0.0,20.0 ] ),
-            numpy.array( [ 0.0, 0.0,-1.0 ] )
-            )
+        expected = numpy.array( [ 0.5, 0.5,-1.0 ] )
 
-        intersection = gt.ray_intersect_aabb( r, a )
         self.assertTrue(
-            numpy.array_equal(
-                intersection,
-                [ 0.0, 0.0,-1.0 ]
-                ),
+            numpy.array_equal( result, expected ),
             "Ray vs AABB intersection incorrect"
             )
 

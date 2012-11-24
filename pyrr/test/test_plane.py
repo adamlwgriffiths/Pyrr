@@ -92,29 +92,27 @@ class test_plane( unittest.TestCase ):
                 )
 
     def test_flip_normal( self ):
-        result = numpy.array(
+        p = numpy.array(
             [
                 [ 0.0, 0.0, 0.0 ],
                 [ 0.0, 1.0, 0.0 ],
                 [ 1.0, 0.0, 0.0 ]
-                ],
-            dtype = numpy.float
+                ]
             )
 
-        result2 = plane.flip_normal( result )
-        self.assertEqual(
-            result[ (0,1) ],
-            0.0,
-            "Flipping normal has moved plane"
+        result = plane.flip_normal( p )
+
+        expected = numpy.array(
+            [
+                [ 0.0, 0.0, 0.0 ],
+                [ 0.0,-1.0, 0.0 ],
+                [ 1.0, 0.0, 0.0 ]
+                ]
             )
+
         self.assertTrue(
-            result[ (1,1) ] < 0.0,
-            "Normal not flipped"
-            )
-        self.assertEqual(
-            result2[ (0,1) ],
-            result[ (0,1) ],
-            "Normal not flipped in place"
+            numpy.array_equal( result, expected ),
+            "Plane normal flip incorrect"
             )
     
 if __name__ == '__main__':

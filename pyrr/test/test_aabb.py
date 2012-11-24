@@ -15,116 +15,133 @@ class test_aabb( unittest.TestCase ):
         pass
 
     def test_create_from_points( self ):
-        obj = aabb.create_from_points(
-            numpy.array(
-                [[-1.0,-1.0,-1.0]],
-                dtype = numpy.float
+        """
+        points = numpy.array(
+            [
+                [-1.0,-1.0,-1.0]
+                ]
+            )
+        """
+        points = numpy.array( [ [-1.0,-1.0,-1.0 ] ] )
+        result = aabb.create_from_points( points )
+        
+        expected = numpy.tile( points, (2,1) )
+
+        self.assertTrue(
+            numpy.array_equal( result, expected ),
+            "Create from points failed"
+            )
+
+    def test_centre_point( self ):
+        def single_point():
+            points = numpy.array( [ [-1.0,-1.0,-1.0 ] ] )
+            obj = aabb.create_from_points( points )
+            result = aabb.centre_point( obj )
+
+            expected = numpy.array( [-1.0,-1.0,-1.0 ] )
+
+            self.assertTrue(
+                numpy.array_equal( result, expected ),
+                "AABB single point centre point incorrect"
                 )
-            )
-        self.assertTrue(
-            numpy.array_equal( obj[ 0 ], [-1.0,-1.0,-1.0 ] ),
-            "Create from points failed"
-            )
-        self.assertTrue(
-            numpy.array_equal( obj[ 1 ], [-1.0,-1.0,-1.0 ] ),
-            "Create from points failed"
-            )
-        self.assertTrue(
-            numpy.array_equal( aabb.centre_point(obj), [-1.0,-1.0,-1.0 ] ),
-            "Create from points failed"
-            )
+        single_point()
+
+        def multiple_points():
+            points = numpy.array(
+                [
+                    [ 1.0, 1.0, 1.0 ],
+                    [-1.0,-1.0,-1.0 ]
+                    ]
+                )
+            obj = aabb.create_from_points( points )
+            result = aabb.centre_point( obj )
+
+            expected = numpy.zeros( 3 )
+
+            self.assertTrue(
+                numpy.array_equal( result, expected ),
+                "AABB multiple points centre point incorrect"
+                )
+        multiple_points()
 
     def test_create_from_aabbs( self ):
-        a1 = aabb.create_from_points(
+        # -1
+        a1 = numpy.array(
             [
-                [ 0.0, 0.0, 0.0 ],
-                [ 1.0, 1.0,-1.0 ]
-                ]
-            )
-        a2 = aabb.create_from_points(
-            [
-                [ 0.0, 0.0, 0.0 ],
-                [-1.0,-1.0, 1.0 ]
-                ]
-            )
-        a3 = aabb.create_from_aabbs(
-            numpy.array(
-                [ a1, a2 ]
-                )
-            )
-
-        self.assertTrue(
-            numpy.array_equal(
-                a3[ 0 ],
+                [-1.0,-1.0,-1.0 ],
                 [-1.0,-1.0,-1.0 ]
-                ),
-            "Create from AABBS failed"
+                ]
             )
-        self.assertTrue(
-            numpy.array_equal(
-                a3[ 1 ],
+        # +1
+        a2 = numpy.array(
+            [
+                [ 1.0, 1.0, 1.0 ],
                 [ 1.0, 1.0, 1.0 ]
-                ),
-            "Create from AABBS failed"
+                ]
             )
 
+        # -1 to +1
+        result = aabb.create_from_aabbs( numpy.array( [ a1, a2 ] ) )
+
+        expected = numpy.array(
+            [
+                [-1.0,-1.0,-1.0 ],
+                [ 1.0, 1.0, 1.0 ]
+                ]
+            )
+
+        self.assertTrue(
+            numpy.array_equal( result, expected ),
+            "Create from AABBS failed"
+            )
 
     def test_add_point( self ):
         obj = numpy.array(
             [
                 [-1.0,-1.0,-1.0],
                 [-1.0,-1.0,-1.0]
-                ],
-            dtype = numpy.float
+                ]
+            )
+        points = numpy.array( [ 1.0, 1.0, 1.0] )
+
+        result = aabb.add_points( obj, points )
+
+        expected = numpy.array(
+            [
+                [-1.0,-1.0,-1.0 ],
+                [ 1.0, 1.0, 1.0 ]
+                ]
             )
 
-        obj = aabb.add_points(
-            obj,
-            numpy.array( [[ 1.0,-1.0,-1.0]] )
-            )
         self.assertTrue(
-            numpy.array_equal( obj[ 0 ], [-1.0,-1.0,-1.0] ),
-            "Add point failed"
-            )
-        self.assertTrue(
-            numpy.array_equal( obj[ 1 ], [ 1.0,-1.0,-1.0]  ),
-            "Add point failed"
-            )
-        self.assertTrue(
-            numpy.array_equal( aabb.centre_point( obj ), [ 0.0,-1.0,-1.0] ),
+            numpy.array_equal( result, expected),
             "Add point failed"
             )
 
     def test_add_aabbs( self ):
-        return
-
-        # FIXME
-
-        obj = aabb.create_from_points(
-            numpy.array(
-                [
-                    [-1.0,-1.0,-1.0],
-                    [ 1.0,-1.0,-1.0]
-                    ]
-                )
+        a1 = numpy.array(
+            [
+                [-1.0,-1.0,-1.0],
+                [-1.0,-1.0,-1.0]
+                ]
             )
+        a2 = numpy.array(
+            [
+                [ 1.0, 1.0, 1.0],
+                [ 1.0, 1.0, 1.0]
+                ]
+            )
+        result = aabb.add_aabbs( a1, a2 )
 
-        obj2 = aabb.create_from_bounds( [1.0,-2.0, 1.0], [2.0,-1.0, 1.0] )
-        obj = aabb.add_aabbs(
-            obj,
-            numpy.array( [ obj2 ] )
+        expected = numpy.array(
+            [
+                [-1.0,-1.0,-1.0 ],
+                [ 1.0, 1.0, 1.0 ]
+                ]
             )
 
         self.assertTrue(
-            numpy.array_equal( aabb.minimum(obj), [-1.0,-2.0,-1.0] ),
-            "Add AABB failed"
-            )
-        self.assertTrue(
-            numpy.array_equal( aabb.maximum(obj), [ 2.0,-1.0, 1.0]  ),
-            "Add AABB failed"
-            )
-        self.assertTrue(
-            numpy.array_equal( aabb.centre_point(obj), [ 0.5,-1.5, 0.0] ),
+            numpy.array_equal( result, expected ),
             "Add AABB failed"
             )
 
