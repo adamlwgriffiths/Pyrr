@@ -26,7 +26,8 @@ def point_intersect_line( line, point ):
     rp = point - line[ 0 ]
     cross = vector.cross( rl, rp )
 
-    if False == numpy.array_equal( cross, [ 0.0, 0.0, 0.0 ] ):
+    # check if the cross product is zero
+    if numpy.count_nonzero( cross ) > 0:
         return None
     return point
 
@@ -46,7 +47,7 @@ def point_intersect_line_segment( line, point ):
     dot = vector.dot( rp, rl )
     squared_length = vector.squared_length( rl )
 
-    if False == numpy.array_equal( cross, [ 0.0, 0.0, 0.0 ] ):
+    if numpy.count_nonzero( cross ) > 0:
         return None
 
     if \
@@ -188,28 +189,28 @@ def closest_point_on_line_segment( segment, point ):
 
 def are_rays_parallel( ray1, ray2 ):
     cross = vector.cross( ray1[ 1 ], ray2[ 1 ] )
-    if False == numpy.array_equal( cross, [ 0.0, 0.0, 0.0 ] ):
+    if numpy.count_nonzero( cross ) > 0:
         return False
     return True
 
 def are_rays_coincident( ray1, ray2 ):
     # ensure the ray's directions are the same
-    if False == numpy.array_equal( ray1[ 0 ], ray2[ 0 ] ):
-        return False
+    if numpy.array_equal( ray1[ 0 ], ray2[ 0 ] ):
+        # get the delta between the two ray's start point
+        delta = ray2[ 0 ] - ray1[ 0 ]
 
-    # get the delta between the two ray's start point
-    delta = ray2[ 0 ] - ray1[ 0 ]
+        # get the cross product of the ray delta and
+        # the direction of the rays
+        cross = vector.cross( ray1[ 1 ], ray2[ 1 ] )
 
-    # get the cross product of the ray delta and
-    # the direction of the rays
-    cross = vector.cross( ray1[ 1 ], ray2[ 1 ] )
+        # if the cross product is zero, the start of the
+        # second ray is in line with the direction of the
+        # first ray
+        if numpy.count_nonzero( cross ) > 0:
+            return False
 
-    # if the cross product is zero, the start of the
-    # second ray is in line with the direction of the
-    # first ray
-    if False == numpy.array_equal( cross, [ 0.0, 0.0, 0.0 ] ):
-        return False
-    return True
+        return True
+    return False
 
 def ray_intersect_aabb( ray, aabb ):
     # http://gamedev.stackexchange.com/questions/18436/most-efficient-aabb-vs-ray-collision-algorithms
