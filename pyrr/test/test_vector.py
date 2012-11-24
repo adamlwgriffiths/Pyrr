@@ -3,7 +3,7 @@ import math
 
 import numpy
 
-from pyrr import vector
+from pyrr import vector, vector3, vector4
 
 
 class test_vector( unittest.TestCase ):
@@ -15,7 +15,7 @@ class test_vector( unittest.TestCase ):
         pass
 
     def test_zeroes( self ):
-        vec = vector.zeros()
+        vec = vector3.identity()
 
         self.assertTrue(
             numpy.array_equal( vec, [ 0.0, 0.0, 0.0 ] ),

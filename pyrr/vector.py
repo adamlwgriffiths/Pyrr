@@ -1,26 +1,5 @@
-'''
-Created on 30/05/2011
-
-@author: adam
-
-TODO: make the 'cross' function accept Nd arrays
-TODO: make the 'dot' function accept Nd arrays
-'''
-
 import numpy
 
-
-def zeros():
-    return numpy.zeros( 3 )
-
-def create_unit_length_x():
-    return numpy.array( [ 1.0, 0.0, 0.0 ] )
-
-def create_unit_length_y():
-    return numpy.array( [ 0.0, 1.0, 0.0 ] )
-
-def create_unit_length_z():
-    return numpy.array( [ 0.0, 0.0, 1.0 ] )
 
 def normalise( vec ):
     """
@@ -46,7 +25,7 @@ def normalise( vec ):
         )
 
     # repeat the value for each value of the vector
-    lengths = lengths.repeat( 3 ).reshape( vec.shape )
+    lengths = lengths.repeat( vec.shape[-1] ).reshape( vec.shape )
 
     return vec / lengths
 
@@ -110,7 +89,7 @@ def set_length( vec, len ):
         )
 
     # repeat the value for each value of the vector
-    lengths = lengths.repeat( 3 ).reshape( vec.shape )
+    lengths = lengths.repeat( vec.shape[-1] ).reshape( vec.shape )
 
     return vec / (lengths * (1.0 / len) )
 

@@ -9,6 +9,8 @@ import math
 import numpy
 
 import vector
+import vector3
+import vector4
 
 
 class index:
@@ -21,11 +23,8 @@ class index:
 def create( x, y, z, w ):
     return numpy.array( [ x, y, z, w ], dtype = float )
 
-def zeros():
-    return numpy.zeros( 4 )
-
 def identity():
-    return numpy.array( [ 0.0, 0.0, 0.0, 1.0 ] )
+    return vector4.identity()
 
 def set_to_rotation_about_x( theta ):
     thetaOver2 = theta * 0.5
@@ -214,7 +213,7 @@ def squared_length( quat ):
     @param quat: The quaternion to measure.
     @return: The squared length of the quaternion.
     """
-    return numpy.sum( quat ** 2, axis = -1 )
+    return vector.squared_length( quat )
 
 def length( quat ):
     """
@@ -224,36 +223,14 @@ def length( quat ):
     @param quat: The quaternion to measure.
     @return: The length of the quaternion.
     """
-    lengths = numpy.apply_along_axis(
-        numpy.linalg.norm,
-        quat.ndim - 1,
-        quat
-        )
-
-    # a single vector will return a 0-d array
-    # which doesn't act like a normal np array
-    if lengths.ndim == 0:
-        return lengths.item()
-    return lengths
+    return vector.length( quat )
 
 def normalise( quat ):
     """
     Normalise a quaternion by finding it's length
     then dividing each component by 1.0 / length.
     """
-    # calculate the length
-    # this is a duplicate of length(vec) because we
-    # always want an array, even a 0-d array.
-    lengths = numpy.apply_along_axis(
-        numpy.linalg.norm,
-        quat.ndim - 1,
-        quat
-        )
-
-    # repeat the value for each value of the vector
-    lengths = lengths.repeat( 4 ).reshape( quat.shape )
-
-    return quat / lengths
+    return vector.normalise( quat )
 
 def get_rotation_angle( quat ):
     # extract the W component
@@ -287,12 +264,7 @@ def get_rotation_axis( quat ):
         )
 
 def dot( quat1, quat2 ):
-    return (
-        (quat1[ 0 ] * quat2[ 0 ]) + \
-        (quat1[ 1 ] * quat2[ 1 ]) + \
-        (quat1[ 2 ] * quat2[ 2 ]) + \
-        (quat1[ 3 ] * quat2[ 3 ])
-        )
+    return vector.dot( quat1, quat2 )
 
 def conjugate( quat ):
     """
@@ -350,31 +322,41 @@ def inverse( quat ):
 def negate( quat ):
     return quat * -1.0
 
-def apply_to_vector( quat, vec ):
+def apply_to_vector( quat, vector ):
     """Rotates a vector by a quaternion.
 
     quat and vec must be 1d arrays.
-    
-    http://content.gpwiki.org/index.php/OpenGL:Tutorials:Using_Quaternions_to_represent_rotation
     """
-    """
-    v = numpy.array( vec )
-    return v + 2.0 * vector.cross(
-        quat[:-1],
-        vector.cross( quat[:-1], v ) + (quat[-1] * v)
-        )
-    """
-    nv = numpy.array(vec)
-    length = vector.length( nv )
-    nv = vector.normalise( nv )
+    def apply( quaternion, vec3 ):
+        """
+        http://content.gpwiki.org/index.php/OpenGL:Tutorials:Using_Quaternions_to_represent_rotation
+        """
+        """
+        v = numpy.array( vec )
+        return v + 2.0 * vector.cross(
+            quat[:-1],
+            vector.cross( quat[:-1], v ) + (quat[-1] * v)
+            )
+        """
+        length = vector.length( vector )
+        vec = vector.normalise( vector )
 
-    # use the vector to create a new quaternion
-    # this is basically the vector3 to vector4 conversion with W = 0
-    vq = numpy.array( [ nv[ 0 ], nv[ 1 ], nv[ 2 ], 0.0 ], dtype = 'float' )
+        # use the vector to create a new quaternion
+        # this is basically the vector3 to vector4 conversion with W = 0
+        vq = numpy.array( [ vec[ 0 ], vec[ 1 ], vec[ 2 ], 0.0 ] )
 
-    # quat * vec * quat^-1
-    result = cross( quat, cross( vq, conjugate( quat ) ) )
+        # quat * vec * quat^-1
+        result = cross( quat, cross( vq, conjugate( quat ) ) )
+        return result[ :-1 ] * length
 
-    # ignore w component
-    return result[ :-1 ] * length
+    if vector.size == 3:
+        # convert to vector4
+        # ignore w component
+        return apply( quat, vector )
+    elif vector.size == 4:
+        vec3 = vector3.create_from_vector4( vector )
+        result = apply( quat, vec3 )
+        return vector4.create_from_vector3( vec3 )
+    else:
+        raise ValueError( "Vector size unsupported" )
 

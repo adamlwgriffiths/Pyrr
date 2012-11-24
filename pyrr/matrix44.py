@@ -42,7 +42,6 @@ def create_from_eulers( eulers ):
     # we'll use Matrix33 for our conversion
     mat33 = mat[ 0:3, 0:3 ]
     mat[ 0:3, 0:3 ] = matrix33.create_from_eulers( eulers, mat33 )
-    
     return mat
 
 def create_from_quaternion( quat ):
@@ -63,7 +62,6 @@ def create_from_quaternion( quat ):
     
     # we'll use Matrix33 for our conversion
     mat[ 0:3, 0:3 ] = matrix33.create_from_quaternion( quat )
-    
     return mat
 
 def create_from_inverse_of_quaternion( quat ):
@@ -85,7 +83,6 @@ def create_from_inverse_of_quaternion( quat ):
     
     # we'll use Matrix33 for our conversion
     mat[ 0:3, 0:3 ] = matrix33.create_from_inverse_of_quaternion( quat )
-    
     return mat
 
 def create_from_translation( vector ):
@@ -116,33 +113,22 @@ def create_from_scale( scale ):
     # because numpy isn't flattening them properly.
     return numpy.diagflat(
         [ scale[ 0 ], scale[ 1 ], scale[ 2 ], 1.0 ]
-        ).astype( 'float' )
-
-def apply_to_vector( vector, matrix ):
-    """
-    Rotates and translates a vector by the specified matrix.
-
-    For the time being, this only supports vectors of size 3.
-    """
-    # convert to a vec4
-    vec = numpy.array(
-        [
-            vector[ 0 ],
-            vector[ 1 ],
-            vector[ 2 ],
-            1.0
-            ],
-        dtype = 'float'
         )
 
-    vec = numpy.dot( matrix, vec )
+def apply_to_vector( matrix, vector ):
+    if vector.size == 3:
+        # convert to a vec4
+        vec4 = numpy.array( [ vector[ 0 ], vector[ 1 ], vector[ 2 ], 1.0 ] )
+        vec4 = numpy.dot( matrix, vec4 )
 
-    # handle W value
-    if vec[-1] != 0.0:
-        vec /= vec[-1]
-
-    # convert back to vec3
-    return vec[:-1]
+        # handle W value
+        if vec4[-1] != 0.0:
+            vec4 /= vec4[-1]
+        return vec[:-1]
+    elif vector.size == 4:
+        return numpy.dot( matrix, vector )
+    else:
+        raise ValueError( "Vector size unsupported" )
 
 def multiply( m1, m2, out = None ):
     """

@@ -171,12 +171,17 @@ def create_from_scale( scale ):
     # down the matrix
     return numpy.diagflat( scale )
 
-def apply_to_vector( vector, matrix ):
-    """
-    Proper matrix layout and layout used for DirectX.
-    For OpenGL, transpose the matrix after calling this.
-    """
-    return numpy.dot( matrix, vector )
+def apply_to_vector( matrix, vector ):
+    if vector.size == 3:
+        return numpy.dot( matrix, vector )
+    elif vector.size == 4:
+        # convert to vec3 and undo w component
+        vec3 = vector[:-1] / vector[-1]
+        vec3 = numpy.dot( matrix, vec3 )
+        # convert back to vec4
+        return numpy.array( [ vec3[0], vec3[1], vec3[2], 1.0 ] )
+    else:
+        raise ValueError( "Vector size unsupported" )
 
 def multiply( m1, m2, out = None ):
     # using an input as the out value will cause corruption
