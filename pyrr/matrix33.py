@@ -1,9 +1,3 @@
-'''
-Created on 21/06/2011
-
-@author: adam
-'''
-
 import math
 
 import numpy
@@ -13,6 +7,9 @@ import quaternion
 
 def identity():
     return numpy.identity( 3, dtype = 'float' )
+
+def create_from_matrix44( mat ):
+    return numpy.array( mat[ 0:3, 0:3 ] )
 
 def create_from_eulers( eulers ):
     """

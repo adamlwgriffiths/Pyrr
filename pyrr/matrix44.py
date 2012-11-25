@@ -1,9 +1,3 @@
-"""
-TODO: provide apply_to_vector3
-TODO: provide apply_to_vector4
-TODO: map apply_to_vector to either 3 or 4 depending on size
-"""
-
 import math
 
 import numpy
@@ -17,6 +11,11 @@ def identity():
     an identity matrix.
     """
     return numpy.identity( 4, dtype = 'float' )
+
+def create_from_matrix33( mat ):
+    mat4 = numpy.identity( 4, dtype = 'float' )
+    mat4[ 0:3, 0:3 ] = mat
+    return mat4
 
 def to_matrix33( mat ):
     """
