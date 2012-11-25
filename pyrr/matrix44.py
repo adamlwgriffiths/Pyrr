@@ -111,18 +111,30 @@ def create_from_scale( scale ):
         )
 
 def create_from_x_rotation( theta ):
+    """Creates a matrix with the specified rotation about the X axis.
+    
+    http://en.wikipedia.org/wiki/Rotation_matrix#In_three_dimensions
+    """
     mat = identity()
-    mat[ 3, 0:3 ] = matrix33.create_from_x_rotation( theta )
+    mat[ 0:3, 0:3 ] = matrix33.create_from_x_rotation( theta )
     return mat
 
 def create_from_y_rotation( theta ):
+    """Creates a matrix with the specified rotation about the Y axis.
+    
+    http://en.wikipedia.org/wiki/Rotation_matrix#In_three_dimensions
+    """
     mat = identity()
-    mat[ 3, 0:3 ] = matrix33.create_from_y_rotation( theta )
+    mat[ 0:3, 0:3 ] = matrix33.create_from_y_rotation( theta )
     return mat
 
 def create_from_z_rotation( theta ):
+    """Creates a matrix with the specified rotation about the Z axis.
+    
+    http://en.wikipedia.org/wiki/Rotation_matrix#In_three_dimensions
+    """
     mat = identity()
-    mat[ 3, 0:3 ] = matrix33.create_from_z_rotation( theta )
+    mat[ 0:3, 0:3 ] = matrix33.create_from_z_rotation( theta )
     return mat
 
 def apply_to_vector( matrix, vector ):
