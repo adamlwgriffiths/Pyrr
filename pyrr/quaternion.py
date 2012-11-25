@@ -339,7 +339,7 @@ def apply_to_vector( quat, vec ):
             )
         """
         length = vector.length( vec3 )
-        vec = vector.normalise( vec3 )
+        vec3 = vector.normalise( vec3 )
 
         # use the vector to create a new quaternion
         # this is basically the vector3 to vector4 conversion with W = 0
