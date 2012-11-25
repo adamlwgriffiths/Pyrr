@@ -80,7 +80,7 @@ def create_from_inverse_of_quaternion( quat ):
     mat[ 0:3, 0:3 ] = matrix33.create_from_inverse_of_quaternion( quat )
     return mat
 
-def create_from_translation( vector ):
+def create_from_translation( vec ):
     """
     Creates an identity matrix with the translation set.
 
@@ -91,7 +91,7 @@ def create_from_translation( vector ):
     set to the specified vector.
     """
     mat = identity()
-    mat[ 3, 0:3 ] = vector
+    mat[ 3, 0:3 ] = vec
     return mat
 
 def create_from_scale( scale ):
@@ -137,18 +137,18 @@ def create_from_z_rotation( theta ):
     mat[ 0:3, 0:3 ] = matrix33.create_from_z_rotation( theta )
     return mat
 
-def apply_to_vector( matrix, vector ):
-    if vector.size == 3:
+def apply_to_vector( mat, vec ):
+    if vec.size == 3:
         # convert to a vec4
-        vec4 = numpy.array( [ vector[ 0 ], vector[ 1 ], vector[ 2 ], 1.0 ] )
-        vec4 = numpy.dot( matrix, vec4 )
+        vec4 = numpy.array( [ vec[ 0 ], vec[ 1 ], vec[ 2 ], 1.0 ] )
+        vec4 = numpy.dot( mat, vec4 )
 
         # handle W value
         if vec4[-1] != 0.0:
             vec4 /= vec4[-1]
         return vec4[:-1]
-    elif vector.size == 4:
-        return numpy.dot( matrix, vector )
+    elif vec.size == 4:
+        return numpy.dot( mat, vec )
     else:
         raise ValueError( "Vector size unsupported" )
 

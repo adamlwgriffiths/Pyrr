@@ -213,13 +213,13 @@ def create_from_z_rotation( theta ):
             ]
         )
 
-def apply_to_vector( matrix, vector ):
-    if vector.size == 3:
-        return numpy.dot( matrix, vector )
-    elif vector.size == 4:
+def apply_to_vector( mat, vec ):
+    if vec.size == 3:
+        return numpy.dot( mat, vec )
+    elif vec.size == 4:
         # convert to vec3 and undo w component
-        vec3 = vector[:-1] / vector[-1]
-        vec3 = numpy.dot( matrix, vec3 )
+        vec3 = vec[:-1] / vec[-1]
+        vec3 = numpy.dot( mat, vec3 )
         # convert back to vec4
         return numpy.array( [ vec3[0], vec3[1], vec3[2], 1.0 ] )
     else:
@@ -232,6 +232,6 @@ def multiply( m1, m2, out = None ):
 
     return numpy.dot( m1, m2, out = out )
 
-def inverse( m ):
-    return numpy.linalg.inv( m )
+def inverse( mat ):
+    return numpy.linalg.inv( mat )
 
