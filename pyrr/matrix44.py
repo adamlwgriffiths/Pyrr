@@ -30,10 +30,6 @@ def to_matrix33( mat ):
     return mat[ 0:3, 0:3 ]
 
 def create_from_eulers( eulers ):
-    """
-    Proper matrix layout and layout used for DirectX.
-    For OpenGL, transpose the matrix after calling this.
-    """
     # set to identity matrix
     # this will populate our extra rows for us
     mat = identity()
@@ -113,6 +109,21 @@ def create_from_scale( scale ):
     return numpy.diagflat(
         [ scale[ 0 ], scale[ 1 ], scale[ 2 ], 1.0 ]
         )
+
+def create_from_x_rotation( theta ):
+    mat = identity()
+    mat[ 3, 0:3 ] = matrix33.create_from_x_rotation( theta )
+    return mat
+
+def create_from_y_rotation( theta ):
+    mat = identity()
+    mat[ 3, 0:3 ] = matrix33.create_from_y_rotation( theta )
+    return mat
+
+def create_from_z_rotation( theta ):
+    mat = identity()
+    mat[ 3, 0:3 ] = matrix33.create_from_z_rotation( theta )
+    return mat
 
 def apply_to_vector( matrix, vector ):
     if vector.size == 3:

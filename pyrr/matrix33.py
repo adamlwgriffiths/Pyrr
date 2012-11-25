@@ -156,6 +156,63 @@ def create_from_scale( scale ):
     # down the matrix
     return numpy.diagflat( scale )
 
+def create_from_x_rotation( theta ):
+    """Creates a matrix with the specified rotation about the X axis.
+
+    http://en.wikipedia.org/wiki/Rotation_matrix#In_three_dimensions
+    """
+    cosT = math.cos( theta )
+    sinT = math.sin( theta )
+
+    return numpy.array(
+        [
+            # 1, 0 ,0
+            [ 1.0, 0.0, 0.0 ],
+            # 0, cosT,-sinT
+            [ 0.0, cosT,-sinT ],
+            # 0, sinT, cosT
+            [ 0.0, sinT, cosT ]
+            ]
+        )
+
+def create_from_y_rotation( theta ):
+    """Creates a matrix with the specified rotation about the Y axis.
+    
+    http://en.wikipedia.org/wiki/Rotation_matrix#In_three_dimensions
+    """
+    cosT = math.cos( theta )
+    sinT = math.sin( theta )
+    
+    return numpy.array(
+        [
+            # cosT, 0, 0
+            [ cosT, 0.0, 0.0 ],
+            # 0, 1, 0
+            [ 0.0, 1.0, 0.0 ],
+            # -sinT, 0, cosT
+            [-sinT, 0.0, cosT ]
+            ]
+        )
+
+def create_from_z_rotation( theta ):
+    """Creates a matrix with the specified rotation about the Z axis.
+    
+    http://en.wikipedia.org/wiki/Rotation_matrix#In_three_dimensions
+    """
+    cosT = math.cos( theta )
+    sinT = math.sin( theta )
+    
+    return numpy.array(
+        [
+            # cosT,-sinT, 0
+            [ cosT, sinT, 0.0 ],
+            # sinT, cosT, 0
+            [ sinT, cosT, 0.0 ],
+            # 0, 0, 1
+            [ 0.0, 0.0, 1.0 ]
+            ]
+        )
+
 def apply_to_vector( matrix, vector ):
     if vector.size == 3:
         return numpy.dot( matrix, vector )
