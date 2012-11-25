@@ -12,10 +12,6 @@ def create_from_matrix44( mat ):
     return numpy.array( mat[ 0:3, 0:3 ] )
 
 def create_from_eulers( eulers ):
-    """
-    Proper matrix layout and layout used for DirectX.
-    For OpenGL, transpose the matrix after calling this.
-    """
     pitchOver2 = eulers[ 0 ] * 0.5
     rollOver2 = eulers[ 1 ] * 0.5
     yawOver2 = eulers[ 2 ] * 0.5
@@ -60,10 +56,6 @@ def create_from_eulers( eulers ):
         )
 
 def create_from_quaternion( quat ):
-    """
-    Proper matrix layout and layout used for DirectX.
-    For OpenGL, transpose the matrix after calling this.
-    """
     x = quat[ 0 ]
     y = quat[ 1 ]
     z = quat[ 2 ]
@@ -112,10 +104,6 @@ def create_from_quaternion( quat ):
         )
 
 def create_from_inverse_of_quaternion( quat ):
-    """
-    Proper matrix layout and layout used for DirectX.
-    For OpenGL, transpose the matrix after calling this.
-    """
     x = quat[ 0 ]
     y = quat[ 1 ]
     z = quat[ 2 ]
