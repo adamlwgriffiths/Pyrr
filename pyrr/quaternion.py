@@ -322,12 +322,12 @@ def inverse( quat ):
 def negate( quat ):
     return quat * -1.0
 
-def apply_to_vector( quat, vector ):
+def apply_to_vector( quat, vec ):
     """Rotates a vector by a quaternion.
 
     quat and vec must be 1d arrays.
     """
-    def apply( quaternion, vec3 ):
+    def apply( quat, vec3 ):
         """
         http://content.gpwiki.org/index.php/OpenGL:Tutorials:Using_Quaternions_to_represent_rotation
         """
@@ -338,23 +338,23 @@ def apply_to_vector( quat, vector ):
             vector.cross( quat[:-1], v ) + (quat[-1] * v)
             )
         """
-        length = vector.length( vector )
-        vec = vector.normalise( vector )
+        length = vector.length( vec3 )
+        vec = vector.normalise( vec3 )
 
         # use the vector to create a new quaternion
         # this is basically the vector3 to vector4 conversion with W = 0
-        vq = numpy.array( [ vec[ 0 ], vec[ 1 ], vec[ 2 ], 0.0 ] )
+        vec_quat = numpy.array( [ vec3[ 0 ], vec3[ 1 ], vec3[ 2 ], 0.0 ] )
 
         # quat * vec * quat^-1
-        result = cross( quat, cross( vq, conjugate( quat ) ) )
+        result = cross( quat, cross( vec_quat, conjugate( quat ) ) )
         return result[ :-1 ] * length
 
-    if vector.size == 3:
+    if vec.size == 3:
         # convert to vector4
         # ignore w component
-        return apply( quat, vector )
-    elif vector.size == 4:
-        vec3 = vector3.create_from_vector4( vector )
+        return apply( quat, vec )
+    elif vec.size == 4:
+        vec3 = vector3.create_from_vector4( vec )
         result = apply( quat, vec3 )
         return vector4.create_from_vector3( vec3 )
     else:
