@@ -355,7 +355,7 @@ def apply_to_vector( quat, vec ):
         return apply( quat, vec )
     elif vec.size == 4:
         vec3 = vector3.create_from_vector4( vec )
-        result = apply( quat, vec3 )
+        vec3 = apply( quat, vec3 )
         return vector4.create_from_vector3( vec3 )
     else:
         raise ValueError( "Vector size unsupported" )
