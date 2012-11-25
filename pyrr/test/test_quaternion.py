@@ -4,6 +4,7 @@ import math
 import numpy
 
 from pyrr import quaternion
+from pyrr import vector3
 
 
 class test_quaternion( unittest.TestCase ):
@@ -170,6 +171,65 @@ class test_quaternion( unittest.TestCase ):
                 "Quaternion batch squared length calculation incorrect"
                 )
         non_identity_batch()
+
+
+    def test_apply_to_vector( self ):
+        def identity():
+            quat = quaternion.identity()
+            vec = vector3.unit.x
+
+            result = quaternion.apply_to_vector( quat, vec )
+
+            expected = vec
+
+            self.assertTrue(
+                numpy.array_equal( result, expected ),
+                "Quaternion apply_to_vector incorrect with identity"
+                )
+        identity()
+
+        def rotated_x():
+            quat = quaternion.create_from_x_rotation( math.pi )
+            vec = vector3.unit.y
+
+            result = quaternion.apply_to_vector( quat, vec )
+
+            expected = -vec
+
+            self.assertTrue(
+                numpy.allclose( result, expected ),
+                "Quaternion apply_to_vector incorrect with rotation about X"
+                )
+        rotated_x()
+
+        def rotated_y():
+            quat = quaternion.create_from_y_rotation( math.pi )
+            vec = vector3.unit.x
+
+            result = quaternion.apply_to_vector( quat, vec )
+
+            expected = -vec
+
+            self.assertTrue(
+                numpy.allclose( result, expected ),
+                "Quaternion apply_to_vector incorrect with rotation about Y"
+                )
+        rotated_y()
+
+        def rotated_z():
+            quat = quaternion.create_from_z_rotation( math.pi )
+            vec = vector3.unit.x
+
+            result = quaternion.apply_to_vector( quat, vec )
+
+            expected = -vec
+
+            self.assertTrue(
+                numpy.allclose( result, expected ),
+                "Quaternion apply_to_vector incorrect with rotation about Y"
+                )
+        rotated_z()
+
 
 if __name__ == '__main__':
     unittest.main()
