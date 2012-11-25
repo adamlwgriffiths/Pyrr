@@ -124,7 +124,7 @@ def apply_to_vector( matrix, vector ):
         # handle W value
         if vec4[-1] != 0.0:
             vec4 /= vec4[-1]
-        return vec[:-1]
+        return vec4[:-1]
     elif vector.size == 4:
         return numpy.dot( matrix, vector )
     else:
