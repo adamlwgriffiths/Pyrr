@@ -69,7 +69,7 @@ def create_from_points( points ):
             ]
         )
 
-def create_from_aabbs( aabbs ):
+def create_from_aabbs( bbs ):
     """ Creates an AAMBB from a list of existing AABBs.
 
     AABBs must be a 2D list. Ie:
@@ -79,11 +79,11 @@ def create_from_aabbs( aabbs ):
     ]
     """
     # reshape the AABBs as a series of points
-    points = aabbs.reshape( (-1, 3 ) )
+    points = bbs.reshape( (-1, 3 ) )
 
     return create_from_points( points )
 
-def add_points( aabb, points ):
+def add_points( bb, points ):
     """ Extends an AAMBB to encompass a list
     of points.
 
@@ -93,7 +93,7 @@ def add_points( aabb, points ):
     the AAMBB will create an even bigger AAMBB.
     """
     # add our AABB to the list of points
-    values = numpy.vstack( points, aabb[ 0 ], aabb[ 1 ] )
+    values = numpy.vstack( points, bb[ 0 ], bb[ 1 ] )
 
     # convert any negative values to positive
     abs_points = numpy.absolute( values )
@@ -113,7 +113,7 @@ def add_points( aabb, points ):
             ]
         )
 
-def add_aabbs( aabb, aabbs ):
+def add_aabbs( bb, bbs ):
     """ Extend an AAMBB to encompass a list
     of other AABBs or AAMBBs.
 
@@ -123,31 +123,31 @@ def add_aabbs( aabb, aabbs ):
     will create an event bigger AAMBB.
     """
     # reshape the AABBs as a series of points
-    points = aabbs.reshape( (-1, 3 ) )
+    points = bbs.reshape( (-1, 3 ) )
 
     # use the add_points
-    return add_points( aabb, points )
+    return add_points( bb, points )
 
-def centre_point( aabb ):
+def centre_point( bb ):
     """ Returns the centre point of the AABB.
     This should always be [0.0, 0.0, 0.0]
     """
-    return (aabb[ 0 ] + aabb[ 1 ]) * 0.5
+    return aabb.centre_point( bb )
 
-def minimum( aabb ):
+def minimum( bb ):
     """ Returns the minimum point of the AABB.
     """
-    return aabb[ 0 ]
+    return aabb.minimum( bb )
 
-def maximum( aabb ):
+def maximum( bb ):
     """ Returns the maximum point of the AABB.
     """
-    return aabb[ 1 ]
+    return aabb.maximum( bb )
 
-def clamp_points( aabb, points ):
+def clamp_points( bb, points ):
     """ Takes a list of points and modifies them to
     fit within the AABB.
     """
     # use the same function as present in AABB
-    aabb.clamp_points( aabb, points )
+    aabb.clamp_points( bb, points )
 
