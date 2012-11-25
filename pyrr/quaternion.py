@@ -26,7 +26,7 @@ def create( x, y, z, w ):
 def identity():
     return vector4.identity()
 
-def set_to_rotation_about_x( theta ):
+def create_from_x_rotation( theta ):
     thetaOver2 = theta * 0.5
 
     return numpy.array(
@@ -42,7 +42,7 @@ def set_to_rotation_about_x( theta ):
             ]
         )
 
-def set_to_rotation_about_y( theta):
+def create_from_y_rotation( theta):
     thetaOver2 = theta * 0.5
 
     return numpy.array(
@@ -58,7 +58,7 @@ def set_to_rotation_about_y( theta):
             ]
         )
 
-def set_to_rotation_about_z( theta):
+def create_from_z_rotation( theta):
     thetaOver2 = theta * 0.5
 
     return numpy.array(
@@ -74,7 +74,7 @@ def set_to_rotation_about_z( theta):
             ]
         )
 
-def set_to_rotation_about_axis( axis, theta ):
+def create_from_axis_rotation( axis, theta ):
     # make sure the vector is normalised
     assert (numpy.linalg.norm( axis, ord = None ) - 1.0) < 0.01
     
