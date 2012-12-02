@@ -1,18 +1,18 @@
-'''
-Created on 07/05/2012
-
+"""
 A sphere is defined as a position (3d vector) and
 a radius (float).
-
-@author: adam
-'''
+"""
 
 import numpy
+
+from utils import all_parameters_as_numpy_arrays
+
 
 class index:
     position = 0
     radius = 1
 
+@all_parameters_as_numpy_arrays
 def create_from_points( points ):
     """
     Creates a sphere centred around 0,0,0

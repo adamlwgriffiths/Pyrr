@@ -1,12 +1,8 @@
-'''
-Created on 11/04/2012
-
-@author: adam
-'''
-
 import math
 
 import numpy
+
+from utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays
 
 
 class index:
@@ -29,6 +25,7 @@ def create_from_bounds( left, right, bottom, top ):
             ]
         )
 
+@all_parameters_as_numpy_arrays
 def bounds( rect ):
     left = rect[ 0,0 ]
     right = rect[ 0,0 ] + rect[ 1,0 ]
@@ -51,54 +48,65 @@ def size( rect ):
 def abs_size( rect ):
     return numpy.absolute( size( rect ) )
 
+@all_parameters_as_numpy_arrays
 def width( rect ):
     return rect[ 1,0 ]
 
 def abs_width( rect ):
     return abs( width( rect ) )
 
+@all_parameters_as_numpy_arrays
 def height( rect ):
     return rect[ 1,1 ]
 
 def abs_height( rect ):
     return abs( height( rect ) )
 
+@all_parameters_as_numpy_arrays
 def top( rect ):
     return rect[ 0,1 ] + rect[ 1,1 ]
 
+@all_parameters_as_numpy_arrays
 def bottom( rect ):
     return rect[ 0,1 ]
 
+@all_parameters_as_numpy_arrays
 def left( rect ):
     return rect[ 0,0 ]
 
+@all_parameters_as_numpy_arrays
 def right( rect ):
     return rect[ 0,0 ] + rect[ 1,0 ]
 
+@all_parameters_as_numpy_arrays
 def x_minimum( rect ):
     return min(
         rect[ 0,0 ],
         rect[ 0,0 ] + rect[ 1,0 ]
         )
 
+@all_parameters_as_numpy_arrays
 def x_maximum( rect ):
     return max(
         rect[ 0,0 ],
         rect[ 0,0 ] + rect[ 1,0 ]
         )
 
+@all_parameters_as_numpy_arrays
 def y_minimum( rect ):
     return min(
         rect[ 0,1 ],
         rect[ 0,1 ] + rect[ 1,1 ]
         )
 
+@all_parameters_as_numpy_arrays
 def y_maximum( rect ):
     return max(
         rect[ 0,1 ],
         rect[ 0,1 ] + rect[ 1,1 ]
         )
 
+@parameters_as_numpy_arrays( 'rect' )
 def scale_by_vector( rect, vec ):
     """
     Scales a rectangle by a 2D vector.

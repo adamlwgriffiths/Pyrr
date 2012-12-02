@@ -1,12 +1,8 @@
-'''
-Created on 20/04/2012
-
-@author: adam
-
+"""
 Defines a number of functions to test
 interactions between various forms of
 3D structures.
-'''
+"""
 
 import numpy
 
@@ -14,7 +10,10 @@ import ray
 import vector
 import rectangle
 
+from utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays
 
+
+@all_parameters_as_numpy_arrays
 def point_intersect_line( line, point ):
     """
     Determines if a point is on a line.
@@ -31,6 +30,7 @@ def point_intersect_line( line, point ):
         return None
     return point
 
+@all_parameters_as_numpy_arrays
 def point_intersect_line_segment( line, point ):
     """
     Determines if a point is on a segment.
@@ -56,6 +56,7 @@ def point_intersect_line_segment( line, point ):
         return None
     return point
 
+@all_parameters_as_numpy_arrays
 def point_intersect_rectangle( point, rect ):
     """
     Determines if a point is within a 2D rectangle.
@@ -74,6 +75,7 @@ def point_intersect_rectangle( point, rect ):
         return None
     return point
 
+@parameters_as_numpy_arrays( 'ray', 'plane' )
 def ray_intersect_plane( ray, plane, front_only = False ):
     """
     Distance to plane is defined as
@@ -111,6 +113,7 @@ def ray_intersect_plane( ray, plane, front_only = False ):
     t = (pd - p0_n) / rd_n
     return ray[ 0 ] + (ray[ 1 ] * t)
 
+@all_parameters_as_numpy_arrays
 def line_intersect_plane( line, plane ):
     """
     Calculates the intersection point of a line
@@ -118,6 +121,7 @@ def line_intersect_plane( line, plane ):
     """
     pass
 
+@all_parameters_as_numpy_arrays
 def line_segment_intersect_plane( segment, plane ):
     """
     Calculates the intersection point of a segment and a
@@ -127,6 +131,7 @@ def line_segment_intersect_plane( segment, plane ):
     """
     pass
 
+@all_parameters_as_numpy_arrays
 def closest_point_on_ray( ray, point ):
     """
     Calculates the closest point on a ray.
@@ -143,6 +148,7 @@ def closest_point_on_ray( ray, point ):
     t = vector.dot( relative_point, normalised_n )
     return ray[ 0 ] + ( normalised_n * t )
 
+@all_parameters_as_numpy_arrays
 def closest_point_on_line( line, point ):
     """
     Calculates the point on the line that is the
@@ -163,6 +169,7 @@ def closest_point_on_line( line, point ):
     dot = vector.dot( rl, rp )
     return line[ 0 ] + (rl * dot)
 
+@all_parameters_as_numpy_arrays
 def closest_point_on_line_segment( segment, point ):
     """
     Calculates the point on the line segment that is
@@ -187,12 +194,14 @@ def closest_point_on_line_segment( segment, point ):
     # perform the same calculation as closest_point_on_line
     return segment[ 0 ] + (rl * dot)
 
+@all_parameters_as_numpy_arrays
 def are_rays_parallel( ray1, ray2 ):
     cross = vector.cross( ray1[ 1 ], ray2[ 1 ] )
     if numpy.count_nonzero( cross ) > 0:
         return False
     return True
 
+@all_parameters_as_numpy_arrays
 def are_rays_coincident( ray1, ray2 ):
     # ensure the ray's directions are the same
     if numpy.array_equal( ray1[ 0 ], ray2[ 0 ] ):
@@ -212,6 +221,7 @@ def are_rays_coincident( ray1, ray2 ):
         return True
     return False
 
+@all_parameters_as_numpy_arrays
 def ray_intersect_aabb( ray, aabb ):
     # http://gamedev.stackexchange.com/questions/18436/most-efficient-aabb-vs-ray-collision-algorithms
     dir_fraction = numpy.divide( 1.0, aabb[ 1 ] )
@@ -240,15 +250,19 @@ def ray_intersect_aabb( ray, aabb ):
     point = ray[ 0 ] + (ray[ 1 ] * tmin)
     return point
 
+@all_parameters_as_numpy_arrays
 def ray_intersect_ray( ray1, ray2 ):
     pass
 
+@all_parameters_as_numpy_arrays
 def line_intersect_line( line1, line2 ):
     pass
 
+@all_parameters_as_numpy_arrays
 def line_segment_intersect_line_segment( segment1, segment2 ):
     pass
 
+@all_parameters_as_numpy_arrays
 def height_above_plane( plane, vector ):
     """
     Returns the height above the plane.
@@ -261,6 +275,7 @@ def height_above_plane( plane, vector ):
     vector_dot = numpy.dot( vector, plane[ 1 ] )
     return vector_dot - plane_dot
 
+@all_parameters_as_numpy_arrays
 def closest_point_on_plane( plane, vector ):
     """
     point on plane is defined as:
@@ -275,6 +290,7 @@ def closest_point_on_plane( plane, vector ):
     qn = numpy.dot( vector, plane[ 1 ] )
     return vector + ( plane[ 1 ] * (d - qn) )
 
+@all_parameters_as_numpy_arrays
 def does_sphere_intersect_sphere( c1, c2 ):
     """
     Determines if two spheres overlap.
@@ -300,6 +316,7 @@ def does_sphere_intersect_sphere( c1, c2 ):
         return False
     return True
 
+@all_parameters_as_numpy_arrays
 def sphere_penetration_sphere( c1, c2 ):
     """
     Calculates the distance two spheres have

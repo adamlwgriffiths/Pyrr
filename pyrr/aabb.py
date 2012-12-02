@@ -19,6 +19,8 @@ TODO: add transform( matrix )
 
 import numpy
 
+from utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays
+
 
 class index:
     minimum = 0
@@ -49,6 +51,7 @@ def create_from_points( points ):
             ]
         )
 
+@all_parameters_as_numpy_arrays
 def create_from_aabbs( aabbs ):
     """ Creates an AABB from a list of existing AABBs.
 
@@ -59,8 +62,7 @@ def create_from_aabbs( aabbs ):
     ]
     """
     # reshape the AABBs as a series of points
-    points = aabbs.view()
-    points.shape = (-1, 3 )
+    points = aabbs.reshape( (-1, 3 ) )
 
     return create_from_points( points )
 
@@ -80,6 +82,7 @@ def add_points( aabb, points ):
             ]
         )
 
+@parameters_as_numpy_arrays( 'aabbs' )
 def add_aabbs( aabb, aabbs ):
     """ Extend an AABB to encompass a list
     of other AABBs.
@@ -90,6 +93,7 @@ def add_aabbs( aabb, aabbs ):
 
     return add_points( aabb, points )
 
+@all_parameters_as_numpy_arrays
 def centre_point( aabb ):
     """ Returns the centre point of the AABB.
     """
@@ -105,6 +109,7 @@ def maximum( aabb ):
     """
     return aabb[ 1 ]
 
+@all_parameters_as_numpy_arrays
 def clamp_points( aabb, points ):
     """ Takes a list of points and modifies them to
     fit within the AABB.

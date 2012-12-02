@@ -1,6 +1,8 @@
 import numpy
+from utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays
 
 
+@all_parameters_as_numpy_arrays
 def normalise( vec ):
     """
     Normalises an Nd list of vectors or a single vector
@@ -39,6 +41,7 @@ def squared_length( vec ):
 
     return lengths
 
+@all_parameters_as_numpy_arrays
 def length( vec ):
     """
     Returns the length of an Nd list of vectors
@@ -65,6 +68,7 @@ def length( vec ):
         return lengths.item()
     return lengths
 
+@parameters_as_numpy_arrays( 'vec' )
 def set_length( vec, len ):
     """
     Changes the length of an Nd list of vectors or

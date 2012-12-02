@@ -25,6 +25,7 @@ import numpy
 
 import aabb
 import vector
+from utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays
 
 
 class index:
@@ -69,6 +70,7 @@ def create_from_points( points ):
             ]
         )
 
+@all_parameters_as_numpy_arrays
 def create_from_aabbs( bbs ):
     """ Creates an AAMBB from a list of existing AABBs.
 
@@ -113,6 +115,7 @@ def add_points( bb, points ):
             ]
         )
 
+@parameters_as_numpy_arrays( 'bbs' )
 def add_aabbs( bb, bbs ):
     """ Extend an AAMBB to encompass a list
     of other AABBs or AAMBBs.

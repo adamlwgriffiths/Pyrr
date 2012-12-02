@@ -3,6 +3,7 @@ import math
 import numpy
 
 import matrix33
+from utils import all_parameters_as_numpy_arrays
 
 
 def identity():
@@ -17,6 +18,7 @@ def create_from_matrix33( mat ):
     mat4[ 0:3, 0:3 ] = mat
     return mat4
 
+@all_parameters_as_numpy_arrays
 def to_matrix33( mat ):
     """
     Converts a matrix44 to a matrix33.
