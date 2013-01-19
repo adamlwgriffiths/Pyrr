@@ -27,7 +27,13 @@ def create_from_bounds( left, right, bottom, top, dtype = None ):
     ymin = min( top, bottom )
     ymax = max( top, bottom )
 
-    return create_from_points( xmin, xmax, ymin, ymax, dtype )
+    return create_from_position(
+        xmin,
+        ymin,
+        xmax - xmin,
+        ymax - ymin,
+        dtype
+        )
 
 @all_parameters_as_numpy_arrays
 def bounds( rect ):
