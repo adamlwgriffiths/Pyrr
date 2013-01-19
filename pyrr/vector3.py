@@ -16,6 +16,9 @@ def create_unit_length_z():
 def create_from_vector4( vector ):
     return numpy.array( vector[ :-1 ] )
 
+def create_from_matrix44_translation( mat ):
+    return mat[ 3, 0:3 ].copy()
+
 class unit:
     x = create_unit_length_x()
     y = create_unit_length_y()
