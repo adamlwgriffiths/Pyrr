@@ -9,10 +9,10 @@ class index:
     position = 0
     size = 1
 
-def zeros():
-    return numpy.zeros( (2,2) )
+def zeros( dtype = None ):
+    return numpy.zeros( (2,2), dtype = dtype )
 
-def create_from_bounds( left, right, bottom, top ):
+def create_from_bounds( left, right, bottom, top, dtype = None ):
     xmin = min( left, right )
     xmax = max( left, right )
     ymin = min( top, bottom )
@@ -22,7 +22,8 @@ def create_from_bounds( left, right, bottom, top ):
         [
             [ xmin, ymin ],
             [ xmax - xmin, ymax - ymin ]
-            ]
+            ],
+        dtype = dtype
         )
 
 @all_parameters_as_numpy_arrays
