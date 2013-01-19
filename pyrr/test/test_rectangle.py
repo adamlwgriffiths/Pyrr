@@ -45,10 +45,10 @@ class test_rectangle( unittest.TestCase ):
         top = 5.5
 
         rect = rectangle.create_from_bounds(
-            left,
-            right,
-            bottom,
-            top
+            left = left,
+            right = right,
+            bottom = bottom,
+            top = top
             )
         
         self.assertEqual(
