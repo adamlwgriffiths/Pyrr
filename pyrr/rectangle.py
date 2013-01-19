@@ -12,19 +12,22 @@ class index:
 def zeros( dtype = None ):
     return numpy.zeros( (2,2), dtype = dtype )
 
+def create_from_position( x, y, width, height, dtype = None ):
+    return numpy.array(
+        [
+            [ x, y ],
+            [ width, height ]
+            ],
+        dtype = dtype
+        )
+
 def create_from_bounds( left, right, bottom, top, dtype = None ):
     xmin = min( left, right )
     xmax = max( left, right )
     ymin = min( top, bottom )
     ymax = max( top, bottom )
 
-    return numpy.array(
-        [
-            [ xmin, ymin ],
-            [ xmax - xmin, ymax - ymin ]
-            ],
-        dtype = dtype
-        )
+    return create_from_points( xmin, xmax, ymin, ymax, dtype )
 
 @all_parameters_as_numpy_arrays
 def bounds( rect ):
