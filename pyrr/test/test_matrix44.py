@@ -182,6 +182,21 @@ class test_matrix44( unittest.TestCase ):
                 "Matrix44 apply_to_vector incorrect with rotation about Y"
                 )
         rotated_z()
+
+        def translation():
+            mat = matrix44.identity()
+            vec = numpy.array([0.0, 0.0, 0.0])
+            mat[3,0:3] = [1.0, 2.0, 3.0]
+
+            result = matrix44.apply_to_vector( mat, vec )
+
+            expected = mat[3,0:3]
+
+            self.assertTrue(
+                numpy.allclose( result, expected ),
+                "Matrix44 apply_to_vector incorrect with translation"
+                )
+        translation()
     
 if __name__ == '__main__':
     unittest.main()
