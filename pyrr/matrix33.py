@@ -215,11 +215,11 @@ def create_from_z_rotation( theta ):
 
 def apply_to_vector( mat, vec ):
     if vec.size == 3:
-        return numpy.dot( mat, vec )
+        return numpy.dot( vec, mat )
     elif vec.size == 4:
         # convert to vec3 and undo w component
         vec3 = vec[:-1] / vec[-1]
-        vec3 = numpy.dot( mat, vec3 )
+        vec3 = numpy.dot( vec3, mat )
         # convert back to vec4
         return numpy.array( [ vec3[0], vec3[1], vec3[2], 1.0 ] )
     else:

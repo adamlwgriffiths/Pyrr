@@ -139,18 +139,19 @@ def create_from_z_rotation( theta ):
     mat[ 0:3, 0:3 ] = matrix33.create_from_z_rotation( theta )
     return mat
 
+@all_parameters_as_numpy_arrays
 def apply_to_vector( mat, vec ):
     if vec.size == 3:
         # convert to a vec4
         vec4 = numpy.array( [ vec[ 0 ], vec[ 1 ], vec[ 2 ], 1.0 ] )
-        vec4 = numpy.dot( mat, vec4 )
+        vec4 = numpy.dot( vec4, mat )
 
         # handle W value
         if vec4[-1] != 0.0:
             vec4 /= vec4[-1]
         return vec4[:-1]
     elif vec.size == 4:
-        return numpy.dot( mat, vec )
+        return numpy.dot( vec, mat )
     else:
         raise ValueError( "Vector size unsupported" )
 
