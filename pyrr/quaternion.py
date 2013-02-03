@@ -317,7 +317,7 @@ def inverse( quat ):
     @param quat: The quaternion to invert.
     @return: Returns the inverse quaternion.
     """
-    return conjugate( quat ) / length( quat )
+    return conjugate( quat ) / squared_length( quat )
 
 def negate( quat ):
     return quat * -1.0
