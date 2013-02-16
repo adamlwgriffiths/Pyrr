@@ -93,7 +93,7 @@ def create_from_translation( vec ):
     set to the specified vector.
     """
     mat = identity()
-    mat[ 3, 0:3 ] = vec
+    mat[ 3, 0:3 ] = vec[:3]
     return mat
 
 def create_from_scale( scale ):
