@@ -1,5 +1,8 @@
+# -*- coding: utf-8 -*-
+from __future__ import absolute_import, division, print_function, unicode_literals
+
 import numpy
-from utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays
+from pyrr.utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays
 
 
 @all_parameters_as_numpy_arrays

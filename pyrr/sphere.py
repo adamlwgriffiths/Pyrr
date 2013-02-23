@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+from __future__ import absolute_import, division, print_function, unicode_literals
+
 """
 A sphere is defined as a position (3d vector) and
 a radius (float).
@@ -5,7 +8,7 @@ a radius (float).
 
 import numpy
 
-from utils import all_parameters_as_numpy_arrays
+from pyrr.utils import all_parameters_as_numpy_arrays
 
 
 class index:

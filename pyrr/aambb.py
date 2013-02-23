@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+from __future__ import absolute_import, division, print_function, unicode_literals
+
 """ Provides functions to calculate and manipulate
 Axis-Aligned Minimum Bounding Boxes (AAMBB).
 
@@ -23,9 +26,8 @@ TODO: use point_within_aabb for unit tests
 
 import numpy
 
-import aabb
-import vector
-from utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays
+from pyrr import aabb, vector
+from pyrr.utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays
 
 
 class index:

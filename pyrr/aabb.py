@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+from __future__ import absolute_import, division, print_function, unicode_literals
+
 """ Provides functions to calculate and manipulate
 Axis-Aligned Bounding Boxes (AABB).
 
@@ -19,7 +22,7 @@ TODO: add transform( matrix )
 
 import numpy
 
-from utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays
+from pyrr.utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays
 
 
 class index:
