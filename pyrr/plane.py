@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+from __future__ import absolute_import, division, print_function, unicode_literals
+
 '''
 Created on 29/05/2011
 
@@ -7,7 +10,7 @@ Created on 29/05/2011
 import numpy
 import numpy.linalg
 
-import vector
+from pyrr import vector
 
 
 # the indices of each component in the

@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+from __future__ import absolute_import, division, print_function, unicode_literals
+
 '''
 Created on 21/06/2011
 
@@ -8,9 +11,7 @@ import math
 
 import numpy
 
-import vector
-import vector3
-import vector4
+from pyrr import vector, vector3, vector4
 
 
 class index:
@@ -244,7 +245,7 @@ def get_rotation_axis( quat ):
     if sinThetaOver2Sq <= 0.0:
         # assert here for the time being
         assert False
-        print "rotation axis was identity"
+        print("rotation axis was identity")
         
         # identity quaternion or numerical imprecision.
         # return a valid vector
@@ -286,7 +287,7 @@ def power( quat, exponent ):
     if math.fabs( quat[ w ] ) > 0.9999:
         # assert for the time being
         assert False
-        print "rotation axis was identity"
+        print("rotation axis was identity")
         
         out[:] = quat
         return out

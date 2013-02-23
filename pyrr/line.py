@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+from __future__ import absolute_import, division, print_function, unicode_literals
+
 '''
 Created on 20/04/2012
 
@@ -12,7 +15,7 @@ It does not extend forever.
 
 import numpy
 
-import vector
+from pyrr import vector
 
 class index:
     start = 0

@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+from __future__ import absolute_import, division, print_function, unicode_literals
+
 '''
 Created on 20/04/2012
 
@@ -19,7 +22,7 @@ function to function.
 
 import numpy
 
-import vector
+from pyrr import vector
 
 
 # the indices of each component in the

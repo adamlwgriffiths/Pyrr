@@ -1,9 +1,11 @@
+# -*- coding: utf-8 -*-
+from __future__ import absolute_import, division, print_function, unicode_literals
+
 import math
 
 import numpy
 
-import quaternion
-
+from pyrr import quaternion
 
 def identity():
     return numpy.identity( 3, dtype = 'float' )

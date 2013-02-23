@@ -1,9 +1,12 @@
+# -*- coding: utf-8 -*-
+from __future__ import absolute_import, division, print_function, unicode_literals
+
 import math
 
 import numpy
 
-import matrix33
-from utils import all_parameters_as_numpy_arrays
+from pyrr import matrix33
+from pyrr.utils import all_parameters_as_numpy_arrays
 
 
 def identity():

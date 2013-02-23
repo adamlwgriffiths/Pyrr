@@ -24,7 +24,7 @@ pip install pyrr
 
 Pyrr requires the following software:
 
-   * Python 2(.6?)+
+   * Python 2(.6?)+ / 3.0+
    * NumPy
 
 Source Installation

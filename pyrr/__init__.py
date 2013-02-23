@@ -1,9 +1,12 @@
+# -*- coding: utf-8 -*-
+from __future__ import absolute_import, division, print_function, unicode_literals
+
 import pkgutil
 import os
 
 # the version of software
 # this is used by the setup.py script
-from version import __version__
+from pyrr.version import __version__
 
 # make 'from module import *' work dynamically.
 # otherwise we have to manually update the __all__ list.
@@ -25,6 +28,6 @@ for module in os.listdir( os.path.dirname( __file__ ) ):
         continue
 
     # file type is ok, import it
-    __import__( name, locals(), globals() )
+    __import__( 'pyrr.%s' % (name,), locals(), globals() )
     del module
 
