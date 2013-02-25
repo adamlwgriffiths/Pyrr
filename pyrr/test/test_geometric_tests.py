@@ -148,30 +148,41 @@ class test_geometric_tests( unittest.TestCase ):
         invalid_intersections()
 
     def test_ray_intersect_aabb( self ):
-        for min_corner, max_corner, origin, direction, expected in (
-            (
-                [-1.0,-1.0,-1.0 ], [ 1.0, 1.0, 1.0 ],
-                [ 0.5, 0.5, 0.0 ], [ 0.0, 0.0,-1.0 ],
-                [ 0.5, 0.5,-1.0 ]
-            ),
-            (
-                [-1.0,-1.0,-1.0 ], [ 1.0, 1.0, 1.0 ],
-                [2.0, 2.0, 2.0 ], [ -1.0, -1.0, -1.0 ],
-                [1.0, 1.0, 1.0],
-            )
-                ):
-            aabb = numpy.array( [min_corner, max_corner] )
-            ray = numpy.array( [origin, direction] )
-            result = gt.ray_intersect_aabb( ray, aabb )
+        def valid_intersections():
+            def ray_1():
+                aabb = numpy.array( [ [-1.0,-1.0,-1.0 ], [ 1.0, 1.0, 1.0 ] ] )
+                ray = numpy.array( [ [ 0.5, 0.5, 0.0 ], [ 0.0, 0.0,-1.0 ] ] )
+                expected = numpy.array( [ 0.5, 0.5,-1.0 ] )
 
-            expected = numpy.array( expected )
+                result = gt.ray_intersect_aabb( ray, aabb )
 
-            self.assertTrue(
-                numpy.array_equal( result, expected ),
-                "Ray vs AABB intersection incorrect: expected %s, got %s" % (
-                    expected, result
-                )
-            )
+                self.assertTrue(
+                    numpy.array_equal( result, expected ),
+                    "Ray vs AABB intersection incorrect: expected %s, got %s" % (
+                        expected, result
+                        )
+                    )
+            ray_1()
+
+            def ray_2():
+                aabb = numpy.array( [ [-1.0,-1.0,-1.0 ], [ 1.0, 1.0, 1.0 ] ] )
+                ray = numpy.array( [ [2.0, 2.0, 2.0 ], [ -1.0, -1.0, -1.0 ] ] )
+                expected = numpy.array( [1.0, 1.0, 1.0] )
+
+                result = gt.ray_intersect_aabb( ray, aabb )
+
+                self.assertTrue(
+                    numpy.array_equal( result, expected ),
+                    "Ray vs AABB intersection incorrect: expected %s, got %s" % (
+                        expected, result
+                        )
+                    )
+            ray_2()
+        valid_intersections()
+
+        def invalid_intersections():
+            pass
+        invalid_intersections()
 
 
 
