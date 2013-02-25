@@ -224,7 +224,15 @@ def are_rays_coincident( ray1, ray2 ):
 @all_parameters_as_numpy_arrays
 def ray_intersect_aabb( ray, aabb ):
     # http://gamedev.stackexchange.com/questions/18436/most-efficient-aabb-vs-ray-collision-algorithms
-    dir_fraction = numpy.divide( 1.0, ray[ 1 ])
+    
+    # this is basically "numpy.divide( 1.0, ray[ 1 ] )"
+    # except we're trying to avoid a divide by zero warning
+    # so where the ray direction value is 0.0, just use infinity
+    # which is what we want anyway
+    direction = ray[ 1 ]
+    dir_fraction = numpy.empty( 3, dtype = ray.dtype )
+    dir_fraction[ direction == 0.0 ] = numpy.inf
+    dir_fraction[ direction != 0.0 ] = numpy.divide( 1.0, direction[ direction != 0.0 ] )
 
     t1 = (aabb[0,0] - ray[0,0]) * dir_fraction[ 0 ]
     t2 = (aabb[1,0] - ray[0,0]) * dir_fraction[ 0 ]
