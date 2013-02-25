@@ -148,26 +148,31 @@ class test_geometric_tests( unittest.TestCase ):
         invalid_intersections()
 
     def test_ray_intersect_aabb( self ):
-        a = numpy.array(
-            [
-                [-1.0,-1.0,-1.0 ],
-                [ 1.0, 1.0, 1.0 ]
-                ]
+        for min_corner, max_corner, origin, direction, expected in (
+            (
+                [-1.0,-1.0,-1.0 ], [ 1.0, 1.0, 1.0 ],
+                [ 0.5, 0.5, 0.0 ], [ 0.0, 0.0,-1.0 ],
+                [ 0.5, 0.5,-1.0 ]
+            ),
+            (
+                [-1.0,-1.0,-1.0 ], [ 1.0, 1.0, 1.0 ],
+                [2.0, 2.0, 2.0 ], [ -1.0, -1.0, -1.0 ],
+                [1.0, 1.0, 1.0],
             )
-        ray = numpy.array(
-            [
-                [ 0.5, 0.5, 5.0 ],
-                [ 0.0, 0.0,-1.0 ]
-                ]
-            )
-        result = gt.ray_intersect_aabb( ray, a )
+                ):
+            aabb = numpy.array( [min_corner, max_corner] )
+            ray = numpy.array( [origin, direction] )
+            result = gt.ray_intersect_aabb( ray, aabb )
 
-        expected = numpy.array( [ 0.5, 0.5,-1.0 ] )
+            expected = numpy.array( expected )
 
-        self.assertTrue(
-            numpy.array_equal( result, expected ),
-            "Ray vs AABB intersection incorrect"
+            self.assertTrue(
+                numpy.array_equal( result, expected ),
+                "Ray vs AABB intersection incorrect: expected %s, got %s" % (
+                    expected, result
+                )
             )
+
 
 
 if __name__ == '__main__':
