@@ -1,7 +1,7 @@
 import numpy
 
 
-def identity():
+def create_identity():
     return numpy.zeros( 3 )
 
 def create_unit_length_x():
