@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, division, print_function, unicode_literals
-
 import math
 
 import numpy
 
 from pyrr import quaternion
 
-def identity():
+def create_identity():
     return numpy.identity( 3, dtype = 'float' )
 
+@all_parameters_as_numpy_arrays
 def create_from_matrix44( mat ):
     return numpy.array( mat[ 0:3, 0:3 ] )
 

@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, division, print_function, unicode_literals
-
 import math
 
 import numpy
@@ -9,7 +8,7 @@ from pyrr import matrix33
 from pyrr.utils import all_parameters_as_numpy_arrays
 
 
-def identity():
+def create_identity():
     """
     Creates a new matrix44 and sets it to
     an identity matrix.
@@ -20,19 +19,6 @@ def create_from_matrix33( mat ):
     mat4 = numpy.identity( 4, dtype = 'float' )
     mat4[ 0:3, 0:3 ] = mat
     return mat4
-
-@all_parameters_as_numpy_arrays
-def to_matrix33( mat ):
-    """
-    Converts a matrix44 to a matrix33.
-    This is essentially a wrapper around the
-    slice function mat[ 0:3, 0:3 ]
-
-    @param mat: A matrix44
-    @result: A matrix33 sliced from the specified
-    matrix.
-    """
-    return mat[ 0:3, 0:3 ]
 
 def create_from_eulers( eulers ):
     # set to identity matrix
