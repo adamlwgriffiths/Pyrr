@@ -1,11 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import absolute_import, division, print_function, unicode_literals
-
-'''
-Created on 20/04/2012
-
-@author: adam
-
+"""
 A ray begins as a single point and extends
 infinitely in a direction.
 
@@ -18,7 +12,8 @@ direction to unit length.
 Some functions may work correctly with directions
 that are not unit length, but this may vary from
 function to function.
-'''
+"""
+from __future__ import absolute_import, division, print_function, unicode_literals
 
 import numpy
 

@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
-from __future__ import absolute_import, division, print_function, unicode_literals
-
 """
 A sphere is defined as a position (3d vector) and
 a radius (float).
 """
+from __future__ import absolute_import, division, print_function, unicode_literals
 
 import numpy
 

@@ -1,8 +1,3 @@
-'''
-Created on 07/06/2011
-
-@author: adam
-'''
 
 def count_bits( int_type ):
     """

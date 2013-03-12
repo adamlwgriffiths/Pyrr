@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
-from __future__ import absolute_import, division, print_function, unicode_literals
-
 """
 Defines a number of functions to test
 interactions between various forms of
 3D structures.
 """
+from __future__ import absolute_import, division, print_function, unicode_literals
 
 import numpy
 

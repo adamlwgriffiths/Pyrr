@@ -1,5 +1,7 @@
 import inspect
+
 import numpy
+
 
 def all_parameters_as_numpy_arrays( fn ):
     """Converts all of a function's arguments to numpy arrays.

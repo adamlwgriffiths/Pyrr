@@ -1,9 +1,3 @@
-'''
-Created on 29/04/2012
-
-@author: adam
-'''
-
 import math
 
 

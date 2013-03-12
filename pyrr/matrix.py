@@ -1,11 +1,5 @@
-'''
-Created on 22/06/2011
-
-@author: adam
-'''
-
+# -*- coding: utf-8 -*-
 import numpy
-
 
 
 def apply_direction_scale( vectors, direction, scale ):

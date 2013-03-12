@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import absolute_import, division, print_function, unicode_literals
-
 """ Provides functions to calculate and manipulate
 Axis-Aligned Minimum Bounding Boxes (AAMBB).
 
@@ -23,6 +21,7 @@ TODO: add transform( matrix )
 TODO: add point_within_aabb
 TODO: use point_within_aabb for unit tests
 """
+from __future__ import absolute_import, division, print_function, unicode_literals
 
 import numpy
 

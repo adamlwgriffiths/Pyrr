@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import absolute_import, division, print_function, unicode_literals
-
 """ Provides functions to calculate and manipulate
 Axis-Aligned Bounding Boxes (AABB).
 
@@ -19,6 +17,7 @@ It is up to the user to either:
 
 TODO: add transform( matrix )
 """
+from __future__ import absolute_import, division, print_function, unicode_literals
 
 import numpy
 
