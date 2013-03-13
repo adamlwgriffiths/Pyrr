@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-
+"""Provide functions for the creation and manipulation of Euler angles.
+"""
 import numpy
 
 

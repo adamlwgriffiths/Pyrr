@@ -1,3 +1,5 @@
+"""Provide functions for the trigonometric functions.
+"""
 import math
 
 

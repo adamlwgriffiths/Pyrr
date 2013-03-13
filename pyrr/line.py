@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-"""
+"""Provide functions for the creation and manipulation of Lines.
+
 A line is defined by two points but extends
 infinitely.
 

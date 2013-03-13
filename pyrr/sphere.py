@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-"""
+"""Provide functions for the creation and manipulation of 3D Spheres.
+
 A sphere is defined as a position (3d vector) and
 a radius (float).
 """

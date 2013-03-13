@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-"""
+"""Provide functions for the creation and manipulation of Rays.
+
 A ray begins as a single point and extends
 infinitely in a direction.
 

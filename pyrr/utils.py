@@ -1,3 +1,5 @@
+"""Provides common utility functions.
+"""
 import inspect
 
 import numpy
