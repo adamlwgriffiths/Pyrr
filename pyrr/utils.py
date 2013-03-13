@@ -14,7 +14,7 @@ def all_parameters_as_numpy_arrays( fn ):
     @wraps( fn )
     def wrapper( *args, **kwargs ):
         np_args = [ numpy.array( arg ) for arg in args ]
-        np_kwargs = { key: numpy.array( value ) for (key, value) in kwargs }
+        np_kwargs = dict(( key, numpy.array( value )) for (key, value) in kwargs )
         return fn( *np_args, **np_kwargs )
     return wrapper
 
@@ -52,11 +52,10 @@ def parameters_as_numpy_arrays( *args_to_convert ):
                 ]
 
             # convert the **kwargs dict
-            np_kwargs = {
-                key:
-                (numpy.array( value ) if key in args_to_convert else value)
+            np_kwargs = dict(
+                (key, (numpy.array( value ) if key in args_to_convert else value))
                 for key, value in kwargs.items()
-                }
+                )
 
             # pass the converted values to our function
             return fn( *np_args, **np_kwargs )
