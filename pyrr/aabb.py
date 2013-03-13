@@ -37,13 +37,13 @@ def create_zeros():
     return numpy.zeroes( (2,3) )
 
 def create_from_bounds( min, max):
-    """ Creates an AABB using the specified minimum
+    """Creates an AABB using the specified minimum
     and maximum values.
     """
     return numpy.array( [ min, max ] )
 
 def create_from_points( points ):
-    """ Creates an AABB from the list of specified points.
+    """Creates an AABB from the list of specified points.
 
     Points must be a 2D list. Ie::
 
@@ -61,7 +61,7 @@ def create_from_points( points ):
 
 @all_parameters_as_numpy_arrays
 def create_from_aabbs( aabbs ):
-    """ Creates an AABB from a list of existing AABBs.
+    """Creates an AABB from a list of existing AABBs.
 
     AABBs must be a 2D list. Ie::
         numpy.array([
@@ -75,7 +75,7 @@ def create_from_aabbs( aabbs ):
     return create_from_points( points )
 
 def add_points( aabb, points ):
-    """ Extends an AABB to encompass a list
+    """Extends an AABB to encompass a list
     of points.
     """
     # find the minimum and maximum point values
@@ -92,7 +92,7 @@ def add_points( aabb, points ):
 
 @parameters_as_numpy_arrays( 'aabbs' )
 def add_aabbs( aabb, aabbs ):
-    """ Extend an AABB to encompass a list
+    """Extend an AABB to encompass a list
     of other AABBs.
     """
     # convert to points and use our existing add_points
@@ -103,12 +103,12 @@ def add_aabbs( aabb, aabbs ):
 
 @all_parameters_as_numpy_arrays
 def centre_point( aabb ):
-    """ Returns the centre point of the AABB.
+    """Returns the centre point of the AABB.
     """
     return (aabb[ 0 ] + aabb[ 1 ]) * 0.5
 
 def minimum( aabb ):
-    """ Returns the minimum point of the AABB.
+    """Returns the minimum point of the AABB.
     """
     return aabb[ 0 ]
 
@@ -119,7 +119,7 @@ def maximum( aabb ):
 
 @all_parameters_as_numpy_arrays
 def clamp_points( aabb, points ):
-    """ Takes a list of points and modifies them to
+    """Takes a list of points and modifies them to
     fit within the AABB.
     """
     # we need to compare the points against our AABB.

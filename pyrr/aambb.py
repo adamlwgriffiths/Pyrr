@@ -41,7 +41,7 @@ def create_zeros():
     return numpy.zeroes( (2,3) )
 
 def create_from_bounds( min, max ):
-    """ Creates an AAMBB using the specified minimum
+    """Creates an AAMBB using the specified minimum
     and maximum values.
     """
     # stack our bounds together and add them as points
@@ -49,7 +49,7 @@ def create_from_bounds( min, max ):
     return create_from_points( bounds )
 
 def create_from_points( points ):
-    """ Creates an AAMBB from the list of specified points.
+    """Creates an AAMBB from the list of specified points.
 
     Points must be a 2D list. Ie::
 
@@ -78,7 +78,7 @@ def create_from_points( points ):
 
 @all_parameters_as_numpy_arrays
 def create_from_aabbs( bbs ):
-    """ Creates an AAMBB from a list of existing AABBs.
+    """Creates an AAMBB from a list of existing AABBs.
 
     AABBs must be a 2D list. Ie::
 
@@ -93,7 +93,7 @@ def create_from_aabbs( bbs ):
     return create_from_points( points )
 
 def add_points( bb, points ):
-    """ Extends an AAMBB to encompass a list
+    """Extends an AAMBB to encompass a list
     of points.
 
     It should be noted that this ensures that
@@ -124,7 +124,7 @@ def add_points( bb, points ):
 
 @parameters_as_numpy_arrays( 'bbs' )
 def add_aabbs( bb, bbs ):
-    """ Extend an AAMBB to encompass a list
+    """Extend an AAMBB to encompass a list
     of other AABBs or AAMBBs.
 
     It should be noted that this ensures that
@@ -139,23 +139,23 @@ def add_aabbs( bb, bbs ):
     return add_points( bb, points )
 
 def centre_point( bb ):
-    """ Returns the centre point of the AABB.
+    """Returns the centre point of the AABB.
     This should always be [0.0, 0.0, 0.0]
     """
     return aabb.centre_point( bb )
 
 def minimum( bb ):
-    """ Returns the minimum point of the AABB.
+    """Returns the minimum point of the AABB.
     """
     return aabb.minimum( bb )
 
 def maximum( bb ):
-    """ Returns the maximum point of the AABB.
+    """Returns the maximum point of the AABB.
     """
     return aabb.maximum( bb )
 
 def clamp_points( bb, points ):
-    """ Takes a list of points and modifies them to
+    """Takes a list of points and modifies them to
     fit within the AABB.
     """
     # use the same function as present in AABB
