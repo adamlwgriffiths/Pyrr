@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+"""Provide functions for the manipulation of integers.
+"""
 
 def count_bits( int_type ):
     """
