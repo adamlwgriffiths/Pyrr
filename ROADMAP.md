@@ -22,6 +22,7 @@ Tasks
 Ongoing work
 ------------
 
+   * More tests! Everything needs to be tested!
    * Add all geometric tests (on-going).
    * Make all functions take Nd arrays, not just single values.
    * Optimise functions.
