@@ -5,6 +5,7 @@ import math
 import numpy
 
 from pyrr import quaternion
+from pyrr.utils import all_parameters_as_numpy_arrays
 
 def create_identity():
     return numpy.identity( 3, dtype = 'float' )
