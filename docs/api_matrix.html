@@ -1,0 +1,367 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Matrix functions &mdash; Pyrr 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Pyrr 0.0.1 documentation" href="index.html" />
+    <link rel="next" title="Plane" href="api_plane.html" />
+    <link rel="prev" title="Line" href="api_line.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="api_plane.html" title="Plane"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="api_line.html" title="Line"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Pyrr 0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="matrix-functions">
+<span id="api-matrix"></span><h1>Matrix functions<a class="headerlink" href="#matrix-functions" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-pyrr.matrix">
+<span id="matrix"></span><h2>Matrix<a class="headerlink" href="#module-pyrr.matrix" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="pyrr.matrix.apply_direction_scale">
+<tt class="descclassname">pyrr.matrix.</tt><tt class="descname">apply_direction_scale</tt><big>(</big><em>vectors</em>, <em>direction</em>, <em>scale</em><big>)</big><a class="reference internal" href="_modules/pyrr/matrix.html#apply_direction_scale"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrr.matrix.apply_direction_scale" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies a directional scaling to a set of vectors.</p>
+<p>An example usage for this is to flatten a mesh against a
+single plane.</p>
+<p>&#64;param vectors: a 2d numpy array of vectors
+eg. numpy.array([ [x,y,z] ])
+&#64;param direction: a 1d numpy array of the direction to scale
+eg. numpy.array([ x,y,z ])
+Direction MUST be normalised prior to this call.
+&#64;param scale: a float value for the scaling. A scale of 0.0 will flatten
+the vertices.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrr.matrix.apply_scale">
+<tt class="descclassname">pyrr.matrix.</tt><tt class="descname">apply_scale</tt><big>(</big><em>vectors</em>, <em>scalingVector</em><big>)</big><a class="reference internal" href="_modules/pyrr/matrix.html#apply_scale"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrr.matrix.apply_scale" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies a 3 dimensional scale to a set of vectors.</p>
+<p>&#64;param vectors: a 2d numpy array of vectors
+eg. numpy.array([ [x,y,z] ])
+&#64;param scalingVector: the scale vector, can be a 1x3 array, list or tuple</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-pyrr.matrix33">
+<span id="matrix33"></span><span id="api-matrix33"></span><h2>Matrix33<a class="headerlink" href="#module-pyrr.matrix33" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="pyrr.matrix33.apply_to_vector">
+<tt class="descclassname">pyrr.matrix33.</tt><tt class="descname">apply_to_vector</tt><big>(</big><em>mat</em>, <em>vec</em><big>)</big><a class="reference internal" href="_modules/pyrr/matrix33.html#apply_to_vector"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrr.matrix33.apply_to_vector" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrr.matrix33.create_from_eulers">
+<tt class="descclassname">pyrr.matrix33.</tt><tt class="descname">create_from_eulers</tt><big>(</big><em>eulers</em><big>)</big><a class="reference internal" href="_modules/pyrr/matrix33.html#create_from_eulers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrr.matrix33.create_from_eulers" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrr.matrix33.create_from_inverse_of_quaternion">
+<tt class="descclassname">pyrr.matrix33.</tt><tt class="descname">create_from_inverse_of_quaternion</tt><big>(</big><em>quat</em><big>)</big><a class="reference internal" href="_modules/pyrr/matrix33.html#create_from_inverse_of_quaternion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrr.matrix33.create_from_inverse_of_quaternion" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrr.matrix33.create_from_matrix44">
+<tt class="descclassname">pyrr.matrix33.</tt><tt class="descname">create_from_matrix44</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/pyrr/matrix33.html#create_from_matrix44"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrr.matrix33.create_from_matrix44" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrr.matrix33.create_from_quaternion">
+<tt class="descclassname">pyrr.matrix33.</tt><tt class="descname">create_from_quaternion</tt><big>(</big><em>quat</em><big>)</big><a class="reference internal" href="_modules/pyrr/matrix33.html#create_from_quaternion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrr.matrix33.create_from_quaternion" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrr.matrix33.create_from_scale">
+<tt class="descclassname">pyrr.matrix33.</tt><tt class="descname">create_from_scale</tt><big>(</big><em>scale</em><big>)</big><a class="reference internal" href="_modules/pyrr/matrix33.html#create_from_scale"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrr.matrix33.create_from_scale" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrr.matrix33.create_from_x_rotation">
+<tt class="descclassname">pyrr.matrix33.</tt><tt class="descname">create_from_x_rotation</tt><big>(</big><em>theta</em><big>)</big><a class="reference internal" href="_modules/pyrr/matrix33.html#create_from_x_rotation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrr.matrix33.create_from_x_rotation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a matrix with the specified rotation about the X axis.</p>
+<p><a class="reference external" href="http://en.wikipedia.org/wiki/Rotation_matrix#In_three_dimensions">http://en.wikipedia.org/wiki/Rotation_matrix#In_three_dimensions</a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrr.matrix33.create_from_y_rotation">
+<tt class="descclassname">pyrr.matrix33.</tt><tt class="descname">create_from_y_rotation</tt><big>(</big><em>theta</em><big>)</big><a class="reference internal" href="_modules/pyrr/matrix33.html#create_from_y_rotation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrr.matrix33.create_from_y_rotation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a matrix with the specified rotation about the Y axis.</p>
+<p><a class="reference external" href="http://en.wikipedia.org/wiki/Rotation_matrix#In_three_dimensions">http://en.wikipedia.org/wiki/Rotation_matrix#In_three_dimensions</a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrr.matrix33.create_from_z_rotation">
+<tt class="descclassname">pyrr.matrix33.</tt><tt class="descname">create_from_z_rotation</tt><big>(</big><em>theta</em><big>)</big><a class="reference internal" href="_modules/pyrr/matrix33.html#create_from_z_rotation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrr.matrix33.create_from_z_rotation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a matrix with the specified rotation about the Z axis.</p>
+<p><a class="reference external" href="http://en.wikipedia.org/wiki/Rotation_matrix#In_three_dimensions">http://en.wikipedia.org/wiki/Rotation_matrix#In_three_dimensions</a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrr.matrix33.create_identity">
+<tt class="descclassname">pyrr.matrix33.</tt><tt class="descname">create_identity</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pyrr/matrix33.html#create_identity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrr.matrix33.create_identity" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrr.matrix33.inverse">
+<tt class="descclassname">pyrr.matrix33.</tt><tt class="descname">inverse</tt><big>(</big><em>mat</em><big>)</big><a class="reference internal" href="_modules/pyrr/matrix33.html#inverse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrr.matrix33.inverse" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrr.matrix33.multiply">
+<tt class="descclassname">pyrr.matrix33.</tt><tt class="descname">multiply</tt><big>(</big><em>m1</em>, <em>m2</em>, <em>out=None</em><big>)</big><a class="reference internal" href="_modules/pyrr/matrix33.html#multiply"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrr.matrix33.multiply" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-pyrr.matrix44">
+<span id="matrix44"></span><span id="api-matrix44"></span><h2>Matrix44<a class="headerlink" href="#module-pyrr.matrix44" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="pyrr.matrix44.apply_to_vector">
+<tt class="descclassname">pyrr.matrix44.</tt><tt class="descname">apply_to_vector</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/pyrr/matrix44.html#apply_to_vector"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrr.matrix44.apply_to_vector" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrr.matrix44.create_from_eulers">
+<tt class="descclassname">pyrr.matrix44.</tt><tt class="descname">create_from_eulers</tt><big>(</big><em>eulers</em><big>)</big><a class="reference internal" href="_modules/pyrr/matrix44.html#create_from_eulers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrr.matrix44.create_from_eulers" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrr.matrix44.create_from_inverse_of_quaternion">
+<tt class="descclassname">pyrr.matrix44.</tt><tt class="descname">create_from_inverse_of_quaternion</tt><big>(</big><em>quat</em><big>)</big><a class="reference internal" href="_modules/pyrr/matrix44.html#create_from_inverse_of_quaternion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrr.matrix44.create_from_inverse_of_quaternion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a matrix that applies the inverse of a quaternion&#8217;s
+translations.</p>
+<p>This can be used to go from object space to intertial space.</p>
+<p>Proper matrix layout and layout used for DirectX.
+For OpenGL, transpose the matrix after calling this.</p>
+<p>&#64;param quat: The quaternion to make the matri from.
+&#64;result: The matrix that respresents the inverse of the quaternion.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrr.matrix44.create_from_matrix33">
+<tt class="descclassname">pyrr.matrix44.</tt><tt class="descname">create_from_matrix33</tt><big>(</big><em>mat</em><big>)</big><a class="reference internal" href="_modules/pyrr/matrix44.html#create_from_matrix33"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrr.matrix44.create_from_matrix33" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrr.matrix44.create_from_quaternion">
+<tt class="descclassname">pyrr.matrix44.</tt><tt class="descname">create_from_quaternion</tt><big>(</big><em>quat</em><big>)</big><a class="reference internal" href="_modules/pyrr/matrix44.html#create_from_quaternion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrr.matrix44.create_from_quaternion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a matrix that applies a quaternions translations.</p>
+<p>This can be used to go from intertial space to object space.</p>
+<p>Proper matrix layout and layout used for DirectX.
+For OpenGL, transpose the matrix after calling this.</p>
+<p>&#64;param quat: The quaternion to create the matrix from.
+&#64;result: The matrix that represents the quaternion.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrr.matrix44.create_from_scale">
+<tt class="descclassname">pyrr.matrix44.</tt><tt class="descname">create_from_scale</tt><big>(</big><em>scale</em><big>)</big><a class="reference internal" href="_modules/pyrr/matrix44.html#create_from_scale"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrr.matrix44.create_from_scale" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates an identity matrix with the scale set.</p>
+<p>&#64;param vector: An array of shape (3).
+&#64;param out: Optional parameter of where to store the
+output.
+&#64;return: Returns an identity matrix with the scale 
+set to the specified vector.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrr.matrix44.create_from_translation">
+<tt class="descclassname">pyrr.matrix44.</tt><tt class="descname">create_from_translation</tt><big>(</big><em>vec</em><big>)</big><a class="reference internal" href="_modules/pyrr/matrix44.html#create_from_translation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrr.matrix44.create_from_translation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates an identity matrix with the translation set.</p>
+<p>&#64;param vector: An array of shape (3).
+&#64;param out: Optional parameter of where to store the
+output.
+&#64;return: Returns an identity matrix with the translation
+set to the specified vector.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrr.matrix44.create_from_x_rotation">
+<tt class="descclassname">pyrr.matrix44.</tt><tt class="descname">create_from_x_rotation</tt><big>(</big><em>theta</em><big>)</big><a class="reference internal" href="_modules/pyrr/matrix44.html#create_from_x_rotation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrr.matrix44.create_from_x_rotation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a matrix with the specified rotation about the X axis.</p>
+<p><a class="reference external" href="http://en.wikipedia.org/wiki/Rotation_matrix#In_three_dimensions">http://en.wikipedia.org/wiki/Rotation_matrix#In_three_dimensions</a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrr.matrix44.create_from_y_rotation">
+<tt class="descclassname">pyrr.matrix44.</tt><tt class="descname">create_from_y_rotation</tt><big>(</big><em>theta</em><big>)</big><a class="reference internal" href="_modules/pyrr/matrix44.html#create_from_y_rotation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrr.matrix44.create_from_y_rotation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a matrix with the specified rotation about the Y axis.</p>
+<p><a class="reference external" href="http://en.wikipedia.org/wiki/Rotation_matrix#In_three_dimensions">http://en.wikipedia.org/wiki/Rotation_matrix#In_three_dimensions</a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrr.matrix44.create_from_z_rotation">
+<tt class="descclassname">pyrr.matrix44.</tt><tt class="descname">create_from_z_rotation</tt><big>(</big><em>theta</em><big>)</big><a class="reference internal" href="_modules/pyrr/matrix44.html#create_from_z_rotation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrr.matrix44.create_from_z_rotation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a matrix with the specified rotation about the Z axis.</p>
+<p><a class="reference external" href="http://en.wikipedia.org/wiki/Rotation_matrix#In_three_dimensions">http://en.wikipedia.org/wiki/Rotation_matrix#In_three_dimensions</a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrr.matrix44.create_identity">
+<tt class="descclassname">pyrr.matrix44.</tt><tt class="descname">create_identity</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pyrr/matrix44.html#create_identity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrr.matrix44.create_identity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a new matrix44 and sets it to
+an identity matrix.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrr.matrix44.create_matrix33_view">
+<tt class="descclassname">pyrr.matrix44.</tt><tt class="descname">create_matrix33_view</tt><big>(</big><em>mat</em><big>)</big><a class="reference internal" href="_modules/pyrr/matrix44.html#create_matrix33_view"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrr.matrix44.create_matrix33_view" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrr.matrix44.create_orthogonal_view_matrix">
+<tt class="descclassname">pyrr.matrix44.</tt><tt class="descname">create_orthogonal_view_matrix</tt><big>(</big><em>left</em>, <em>right</em>, <em>top</em>, <em>bottom</em>, <em>near</em>, <em>far</em><big>)</big><a class="reference internal" href="_modules/pyrr/matrix44.html#create_orthogonal_view_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrr.matrix44.create_orthogonal_view_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference external" href="http://msdn.microsoft.com/en-us/library/dd373965(v=vs.85).aspx">http://msdn.microsoft.com/en-us/library/dd373965(v=vs.85).aspx</a>
+A 0 0 Tx
+0 B 0 Ty
+0 0 C Tz
+0 0 0 1</p>
+<p>A = 2 / (right - left)
+B = 2 / (top - bottom)
+C = -2 / (far - near)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrr.matrix44.create_projection_view_matrix">
+<tt class="descclassname">pyrr.matrix44.</tt><tt class="descname">create_projection_view_matrix</tt><big>(</big><em>left</em>, <em>right</em>, <em>top</em>, <em>bottom</em>, <em>near</em>, <em>far</em><big>)</big><a class="reference internal" href="_modules/pyrr/matrix44.html#create_projection_view_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrr.matrix44.create_projection_view_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference external" href="http://www.gamedev.net/topic/264248-building-a-projection-matrix-without-api/">http://www.gamedev.net/topic/264248-building-a-projection-matrix-without-api/</a>
+<a class="reference external" href="http://www.glprogramming.com/red/chapter03.html">http://www.glprogramming.com/red/chapter03.html</a>
+E  0  A  0
+0  F  B  0
+0  0  C  D
+0  0  -1 0</p>
+<p>A = (right+left)/(right-left)
+B = (top+bottom)/(top-bottom)
+C = -(far+near)/(far-near)
+D = -2*far*near/(far-near)
+E = 2*near/(right-left)
+F = 2*near/(top-bottom)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrr.matrix44.inverse">
+<tt class="descclassname">pyrr.matrix44.</tt><tt class="descname">inverse</tt><big>(</big><em>m</em><big>)</big><a class="reference internal" href="_modules/pyrr/matrix44.html#inverse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrr.matrix44.inverse" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrr.matrix44.multiply">
+<tt class="descclassname">pyrr.matrix44.</tt><tt class="descname">multiply</tt><big>(</big><em>m1</em>, <em>m2</em>, <em>out=None</em><big>)</big><a class="reference internal" href="_modules/pyrr/matrix44.html#multiply"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrr.matrix44.multiply" title="Permalink to this definition">¶</a></dt>
+<dd><p>Multiplies two matricies, m1 . m2.
+This is essentially a wrapper around
+numpy.dot( m1, m2 )</p>
+<p>&#64;param m1: The base matrix
+&#64;param m2: The matrix to multiply with
+&#64;result: The new matrix formed from multiplying
+m1 with m2.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Matrix functions</a><ul>
+<li><a class="reference internal" href="#module-pyrr.matrix">Matrix</a></li>
+<li><a class="reference internal" href="#module-pyrr.matrix33">Matrix33</a></li>
+<li><a class="reference internal" href="#module-pyrr.matrix44">Matrix44</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="api_line.html"
+                        title="previous chapter">Line</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="api_plane.html"
+                        title="next chapter">Plane</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/api_matrix.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="api_plane.html" title="Plane"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="api_line.html" title="Line"
+             >previous</a> |</li>
+        <li><a href="index.html">Pyrr 0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright Adam Griffiths.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

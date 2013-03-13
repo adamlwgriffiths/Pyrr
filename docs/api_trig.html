@@ -1,0 +1,173 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Trigonometry &mdash; Pyrr 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Pyrr 0.0.1 documentation" href="index.html" />
+    <link rel="next" title="Utilities" href="api_utils.html" />
+    <link rel="prev" title="Sphere" href="api_sphere.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="api_utils.html" title="Utilities"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="api_sphere.html" title="Sphere"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Pyrr 0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-pyrr.trig">
+<span id="trigonometry"></span><span id="api-trig"></span><h1>Trigonometry<a class="headerlink" href="#module-pyrr.trig" title="Permalink to this headline">¶</a></h1>
+<p>Provide functions for the trigonometric functions.</p>
+<dl class="function">
+<dt id="pyrr.trig.calculate_fov">
+<tt class="descclassname">pyrr.trig.</tt><tt class="descname">calculate_fov</tt><big>(</big><em>zoom</em>, <em>height=1.0</em><big>)</big><a class="reference internal" href="_modules/pyrr/trig.html#calculate_fov"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrr.trig.calculate_fov" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the required FOV to set the
+view frustrum to have a view with the specified height
+at the specified distance.</p>
+<p>&#64;param zoom: The distance to calculate the FOV for.
+&#64;param height: The desired view height at the specified
+distance.
+The default is 1.0.
+&#64;return: The FOV to use in degrees.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrr.trig.calculate_height">
+<tt class="descclassname">pyrr.trig.</tt><tt class="descname">calculate_height</tt><big>(</big><em>fov</em>, <em>zoom</em><big>)</big><a class="reference internal" href="_modules/pyrr/trig.html#calculate_height"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrr.trig.calculate_height" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs the opposite of calculate_fov.
+Used to find the current height at a specific distance.</p>
+<p>&#64;param fov: The current FOV.
+&#64;param zoom: The distance to calculate the height
+for.
+&#64;return: The height at the specified distance for the
+specified FOV.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrr.trig.calculate_plane_size">
+<tt class="descclassname">pyrr.trig.</tt><tt class="descname">calculate_plane_size</tt><big>(</big><em>aspect_ratio</em>, <em>fov</em>, <em>distance</em><big>)</big><a class="reference internal" href="_modules/pyrr/trig.html#calculate_plane_size"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrr.trig.calculate_plane_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the width and height of a plane at the
+specified distance using the FOV of the frustrum
+and aspect ratio of the viewport.</p>
+<p>&#64;param aspect_ratio: The aspect ratio of the viewport.
+&#64;param fov: The FOV of the frustrum.
+&#64;param distance: The distance from the origin/camera
+of the plane to calculate.
+&#64;return (width, height): The width and height of
+the plane.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrr.trig.calculate_zoom">
+<tt class="descclassname">pyrr.trig.</tt><tt class="descname">calculate_zoom</tt><big>(</big><em>fov</em>, <em>height=1.0</em><big>)</big><a class="reference internal" href="_modules/pyrr/trig.html#calculate_zoom"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrr.trig.calculate_zoom" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the zoom (distance) from the camera
+with the specified FOV and height of image.</p>
+<p>&#64;param fov: The FOV to use.
+&#64;param height: The height of the image at the
+desired distance.
+&#64;return Returns the zoom (distance) from the
+camera for the desired height at the specified
+FOV.
+&#64;raise ZeroDivisionError: Raised if the fov is
+0.0.</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="api_sphere.html"
+                        title="previous chapter">Sphere</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="api_utils.html"
+                        title="next chapter">Utilities</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/api_trig.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="api_utils.html" title="Utilities"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="api_sphere.html" title="Sphere"
+             >previous</a> |</li>
+        <li><a href="index.html">Pyrr 0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright Adam Griffiths.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

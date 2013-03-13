@@ -1,0 +1,403 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Coding Standard &mdash; Pyrr 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Pyrr 0.0.1 documentation" href="index.html" />
+    <link rel="next" title="Contributing" href="info_contributing.html" />
+    <link rel="prev" title="Geometric Tests" href="info_geometric_tests.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="info_contributing.html" title="Contributing"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="info_geometric_tests.html" title="Geometric Tests"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Pyrr 0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="coding-standard">
+<span id="id1"></span><h1>Coding Standard<a class="headerlink" href="#coding-standard" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="modules">
+<span id="coding-standard-modules"></span><h2>Modules<a class="headerlink" href="#modules" title="Permalink to this headline">¶</a></h2>
+<p>Each value type is given its own module.</p>
+<p>Functions that reside in these modules include:</p>
+<ul class="simple">
+<li>Creation</li>
+<li>Conversion</li>
+<li>Manipulation</li>
+</ul>
+</div>
+<div class="section" id="functions">
+<span id="coding-standard-functions"></span><h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Existing numpy operations shall be wrapped where it may not be obvious how to perform the operation.</li>
+</ul>
+<p>A good example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">multiply</span><span class="p">(</span> <span class="n">m1</span><span class="p">,</span> <span class="n">m2</span> <span class="p">):</span>
+    <span class="c"># it may not be obvious that the &#39;dot&#39; operator is the</span>
+    <span class="c"># equivalent of multiplication when using arrays as matrices</span>
+    <span class="c"># so this is good to help point users in the right direction</span>
+    <span class="k">return</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span> <span class="n">m1</span><span class="p">,</span> <span class="n">m2</span> <span class="p">)</span>
+</pre></div>
+</div>
+<p>A bad example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">add</span><span class="p">(</span> <span class="n">v1</span><span class="p">,</span> <span class="n">v2</span> <span class="p">):</span>
+    <span class="c"># this functionality is too obvious and too basic</span>
+    <span class="k">return</span> <span class="n">v1</span> <span class="o">+</span> <span class="n">v2</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>Functions shall not modify data in-place.</li>
+<li>Class implementations shall have a function equivalent, where appropriate.</li>
+</ul>
+<p>For example, a Sphere object may provide a function to collide against a Plane.
+In this case, there must be a function that performs the same operation without the use of the Sphere class.</p>
+<p>Higher level logic may be left exclusive to Classes.
+For example, a generic collision handler function which can select the appropriate collision function based on the colliding objects.</p>
+</div>
+<div class="section" id="function-names">
+<span id="coding-standard-function-names"></span><h2>Function names<a class="headerlink" href="#function-names" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p class="first">Function names and parameters shall be lower-case with underscores delimiting words:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">an_example_function</span><span class="p">(</span> <span class="n">with_some</span><span class="p">,</span> <span class="n">parameters</span> <span class="p">):</span>
+   <span class="k">pass</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Each type shall have a basic <em>create</em> function which returns a zero-ed type, where it makes sense.</p>
+</li>
+</ul>
+<p>A good example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># vector3.py</span>
+<span class="k">def</span> <span class="nf">create</span><span class="p">():</span>
+    <span class="c"># vectors are commonly edited manually</span>
+    <span class="c"># so this is ok</span>
+    <span class="k">pass</span>
+
+<span class="c"># matrix33.py</span>
+<span class="k">def</span> <span class="nf">create_identity</span><span class="p">():</span>
+    <span class="c"># creates the matrix in a standard, known state</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<p>A bad example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># matrix33.py</span>
+<span class="k">def</span> <span class="nf">create</span><span class="p">():</span>
+    <span class="c"># matrices aren&#39;t normally edited manually</span>
+    <span class="c"># so this isn&#39;t ok</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<ul>
+<li><p class="first">Where multiple creation functions are defined, each function shall be prefixed with <em>create_</em>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">create_identity</span><span class="p">():</span>
+    <span class="k">pass</span>
+
+<span class="k">def</span> <span class="nf">create_unit_length_x</span><span class="p">():</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Conversion functions shall be prefixed with <em>create_from_</em> followed by the type being converted from:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">create_from_matrix</span><span class="p">(</span> <span class="n">matrix</span> <span class="p">):</span>
+    <span class="c"># converts from one type to another</span>
+    <span class="c"># this would have to support both matrix33 and matrix44</span>
+    <span class="k">pass</span>
+
+<span class="k">def</span> <span class="nf">create_from_matrix33</span><span class="p">(</span> <span class="n">matrix</span> <span class="p">):</span>
+    <span class="c"># converts from a very specific type</span>
+    <span class="c"># only has to support matrix33</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="supplimentary-data">
+<span id="coding-standard-supplimentary-data"></span><h2>Supplimentary Data<a class="headerlink" href="#supplimentary-data" title="Permalink to this headline">¶</a></h2>
+<p>When dealing with arrays and other complex data types, it is helpful to provide methods to identify which array index relates to what data.</p>
+<p>A good method to do this is to provide a class definition which contains these values:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">index</span><span class="p">:</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="mi">3</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="tests">
+<span id="coding-standard-tests"></span><h2>Tests<a class="headerlink" href="#tests" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p class="first">A test class for each module shall be provided in the <em>pyrr/test</em> directory.</p>
+</li>
+<li><p class="first">A test class shall be the only class in the test module.</p>
+</li>
+<li><p class="first">The test module shall be named after the module and prefixed with <em>test_</em>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">pyrr</span><span class="o">/</span><span class="n">vector3</span><span class="o">.</span><span class="n">py</span>
+<span class="n">pyrr</span><span class="o">/</span><span class="n">test</span><span class="o">/</span><span class="n">test_vector3</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Each function shall have a test case associated with it:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># vector3.py</span>
+<span class="k">def</span> <span class="nf">create_identity</span><span class="p">():</span>
+    <span class="k">pass</span>
+
+<span class="c"># test_vector3.py</span>
+<span class="k">def</span> <span class="nf">test_create_identity</span><span class="p">():</span>
+    <span class="n">vec</span> <span class="o">=</span> <span class="n">vector3</span><span class="o">.</span><span class="n">create_identity</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span>
+        <span class="n">numpy</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span> <span class="n">vec</span><span class="p">,</span> <span class="p">[</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span> <span class="p">]</span> <span class="p">),</span>
+        <span class="s">&quot;Vector zeros not zeroed&quot;</span>
+        <span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">A function requiring multiple test cases shall encompass each test case in a closure / sub-function:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">unittest</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">numpy</span>
+<span class="kn">from</span> <span class="nn">pyrr</span> <span class="kn">import</span> <span class="n">vector</span>
+
+
+<span class="k">class</span> <span class="nc">test_vector</span><span class="p">(</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span> <span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">test_functon_name_goes_Here</span><span class="p">(</span> <span class="bp">self</span> <span class="p">):</span>
+        <span class="k">def</span> <span class="nf">functionality_gets_tested_here</span><span class="p">():</span>
+            <span class="c"># test case goes here</span>
+            <span class="k">pass</span>
+        <span class="n">functionality_gets_tested_here</span><span class="p">()</span>
+
+        <span class="k">def</span> <span class="nf">another_functionality_gets_tested_here</span><span class="p">():</span>
+            <span class="c"># test case goes here</span>
+            <span class="k">pass</span>
+        <span class="n">another_functionality_gets_tested_here</span><span class="p">()</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="layout">
+<span id="coding-standard-layout"></span><h2>Layout<a class="headerlink" href="#layout" title="Permalink to this headline">¶</a></h2>
+<p>These are not strict rules, but are merely suggestions to keep the layout of code in Pyrr consistent.</p>
+<p>There are times when the following rules may be broken to improve readability.</p>
+<ul class="simple">
+<li>Code shall be spaced vertically rather than extending horizontally too far. Vertical spacing shall be performed at variable or data type boundaries.</li>
+</ul>
+<p>A good example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># laying out over multiple lines helps improve readability.</span>
+<span class="c"># brackets and parenthesis are laid out to more clearly indicate</span>
+<span class="c"># the end of an array / type.</span>
+<span class="c"># where appropriate, values are still laid out horizontally.</span>
+<span class="n">my_value</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="p">(</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span> <span class="p">),</span>
+        <span class="p">(</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span> <span class="p">)</span>
+        <span class="p">],</span>
+    <span class="n">dtype</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s">&#39;position&#39;</span><span class="p">,</span> <span class="s">&#39;float32&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,))</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+
+<span class="c"># laying out parameters vertically can improve readability.</span>
+<span class="c"># we&#39;ll be less likely to accidently pass an invalid value</span>
+<span class="c"># and we can more easily, and more clearly, add logic to the parameters.</span>
+<span class="n">some_complex_function_call</span><span class="p">(</span>
+    <span class="n">param_one</span><span class="p">,</span>
+    <span class="n">param_two</span><span class="p">,</span>
+    <span class="n">param_three</span><span class="p">,</span>
+    <span class="n">param_four</span><span class="p">,</span>
+    <span class="bp">True</span> <span class="k">if</span> <span class="n">param_five</span> <span class="k">else</span> <span class="bp">False</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+<p>A bad example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># leaving this on a single line would not compromise readability</span>
+<span class="n">my_value</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span>
+    <span class="p">(</span><span class="mi">3</span><span class="p">,)</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+<p>The same applies to function definitions:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">some_function</span><span class="p">(</span> <span class="n">that_takes</span><span class="p">,</span> <span class="n">many_parameters</span><span class="p">,</span> <span class="n">and_is</span><span class="p">,</span> <span class="n">hard_to_read</span><span class="p">,</span> <span class="n">because</span><span class="p">,</span> <span class="n">its_so</span><span class="p">,</span> <span class="n">big</span> <span class="p">):</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<p>Should become:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">some_function</span><span class="p">(</span>
+    <span class="n">that_takes</span><span class="p">,</span>
+    <span class="n">many_parameters</span><span class="p">,</span>
+    <span class="n">and_is</span><span class="p">,</span>
+    <span class="n">hard_to_read</span><span class="p">,</span>
+    <span class="n">because</span><span class="p">,</span>
+    <span class="n">its_so</span><span class="p">,</span>
+    <span class="n">big</span>
+    <span class="p">):</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<ul>
+<li><p class="first">Code may extend beyond 80 columns, where appropriate.</p>
+</li>
+<li><p class="first">Classes should have 2 lines between them and any other definition:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">X</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+
+<span class="k">class</span> <span class="nc">Y</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">A functional class definition should be followed by a single, empty line:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">X</span><span class="p">:</span>
+
+    <span class="n">a</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span> <span class="bp">self</span> <span class="p">):</span>
+        <span class="k">pass</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">A supplimental class containing <strong>only</strong> helper data, should not have an empty line after the definition:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">X</span><span class="p">:</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="mi">2</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Variables and methods should have a single, empty line between them:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">X</span><span class="p">:</span>
+
+    <span class="n">a</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="mi">2</span>
+
+    <span class="k">def</span> <span class="nf">do_something</span><span class="p">(</span> <span class="bp">self</span> <span class="p">):</span>
+        <span class="k">pass</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Imports and functions should have two empty lines between them:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">numpy</span>
+
+
+<span class="k">def</span> <span class="nf">some_function</span><span class="p">():</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Coding Standard</a><ul>
+<li><a class="reference internal" href="#modules">Modules</a></li>
+<li><a class="reference internal" href="#functions">Functions</a></li>
+<li><a class="reference internal" href="#function-names">Function names</a></li>
+<li><a class="reference internal" href="#supplimentary-data">Supplimentary Data</a></li>
+<li><a class="reference internal" href="#tests">Tests</a></li>
+<li><a class="reference internal" href="#layout">Layout</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="info_geometric_tests.html"
+                        title="previous chapter">Geometric Tests</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="info_contributing.html"
+                        title="next chapter">Contributing</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/info_coding_standard.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="info_contributing.html" title="Contributing"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="info_geometric_tests.html" title="Geometric Tests"
+             >previous</a> |</li>
+        <li><a href="index.html">Pyrr 0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright Adam Griffiths.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

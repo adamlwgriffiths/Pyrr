@@ -1,0 +1,204 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Plane &mdash; Pyrr 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Pyrr 0.0.1 documentation" href="index.html" />
+    <link rel="next" title="Quaternion" href="api_quaternion.html" />
+    <link rel="prev" title="Matrix functions" href="api_matrix.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="api_quaternion.html" title="Quaternion"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="api_matrix.html" title="Matrix functions"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Pyrr 0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-pyrr.plane">
+<span id="plane"></span><span id="api-plane"></span><h1>Plane<a class="headerlink" href="#module-pyrr.plane" title="Permalink to this headline">¶</a></h1>
+<p>Provide functions for the creation and manipulation of Planes.</p>
+<dl class="function">
+<dt id="pyrr.plane.create_from_points">
+<tt class="descclassname">pyrr.plane.</tt><tt class="descname">create_from_points</tt><big>(</big><em>vector1</em>, <em>vector2</em>, <em>vector3</em><big>)</big><a class="reference internal" href="_modules/pyrr/plane.html#create_from_points"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrr.plane.create_from_points" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a plane from 3 co-planar vectors.</p>
+<p>The vectors must all lie on the same
+plane or an exception will be thrown.</p>
+<p>The vectors must not all be in a single line or
+the plane is undefined.</p>
+<p>The order the vertices are passed in will determine the
+normal of the plane.</p>
+<p>&#64;param vector1: a vector that lies on the desired plane.
+&#64;param vector2: a vector that lies on the desired plane.
+&#64;param vector3: a vector that lies on the desired plane.
+&#64;raise ValueError: raised if the vectors are not co-planar.
+&#64;raise ValueError: raised if the vectors are in a single line</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrr.plane.create_from_position">
+<tt class="descclassname">pyrr.plane.</tt><tt class="descname">create_from_position</tt><big>(</big><em>position</em>, <em>normal</em>, <em>up</em><big>)</big><a class="reference internal" href="_modules/pyrr/plane.html#create_from_position"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrr.plane.create_from_position" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a plane at position with the normal being above the plane
+and up being the rotation of the plane.
+This is required as a plane must be defined by
+3 vectors otherwise rotation is undefined.</p>
+<p>&#64;param position: The position of the plane.
+&#64;param normal: The normal will be normalised during construction.
+&#64;param up: Must be co-planar. The up vector will be normalised
+during construction.
+The up vector must lie on the plane itself. Without it, the plane is
+undefined.
+&#64;raise ValueError: Raised if the up vector is not co-planar.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrr.plane.create_identity">
+<tt class="descclassname">pyrr.plane.</tt><tt class="descname">create_identity</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pyrr/plane.html#create_identity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrr.plane.create_identity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a plane at the origin, with a normal of 0,0,1 and up of 0,1,0.</p>
+<p>This is a plane that lies at the origin on the X,Y plane and faces +Z.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrr.plane.flip_normal">
+<tt class="descclassname">pyrr.plane.</tt><tt class="descname">flip_normal</tt><big>(</big><em>plane</em><big>)</big><a class="reference internal" href="_modules/pyrr/plane.html#flip_normal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrr.plane.flip_normal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flips the normal of the plane in place.</p>
+<p>&#64;return Returns the plane for convenience.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrr.plane.index">
+<em class="property">class </em><tt class="descclassname">pyrr.plane.</tt><tt class="descname">index</tt><a class="reference internal" href="_modules/pyrr/plane.html#index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrr.plane.index" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="attribute">
+<dt id="pyrr.plane.index.normal">
+<tt class="descname">normal</tt><em class="property"> = 1</em><a class="headerlink" href="#pyrr.plane.index.normal" title="Permalink to this definition">¶</a></dt>
+<dd><p>The index of the normal vector within the plane</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyrr.plane.index.position">
+<tt class="descname">position</tt><em class="property"> = 0</em><a class="headerlink" href="#pyrr.plane.index.position" title="Permalink to this definition">¶</a></dt>
+<dd><p>The index of the position vector within the plane</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyrr.plane.index.up">
+<tt class="descname">up</tt><em class="property"> = 2</em><a class="headerlink" href="#pyrr.plane.index.up" title="Permalink to this definition">¶</a></dt>
+<dd><p>The index of the up vector within the plane</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrr.plane.normal">
+<tt class="descclassname">pyrr.plane.</tt><tt class="descname">normal</tt><big>(</big><em>plane</em><big>)</big><a class="reference internal" href="_modules/pyrr/plane.html#normal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrr.plane.normal" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrr.plane.position">
+<tt class="descclassname">pyrr.plane.</tt><tt class="descname">position</tt><big>(</big><em>plane</em><big>)</big><a class="reference internal" href="_modules/pyrr/plane.html#position"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrr.plane.position" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrr.plane.up">
+<tt class="descclassname">pyrr.plane.</tt><tt class="descname">up</tt><big>(</big><em>plane</em><big>)</big><a class="reference internal" href="_modules/pyrr/plane.html#up"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrr.plane.up" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="api_matrix.html"
+                        title="previous chapter">Matrix functions</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="api_quaternion.html"
+                        title="next chapter">Quaternion</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/api_plane.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="api_quaternion.html" title="Quaternion"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="api_matrix.html" title="Matrix functions"
+             >previous</a> |</li>
+        <li><a href="index.html">Pyrr 0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright Adam Griffiths.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

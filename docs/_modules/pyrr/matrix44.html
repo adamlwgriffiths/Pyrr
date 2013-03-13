@@ -1,0 +1,335 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pyrr.matrix44 &mdash; Pyrr 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Pyrr 0.0.1 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Pyrr 0.0.1 documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for pyrr.matrix44</h1><div class="highlight"><pre>
+<span class="c"># -*- coding: utf-8 -*-</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">absolute_import</span><span class="p">,</span> <span class="n">division</span><span class="p">,</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">unicode_literals</span>
+<span class="kn">import</span> <span class="nn">math</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span>
+
+<span class="kn">from</span> <span class="nn">pyrr</span> <span class="kn">import</span> <span class="n">matrix33</span>
+<span class="kn">from</span> <span class="nn">pyrr.utils</span> <span class="kn">import</span> <span class="n">all_parameters_as_numpy_arrays</span>
+
+
+<div class="viewcode-block" id="create_identity"><a class="viewcode-back" href="../../api_matrix.html#pyrr.matrix44.create_identity">[docs]</a><span class="k">def</span> <span class="nf">create_identity</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Creates a new matrix44 and sets it to</span>
+<span class="sd">    an identity matrix.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">numpy</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span> <span class="mi">4</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="s">&#39;float&#39;</span> <span class="p">)</span>
+</div>
+<div class="viewcode-block" id="create_from_matrix33"><a class="viewcode-back" href="../../api_matrix.html#pyrr.matrix44.create_from_matrix33">[docs]</a><span class="k">def</span> <span class="nf">create_from_matrix33</span><span class="p">(</span> <span class="n">mat</span> <span class="p">):</span>
+    <span class="n">mat4</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span> <span class="mi">4</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="s">&#39;float&#39;</span> <span class="p">)</span>
+    <span class="n">mat4</span><span class="p">[</span> <span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">3</span> <span class="p">]</span> <span class="o">=</span> <span class="n">mat</span>
+    <span class="k">return</span> <span class="n">mat4</span>
+</div>
+<div class="viewcode-block" id="create_matrix33_view"><a class="viewcode-back" href="../../api_matrix.html#pyrr.matrix44.create_matrix33_view">[docs]</a><span class="k">def</span> <span class="nf">create_matrix33_view</span><span class="p">(</span> <span class="n">mat</span> <span class="p">):</span>
+    <span class="k">return</span> <span class="n">mat</span><span class="p">[</span> <span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">3</span> <span class="p">]</span>
+</div>
+<div class="viewcode-block" id="create_from_eulers"><a class="viewcode-back" href="../../api_matrix.html#pyrr.matrix44.create_from_eulers">[docs]</a><span class="k">def</span> <span class="nf">create_from_eulers</span><span class="p">(</span> <span class="n">eulers</span> <span class="p">):</span>
+    <span class="c"># set to identity matrix</span>
+    <span class="c"># this will populate our extra rows for us</span>
+    <span class="n">mat</span> <span class="o">=</span> <span class="n">create_identity</span><span class="p">()</span>
+    
+    <span class="c"># we&#39;ll use Matrix33 for our conversion</span>
+    <span class="n">mat33</span> <span class="o">=</span> <span class="n">mat</span><span class="p">[</span> <span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">3</span> <span class="p">]</span>
+    <span class="n">mat</span><span class="p">[</span> <span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">3</span> <span class="p">]</span> <span class="o">=</span> <span class="n">matrix33</span><span class="o">.</span><span class="n">create_from_eulers</span><span class="p">(</span> <span class="n">eulers</span><span class="p">,</span> <span class="n">mat33</span> <span class="p">)</span>
+    <span class="k">return</span> <span class="n">mat</span>
+</div>
+<div class="viewcode-block" id="create_from_quaternion"><a class="viewcode-back" href="../../api_matrix.html#pyrr.matrix44.create_from_quaternion">[docs]</a><span class="k">def</span> <span class="nf">create_from_quaternion</span><span class="p">(</span> <span class="n">quat</span> <span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Creates a matrix that applies a quaternions translations.</span>
+
+<span class="sd">    This can be used to go from intertial space to object space.</span>
+
+<span class="sd">    Proper matrix layout and layout used for DirectX.</span>
+<span class="sd">    For OpenGL, transpose the matrix after calling this.</span>
+
+<span class="sd">    @param quat: The quaternion to create the matrix from.</span>
+<span class="sd">    @result: The matrix that represents the quaternion.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c"># set to identity matrix</span>
+    <span class="c"># this will populate our extra rows for us</span>
+    <span class="n">mat</span> <span class="o">=</span> <span class="n">create_identity</span><span class="p">()</span>
+    
+    <span class="c"># we&#39;ll use Matrix33 for our conversion</span>
+    <span class="n">mat</span><span class="p">[</span> <span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">3</span> <span class="p">]</span> <span class="o">=</span> <span class="n">matrix33</span><span class="o">.</span><span class="n">create_from_quaternion</span><span class="p">(</span> <span class="n">quat</span> <span class="p">)</span>
+    <span class="k">return</span> <span class="n">mat</span>
+</div>
+<div class="viewcode-block" id="create_from_inverse_of_quaternion"><a class="viewcode-back" href="../../api_matrix.html#pyrr.matrix44.create_from_inverse_of_quaternion">[docs]</a><span class="k">def</span> <span class="nf">create_from_inverse_of_quaternion</span><span class="p">(</span> <span class="n">quat</span> <span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Creates a matrix that applies the inverse of a quaternion&#39;s</span>
+<span class="sd">    translations.</span>
+
+<span class="sd">    This can be used to go from object space to intertial space.</span>
+
+<span class="sd">    Proper matrix layout and layout used for DirectX.</span>
+<span class="sd">    For OpenGL, transpose the matrix after calling this.</span>
+
+<span class="sd">    @param quat: The quaternion to make the matri from.</span>
+<span class="sd">    @result: The matrix that respresents the inverse of the quaternion.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c"># set to identity matrix</span>
+    <span class="c"># this will populate our extra rows for us</span>
+    <span class="n">mat</span> <span class="o">=</span> <span class="n">create_identity</span><span class="p">()</span>
+    
+    <span class="c"># we&#39;ll use Matrix33 for our conversion</span>
+    <span class="n">mat</span><span class="p">[</span> <span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">3</span> <span class="p">]</span> <span class="o">=</span> <span class="n">matrix33</span><span class="o">.</span><span class="n">create_from_inverse_of_quaternion</span><span class="p">(</span> <span class="n">quat</span> <span class="p">)</span>
+    <span class="k">return</span> <span class="n">mat</span>
+</div>
+<div class="viewcode-block" id="create_from_translation"><a class="viewcode-back" href="../../api_matrix.html#pyrr.matrix44.create_from_translation">[docs]</a><span class="k">def</span> <span class="nf">create_from_translation</span><span class="p">(</span> <span class="n">vec</span> <span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Creates an identity matrix with the translation set.</span>
+
+<span class="sd">    @param vector: An array of shape (3).</span>
+<span class="sd">    @param out: Optional parameter of where to store the</span>
+<span class="sd">    output.</span>
+<span class="sd">    @return: Returns an identity matrix with the translation</span>
+<span class="sd">    set to the specified vector.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">mat</span> <span class="o">=</span> <span class="n">create_identity</span><span class="p">()</span>
+    <span class="n">mat</span><span class="p">[</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">3</span> <span class="p">]</span> <span class="o">=</span> <span class="n">vec</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">mat</span>
+</div>
+<div class="viewcode-block" id="create_from_scale"><a class="viewcode-back" href="../../api_matrix.html#pyrr.matrix44.create_from_scale">[docs]</a><span class="k">def</span> <span class="nf">create_from_scale</span><span class="p">(</span> <span class="n">scale</span> <span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Creates an identity matrix with the scale set.</span>
+
+<span class="sd">    @param vector: An array of shape (3).</span>
+<span class="sd">    @param out: Optional parameter of where to store the</span>
+<span class="sd">    output.</span>
+<span class="sd">    @return: Returns an identity matrix with the scale </span>
+<span class="sd">    set to the specified vector.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c"># we need to expand &#39;scale&#39; into it&#39;s components</span>
+    <span class="c"># because numpy isn&#39;t flattening them properly.</span>
+    <span class="k">return</span> <span class="n">numpy</span><span class="o">.</span><span class="n">diagflat</span><span class="p">(</span>
+        <span class="p">[</span> <span class="n">scale</span><span class="p">[</span> <span class="mi">0</span> <span class="p">],</span> <span class="n">scale</span><span class="p">[</span> <span class="mi">1</span> <span class="p">],</span> <span class="n">scale</span><span class="p">[</span> <span class="mi">2</span> <span class="p">],</span> <span class="mf">1.0</span> <span class="p">]</span>
+        <span class="p">)</span>
+</div>
+<div class="viewcode-block" id="create_from_x_rotation"><a class="viewcode-back" href="../../api_matrix.html#pyrr.matrix44.create_from_x_rotation">[docs]</a><span class="k">def</span> <span class="nf">create_from_x_rotation</span><span class="p">(</span> <span class="n">theta</span> <span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Creates a matrix with the specified rotation about the X axis.</span>
+<span class="sd">    </span>
+<span class="sd">    http://en.wikipedia.org/wiki/Rotation_matrix#In_three_dimensions</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">mat</span> <span class="o">=</span> <span class="n">create_identity</span><span class="p">()</span>
+    <span class="n">mat</span><span class="p">[</span> <span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">3</span> <span class="p">]</span> <span class="o">=</span> <span class="n">matrix33</span><span class="o">.</span><span class="n">create_from_x_rotation</span><span class="p">(</span> <span class="n">theta</span> <span class="p">)</span>
+    <span class="k">return</span> <span class="n">mat</span>
+</div>
+<div class="viewcode-block" id="create_from_y_rotation"><a class="viewcode-back" href="../../api_matrix.html#pyrr.matrix44.create_from_y_rotation">[docs]</a><span class="k">def</span> <span class="nf">create_from_y_rotation</span><span class="p">(</span> <span class="n">theta</span> <span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Creates a matrix with the specified rotation about the Y axis.</span>
+<span class="sd">    </span>
+<span class="sd">    http://en.wikipedia.org/wiki/Rotation_matrix#In_three_dimensions</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">mat</span> <span class="o">=</span> <span class="n">create_identity</span><span class="p">()</span>
+    <span class="n">mat</span><span class="p">[</span> <span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">3</span> <span class="p">]</span> <span class="o">=</span> <span class="n">matrix33</span><span class="o">.</span><span class="n">create_from_y_rotation</span><span class="p">(</span> <span class="n">theta</span> <span class="p">)</span>
+    <span class="k">return</span> <span class="n">mat</span>
+</div>
+<div class="viewcode-block" id="create_from_z_rotation"><a class="viewcode-back" href="../../api_matrix.html#pyrr.matrix44.create_from_z_rotation">[docs]</a><span class="k">def</span> <span class="nf">create_from_z_rotation</span><span class="p">(</span> <span class="n">theta</span> <span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Creates a matrix with the specified rotation about the Z axis.</span>
+<span class="sd">    </span>
+<span class="sd">    http://en.wikipedia.org/wiki/Rotation_matrix#In_three_dimensions</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">mat</span> <span class="o">=</span> <span class="n">create_identity</span><span class="p">()</span>
+    <span class="n">mat</span><span class="p">[</span> <span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">3</span> <span class="p">]</span> <span class="o">=</span> <span class="n">matrix33</span><span class="o">.</span><span class="n">create_from_z_rotation</span><span class="p">(</span> <span class="n">theta</span> <span class="p">)</span>
+    <span class="k">return</span> <span class="n">mat</span>
+</div>
+<span class="nd">@all_parameters_as_numpy_arrays</span>
+<div class="viewcode-block" id="apply_to_vector"><a class="viewcode-back" href="../../api_matrix.html#pyrr.matrix44.apply_to_vector">[docs]</a><span class="k">def</span> <span class="nf">apply_to_vector</span><span class="p">(</span> <span class="n">mat</span><span class="p">,</span> <span class="n">vec</span> <span class="p">):</span>
+    <span class="k">if</span> <span class="n">vec</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="c"># convert to a vec4</span>
+        <span class="n">vec4</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span> <span class="p">[</span> <span class="n">vec</span><span class="p">[</span> <span class="mi">0</span> <span class="p">],</span> <span class="n">vec</span><span class="p">[</span> <span class="mi">1</span> <span class="p">],</span> <span class="n">vec</span><span class="p">[</span> <span class="mi">2</span> <span class="p">],</span> <span class="mf">1.0</span> <span class="p">]</span> <span class="p">)</span>
+        <span class="n">vec4</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span> <span class="n">vec4</span><span class="p">,</span> <span class="n">mat</span> <span class="p">)</span>
+
+        <span class="c"># handle W value</span>
+        <span class="k">if</span> <span class="n">vec4</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">:</span>
+            <span class="n">vec4</span> <span class="o">/=</span> <span class="n">vec4</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">vec4</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="n">vec</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span> <span class="n">vec</span><span class="p">,</span> <span class="n">mat</span> <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span> <span class="s">&quot;Vector size unsupported&quot;</span> <span class="p">)</span>
+</div>
+<div class="viewcode-block" id="multiply"><a class="viewcode-back" href="../../api_matrix.html#pyrr.matrix44.multiply">[docs]</a><span class="k">def</span> <span class="nf">multiply</span><span class="p">(</span> <span class="n">m1</span><span class="p">,</span> <span class="n">m2</span><span class="p">,</span> <span class="n">out</span> <span class="o">=</span> <span class="bp">None</span> <span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Multiplies two matricies, m1 . m2.</span>
+<span class="sd">    This is essentially a wrapper around</span>
+<span class="sd">    numpy.dot( m1, m2 )</span>
+
+<span class="sd">    @param m1: The base matrix</span>
+<span class="sd">    @param m2: The matrix to multiply with</span>
+<span class="sd">    @result: The new matrix formed from multiplying</span>
+<span class="sd">    m1 with m2.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c"># using an input as the out value will cause corruption</span>
+    <span class="k">if</span> <span class="n">out</span> <span class="o">==</span> <span class="n">m1</span> <span class="ow">or</span> <span class="n">out</span> <span class="o">==</span> <span class="n">m2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span> <span class="s">&quot;Output must not be one of the inputs, use assignment instead&quot;</span> <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span> <span class="n">m1</span><span class="p">,</span> <span class="n">m2</span><span class="p">,</span> <span class="n">out</span> <span class="o">=</span> <span class="n">out</span> <span class="p">)</span>
+</div>
+<div class="viewcode-block" id="create_projection_view_matrix"><a class="viewcode-back" href="../../api_matrix.html#pyrr.matrix44.create_projection_view_matrix">[docs]</a><span class="k">def</span> <span class="nf">create_projection_view_matrix</span><span class="p">(</span>
+    <span class="n">left</span><span class="p">,</span>
+    <span class="n">right</span><span class="p">,</span>
+    <span class="n">top</span><span class="p">,</span>
+    <span class="n">bottom</span><span class="p">,</span>
+    <span class="n">near</span><span class="p">,</span>
+    <span class="n">far</span>
+    <span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    http://www.gamedev.net/topic/264248-building-a-projection-matrix-without-api/</span>
+<span class="sd">    http://www.glprogramming.com/red/chapter03.html</span>
+<span class="sd">    E  0  A  0</span>
+<span class="sd">    0  F  B  0</span>
+<span class="sd">    0  0  C  D</span>
+<span class="sd">    0  0  -1 0</span>
+
+<span class="sd">    A = (right+left)/(right-left)</span>
+<span class="sd">    B = (top+bottom)/(top-bottom)</span>
+<span class="sd">    C = -(far+near)/(far-near)</span>
+<span class="sd">    D = -2*far*near/(far-near)</span>
+<span class="sd">    E = 2*near/(right-left)</span>
+<span class="sd">    F = 2*near/(top-bottom)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">A</span> <span class="o">=</span> <span class="p">(</span><span class="n">right</span> <span class="o">+</span> <span class="n">left</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">right</span> <span class="o">-</span> <span class="n">left</span><span class="p">)</span>
+    <span class="n">B</span> <span class="o">=</span> <span class="p">(</span><span class="n">top</span> <span class="o">+</span> <span class="n">bottom</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">top</span> <span class="o">-</span> <span class="n">bottom</span><span class="p">)</span>
+    <span class="n">C</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">far</span> <span class="o">+</span> <span class="n">near</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">far</span> <span class="o">-</span> <span class="n">near</span><span class="p">)</span>
+    <span class="n">D</span> <span class="o">=</span> <span class="o">-</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">far</span> <span class="o">*</span> <span class="n">near</span> <span class="o">/</span> <span class="p">(</span><span class="n">far</span> <span class="o">-</span> <span class="n">near</span><span class="p">)</span>
+    <span class="n">E</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">near</span> <span class="o">/</span> <span class="p">(</span><span class="n">right</span> <span class="o">-</span> <span class="n">left</span><span class="p">)</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">near</span> <span class="o">/</span> <span class="p">(</span><span class="n">top</span> <span class="o">-</span> <span class="n">bottom</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="p">[</span>   <span class="n">E</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span> <span class="p">],</span>
+            <span class="p">[</span> <span class="mf">0.0</span><span class="p">,</span>   <span class="n">F</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span> <span class="p">],</span>
+            <span class="p">[</span>   <span class="n">A</span><span class="p">,</span>   <span class="n">B</span><span class="p">,</span>   <span class="n">C</span><span class="p">,</span><span class="o">-</span><span class="mf">1.0</span> <span class="p">],</span>
+            <span class="p">[</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span>   <span class="n">D</span><span class="p">,</span> <span class="mf">0.0</span> <span class="p">],</span>
+            <span class="p">],</span>
+            <span class="n">dtype</span> <span class="o">=</span> <span class="s">&#39;float&#39;</span>
+        <span class="p">)</span>
+</div>
+<div class="viewcode-block" id="create_orthogonal_view_matrix"><a class="viewcode-back" href="../../api_matrix.html#pyrr.matrix44.create_orthogonal_view_matrix">[docs]</a><span class="k">def</span> <span class="nf">create_orthogonal_view_matrix</span><span class="p">(</span>
+    <span class="n">left</span><span class="p">,</span>
+    <span class="n">right</span><span class="p">,</span>
+    <span class="n">top</span><span class="p">,</span>
+    <span class="n">bottom</span><span class="p">,</span>
+    <span class="n">near</span><span class="p">,</span>
+    <span class="n">far</span>
+    <span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    http://msdn.microsoft.com/en-us/library/dd373965(v=vs.85).aspx</span>
+<span class="sd">    A 0 0 Tx</span>
+<span class="sd">    0 B 0 Ty</span>
+<span class="sd">    0 0 C Tz</span>
+<span class="sd">    0 0 0 1</span>
+
+<span class="sd">    A = 2 / (right - left)</span>
+<span class="sd">    B = 2 / (top - bottom)</span>
+<span class="sd">    C = -2 / (far - near)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">A</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="n">right</span> <span class="o">-</span> <span class="n">left</span><span class="p">)</span>
+    <span class="n">B</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="n">top</span> <span class="o">-</span> <span class="n">bottom</span><span class="p">)</span>
+    <span class="n">C</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="n">far</span> <span class="o">-</span> <span class="n">near</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="p">[</span>   <span class="n">A</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span> <span class="p">],</span>
+            <span class="p">[</span> <span class="mf">0.0</span><span class="p">,</span>   <span class="n">B</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span> <span class="p">],</span>
+            <span class="p">[</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span>   <span class="n">C</span><span class="p">,</span> <span class="mf">0.0</span> <span class="p">],</span>
+            <span class="p">[</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span> <span class="p">],</span>
+            <span class="p">],</span>
+            <span class="n">dtype</span> <span class="o">=</span> <span class="s">&#39;float&#39;</span>
+        <span class="p">)</span>
+</div>
+<div class="viewcode-block" id="inverse"><a class="viewcode-back" href="../../api_matrix.html#pyrr.matrix44.inverse">[docs]</a><span class="k">def</span> <span class="nf">inverse</span><span class="p">(</span> <span class="n">m</span> <span class="p">):</span>
+    <span class="k">return</span> <span class="n">numpy</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span> <span class="n">m</span> <span class="p">)</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Pyrr 0.0.1 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright Adam Griffiths.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>
