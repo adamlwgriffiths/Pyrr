@@ -3,8 +3,8 @@ import numpy
 
 
 def apply_direction_scale( vectors, direction, scale ):
-    """
-    Applies a directional scaling to a set of vectors.
+    """Applies a directional scaling to a set of vectors.
+
     An example usage for this is to flatten a mesh against a
     single plane.
 
@@ -71,8 +71,7 @@ def apply_direction_scale( vectors, direction, scale ):
     return numpy.dot( vectors, matrix )
 
 def apply_scale( vectors, scalingVector ):
-    """
-    Applies a 3 dimensional scale to a set of vectors.
+    """Applies a 3 dimensional scale to a set of vectors.
 
     @param vectors: a 2d numpy array of vectors
     eg. numpy.array([ [x,y,z] ])
