@@ -154,26 +154,20 @@ def generate_normals( v1, v2, v3, normalise_result = True ):
     The vertices are Nd arrays and may be 1d or Nd.
     As long as the final axis is of size 3.
 
-    eg. For 1d arrays:
-    vertices = numpy.array([
-        x, y, z
-        ])
+    eg. For 1d arrays::
+        >>> v1 = numpy.array( [ 1.0, 0.0, 0.0 ] )
+        >>> v2 = numpy.array( [ 0.0, 0.0, 0.0 ] )
+        >>> v3 = numpy.array( [ 0.0, 1.0, 0.0 ] )
+        >>> vector.generate_normals( v1, v2, v3 )
+        array([ 0.,  0., -1.])
 
-    result = numpy.array([
-        x, y, z
-        ])
-
-    eg. For Nd arrays:
-    vertices = numpy.array([
-        [x1, y1, z1],
-        [x2, y2, z2],
-        [x3, y3, z3]
-        ])
-
-    result = numpy.array([
-        [ 1x, 1y, 1z ],
-        [ 2x, 2y, 2x ]
-        ])
+    eg. For Nd arrays::
+        >>> v1 = numpy.array( [ [ 1.0, 0.0, 0.0 ], [ 1.0, 0.0, 0.0 ] ] )
+        >>> v2 = numpy.array( [ [ 0.0, 0.0, 0.0 ], [ 0.0, 0.0, 0.0 ] ] )
+        >>> v3 = numpy.array( [ [ 0.0, 1.0, 0.0 ], [ 0.0, 1.0, 0.0 ] ] )
+        >>> vector.generate_normals( v1, v2, v3 )
+        array([[ 0.,  0., -1.],
+               [ 0.,  0., -1.]])
     """
     # make vectors relative to v2
     # we assume opengl counter-clockwise ordering
