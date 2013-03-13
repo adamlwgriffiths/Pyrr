@@ -131,7 +131,7 @@ def line_segment_intersect_plane( segment, plane ):
     pass
 
 @all_parameters_as_numpy_arrays
-def point_closest_point_to_ray( point, ray ):
+def point_closest_point_on_ray( point, ray ):
     """
     Calculates the closest point on a ray.
     t = (p - rp).n
@@ -148,7 +148,7 @@ def point_closest_point_to_ray( point, ray ):
     return ray[ 0 ] + ( normalised_n * t )
 
 @all_parameters_as_numpy_arrays
-def point_closest_point_to_line( point, line ):
+def point_closest_point_on_line( point, line ):
     """
     Calculates the point on the line that is the
     closest to the specified point.
