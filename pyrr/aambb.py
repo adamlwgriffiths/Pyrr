@@ -47,11 +47,12 @@ def create_from_bounds( min, max ):
 def create_from_points( points ):
     """ Creates an AAMBB from the list of specified points.
 
-    Points must be a 2D list. Ie:
-    [
-        [ x, y, z ],
-        [ x, y, z ],
-    ]
+    Points must be a 2D list. Ie::
+
+        numpy.array([
+            [ x, y, z ],
+            [ x, y, z ],
+            ])
     """
     # convert any negative values to positive
     abs_points = numpy.absolute( points )
@@ -75,11 +76,12 @@ def create_from_points( points ):
 def create_from_aabbs( bbs ):
     """ Creates an AAMBB from a list of existing AABBs.
 
-    AABBs must be a 2D list. Ie:
-    [
-        AABB,
-        AABB,
-    ]
+    AABBs must be a 2D list. Ie::
+
+        numpy.array([
+            AABB,
+            AABB,
+            ])
     """
     # reshape the AABBs as a series of points
     points = bbs.reshape( (-1, 3 ) )

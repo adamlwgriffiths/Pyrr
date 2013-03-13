@@ -12,6 +12,7 @@ The second vector represents the maximum extent.
 It should be noted that rotating the object within
 an AABB will invalidate the AABB.
 It is up to the user to either:
+
     * recalculate the AABB.
     * use an AAMBB instead.
 
@@ -40,11 +41,12 @@ def create_from_bounds( min, max):
 def create_from_points( points ):
     """ Creates an AABB from the list of specified points.
 
-    Points must be a 2D list. Ie:
-    [
-        [ x, y, z ],
-        [ x, y, z ],
-    ]
+    Points must be a 2D list. Ie::
+
+        numpy.array([
+            [ x, y, z ],
+            [ x, y, z ],
+            ])
     """
     return numpy.array(
         [
@@ -57,11 +59,11 @@ def create_from_points( points ):
 def create_from_aabbs( aabbs ):
     """ Creates an AABB from a list of existing AABBs.
 
-    AABBs must be a 2D list. Ie:
-    [
-        AABB,
-        AABB,
-    ]
+    AABBs must be a 2D list. Ie::
+        numpy.array([
+            AABB,
+            AABB,
+            ])
     """
     # reshape the AABBs as a series of points
     points = aabbs.reshape( (-1, 3 ) )

@@ -17,12 +17,13 @@ def parameters_as_numpy_arrays( *args_to_convert ):
     """Converts specific arguments to numpy arrays.
 
     Arguments are specified by their argument name.
-    Ie.
-    @parameters_as_numpy_arrays( 'a', 'b', 'optional' )
-    def myfunc( a, b, *args, **kwargs ):
-        pass
+    Ie::
+    
+        @parameters_as_numpy_arrays( 'a', 'b', 'optional' )
+        def myfunc( a, b, *args, **kwargs ):
+            pass
 
-    myfunc( 1, [2,2], optional = [3,3,3] )
+        myfunc( 1, [2,2], optional = [3,3,3] )
     """
     def decorator( fn ):
         def wrapper( *args, **kwargs ):
