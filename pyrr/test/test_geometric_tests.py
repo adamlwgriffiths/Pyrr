@@ -43,7 +43,7 @@ class test_geometric_tests( unittest.TestCase ):
         p = plane.create_from_points( v1, v2, v3 )
         p = plane.flip_normal( p )
 
-        result = gt.height_above_plane( p, point )
+        result = gt.point_height_above_plane( point, p )
 
         # should be 19.0
         expected = 19.0
@@ -64,7 +64,7 @@ class test_geometric_tests( unittest.TestCase ):
             )
         point = numpy.array([ 5.0, 20.0, 5.0 ])
         
-        result = gt.closest_point_on_plane( p, point )
+        result = gt.point_closest_point_on_plane( point, p )
 
         # should be # 0, 0, 1
         expected = numpy.array( [ 5.0, 0.0, 5.0 ] )
