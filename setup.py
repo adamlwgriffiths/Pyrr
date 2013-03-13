@@ -1,7 +1,11 @@
 #!/usr/bin/env python
 
 import re
-from distutils.core import setup
+
+try:
+    from setuptools import setup
+except ImportError:
+    from distutils.core import setup
 
 # get pygly's version but don't import it
 # or we'll need our dependencies already installed
