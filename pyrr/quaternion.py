@@ -17,8 +17,8 @@ class index:
 def create( x, y, z, w ):
     return numpy.array( [ x, y, z, w ], dtype = float )
 
-def identity():
-    return vector4.identity()
+def create_identity():
+    return vector4.create_identity()
 
 def create_from_x_rotation( theta ):
     thetaOver2 = theta * 0.5
@@ -36,7 +36,7 @@ def create_from_x_rotation( theta ):
             ]
         )
 
-def create_from_y_rotation( theta):
+def create_from_y_rotation( theta ):
     thetaOver2 = theta * 0.5
 
     return numpy.array(
@@ -52,7 +52,7 @@ def create_from_y_rotation( theta):
             ]
         )
 
-def create_from_z_rotation( theta):
+def create_from_z_rotation( theta ):
     thetaOver2 = theta * 0.5
 
     return numpy.array(
