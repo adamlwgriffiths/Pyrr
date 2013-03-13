@@ -194,13 +194,17 @@ def point_closest_point_on_line_segment( point, segment ):
     return segment[ 0 ] + (rl * dot)
 
 @all_parameters_as_numpy_arrays
+def vector_parallel_vector( v1, v2 ):
+    # we cross product the 2 vectors
+    # if the result is 0, then they are parallel
+    cross = vector.cross( v1, v2 )
+    return 0 == numpy.count_nonzero( cross )
+    
+@all_parameters_as_numpy_arrays
 def ray_parallel_ray( ray1, ray2 ):
     # we use a cross product in-case the ray direction
     # isn't unit length
-    cross = vector.cross( ray1[ 1 ], ray2[ 1 ] )
-    if numpy.count_nonzero( cross ) > 0:
-        return False
-    return True
+    return vector_parallel_vector( ray1[ 1 ], ray2[ 1 ] )
 
 @all_parameters_as_numpy_arrays
 def ray_coincident_ray( ray1, ray2 ):
