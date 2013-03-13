@@ -194,22 +194,29 @@ def point_closest_point_on_line_segment( point, segment ):
     return segment[ 0 ] + (rl * dot)
 
 @all_parameters_as_numpy_arrays
-def rays_are_parallel( ray1, ray2 ):
+def ray_parallel_ray( ray1, ray2 ):
+    # we use a cross product in-case the ray direction
+    # isn't unit length
     cross = vector.cross( ray1[ 1 ], ray2[ 1 ] )
     if numpy.count_nonzero( cross ) > 0:
         return False
     return True
 
 @all_parameters_as_numpy_arrays
-def rays_are_coincident( ray1, ray2 ):
+def ray_coincident_ray( ray1, ray2 ):
+    """Check if rays are coincident.
+
+    Rays must not only be parallel to each other, but reside
+    along the same vector.
+    """
     # ensure the ray's directions are the same
-    if numpy.array_equal( ray1[ 0 ], ray2[ 0 ] ):
+    if ray_parallel_ray( ray1, ray2 ):
         # get the delta between the two ray's start point
         delta = ray2[ 0 ] - ray1[ 0 ]
 
         # get the cross product of the ray delta and
         # the direction of the rays
-        cross = vector.cross( ray1[ 1 ], ray2[ 1 ] )
+        cross = vector.cross( delta, ray2[ 1 ] )
 
         # if the cross product is zero, the start of the
         # second ray is in line with the direction of the
