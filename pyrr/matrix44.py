@@ -20,10 +20,13 @@ def create_from_matrix33( mat ):
     mat4[ 0:3, 0:3 ] = mat
     return mat4
 
+def create_matrix33_view( mat ):
+    return mat[ 0:3, 0:3 ]
+
 def create_from_eulers( eulers ):
     # set to identity matrix
     # this will populate our extra rows for us
-    mat = identity()
+    mat = create_identity()
     
     # we'll use Matrix33 for our conversion
     mat33 = mat[ 0:3, 0:3 ]
@@ -44,7 +47,7 @@ def create_from_quaternion( quat ):
     """
     # set to identity matrix
     # this will populate our extra rows for us
-    mat = identity()
+    mat = create_identity()
     
     # we'll use Matrix33 for our conversion
     mat[ 0:3, 0:3 ] = matrix33.create_from_quaternion( quat )
@@ -65,7 +68,7 @@ def create_from_inverse_of_quaternion( quat ):
     """
     # set to identity matrix
     # this will populate our extra rows for us
-    mat = identity()
+    mat = create_identity()
     
     # we'll use Matrix33 for our conversion
     mat[ 0:3, 0:3 ] = matrix33.create_from_inverse_of_quaternion( quat )
@@ -81,7 +84,7 @@ def create_from_translation( vec ):
     @return: Returns an identity matrix with the translation
     set to the specified vector.
     """
-    mat = identity()
+    mat = create_identity()
     mat[ 3, 0:3 ] = vec[:3]
     return mat
 
@@ -106,7 +109,7 @@ def create_from_x_rotation( theta ):
     
     http://en.wikipedia.org/wiki/Rotation_matrix#In_three_dimensions
     """
-    mat = identity()
+    mat = create_identity()
     mat[ 0:3, 0:3 ] = matrix33.create_from_x_rotation( theta )
     return mat
 
@@ -115,7 +118,7 @@ def create_from_y_rotation( theta ):
     
     http://en.wikipedia.org/wiki/Rotation_matrix#In_three_dimensions
     """
-    mat = identity()
+    mat = create_identity()
     mat[ 0:3, 0:3 ] = matrix33.create_from_y_rotation( theta )
     return mat
 
@@ -124,7 +127,7 @@ def create_from_z_rotation( theta ):
     
     http://en.wikipedia.org/wiki/Rotation_matrix#In_three_dimensions
     """
-    mat = identity()
+    mat = create_identity()
     mat[ 0:3, 0:3 ] = matrix33.create_from_z_rotation( theta )
     return mat
 
