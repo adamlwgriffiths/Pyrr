@@ -1,6 +1,7 @@
 """Provides common utility functions.
 """
 import inspect
+from functools import wraps
 
 import numpy
 
@@ -8,12 +9,14 @@ import numpy
 def all_parameters_as_numpy_arrays( fn ):
     """Converts all of a function's arguments to numpy arrays.
     """
+    # wraps allows us to pass the docstring back
+    # or the decorator will hide the function from our doc generator
+    @wraps( fn )
     def wrapper( *args, **kwargs ):
         np_args = [ numpy.array( arg ) for arg in args ]
         np_kwargs = { key: numpy.array( value ) for (key, value) in kwargs }
         return fn( *np_args, **np_kwargs )
     return wrapper
-
 
 def parameters_as_numpy_arrays( *args_to_convert ):
     """Converts specific arguments to numpy arrays.
@@ -28,6 +31,9 @@ def parameters_as_numpy_arrays( *args_to_convert ):
         myfunc( 1, [2,2], optional = [3,3,3] )
     """
     def decorator( fn ):
+        # wraps allows us to pass the docstring back
+        # or the decorator will hide the function from our doc generator
+        @wraps( fn )
         def wrapper( *args, **kwargs ):
             # get the arguements of the function we're decorating
             fn_args = inspect.getargspec( fn )
