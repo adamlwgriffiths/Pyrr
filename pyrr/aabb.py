@@ -26,8 +26,12 @@ from pyrr.utils import all_parameters_as_numpy_arrays, parameters_as_numpy_array
 
 
 class index:
+    #: The index of the minimum vector within the AABB
     minimum = 0
+
+    #: The index of the maximum vector within the AABB
     maximum = 1
+
 
 def create_zeros():
     return numpy.zeroes( (2,3) )

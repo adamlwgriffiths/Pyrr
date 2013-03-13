@@ -30,8 +30,12 @@ from pyrr.utils import all_parameters_as_numpy_arrays, parameters_as_numpy_array
 
 
 class index:
+    #: The index of the minimum vector within the AAMBB
     minimum = 0
+
+    #: The index of the minimum vector within the AAMBB
     maximum = 1
+
 
 def create_zeros():
     return numpy.zeroes( (2,3) )
