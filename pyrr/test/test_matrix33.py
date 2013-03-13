@@ -2,6 +2,7 @@ import unittest
 import math
 
 import numpy
+from numpy.testing import assert_array_almost_equal
 
 from pyrr import matrix33
 from pyrr import quaternion
@@ -25,6 +26,32 @@ class test_matrix33( unittest.TestCase ):
             numpy.array_equal( result, expected ),
             "Matrix44 identity incorrect"
             )
+
+    def test_create_from_xyz_rotation( self ):
+        angle = math.pi / 2.0
+
+        for input, axis, output in (
+            ( ( 0, 1, 0 ), 'x', ( 0, 0,-1 ) ),
+            ( ( 0, 1, 0 ), 'y', ( 0, 1, 0 ) ),
+            ( ( 0, 1, 0 ), 'z', ( 1, 0, 0 ) ),
+            ( ( 1, 0, 0 ), 'x', ( 1, 0, 0 ) ),
+            ( ( 1, 0, 0 ), 'y', ( 0, 0, 1 ) ),
+            ( ( 1, 0, 0 ), 'z', ( 0,-1, 0 ) ),
+            ( ( 0, 0, 1 ), 'x', ( 0, 1, 0 ) ),
+            ( ( 0, 0, 1 ), 'y', (-1, 0, 0 ) ),
+            ( ( 0, 0, 1 ), 'z', ( 0, 0, 1 ) ),
+        ):
+            input = numpy.array(input)
+            fun = getattr(matrix33, 'create_from_%s_rotation' % (axis,))
+            matrix = fun(angle)
+            result = numpy.dot(input, matrix)
+            expected = numpy.array(output)
+
+            assert_array_almost_equal(
+                result, expected,
+                err_msg='Axis %s, input %s' % ( axis, input, )
+            )
+
 
     def test_create_from_scale( self ):
         scale = numpy.array( [ 2.0, 3.0, 4.0 ] )

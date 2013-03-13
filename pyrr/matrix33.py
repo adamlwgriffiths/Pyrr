@@ -169,11 +169,8 @@ def create_from_x_rotation( theta ):
 
     return numpy.array(
         [
-            # 1, 0 ,0
             [ 1.0, 0.0, 0.0 ],
-            # 0, cosT,-sinT
             [ 0.0, cosT,-sinT ],
-            # 0, sinT, cosT
             [ 0.0, sinT, cosT ]
             ]
         )
@@ -188,11 +185,8 @@ def create_from_y_rotation( theta ):
     
     return numpy.array(
         [
-            # cosT, 0, 0
-            [ cosT, 0.0, 0.0 ],
-            # 0, 1, 0
+            [ cosT, 0.0, sinT ],
             [ 0.0, 1.0, 0.0 ],
-            # -sinT, 0, cosT
             [-sinT, 0.0, cosT ]
             ]
         )
@@ -207,11 +201,8 @@ def create_from_z_rotation( theta ):
     
     return numpy.array(
         [
-            # cosT,-sinT, 0
-            [ cosT, sinT, 0.0 ],
-            # sinT, cosT, 0
+            [ cosT,-sinT, 0.0 ],
             [ sinT, cosT, 0.0 ],
-            # 0, 0, 1
             [ 0.0, 0.0, 1.0 ]
             ]
         )
