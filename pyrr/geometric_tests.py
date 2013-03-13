@@ -131,7 +131,7 @@ def line_segment_intersect_plane( segment, plane ):
     pass
 
 @all_parameters_as_numpy_arrays
-def closest_point_on_ray( ray, point ):
+def point_closest_point_to_ray( point, ray ):
     """
     Calculates the closest point on a ray.
     t = (p - rp).n
@@ -148,7 +148,7 @@ def closest_point_on_ray( ray, point ):
     return ray[ 0 ] + ( normalised_n * t )
 
 @all_parameters_as_numpy_arrays
-def closest_point_on_line( line, point ):
+def point_closest_point_to_line( point, line ):
     """
     Calculates the point on the line that is the
     closest to the specified point.
@@ -169,7 +169,7 @@ def closest_point_on_line( line, point ):
     return line[ 0 ] + (rl * dot)
 
 @all_parameters_as_numpy_arrays
-def closest_point_on_line_segment( segment, point ):
+def point_closest_point_on_line_segment( point, segment ):
     """
     Calculates the point on the line segment that is
     the closest to the specified point.
@@ -194,14 +194,14 @@ def closest_point_on_line_segment( segment, point ):
     return segment[ 0 ] + (rl * dot)
 
 @all_parameters_as_numpy_arrays
-def are_rays_parallel( ray1, ray2 ):
+def rays_are_parallel( ray1, ray2 ):
     cross = vector.cross( ray1[ 1 ], ray2[ 1 ] )
     if numpy.count_nonzero( cross ) > 0:
         return False
     return True
 
 @all_parameters_as_numpy_arrays
-def are_rays_coincident( ray1, ray2 ):
+def rays_are_coincident( ray1, ray2 ):
     # ensure the ray's directions are the same
     if numpy.array_equal( ray1[ 0 ], ray2[ 0 ] ):
         # get the delta between the two ray's start point
@@ -273,7 +273,7 @@ def line_segment_intersect_line_segment( segment1, segment2 ):
     pass
 
 @all_parameters_as_numpy_arrays
-def height_above_plane( plane, vector ):
+def point_height_above_plane( point, plane ):
     """
     Returns the height above the plane.
     Performs no checking of the vector being within the plane's surface
@@ -282,11 +282,11 @@ def height_above_plane( plane, vector ):
     @return: The height above the plane as a float
     """
     plane_dot = numpy.dot( plane[ 1 ], plane[ 0 ] )
-    vector_dot = numpy.dot( vector, plane[ 1 ] )
+    vector_dot = numpy.dot( point, plane[ 1 ] )
     return vector_dot - plane_dot
 
 @all_parameters_as_numpy_arrays
-def closest_point_on_plane( plane, vector ):
+def point_closest_point_on_plane( point, plane ):
     """
     point on plane is defined as:
     q' = q + (d - q.n)n
@@ -297,11 +297,11 @@ def closest_point_on_plane( plane, vector ):
     n is the plane normal
     """
     d = numpy.dot( plane[ 1 ], plane[ 0 ] )
-    qn = numpy.dot( vector, plane[ 1 ] )
-    return vector + ( plane[ 1 ] * (d - qn) )
+    qn = numpy.dot( point, plane[ 1 ] )
+    return point + ( plane[ 1 ] * (d - qn) )
 
 @all_parameters_as_numpy_arrays
-def does_sphere_intersect_sphere( c1, c2 ):
+def sphere_does_intersect_sphere( c1, c2 ):
     """
     Determines if two spheres overlap.
 
