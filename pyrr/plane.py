@@ -14,7 +14,7 @@ class index:
     normal = 1
     up = 2
 
-def identity():
+def create_identity():
     """Creates a plane at the origin, with a normal of 0,0,1 and up of 0,1,0.
 
     This is a plane that lies at the origin on the X,Y plane and faces +Z.
