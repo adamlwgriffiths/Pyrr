@@ -4,8 +4,7 @@ import math
 
 
 def calculate_fov( zoom, height = 1.0 ):
-    """
-    Calculates the required FOV to set the
+    """Calculates the required FOV to set the
     view frustrum to have a view with the specified height
     at the specified distance.
 
@@ -20,8 +19,7 @@ def calculate_fov( zoom, height = 1.0 ):
     return math.degrees( rad_theta )
 
 def calculate_zoom( fov, height = 1.0 ):
-    """
-    Calculates the zoom (distance) from the camera
+    """Calculates the zoom (distance) from the camera
     with the specified FOV and height of image.
 
     @param fov: The FOV to use.
@@ -36,8 +34,7 @@ def calculate_zoom( fov, height = 1.0 ):
     return height / math.tan( fov / 2.0 )
 
 def calculate_height( fov, zoom ):
-    """
-    Performs the opposite of calculate_fov.
+    """Performs the opposite of calculate_fov.
     Used to find the current height at a specific distance.
 
     @param fov: The current FOV.
@@ -50,8 +47,7 @@ def calculate_height( fov, zoom ):
     return height
 
 def calculate_plane_size( aspect_ratio, fov, distance ):
-    """
-    Calculates the width and height of a plane at the
+    """Calculates the width and height of a plane at the
     specified distance using the FOV of the frustrum
     and aspect ratio of the viewport.
 
