@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-Defines a number of functions to test
-interactions between various forms of
-3D structures.
+Defines a number of functions to test interactions between
+various forms data types.
 """
 from __future__ import absolute_import, division, print_function, unicode_literals
 
