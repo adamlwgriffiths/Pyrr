@@ -13,7 +13,7 @@ from pyrr.utils import all_parameters_as_numpy_arrays, parameters_as_numpy_array
 
 
 @all_parameters_as_numpy_arrays
-def point_intersect_line( line, point ):
+def point_intersect_line( point, line ):
     """
     Determines if a point is on a line.
     Performed by checking if the cross-product
@@ -30,7 +30,7 @@ def point_intersect_line( line, point ):
     return point
 
 @all_parameters_as_numpy_arrays
-def point_intersect_line_segment( line, point ):
+def point_intersect_line_segment( point, line ):
     """
     Determines if a point is on a segment.
     Performed by checking if the cross-product
