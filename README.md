@@ -14,6 +14,12 @@ Features:
    * Axis Aligned Bounding Box (AABB / AAMBB)
    * Geometric collision / intersection testing
 
+Documentation
+-------------
+
+[View Pyrr's documentation online](http://adamlwgriffiths.github.com/Pyrr/docs/index.html).
+
+
 Installation
 ------------
 
