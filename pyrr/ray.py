@@ -21,11 +21,13 @@ import numpy
 from pyrr import vector
 
 
-# the indices of each component in the
-# ray array
 class index:
+    #: The index of the origin vector within the ray
     origin = 0
+
+    #: The index of the direction vector within the ray
     direction = 1
+
 
 def create_identity():
     return numpy.array(

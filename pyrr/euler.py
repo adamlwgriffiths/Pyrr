@@ -5,9 +5,15 @@ import numpy
 
 
 class index:
+    #: The index of the pitch value within the euler
     pitch = 0
+
+    #: The index of the roll value within the euler
     roll = 1
+
+    #: The index of the yaw value within the euler
     yaw = 2
+
 
 def create( pitch, roll, yaw ):
     return numpy.array( [ pitch, roll, yaw ] )

@@ -9,12 +9,16 @@ import numpy.linalg
 from pyrr import vector
 
 
-# the indices of each component in the
-# plane array
 class index:
+    #: The index of the position vector within the plane
     position = 0
+
+    #: The index of the normal vector within the plane
     normal = 1
+
+    #: The index of the up vector within the plane
     up = 2
+
 
 def create_identity():
     """Creates a plane at the origin, with a normal of 0,0,1 and up of 0,1,0.

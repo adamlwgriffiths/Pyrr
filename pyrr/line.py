@@ -13,9 +13,14 @@ import numpy
 
 from pyrr import vector
 
+
 class index:
+    #: The index of the start vector within the line
     start = 0
+
+    #: The index of the end vector within the line
     end = 1
+
 
 def create_zeros():
     return numpy.zeros( (2,3) )

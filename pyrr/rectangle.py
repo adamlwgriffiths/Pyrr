@@ -10,8 +10,12 @@ from pyrr.utils import all_parameters_as_numpy_arrays, parameters_as_numpy_array
 
 
 class index:
+    #: The index of the position vector within the rectangle
     position = 0
+
+    #: The index of the size vector within the rectangle
     size = 1
+
 
 def create_zeros( dtype = None ):
     return numpy.zeros( (2,2), dtype = dtype )

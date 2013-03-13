@@ -12,8 +12,12 @@ from pyrr.utils import all_parameters_as_numpy_arrays
 
 
 class index:
+    #: The index of the position vector within the sphere
     position = 0
+
+    #: The index of the radius within the sphere
     radius = 1
+
 
 @all_parameters_as_numpy_arrays
 def create_from_points( points ):

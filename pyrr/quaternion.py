@@ -10,9 +10,16 @@ from pyrr import vector, vector3, vector4
 
 
 class index:
+    #: The index of the X value within the quaternion
     x = 0
+
+    #: The index of the Y value within the quaternion
     y = 1
+
+    #: The index of the Z value within the quaternion
     z = 2
+
+    #: The index of the W value within the quaternion
     w = 3
 
 
