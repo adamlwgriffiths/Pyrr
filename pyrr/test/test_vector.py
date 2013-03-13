@@ -14,8 +14,8 @@ class test_vector( unittest.TestCase ):
     def tearDown( self ):
         pass
 
-    def test_zeroes( self ):
-        vec = vector3.identity()
+    def test_identity( self ):
+        vec = vector3.create_identity()
 
         self.assertTrue(
             numpy.array_equal( vec, [ 0.0, 0.0, 0.0 ] ),

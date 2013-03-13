@@ -15,8 +15,8 @@ class test_quaternion( unittest.TestCase ):
     def tearDown( self ):
         pass
 
-    def test_identity( self ):
-        result = quaternion.identity()
+    def test_create_identity( self ):
+        result = quaternion.create_identity()
 
         expected = numpy.array( [ 0.0, 0.0, 0.0, 1.0 ] )
 
@@ -28,7 +28,7 @@ class test_quaternion( unittest.TestCase ):
     def test_normalise( self ):
         def identity():
             # normalise an identity quaternion
-            quat = quaternion.identity()
+            quat = quaternion.create_identity()
             result = quaternion.normalise( quat )
 
             expected = numpy.array( [ 0.0, 0.0, 0.0, 1.0 ] )
@@ -73,7 +73,7 @@ class test_quaternion( unittest.TestCase ):
 
     def test_length( self ):
         def identity():
-            quat = quaternion.identity()
+            quat = quaternion.create_identity()
             result = quaternion.length( quat )
 
             expected = 1.0
@@ -86,7 +86,7 @@ class test_quaternion( unittest.TestCase ):
         identity()
 
         def identity_batch():
-            quat = quaternion.identity()
+            quat = quaternion.create_identity()
             batch = numpy.tile( quat, (2,1) )
             result = quaternion.length( batch )
 
@@ -131,7 +131,7 @@ class test_quaternion( unittest.TestCase ):
 
     def test_squared_length( self ):
         def identity():
-            quat = quaternion.identity()
+            quat = quaternion.create_identity()
             result = quaternion.squared_length( quat )
 
             expected = 1.0
@@ -175,7 +175,7 @@ class test_quaternion( unittest.TestCase ):
 
     def test_apply_to_vector( self ):
         def identity():
-            quat = quaternion.identity()
+            quat = quaternion.create_identity()
             vec = vector3.unit.x
 
             result = quaternion.apply_to_vector( quat, vec )

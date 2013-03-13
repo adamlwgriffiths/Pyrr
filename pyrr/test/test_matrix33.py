@@ -16,8 +16,8 @@ class test_matrix33( unittest.TestCase ):
     def tearDown( self ):
         pass
 
-    def test_identity( self ):
-        result = matrix33.identity()
+    def test_create_identity( self ):
+        result = matrix33.create_identity()
 
         expected = numpy.eye( 3 )
 
@@ -43,7 +43,7 @@ class test_matrix33( unittest.TestCase ):
 
     def test_create_from_quaternion( self ):
         def identity():
-            quat = quaternion.identity()
+            quat = quaternion.create_identity()
             result = matrix33.create_from_quaternion( quat )
 
             expected = numpy.eye( 3 )
@@ -92,7 +92,7 @@ class test_matrix33( unittest.TestCase ):
 
     def test_apply_to_vector( self ):
         def identity():
-            mat = matrix33.identity()
+            mat = matrix33.create_identity()
             vec = vector3.unit.x
 
             result = matrix33.apply_to_vector( mat, vec )

@@ -17,8 +17,8 @@ class test_matrix44( unittest.TestCase ):
     def tearDown( self ):
         pass
 
-    def test_identity( self ):
-        result = matrix44.identity()
+    def test_create_identity( self ):
+        result = matrix44.create_identity()
 
         expected = numpy.eye( 4 )
 
@@ -55,19 +55,19 @@ class test_matrix44( unittest.TestCase ):
             "Matrix44 scale not set properly"
             )
 
-    def test_to_matrix33( self ):
-        mat = matrix44.identity()
-        result = matrix44.to_matrix33( mat )
+    def test_create_matrix33_view( self ):
+        mat = matrix44.create_identity()
+        result = matrix44.create_matrix33_view( mat )
 
         expected = numpy.eye( 3 )
 
         self.assertTrue(
             numpy.array_equal( result, expected ),
-            "Matrix44 to_matrix33 incorrect"
+            "Matrix44 create_matrix33_view incorrect"
             )
 
     def test_create_from_matrix33( self ):
-        mat = matrix33.identity()
+        mat = matrix33.create_identity()
         result = matrix44.create_from_matrix33( mat )
 
         expected = numpy.eye( 4 )
@@ -79,7 +79,7 @@ class test_matrix44( unittest.TestCase ):
 
     def test_create_from_quaternion( self ):
         def identity():
-            quat = quaternion.identity()
+            quat = quaternion.create_identity()
             result = matrix44.create_from_quaternion( quat )
 
             expected = numpy.eye( 4 )
@@ -128,7 +128,7 @@ class test_matrix44( unittest.TestCase ):
 
     def test_apply_to_vector( self ):
         def identity():
-            mat = matrix44.identity()
+            mat = matrix44.create_identity()
             vec = vector3.unit.x
 
             result = matrix44.apply_to_vector( mat, vec )
@@ -184,7 +184,7 @@ class test_matrix44( unittest.TestCase ):
         rotated_z()
 
         def translation():
-            mat = matrix44.identity()
+            mat = matrix44.create_identity()
             vec = numpy.array([0.0, 0.0, 0.0])
             mat[3,0:3] = [1.0, 2.0, 3.0]
 
