@@ -7,8 +7,7 @@ from pyrr.utils import all_parameters_as_numpy_arrays, parameters_as_numpy_array
 
 @all_parameters_as_numpy_arrays
 def normalise( vec ):
-    """
-    Normalises an Nd list of vectors or a single vector
+    """Normalises an Nd list of vectors or a single vector
     to unit length.
     The value will be changed in place. The return value
     is for convenience.
@@ -35,8 +34,7 @@ def normalise( vec ):
     return vec / lengths
 
 def squared_length( vec ):
-    """
-    Calculates the squared length of a vector.
+    """Calculates the squared length of a vector.
     Useful when trying to avoid the performance
     penalty of a square root operation.
     """
@@ -46,8 +44,7 @@ def squared_length( vec ):
 
 @all_parameters_as_numpy_arrays
 def length( vec ):
-    """
-    Returns the length of an Nd list of vectors
+    """Returns the length of an Nd list of vectors
     or a single vector.
 
     @param vec: an Nd array with the final dimension
@@ -73,8 +70,7 @@ def length( vec ):
 
 @parameters_as_numpy_arrays( 'vec' )
 def set_length( vec, len ):
-    """
-    Changes the length of an Nd list of vectors or
+    """Changes the length of an Nd list of vectors or
     a single vector to 'length'.
     The value will be changed in place. The return value
     is for convenience.
@@ -101,7 +97,8 @@ def set_length( vec, len ):
     return vec / (lengths * (1.0 / len) )
 
 def dot( v1, v2 ):
-    """
+    """Calculates the dot product of two vectors.
+
     @param a: an Nd array with the final dimension
     being size 3. (a vector)
     @param b: an Nd array with the final dimension
@@ -111,7 +108,8 @@ def dot( v1, v2 ):
     return numpy.sum( v1 * v2, axis = -1 )
 
 def cross( v1, v2 ):
-    """
+    """Calculates the cross-product of two vectors.
+
     @param vector1: an Nd array with 3 elements (a vector)
     @param vector2: an Nd array with 3 elements (a vector)
     (eg. numpy.array( [ x, y, z ]) )
@@ -120,8 +118,7 @@ def cross( v1, v2 ):
     return numpy.cross( v1, v2 )
 
 def interpolate( v1, v2, delta ):
-    """
-    Interpolates between 2 arrays of vectors (shape = N,3)
+    """Interpolates between 2 arrays of vectors (shape = N,3)
     by the specified delta (0.0 <= delta <= 1.0).
     """
     # scale the difference based on the time
