@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-Defines a number of functions to test interactions between
+"""Defines a number of functions to test interactions between
 various forms data types.
 """
 from __future__ import absolute_import, division, print_function, unicode_literals
@@ -13,8 +12,8 @@ from pyrr.utils import all_parameters_as_numpy_arrays, parameters_as_numpy_array
 
 @all_parameters_as_numpy_arrays
 def point_intersect_line( point, line ):
-    """
-    Determines if a point is on a line.
+    """Calculates the intersection point of a point and aline.
+
     Performed by checking if the cross-product
     of the point relative to the line is
     0.
@@ -30,8 +29,8 @@ def point_intersect_line( point, line ):
 
 @all_parameters_as_numpy_arrays
 def point_intersect_line_segment( point, line ):
-    """
-    Determines if a point is on a segment.
+    """Calculates the intersection point of a point and a line segment.
+
     Performed by checking if the cross-product
     of the point relative to the line is
     0 and if the dot product of the point
@@ -56,8 +55,7 @@ def point_intersect_line_segment( point, line ):
 
 @all_parameters_as_numpy_arrays
 def point_intersect_rectangle( point, rect ):
-    """
-    Determines if a point is within a 2D rectangle.
+    """Calculates the intersection point of a point and a 2D rectangle.
 
     For 3D points, the Z axis will be ignored.
 
@@ -75,7 +73,8 @@ def point_intersect_rectangle( point, rect ):
 
 @parameters_as_numpy_arrays( 'ray', 'plane' )
 def ray_intersect_plane( ray, plane, front_only = False ):
-    """
+    """Calculates the intersection point of a ray and a plane.
+
     Distance to plane is defined as
     t = (pd - p0.n) / rd.n
     where:
@@ -113,17 +112,16 @@ def ray_intersect_plane( ray, plane, front_only = False ):
 
 @all_parameters_as_numpy_arrays
 def line_intersect_plane( line, plane ):
-    """
-    Calculates the intersection point of a line
+    """Calculates the intersection point of a line
     and a plane.
     """
     pass
 
 @all_parameters_as_numpy_arrays
 def line_segment_intersect_plane( segment, plane ):
-    """
-    Calculates the intersection point of a segment and a
+    """Calculates the intersection point of a segment and a
     plane.
+
     If the segment is not long enough to intersect the
     plane, None will be returned.
     """
@@ -131,8 +129,8 @@ def line_segment_intersect_plane( segment, plane ):
 
 @all_parameters_as_numpy_arrays
 def point_closest_point_on_ray( point, ray ):
-    """
-    Calculates the closest point on a ray.
+    """Calculates the point on a ray that is closest to a point.
+
     t = (p - rp).n
     cp = rp + (n * t)
     where
@@ -148,9 +146,9 @@ def point_closest_point_on_ray( point, ray ):
 
 @all_parameters_as_numpy_arrays
 def point_closest_point_on_line( point, line ):
-    """
-    Calculates the point on the line that is the
-    closest to the specified point.
+    """Calculates the point on the line that is closest to
+    the specified point.
+
     rl = va->b (relative line)
     rp = va->p (relative point)
     u' = u / |u| (normalise)
@@ -169,9 +167,8 @@ def point_closest_point_on_line( point, line ):
 
 @all_parameters_as_numpy_arrays
 def point_closest_point_on_line_segment( point, segment ):
-    """
-    Calculates the point on the line segment that is
-    the closest to the specified point.
+    """Calculates the point on the line segment that is closest
+    to the specified point.
     """
     # check if the line has any length
     rl = segment[ 1 ] - segment[ 0 ]
@@ -194,6 +191,8 @@ def point_closest_point_on_line_segment( point, segment ):
 
 @all_parameters_as_numpy_arrays
 def vector_parallel_vector( v1, v2 ):
+    """Checks if two vectors are parallel.
+    """
     # we cross product the 2 vectors
     # if the result is 0, then they are parallel
     cross = vector.cross( v1, v2 )
@@ -201,6 +200,8 @@ def vector_parallel_vector( v1, v2 ):
     
 @all_parameters_as_numpy_arrays
 def ray_parallel_ray( ray1, ray2 ):
+    """Checks if two rays are parallel.
+    """
     # we use a cross product in-case the ray direction
     # isn't unit length
     return vector_parallel_vector( ray1[ 1 ], ray2[ 1 ] )
@@ -232,6 +233,8 @@ def ray_coincident_ray( ray1, ray2 ):
 
 @all_parameters_as_numpy_arrays
 def ray_intersect_aabb( ray, aabb ):
+    """Calculates the intersection point of a ray and an AABB
+    """
     # http://gamedev.stackexchange.com/questions/18436/most-efficient-aabb-vs-ray-collision-algorithms
     
     # this is basically "numpy.divide( 1.0, ray[ 1 ] )"
@@ -272,20 +275,20 @@ def ray_intersect_aabb( ray, aabb ):
 
 @all_parameters_as_numpy_arrays
 def ray_intersect_ray( ray1, ray2 ):
-    pass
+    raise NotImplementedError()
 
 @all_parameters_as_numpy_arrays
 def line_intersect_line( line1, line2 ):
-    pass
+    raise NotImplementedError()
 
 @all_parameters_as_numpy_arrays
 def line_segment_intersect_line_segment( segment1, segment2 ):
-    pass
+    raise NotImplementedError()
 
 @all_parameters_as_numpy_arrays
 def point_height_above_plane( point, plane ):
-    """
-    Returns the height above the plane.
+    """Calculates how high a point is above a plane.
+
     Performs no checking of the vector being within the plane's surface
     if one is defined.
 
@@ -297,7 +300,8 @@ def point_height_above_plane( point, plane ):
 
 @all_parameters_as_numpy_arrays
 def point_closest_point_on_plane( point, plane ):
-    """
+    """Calculates the point on a plane that is closest to a point.
+
     point on plane is defined as:
     q' = q + (d - q.n)n
     where:
@@ -312,8 +316,7 @@ def point_closest_point_on_plane( point, plane ):
 
 @all_parameters_as_numpy_arrays
 def sphere_does_intersect_sphere( c1, c2 ):
-    """
-    Determines if two spheres overlap.
+    """Checks if two spheres overlap.
 
     Note: This will return True if the two spheres are
     touching perfectly but sphere_penetration_sphere
@@ -338,9 +341,8 @@ def sphere_does_intersect_sphere( c1, c2 ):
 
 @all_parameters_as_numpy_arrays
 def sphere_penetration_sphere( c1, c2 ):
-    """
-    Calculates the distance two spheres have
-    penetrated into one another.
+    """Calculates the distance two spheres have penetrated
+    into one another.
 
     @param c1: The first circle.
     @param c2: The second circle.
