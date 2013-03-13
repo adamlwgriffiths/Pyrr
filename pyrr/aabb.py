@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-""" Provides functions to calculate and manipulate
+"""Provides functions to calculate and manipulate
 Axis-Aligned Bounding Boxes (AABB).
 
 AABB are a simple 3D rectangle with no orientation.

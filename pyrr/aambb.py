@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-""" Provides functions to calculate and manipulate
+"""Provides functions to calculate and manipulate
 Axis-Aligned Minimum Bounding Boxes (AAMBB).
 
 AAMBB are a simple 3D rectangle with no orientation.
