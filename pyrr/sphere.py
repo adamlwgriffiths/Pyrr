@@ -21,10 +21,8 @@ class index:
 
 @all_parameters_as_numpy_arrays
 def create_from_points( points ):
-    """
-    Creates a sphere centred around 0,0,0
-    that encompasses the furthest point in
-    the provided list.
+    """Creates a sphere centred around 0,0,0 that encompasses
+    the furthest point in the provided list.
 
     @return: Returns a sphere as a two value tuple.
     The first value is the sphere's position.
