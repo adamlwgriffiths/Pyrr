@@ -15,7 +15,7 @@ class test_rectangle( unittest.TestCase ):
         pass
 
     def test_zero( self ):
-        rect = rectangle.zeros()
+        rect = rectangle.create_zeros()
 
         self.assertEqual(
             rect[ (0,0) ],

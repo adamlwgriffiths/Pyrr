@@ -17,7 +17,7 @@ class index:
     start = 0
     end = 1
 
-def zeros():
+def create_zeros():
     return numpy.zeros( (2,3) )
 
 def create_from_points( v1, v2):

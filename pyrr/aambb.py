@@ -33,7 +33,7 @@ class index:
     minimum = 0
     maximum = 1
 
-def zeros():
+def create_zeros():
     return numpy.zeroes( (2,3) )
 
 def create_from_bounds( min, max ):

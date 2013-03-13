@@ -27,7 +27,7 @@ class index:
     origin = 0
     direction = 1
 
-def identity():
+def create_identity():
     return numpy.array(
         [
             [ 0.0, 0.0, 0.0 ],

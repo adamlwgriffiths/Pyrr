@@ -13,7 +13,7 @@ class index:
     position = 0
     size = 1
 
-def zeros( dtype = None ):
+def create_zeros( dtype = None ):
     return numpy.zeros( (2,2), dtype = dtype )
 
 def create_from_position( x, y, width, height, dtype = None ):
