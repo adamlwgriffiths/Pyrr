@@ -37,6 +37,7 @@ class test_matrix44( unittest.TestCase ):
             ( (0, 0, 0), False ),
             ( (0, 0, -0.02), True ),
             ( (0, 0, -1000), True ),
+            ( (0, 1.50, -1), False ),
             ( (0, 0, -1001), False ),
             ( (50, 0, -0.02), False ),
             ( (0, 50, -0.02), False ),

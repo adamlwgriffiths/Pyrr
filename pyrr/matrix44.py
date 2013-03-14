@@ -177,7 +177,7 @@ def create_perspective_projection_matrix(fovy, aspect, znear, zfar):
     :rtype: 4x4 float matrix
     '''
 
-    f = 1.0 / math.tan(fovy / 2.0)
+    f = 1.0 / math.tan(math.radians(fovy / 2.0))
     A = f / aspect
     B = 1.0 * (znear + zfar) / (znear - zfar)
     C = (2.0 * znear * zfar) / (znear - zfar)
