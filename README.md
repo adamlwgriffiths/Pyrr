@@ -19,7 +19,7 @@ Features:
 Documentation
 -------------
 
-[View Pyrr's documentation online](http://adamlwgriffiths.github.com/Pyrr/docs/index.html).
+[View Pyrr's documentation online](https://pyrr.readthedocs.org/en/latest/).
 
 
 Installation
