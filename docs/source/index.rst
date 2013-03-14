@@ -1,7 +1,10 @@
-Pyrr index
-===========
+Pyrr Maths Library
+******************
 
-Overview:
+Pyrr is a Python mathematical library.
+
+Overview
+========
 
 .. toctree::
     :maxdepth: 2
@@ -9,7 +12,8 @@ Overview:
     info_data_types
     info_geometric_tests
 
-Development:
+Development
+===========
 
 .. toctree::
     :maxdepth: 1
@@ -17,7 +21,8 @@ Development:
     info_coding_standard
     info_contributing
 
-API:
+API
+===
 
 .. toctree::
     :maxdepth: 2
