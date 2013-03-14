@@ -3,6 +3,8 @@ import math
 
 import numpy
 
+from nose.tools import ok_
+
 from pyrr import matrix33
 from pyrr import matrix44
 from pyrr import quaternion
@@ -26,6 +28,34 @@ class test_matrix44( unittest.TestCase ):
             numpy.array_equal( result, expected ),
             "Matrix44 identity incorrect"
             )
+
+    def test_perspective_projection_works_fine( self ):
+        p = matrix44.create_perspective_projection_matrix( 90, 4.0/3, 0.01, 1000 )
+
+        for point, is_inside in (
+            ( (0, 0, 1), False ),
+            ( (0, 0, 0), False ),
+            ( (0, 0, -0.02), True ),
+            ( (0, 0, -1000), True ),
+            ( (0, 0, -1001), False ),
+            ( (50, 0, -0.02), False ),
+            ( (0, 50, -0.02), False ),
+                ):
+            self.check_projection_classifies_point_correctly(
+                p, numpy.array( point + ( 1, ) ), is_inside)
+
+    def check_projection_classifies_point_correctly( self, matrix, point, is_inside ):
+        transformed = matrix44.multiply( point, matrix )
+
+        # Avoid division by zero warning
+        if transformed[ 3 ] == 0:
+            assert not is_inside
+        else:
+            transformed[ 0:3 ] /= transformed[ 3 ]
+
+            max_coordinate = max( abs( c ) for c in transformed[ 0:3 ] )
+            assert is_inside == ( max_coordinate <= 1.0 )
+
 
     def test_create_from_translation( self ):
         translation = numpy.array( [ 2.0, 3.0, 4.0 ] )

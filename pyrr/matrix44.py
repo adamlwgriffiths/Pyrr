@@ -164,6 +164,31 @@ def multiply( m1, m2, out = None ):
 
     return numpy.dot( m1, m2, out = out )
 
+def create_perspective_projection_matrix(fovy, aspect, znear, zfar):
+    '''
+    Creates perspective projection matrix.
+
+    .. seealso:: http://www.opengl.org/sdk/docs/man2/xhtml/gluPerspective.xml
+
+    :param float fovy: field of view in y direction in degrees
+    :param float aspect: aspect ratio of the view (width / height)
+    :param float znear: distance from the viewer to the near clipping plane (only positive)
+    :param float zfar: distance from the viewer to the far clipping plane (only positive)
+    :rtype: 4x4 float matrix
+    '''
+
+    f = 1.0 / math.tan(fovy / 2.0)
+    A = f / aspect
+    B = 1.0 * (znear + zfar) / (znear - zfar)
+    C = (2.0 * znear * zfar) / (znear - zfar)
+
+    return numpy.array((
+        (A, 0, 0, 0),
+        (0, f, 0, 0),
+        (0, 0, B,-1),
+        (0, 0, C, 0)
+        ), dtype='float')
+
 def create_projection_view_matrix(
     left,
     right,
