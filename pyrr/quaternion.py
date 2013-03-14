@@ -98,10 +98,9 @@ def create_from_axis_rotation( axis, theta ):
         )
 
 def create_from_eulers( eulers ):
-    """
-    Creates a quaternion from a set of Euler angles.
+    """Creates a quaternion from a set of Euler angles.
 
-    Eulers are an array of length 3 in the following order:
+    Eulers are an array of length 3 in the following order::
         [ yaw, pitch, roll ]
     """
     halfYaw = eulers[ 0 ] * 0.5
@@ -130,10 +129,9 @@ def create_from_eulers( eulers ):
         )
 
 def create_from_inverse_of_eulers( eulers ):
-    """
-    Creates a quaternion from the inverse of a set of Euler angles.
+    """Creates a quaternion from the inverse of a set of Euler angles.
 
-    Eulers are an array of length 3 in the following order:
+    Eulers are an array of length 3 in the following order::
         [ yaw, pitch, roll ]
     """
     halfYaw = eulers[ 0 ] * 0.5
@@ -162,11 +160,12 @@ def create_from_inverse_of_eulers( eulers ):
         )
 
 def cross( quat1, quat2 ):
-    """
-    Returns the cross-product of the two quaternions.
-    Order is important.
-    This is NOT the same as a vector cross-product. Quaternion cross-product
-    is the equivalent of matrix multiplication.
+    """Returns the cross-product of the two quaternions.
+
+    Quaternions are **not** communicative. Therefore, order is important.
+
+    This is NOT the same as a vector cross-product.
+    Quaternion cross-product is the equivalent of matrix multiplication.
     """
     q1x, q1y, q1z, q1w = quat1
     q2x, q2y, q2z, q2w = quat2
@@ -185,62 +184,77 @@ def cross( quat1, quat2 ):
         )
 
 def is_zero_length( quat ):
-    """
-    Checks if a quaternion is zero length.
+    """Checks if a quaternion is zero length.
 
-    @param quat: The quaternion to check.
-    @return: Returns True if the quaternion is
-    zero length, otherwise returns False.
+    :param numpy.array quat: The quaternion to check.
+    :rtype: A boolean. True if the quaternion is
+        zero length, otherwise False.
     """
     return quat[ 0 ] == quat[ 1 ] == quat[ 2 ] == quat[ 3 ] == 0.0
 
 def is_non_zero_length( quat ):
-    """
-    Checks if a quaternion is not zero length.
+    """Checks if a quaternion is not zero length.
 
     This is the opposite to 'is_zero_length'.
     This is provided for readabilities sake.
 
-    @param quat: The quaternion to check.
-    @return: Returns False if the quaternion is
-    zero length, otherwise returns True.
+    :param numpy.array quat: The quaternion to check.
+    :rtype: A boolean. False if the quaternion is
+        zero length, otherwise True.
+
+    .. seealso:: is_zero_length
     """
     return not is_zero_length( quat )
 
 def squared_length( quat ):
-    """
-    Returns the squared length of a quaternion.
+    """Calculates the squared length of a quaternion.
+
     Useful for avoiding the performanc penalty of
     the square root function.
 
-    @param quat: The quaternion to measure.
-    @return: The squared length of the quaternion.
+    :param numpy.array quat: The quaternion to measure.
+    :rtype: If a 1d array was passed, it will be a scalar.
+        Otherwise the result will be an array of scalars with shape
+        vec.ndim with the last dimension being size 1.
     """
     return vector.squared_length( quat )
 
 def length( quat ):
-    """
-    Length of a quaternion is defined as
-    sqrt( w^2 + x^2 + y^2 + z^2 )
+    """Calculates the length of a quaternion.
     
-    @param quat: The quaternion to measure.
-    @return: The length of the quaternion.
+    :param numpy.array quat: The quaternion to measure.
+    :rtype: If a 1d array was passed, it will be a scalar.
+        Otherwise the result will be an array of scalars with shape
+        vec.ndim with the last dimension being size 1.
     """
     return vector.length( quat )
 
 def normalise( quat ):
-    """
-    Normalise a quaternion by finding it's length
-    then dividing each component by 1.0 / length.
+    """Ensure a quaternion is unit length (length ~= 1.0).
+
+    The quaternion is **not** changed in place.
+    
+    :param numpy.array quat: The quaternion to normalise.
+    :rtype: The normalised quaternion(s).
     """
     return vector.normalise( quat )
 
 def get_rotation_angle( quat ):
+    """Calculates the rotation around the quaternion's axis.
+
+    :param numpy.array quat: The quaternion.
+    :rtype: A float.
+    """
     # extract the W component
     thetaOver2 = math.acos( quat[ 3 ] )
     return thetaOver2 * 2.0
 
 def get_rotation_axis( quat ):
+    """Calculates the axis of the quaternion's rotation.
+
+    :param numpy.array quat: The quaternion.
+    :rtype: A numpy.array.
+    """
     # extract W component
     sinThetaOver2Sq = 1.0 - (quat[ 3 ] ** 2)
     
@@ -267,11 +281,21 @@ def get_rotation_axis( quat ):
         )
 
 def dot( quat1, quat2 ):
+    """Calculate the dot product of quaternions.
+
+    :param numpy.array quat1: The first quaternion(s).
+    :param numpy.array quat2: The second quaternion(s).
+    :rtype: If a 1d array was passed, it will be a scalar.
+        Otherwise the result will be an array of scalars with shape
+        vec.ndim with the last dimension being size 1.
+    """
     return vector.dot( quat1, quat2 )
 
 def conjugate( quat ):
-    """
-    Returns a quaternion with the opposite rotation as the original quaternion
+    """Calculates a quaternion with the opposite rotation.
+
+    :param numpy.array quat: The quaternion.
+    :rtype: A numpy.array.
     """
 
     # invert x,y,z and leave w as is
@@ -285,6 +309,14 @@ def conjugate( quat ):
         )
 
 def power( quat, exponent ):
+    """Multiplies the quaternion by the exponent.
+
+    The quaternion is **not** changed in place.
+
+    :param numpy.array quat: The quaternion.
+    :param float scalar: The exponent.
+    :rtype: A numpy.array.
+    """
     # check for identify quaternion
     if math.fabs( quat[ w ] ) > 0.9999:
         # assert for the time being
@@ -312,28 +344,35 @@ def power( quat, exponent ):
         )
 
 def inverse( quat ):
-    """
+    """Calculates the inverse quaternion.
+
     The inverse of a quaternion is defined as
     the conjugate of the quaternion divided
     by the magnitude of the original quaternion.
 
-    @param quat: The quaternion to invert.
-    @return: Returns the inverse quaternion.
+    :param numpy.array quat: The quaternion to invert.
+    :rtype: A numpy.array.
     """
     return conjugate( quat ) / squared_length( quat )
 
 def negate( quat ):
+    """Calculates the negated quaternion.
+
+    This is essentially the quaternion * -1.0.
+
+    :param numpy.array quat: The quaternion.
+    """
     return quat * -1.0
 
 def apply_to_vector( quat, vec ):
     """Rotates a vector by a quaternion.
 
-    quat and vec must be 1d arrays.
+    :param numpy.array quat: The quaternion.
+    :param numpy.array vec: The vector.
+
+    .. seealso:: http://content.gpwiki.org/index.php/OpenGL:Tutorials:Using_Quaternions_to_represent_rotation
     """
     def apply( quat, vec3 ):
-        """
-        http://content.gpwiki.org/index.php/OpenGL:Tutorials:Using_Quaternions_to_represent_rotation
-        """
         """
         v = numpy.array( vec )
         return v + 2.0 * vector.cross(

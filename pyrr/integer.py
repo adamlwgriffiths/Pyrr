@@ -4,8 +4,20 @@
 
 def count_bits( int_type ):
     """Counts the number of bits set to 1 in an integer.
+
+    For example::
+
+        >>> pyrr.integer.count_bits( 8 )
+        1
+        >>> pyrr.integer.count_bits( 3 )
+        2
+        >>> pyrr.integer.count_bits( 0xf )
+        4
     
-    http://wiki.python.org/moin/BitManipulation
+    :param int int_type: An integer.
+    :rtype: An integer.
+
+    .. seealso:: http://wiki.python.org/moin/BitManipulation
     """
     count = 0
     while (int_type):

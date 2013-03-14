@@ -8,11 +8,11 @@ def calculate_fov( zoom, height = 1.0 ):
     view frustrum to have a view with the specified height
     at the specified distance.
 
-    @param zoom: The distance to calculate the FOV for.
-    @param height: The desired view height at the specified
-    distance.
-    The default is 1.0.
-    @return: The FOV to use in degrees.
+    :param float zoom: The distance to calculate the FOV for.
+    :param float height: The desired view height at the specified
+        distance.
+        The default is 1.0.
+    :rtype: A float representing the FOV to use in degrees.
     """
     # http://www.glprogramming.com/red/chapter03.html
     rad_theta = 2.0 * math.atan2( height / 2.0, zoom )
@@ -22,14 +22,13 @@ def calculate_zoom( fov, height = 1.0 ):
     """Calculates the zoom (distance) from the camera
     with the specified FOV and height of image.
 
-    @param fov: The FOV to use.
-    @param height: The height of the image at the
-    desired distance.
-    @return Returns the zoom (distance) from the
-    camera for the desired height at the specified
-    FOV.
-    @raise ZeroDivisionError: Raised if the fov is
-    0.0.
+    :param float fov: The FOV to use.
+    :param float height: The height of the image at the
+        desired distance.
+    :rtype: A float representing the zoom (distance) from the camera for the
+        desired height at the specified FOV.
+    :raise ZeroDivisionError: Raised if the fov is
+        0.0.
     """
     return height / math.tan( fov / 2.0 )
 
@@ -37,11 +36,11 @@ def calculate_height( fov, zoom ):
     """Performs the opposite of calculate_fov.
     Used to find the current height at a specific distance.
 
-    @param fov: The current FOV.
-    @param zoom: The distance to calculate the height
-    for.
-    @return: The height at the specified distance for the
-    specified FOV.
+    :param float fov: The current FOV.
+    :param float zoom: The distance to calculate the height
+        for.
+    :rtype: A float representing the height at the specified distance for the
+        specified FOV.
     """
     height = zoom * ( math.tan( fov / 2.0 ) )
     return height
@@ -51,12 +50,12 @@ def calculate_plane_size( aspect_ratio, fov, distance ):
     specified distance using the FOV of the frustrum
     and aspect ratio of the viewport.
 
-    @param aspect_ratio: The aspect ratio of the viewport.
-    @param fov: The FOV of the frustrum.
-    @param distance: The distance from the origin/camera
-    of the plane to calculate.
-    @return (width, height): The width and height of
-    the plane.
+    :param float aspect_ratio: The aspect ratio of the viewport.
+    :param float fov: The FOV of the frustrum.
+    :param float distance: The distance from the origin/camera
+        of the plane to calculate.
+    :rtype: A tuple of two floats: width and height: The width and height of
+        the plane.
     """
     # http://www.songho.ca/opengl/gl_transform.html
     # http://nehe.gamedev.net/article/replacement_for_gluperspective/21002/

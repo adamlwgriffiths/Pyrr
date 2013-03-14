@@ -52,7 +52,6 @@ def create_from_points( points ):
     """Creates an AAMBB from the list of specified points.
 
     Points must be a 2D list. Ie::
-
         numpy.array([
             [ x, y, z ],
             [ x, y, z ],
@@ -81,7 +80,6 @@ def create_from_aabbs( bbs ):
     """Creates an AAMBB from a list of existing AABBs.
 
     AABBs must be a 2D list. Ie::
-
         numpy.array([
             AABB,
             AABB,

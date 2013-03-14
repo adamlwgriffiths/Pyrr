@@ -75,6 +75,17 @@ def point_intersect_rectangle( point, rect ):
 def ray_intersect_plane( ray, plane, front_only = False ):
     """Calculates the intersection point of a ray and a plane.
 
+    @param front_only: Specifies if the ray should
+    only hit the front of the plane.
+    Collisions from the rear of the plane will be
+    ignored.
+
+    @return The intersection point, or None
+    if the ray is parallel to the plane.
+    Returns None if the ray intersects the back
+    of the plane and front_only is True.
+    """
+    """
     Distance to plane is defined as
     t = (pd - p0.n) / rd.n
     where:
@@ -85,16 +96,6 @@ def ray_intersect_plane( ray, plane, front_only = False ):
 
     if rd.n == 0, the ray is parallel to the
     plane.
-
-    @param front_only: Specifies if the ray should
-    only hit the front of the plane.
-    Collisions from the rear of the plane will be
-    ignored.
-
-    @return The intersection point, or None
-    if the ray is parallel to the plane.
-    Returns None if the ray intersects the back
-    of the plane and front_only is True.
     """
     rd_n = vector.dot( ray[ 1 ], plane[ 1 ] )
 
@@ -130,7 +131,8 @@ def line_segment_intersect_plane( segment, plane ):
 @all_parameters_as_numpy_arrays
 def point_closest_point_on_ray( point, ray ):
     """Calculates the point on a ray that is closest to a point.
-
+    """
+    """
     t = (p - rp).n
     cp = rp + (n * t)
     where
@@ -148,7 +150,8 @@ def point_closest_point_on_ray( point, ray ):
 def point_closest_point_on_line( point, line ):
     """Calculates the point on the line that is closest to
     the specified point.
-
+    """
+    """
     rl = va->b (relative line)
     rp = va->p (relative point)
     u' = u / |u| (normalise)
@@ -234,9 +237,9 @@ def ray_coincident_ray( ray1, ray2 ):
 @all_parameters_as_numpy_arrays
 def ray_intersect_aabb( ray, aabb ):
     """Calculates the intersection point of a ray and an AABB
+
+    .. seealso:: http://gamedev.stackexchange.com/questions/18436/most-efficient-aabb-vs-ray-collision-algorithms
     """
-    # http://gamedev.stackexchange.com/questions/18436/most-efficient-aabb-vs-ray-collision-algorithms
-    
     # this is basically "numpy.divide( 1.0, ray[ 1 ] )"
     # except we're trying to avoid a divide by zero warning
     # so where the ray direction value is 0.0, just use infinity
@@ -301,7 +304,8 @@ def point_height_above_plane( point, plane ):
 @all_parameters_as_numpy_arrays
 def point_closest_point_on_plane( point, plane ):
     """Calculates the point on a plane that is closest to a point.
-
+    """
+    """
     point on plane is defined as:
     q' = q + (d - q.n)n
     where:

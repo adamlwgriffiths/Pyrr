@@ -126,20 +126,19 @@ def y_maximum( rect ):
 
 @parameters_as_numpy_arrays( 'rect' )
 def scale_by_vector( rect, vec ):
-    """
-    Scales a rectangle by a 2D vector.
+    """Scales a rectangle by a 2D vector.
 
     Note that this will also scale the X,Y
     value of the rectangle, which will cause
     the rectangle to move, not just increase
     in size.
 
-    @param rect: the rectangle to scale.
-    Both x,y and width,height will be scaled.
-    The value will NOT be scaled in place.
-    @param vec: A 2D vector to scale the rect
-    by.
-    @return Returns the rect scaled by vec.
+    The rectangle is **not** be changed in place.
+
+    :param numpy.array rect: the rectangle to scale.
+        Both x,y and width,height will be scaled.
+    :param vec: A 2D vector to scale the rect by.
+    :rtype: A numpy.array.
     """
     if rect.shape != (2,2):
         raise ValueError( "Rect must be shape (2,2)" )

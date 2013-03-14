@@ -9,6 +9,8 @@ import numpy
 
 def all_parameters_as_numpy_arrays( fn ):
     """Converts all of a function's arguments to numpy arrays.
+
+    Used as a decorator to reduce duplicate code.
     """
     # wraps allows us to pass the docstring back
     # or the decorator will hide the function from our doc generator
@@ -22,8 +24,11 @@ def all_parameters_as_numpy_arrays( fn ):
 def parameters_as_numpy_arrays( *args_to_convert ):
     """Converts specific arguments to numpy arrays.
 
+    Used as a decorator to reduce duplicate code.
+
     Arguments are specified by their argument name.
-    Ie::
+    For example
+    ::
     
         @parameters_as_numpy_arrays( 'a', 'b', 'optional' )
         def myfunc( a, b, *args, **kwargs ):

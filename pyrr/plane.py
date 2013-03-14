@@ -1,5 +1,10 @@
 # -*- coding: utf-8 -*-
 """Provide functions for the creation and manipulation of Planes.
+
+Planes are represented using a numpy.array of shape (3,3).
+The first value is the position vector.
+The second value is the normal vector.
+The third value is the up vector.
 """
 from __future__ import absolute_import, division, print_function, unicode_literals
 
@@ -34,8 +39,7 @@ def create_identity():
         )
 
 def create_from_points( vector1, vector2, vector3 ):
-    """
-    Create a plane from 3 co-planar vectors.
+    """Create a plane from 3 co-planar vectors.
 
     The vectors must all lie on the same
     plane or an exception will be thrown.
@@ -46,11 +50,11 @@ def create_from_points( vector1, vector2, vector3 ):
     The order the vertices are passed in will determine the
     normal of the plane.
 
-    @param vector1: a vector that lies on the desired plane.
-    @param vector2: a vector that lies on the desired plane.
-    @param vector3: a vector that lies on the desired plane.
-    @raise ValueError: raised if the vectors are not co-planar.
-    @raise ValueError: raised if the vectors are in a single line
+    :param numpy.array vector1: a vector that lies on the desired plane.
+    :param numpy.array vector2: a vector that lies on the desired plane.
+    :param numpy.array vector3: a vector that lies on the desired plane.
+    :raise ValueError: raised if the vectors are not co-planar.
+    :raise ValueError: raised if the vectors are in a single line
     """
     # make the vectors relative to vector2
     relV1 = vector1 - vector2
@@ -67,19 +71,19 @@ def create_from_points( vector1, vector2, vector3 ):
         )
 
 def create_from_position( position, normal, up ):
-    """
-    Creates a plane at position with the normal being above the plane
+    """Creates a plane at position with the normal being above the plane
     and up being the rotation of the plane.
-    This is required as a plane must be defined by
+
+    These 3 parameters are required as a plane must be defined by
     3 vectors otherwise rotation is undefined.
 
-    @param position: The position of the plane.
-    @param normal: The normal will be normalised during construction.
-    @param up: Must be co-planar. The up vector will be normalised
-    during construction.
-    The up vector must lie on the plane itself. Without it, the plane is
-    undefined.
-    @raise ValueError: Raised if the up vector is not co-planar.
+    :param numpy.array position: The position of the plane.
+    :param numpy.array normal: The normal will be normalised during construction.
+    :param numpy.array up: Must be co-planar. The up vector will be normalised
+        during construction.
+        The up vector must lie on the plane itself. Without it, the plane is
+        undefined.
+    :raise ValueError: Raised if the up vector is not co-planar.
     """
     result = numpy.array(
         [
@@ -95,10 +99,11 @@ def create_from_position( position, normal, up ):
     return result
 
 def flip_normal( plane ):
-    """
-    Flips the normal of the plane in place.
+    """Flips the normal of the plane.
 
-    @return Returns the plane for convenience.
+    The plane is **not** changed in place.
+
+    :rtype: A numpy.array with shape (3,3).
     """
     return numpy.array(
         [
@@ -109,11 +114,26 @@ def flip_normal( plane ):
         )
 
 def position( plane ):
+    """Extracts the position vector from a plane.
+
+    :param numpy.array plane: The plane.
+    :rtype: A numpy.array with shape 3.
+    """
     return plane[ 0 ]
 
 def normal( plane ):
+    """Extracts the normal vector from a plane.
+
+    :param numpy.array plane: The plane.
+    :rtype: A numpy.array with shape 3.
+    """
     return plane[ 1 ]
 
 def up( plane ):
+    """Extracts the up vector from a plane.
+
+    :param numpy.array plane: The plane.
+    :rtype: A numpy.array with shape 3.
+    """
     return plane[ 2 ]
 

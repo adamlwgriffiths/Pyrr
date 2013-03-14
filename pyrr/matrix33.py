@@ -1,4 +1,11 @@
 # -*- coding: utf-8 -*-
+"""3x3 Matrix which supports rotation, translation, scale and skew.
+
+Matrices are laid out in row-major format and can be loaded directly
+into OpenGL.
+To convert to column-major format, transpose the array using the
+numpy.array.T method.
+"""
 from __future__ import absolute_import, division, print_function, unicode_literals
 import math
 

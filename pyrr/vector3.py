@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+"""Provides functions for creating and manipulating 3D vectors.
+"""
 import numpy
 
 

@@ -46,7 +46,6 @@ def create_from_points( points ):
     """Creates an AABB from the list of specified points.
 
     Points must be a 2D list. Ie::
-
         numpy.array([
             [ x, y, z ],
             [ x, y, z ],

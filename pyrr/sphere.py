@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 """Provide functions for the creation and manipulation of 3D Spheres.
 
-A sphere is defined as a position (3d vector) and
-a radius (float).
+A sphere is defined as tuple with two values.
+The first value is the sphere's position as a numpy.array with shape 3.
+The second value is the sphere's radius as a float.
 """
 from __future__ import absolute_import, division, print_function, unicode_literals
 
@@ -24,9 +25,8 @@ def create_from_points( points ):
     """Creates a sphere centred around 0,0,0 that encompasses
     the furthest point in the provided list.
 
-    @return: Returns a sphere as a two value tuple.
-    The first value is the sphere's position.
-    The second value is the sphere's radius.
+    :param numpy.array points: An Nd array of vectors.
+    :rtype: A sphere as a two value tuple.
     """
     # calculate the lengths of all the points
     # use squared length to save processing
