@@ -163,6 +163,9 @@ def create_from_x_rotation( theta ):
     """Creates a matrix with the specified rotation about the X axis.
 
     http://en.wikipedia.org/wiki/Rotation_matrix#In_three_dimensions
+
+    :param float theta: angle in radiands
+    :rtype: 3x3 float array
     """
     cosT = math.cos( theta )
     sinT = math.sin( theta )
@@ -179,6 +182,9 @@ def create_from_y_rotation( theta ):
     """Creates a matrix with the specified rotation about the Y axis.
     
     http://en.wikipedia.org/wiki/Rotation_matrix#In_three_dimensions
+
+    :param float theta: angle in radiands
+    :rtype: 3x3 float array
     """
     cosT = math.cos( theta )
     sinT = math.sin( theta )
@@ -195,6 +201,9 @@ def create_from_z_rotation( theta ):
     """Creates a matrix with the specified rotation about the Z axis.
     
     http://en.wikipedia.org/wiki/Rotation_matrix#In_three_dimensions
+
+    :param float theta: angle in radiands
+    :rtype: 3x3 float array
     """
     cosT = math.cos( theta )
     sinT = math.sin( theta )
