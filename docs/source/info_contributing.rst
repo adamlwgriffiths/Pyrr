@@ -19,12 +19,11 @@ Repository access may be granted on request.
 Developers
 ==========
 
-The following are Pyrr's primary developers:
+Pyrr was initially developed by Adam Griffiths of `Twisted Pair Development <http://twistedpairdevelopment.wordpress.com/>`_.
+
+Developers and contributors include:
 
     * `Adam Griffiths <https://github.com/adamlwgriffiths/>`_
-
-Over time, contributions have been made by the following people:
-
     * `Jakub Stasiak <https://github.com/jstasiak/>`_
 
 Is your name left out? Post an issue in `Pyrr's bug tracker <https://github.com/adamlwgriffiths/Pyrr/issues/>`_ =)
