@@ -8,13 +8,28 @@ from pyrr import quaternion
 from pyrr.utils import all_parameters_as_numpy_arrays
 
 def create_identity():
+    """Creates a new matrix33 and sets it to
+    an identity matrix.
+
+    :rtype: An numpy.array representing an identity matrix with shape (3,3).
+    """
     return numpy.identity( 3, dtype = 'float' )
 
 @all_parameters_as_numpy_arrays
 def create_from_matrix44( mat ):
+    """Creates a Matrix33 from a Matrix44.
+
+    :rtype: A numpy.array with shape (3,3) with the input matrix rotation.
+    """
     return numpy.array( mat[ 0:3, 0:3 ] )
 
 def create_from_eulers( eulers ):
+    """Creates a matrix from the specified Euler rotations.
+
+    :param numpy.array eulers: A set of euler rotations in the format
+        specified by the euler modules.
+    :rtype: A numpy.array with shape (3,3) with the euler's rotation.
+    """
     pitchOver2 = eulers[ 0 ] * 0.5
     rollOver2 = eulers[ 1 ] * 0.5
     yawOver2 = eulers[ 2 ] * 0.5
@@ -59,6 +74,11 @@ def create_from_eulers( eulers ):
         )
 
 def create_from_quaternion( quat ):
+    """Creates a matrix with the same rotation as a quaternion.
+
+    :param quat: The quaternion to create the matrix from.
+    :rtype: A numpy.array with shape (3,3) with the quaternion's rotation.
+    """
     x = quat[ 0 ]
     y = quat[ 1 ]
     z = quat[ 2 ]
@@ -107,6 +127,12 @@ def create_from_quaternion( quat ):
         )
 
 def create_from_inverse_of_quaternion( quat ):
+    """Creates a matrix with the inverse rotation of a quaternion.
+
+    :param numpy.array quat: The quaternion to make the matrix from (shape 4).
+    :rtype: A numpy.array with shape (3,3) that respresents the inverse of
+        the quaternion.
+    """
     x = quat[ 0 ]
     y = quat[ 1 ]
     z = quat[ 2 ]
@@ -155,6 +181,12 @@ def create_from_inverse_of_quaternion( quat ):
         )
 
 def create_from_scale( scale ):
+    """Creates an identity matrix with the scale set.
+
+    :param numpy.array scale: The scale to apply as a vector (shape 3).
+    :rtype: A numpy.array with shape (3,3) with the scale 
+        set to the specified vector.
+    """
     # apply the scale to the values diagonally
     # down the matrix
     return numpy.diagflat( scale )
@@ -162,10 +194,11 @@ def create_from_scale( scale ):
 def create_from_x_rotation( theta ):
     """Creates a matrix with the specified rotation about the X axis.
 
-    http://en.wikipedia.org/wiki/Rotation_matrix#In_three_dimensions
-
-    :param float theta: angle in radiands
-    :rtype: 3x3 float array
+    :param float theta: The rotation, in radians, about the X-axis.
+    :rtype: A numpy.array with the shape (3,3) with the specified rotation about
+        the X-axis.
+    
+    .. seealso:: http://en.wikipedia.org/wiki/Rotation_matrix#In_three_dimensions
     """
     cosT = math.cos( theta )
     sinT = math.sin( theta )
@@ -180,11 +213,12 @@ def create_from_x_rotation( theta ):
 
 def create_from_y_rotation( theta ):
     """Creates a matrix with the specified rotation about the Y axis.
-    
-    http://en.wikipedia.org/wiki/Rotation_matrix#In_three_dimensions
 
-    :param float theta: angle in radiands
-    :rtype: 3x3 float array
+    :param float theta: The rotation, in radians, about the Y-axis.
+    :rtype: A numpy.array with the shape (3,3) with the specified rotation about
+        the Y-axis.
+    
+    .. seealso:: http://en.wikipedia.org/wiki/Rotation_matrix#In_three_dimensions
     """
     cosT = math.cos( theta )
     sinT = math.sin( theta )
@@ -199,11 +233,12 @@ def create_from_y_rotation( theta ):
 
 def create_from_z_rotation( theta ):
     """Creates a matrix with the specified rotation about the Z axis.
-    
-    http://en.wikipedia.org/wiki/Rotation_matrix#In_three_dimensions
 
-    :param float theta: angle in radiands
-    :rtype: 3x3 float array
+    :param float theta: The rotation, in radians, about the Z-axis.
+    :rtype: A numpy.array with the shape (3,3) with the specified rotation about
+        the Z-axis.
+    
+    .. seealso:: http://en.wikipedia.org/wiki/Rotation_matrix#In_three_dimensions
     """
     cosT = math.cos( theta )
     sinT = math.sin( theta )
@@ -217,6 +252,18 @@ def create_from_z_rotation( theta ):
         )
 
 def apply_to_vector( mat, vec ):
+    """Apply a matrix to a vector.
+
+    The matrix's rotation are applied to the vector.
+    Supports multiple matrices and vectors.
+
+    :param numpy.array mat: The rotation / translation matrix.
+        Can be a list of matrices.
+    :param numpy.array vec: The vector to modify.
+        Can be a list of vectors.
+    :rtype: A numpy.array, with the same shape as the vec input, these
+        rotated by the specified matrix.
+    """
     if vec.size == 3:
         return numpy.dot( vec, mat )
     elif vec.size == 4:
@@ -229,6 +276,17 @@ def apply_to_vector( mat, vec ):
         raise ValueError( "Vector size unsupported" )
 
 def multiply( m1, m2, out = None ):
+    """Multiply two matricies, m1 . m2.
+
+    This is essentially a wrapper around
+    numpy.dot( m1, m2 )
+
+    :param numpy.array m1: The first matrix.
+        Can be a list of matrices.
+    :param numpy.array m2: The second matrix.
+        Can be a list of matrices.
+    :rtype: A numpy.array that results from multiplying m1 by m2.
+    """
     # using an input as the out value will cause corruption
     if out == m1 or out == m2:
         raise ValueError( "Output must not be one of the inputs, use assignment instead" )
@@ -236,5 +294,13 @@ def multiply( m1, m2, out = None ):
     return numpy.dot( m1, m2, out = out )
 
 def inverse( mat ):
-    return numpy.linalg.inv( mat )
+    """Returns the inverse of the matrix.
 
+    This is essentially a wrapper around numpy.linalg.inv.
+
+    :param numpy.array m: A matrix.
+    :rtype: The inverse of the specified matrix.
+
+    .. seealso:: http://docs.scipy.org/doc/numpy/reference/generated/numpy.linalg.inv.html
+    """
+    return numpy.linalg.inv( mat )

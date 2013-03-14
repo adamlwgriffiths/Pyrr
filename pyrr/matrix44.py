@@ -1,4 +1,11 @@
 # -*- coding: utf-8 -*-
+"""4x4 Matrix which supports rotation, translation, scale and skew.
+
+Matrices are laid out in row-major format and can be loaded directly
+into OpenGL.
+To convert to column-major format, transpose the array using the
+numpy.array.T method.
+"""
 from __future__ import absolute_import, division, print_function, unicode_literals
 import math
 
@@ -9,21 +16,41 @@ from pyrr.utils import all_parameters_as_numpy_arrays
 
 
 def create_identity():
-    """
-    Creates a new matrix44 and sets it to
+    """Creates a new matrix44 and sets it to
     an identity matrix.
+
+    :rtype: An numpy.array representing an identity matrix with shape (4,4).
     """
     return numpy.identity( 4, dtype = 'float' )
 
 def create_from_matrix33( mat ):
+    """Creates a Matrix44 from a Matrix33.
+
+    The translation will be 0,0,0.
+
+    :rtype: A numpy.array with shape (4,4) with the input matrix rotation.
+    """
     mat4 = numpy.identity( 4, dtype = 'float' )
     mat4[ 0:3, 0:3 ] = mat
     return mat4
 
 def create_matrix33_view( mat ):
+    """Returns a view into the matrix in Matrix33 format.
+
+    This is different from matrix33.create_from_matrix44, in that
+    changes to the returned matrix will also alter the original matrix.
+
+    :rtype: A view into the matrix in the format of a matrix33 (shape (3,3)).
+    """
     return mat[ 0:3, 0:3 ]
 
 def create_from_eulers( eulers ):
+    """Creates a matrix from the specified Euler rotations.
+
+    :param numpy.array eulers: A set of euler rotations in the format
+        specified by the euler modules.
+    :rtype: A numpy.array with shape (4,4) with the euler's rotation.
+    """
     # set to identity matrix
     # this will populate our extra rows for us
     mat = create_identity()
@@ -34,16 +61,10 @@ def create_from_eulers( eulers ):
     return mat
 
 def create_from_quaternion( quat ):
-    """
-    Creates a matrix that applies a quaternions translations.
+    """Creates a matrix with the same rotation as a quaternion.
 
-    This can be used to go from intertial space to object space.
-
-    Proper matrix layout and layout used for DirectX.
-    For OpenGL, transpose the matrix after calling this.
-
-    @param quat: The quaternion to create the matrix from.
-    @result: The matrix that represents the quaternion.
+    :param quat: The quaternion to create the matrix from.
+    :rtype: A numpy.array with shape (4,4) with the quaternion's rotation.
     """
     # set to identity matrix
     # this will populate our extra rows for us
@@ -54,17 +75,13 @@ def create_from_quaternion( quat ):
     return mat
 
 def create_from_inverse_of_quaternion( quat ):
-    """
-    Creates a matrix that applies the inverse of a quaternion's
-    translations.
+    """Creates a matrix with the inverse rotation of a quaternion.
 
     This can be used to go from object space to intertial space.
 
-    Proper matrix layout and layout used for DirectX.
-    For OpenGL, transpose the matrix after calling this.
-
-    @param quat: The quaternion to make the matri from.
-    @result: The matrix that respresents the inverse of the quaternion.
+    :param numpy.array quat: The quaternion to make the matrix from (shape 4).
+    :rtype: A numpy.array with shape (4,4) that respresents the inverse of
+        the quaternion.
     """
     # set to identity matrix
     # this will populate our extra rows for us
@@ -75,28 +92,22 @@ def create_from_inverse_of_quaternion( quat ):
     return mat
 
 def create_from_translation( vec ):
-    """
-    Creates an identity matrix with the translation set.
+    """Creates an identity matrix with the translation set.
 
-    @param vector: An array of shape (3).
-    @param out: Optional parameter of where to store the
-    output.
-    @return: Returns an identity matrix with the translation
-    set to the specified vector.
+    :param numpy.array vec: The translation vector (shape 3 or 4).
+    :rtype: A numpy.array with shape (4,4) that represents a matrix
+        with the translation set to the specified vector.
     """
     mat = create_identity()
     mat[ 3, 0:3 ] = vec[:3]
     return mat
 
 def create_from_scale( scale ):
-    """
-    Creates an identity matrix with the scale set.
+    """Creates an identity matrix with the scale set.
 
-    @param vector: An array of shape (3).
-    @param out: Optional parameter of where to store the
-    output.
-    @return: Returns an identity matrix with the scale 
-    set to the specified vector.
+    :param numpy.array scale: The scale to apply as a vector (shape 3).
+    :rtype: A numpy.array with shape (4,4) with the scale 
+        set to the specified vector.
     """
     # we need to expand 'scale' into it's components
     # because numpy isn't flattening them properly.
@@ -106,8 +117,12 @@ def create_from_scale( scale ):
 
 def create_from_x_rotation( theta ):
     """Creates a matrix with the specified rotation about the X axis.
+
+    :param float theta: The rotation, in radians, about the X-axis.
+    :rtype: A numpy.array with the shape (4,4) with the specified rotation about
+        the X-axis.
     
-    http://en.wikipedia.org/wiki/Rotation_matrix#In_three_dimensions
+    .. seealso:: http://en.wikipedia.org/wiki/Rotation_matrix#In_three_dimensions
     """
     mat = create_identity()
     mat[ 0:3, 0:3 ] = matrix33.create_from_x_rotation( theta )
@@ -115,8 +130,12 @@ def create_from_x_rotation( theta ):
 
 def create_from_y_rotation( theta ):
     """Creates a matrix with the specified rotation about the Y axis.
+
+    :param float theta: The rotation, in radians, about the Y-axis.
+    :rtype: A numpy.array with the shape (4,4) with the specified rotation about
+        the Y-axis.
     
-    http://en.wikipedia.org/wiki/Rotation_matrix#In_three_dimensions
+    .. seealso:: http://en.wikipedia.org/wiki/Rotation_matrix#In_three_dimensions
     """
     mat = create_identity()
     mat[ 0:3, 0:3 ] = matrix33.create_from_y_rotation( theta )
@@ -124,8 +143,12 @@ def create_from_y_rotation( theta ):
 
 def create_from_z_rotation( theta ):
     """Creates a matrix with the specified rotation about the Z axis.
+
+    :param float theta: The rotation, in radians, about the Z-axis.
+    :rtype: A numpy.array with the shape (4,4) with the specified rotation about
+        the Z-axis.
     
-    http://en.wikipedia.org/wiki/Rotation_matrix#In_three_dimensions
+    .. seealso:: http://en.wikipedia.org/wiki/Rotation_matrix#In_three_dimensions
     """
     mat = create_identity()
     mat[ 0:3, 0:3 ] = matrix33.create_from_z_rotation( theta )
@@ -133,6 +156,18 @@ def create_from_z_rotation( theta ):
 
 @all_parameters_as_numpy_arrays
 def apply_to_vector( mat, vec ):
+    """Apply a matrix to a vector.
+
+    The matrix's rotation and translation are applied to the vector.
+    Supports multiple matrices and vectors.
+
+    :param numpy.array mat: The rotation / translation matrix.
+        Can be a list of matrices.
+    :param numpy.array vec: The vector to modify.
+        Can be a list of vectors.
+    :rtype: A numpy.array, with the same shape as the vec input, these
+        rotated by the specified matrix.
+    """
     if vec.size == 3:
         # convert to a vec4
         vec4 = numpy.array( [ vec[ 0 ], vec[ 1 ], vec[ 2 ], 1.0 ] )
@@ -148,15 +183,16 @@ def apply_to_vector( mat, vec ):
         raise ValueError( "Vector size unsupported" )
 
 def multiply( m1, m2, out = None ):
-    """
-    Multiplies two matricies, m1 . m2.
+    """Multiply two matricies, m1 . m2.
+
     This is essentially a wrapper around
     numpy.dot( m1, m2 )
 
-    @param m1: The base matrix
-    @param m2: The matrix to multiply with
-    @result: The new matrix formed from multiplying
-    m1 with m2.
+    :param numpy.array m1: The first matrix.
+        Can be a list of matrices.
+    :param numpy.array m2: The second matrix.
+        Can be a list of matrices.
+    :rtype: A numpy.array that results from multiplying m1 by m2.
     """
     # using an input as the out value will cause corruption
     if out == m1 or out == m2:
@@ -197,9 +233,23 @@ def create_projection_view_matrix(
     near,
     far
     ):
+    """Creates a perspective projection matrix using the specified near
+    plane dimensions.
+
+    :param float left: The left of the near plane relative to the plane's centre.
+    :param float right: The right of the near plane relative to the plane's centre.
+    :param float top: The top of the near plane relative to the plane's centre.
+    :param float bottom: The bottom of the near plane relative to the plane's centre.
+    :param float near: The distance of the near plane from the camera's origin.
+        It is recommended that the near plane is set to 1.0 or above to avoid rendering issues
+        at close range.
+    :param float far: The distance of the far plane from the camera's origin.
+
+    .. seealso:: http://www.gamedev.net/topic/264248-building-a-projection-matrix-without-api/
+    .. seealso:: http://www.glprogramming.com/red/chapter03.html
     """
-    http://www.gamedev.net/topic/264248-building-a-projection-matrix-without-api/
-    http://www.glprogramming.com/red/chapter03.html
+
+    """
     E  0  A  0
     0  F  B  0
     0  0  C  D
@@ -237,8 +287,21 @@ def create_orthogonal_view_matrix(
     near,
     far
     ):
+    """Creates an orthogonal projection matrix.
+
+    :param float left: The left of the near plane relative to the plane's centre.
+    :param float right: The right of the near plane relative to the plane's centre.
+    :param float top: The top of the near plane relative to the plane's centre.
+    :param float bottom: The bottom of the near plane relative to the plane's centre.
+    :param float near: The distance of the near plane from the camera's origin.
+        It is recommended that the near plane is set to 1.0 or above to avoid rendering issues
+        at close range.
+    :param float far: The distance of the far plane from the camera's origin.
+
+    .. seealso:: http://msdn.microsoft.com/en-us/library/dd373965(v=vs.85).aspx
     """
-    http://msdn.microsoft.com/en-us/library/dd373965(v=vs.85).aspx
+
+    """
     A 0 0 Tx
     0 B 0 Ty
     0 0 C Tz
@@ -263,4 +326,13 @@ def create_orthogonal_view_matrix(
         )
 
 def inverse( m ):
+    """Returns the inverse of the matrix.
+
+    This is essentially a wrapper around numpy.linalg.inv.
+
+    :param numpy.array m: A matrix.
+    :rtype: The inverse of the specified matrix.
+
+    .. seealso:: http://docs.scipy.org/doc/numpy/reference/generated/numpy.linalg.inv.html
+    """
     return numpy.linalg.inv( m )

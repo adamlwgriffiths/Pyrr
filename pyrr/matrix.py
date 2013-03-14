@@ -8,13 +8,19 @@ def apply_direction_scale( vectors, direction, scale ):
     An example usage for this is to flatten a mesh against a
     single plane.
 
-    @param vectors: a 2d numpy array of vectors
-    eg. numpy.array([ [x,y,z] ])
-    @param direction: a 1d numpy array of the direction to scale
-    eg. numpy.array([ x,y,z ])
-    Direction MUST be normalised prior to this call.
-    @param scale: a float value for the scaling. A scale of 0.0 will flatten
-    the vertices. 
+    :param numpy.array vectors: a 2d numpy array of vectors
+        eg::
+            numpy.array([
+                [x,y,z],
+                [x,y,z]
+                ])
+    :param numpy.array direction: a 1d numpy array of the direction to scale
+        eg::
+            numpy.array([ x,y,z ])
+        Direction MUST be normalised prior to this call.
+    :param numpy.array scale: a float value for the scaling. A scale of 0.0
+        will flatten the vertices. 
+    :rtype: A numpy.array in the shape of the input parameter vectors.
     """
     
     """
@@ -73,9 +79,14 @@ def apply_direction_scale( vectors, direction, scale ):
 def apply_scale( vectors, scalingVector ):
     """Applies a 3 dimensional scale to a set of vectors.
 
-    @param vectors: a 2d numpy array of vectors
-    eg. numpy.array([ [x,y,z] ])
-    @param scalingVector: the scale vector, can be a 1x3 array, list or tuple
+    :param numpy.array vectors: A 2D numpy array of vectors
+        eg::
+            numpy.array([
+                [x,y,z],
+                [x,y,z]
+                ])
+    :param numpy.array scalingVector: The scale vector to apply.
+        Can be a 1x3 array, list or tuple
     """
     # create a scaling matrix
     matrix = numpy.array([
