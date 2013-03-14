@@ -1,6 +1,8 @@
 Pyrr
 ====
 
+[![Build Status](https://travis-ci.org/adamlwgriffiths/Pyrr.png?branch=master)](https://travis-ci.org/adamlwgriffiths/Pyrr)
+
 Provides 3D mathematical functions using the power of NumPy.
 
 Features:
