@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """Provides common utility functions.
 """
 import inspect
