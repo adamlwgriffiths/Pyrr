@@ -228,8 +228,8 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
   ('index', 'Pyrr', u'Pyrr Documentation',
-   u'Adam Griffiths', 'Pyrr', 'One line description of project.',
-   'Miscellaneous'),
+   u'Adam Griffiths', 'Pyrr', '3D mathematical functions using NumPy.',
+   'Mathematics'),
 ]
 
 # Documents to append as an appendix to all manuals.
