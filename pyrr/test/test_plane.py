@@ -20,99 +20,64 @@ class test_plane( unittest.TestCase ):
         pass
 
     def test_create_from_points( self ):
-        vecs = numpy.array(
-            [
-                [ 0.0, 1.0, 0.0 ],
-                [ 0.0, 1.0,-1.0 ],
-                [ 1.0, 1.0, 1.0 ]
-                ],
-            dtype = numpy.float
-            )
-        result = plane.create_from_points(
-            vecs[ 0 ],
-            vecs[ 1 ],
-            vecs[ 2 ]
-            )
-
-        # we cant be sure where the position is, we just need to know
-        # that the plane exists on the Y = 1 axis
-        # with the normal facing along the Y axis
-        # the order of the vertices we send determines which
-        # way the normal faces
-        self.assertEqual(
-            result[ (0,1) ],
-            vecs[ (0,1) ],
-            "Plane position incorrect"
-            )
-        self.assertTrue(
-            result[ (1,1) ] > 0.0,
-            "Plane normal incorrect"
-            )
-
-    def test_create_from_position( self ):
-        vecs = numpy.array(
-            [
-                [ 0.0, 0.0, 0.0 ],
-                [ 0.0, 3.0, 0.0 ],
-                [ 3.0, 0.0, 0.0 ]
-                ],
-            dtype = numpy.float
-            )
-        result = plane.create_from_position(
-            vecs[ 0 ],
-            vecs[ 1 ],
-            vecs[ 2 ]
-            )
-
-        # position should be 0,0,0
-        for value, position in zip( result[ 0 ], vecs[ 0 ] ):
-            self.assertEqual(
-                value,
-                position,
-                "Plane position incorrect"
+        def test_x_y():
+            vecs = numpy.array(
+                [
+                    [ 1.0, 0.0, 0.0 ],
+                    [ 0.0, 1.0, 0.0 ],
+                    [ 1.0, 1.0, 0.0 ]
+                    ],
+                dtype = numpy.float
                 )
+            result = plane.create_from_points(
+                vecs[ 0 ],
+                vecs[ 1 ],
+                vecs[ 2 ]
+                )
+            expected_normal = numpy.array([ 0.0, 0.0, 1.0 ])
+            expected_d = 0
 
-        vec_normal = vec_normalise( vecs[ 1 ] )
-        # normal should be normalised along Y plane
-        for value, normal in zip( result[ 1 ], vec_normal ):
-            self.assertEqual(
-                value,
-                normal,
+            self.assertTrue(
+                numpy.array_equal( result[ :3 ], expected_normal ),
                 "Plane normal incorrect"
                 )
-
-
-        # up vector should be normalised along X plane
-        vec_up = vec_normalise( vecs[ 2 ] )
-        for value, up in zip( result[ 2 ], vec_up ):
-            self.assertEqual(
-                value,
-                up,
-                "Plane up incorrect"
+            self.assertTrue(
+                numpy.array_equal( result[ 3 ], expected_d ),
+                "Plane distance incorrect"
                 )
+        test_x_y()
 
-    def test_flip_normal( self ):
-        p = numpy.array(
-            [
-                [ 0.0, 0.0, 0.0 ],
-                [ 0.0, 1.0, 0.0 ],
-                [ 1.0, 0.0, 0.0 ]
-                ]
+    def test_create_from_position( self ):
+        position = numpy.array( [ 1.0, 0.0, 0.0 ] )
+        normal = numpy.array( [ 0.0, 3.0, 0.0 ] )
+
+        result = plane.create_from_position(
+            position,
+            normal
             )
 
-        result = plane.flip_normal( p )
+        expected_normal = numpy.array([0.0, 1.0, 0.0] )
+        expected_position = numpy.array([0.0, 0.0, 0.0] )
 
-        expected = numpy.array(
-            [
-                [ 0.0, 0.0, 0.0 ],
-                [ 0.0,-1.0, 0.0 ],
-                [ 1.0, 0.0, 0.0 ]
-                ]
+        self.assertTrue(
+            numpy.array_equal( result[ :3 ], expected_normal ),
+            "Plane normal incorrect"
             )
+        self.assertTrue(
+            numpy.array_equal( plane.position(result), expected_position ),
+            "Plane position incorrect"
+            )
+
+    def test_invert_normal( self ):
+        p = numpy.array( [ 1.0, 0.0, 0.0, 1.0 ] )
+
+        result = plane.invert_normal( p )
+
+        expected = numpy.array( [-1.0, 0.0, 0.0, -1.0 ] )
 
         self.assertTrue(
             numpy.array_equal( result, expected ),
-            "Plane normal flip incorrect"
+            "Plane normal invert incorrect"
             )
     
 if __name__ == '__main__':

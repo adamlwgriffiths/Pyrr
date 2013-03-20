@@ -41,7 +41,7 @@ class test_geometric_tests( unittest.TestCase ):
         point = numpy.array([ 0.0, 0.0, 20.0 ])
 
         p = plane.create_from_points( v1, v2, v3 )
-        p = plane.flip_normal( p )
+        p = plane.invert_normal( p )
 
         result = gt.point_height_above_plane( point, p )
 
@@ -55,13 +55,7 @@ class test_geometric_tests( unittest.TestCase ):
             )
 
     def test_closest_point_on_plane( self ):
-        p = numpy.array(
-            [
-                [ 0.0, 0.0, 0.0 ],
-                [ 0.0, 1.0, 0.0 ],
-                [ 0.0, 0.0, 1.0 ]
-                ]
-            )
+        p = numpy.array( [ 0.0, 1.0, 0.0, 0.0 ] )
         point = numpy.array([ 5.0, 20.0, 5.0 ])
         
         result = gt.point_closest_point_on_plane( point, p )

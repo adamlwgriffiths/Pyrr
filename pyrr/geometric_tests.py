@@ -6,9 +6,13 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 
 import numpy
 
-from pyrr import ray, rectangle, vector
+from pyrr import ray, rectangle, vector, plane
 from pyrr.utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays
 
+"""
+TODO: line_intersect_plane
+TODO: line_segment_intersect_plane
+"""
 
 @all_parameters_as_numpy_arrays
 def point_intersect_line( point, line ):
@@ -97,7 +101,9 @@ def ray_intersect_plane( ray, plane, front_only = False ):
     if rd.n == 0, the ray is parallel to the
     plane.
     """
-    rd_n = vector.dot( ray[ 1 ], plane[ 1 ] )
+    p = plane[ :3 ] * plane[ 3 ]
+    n = plane[ :3 ]
+    rd_n = vector.dot( ray[ 1 ], n )
 
     if rd_n == 0.0:
         return None
@@ -106,27 +112,10 @@ def ray_intersect_plane( ray, plane, front_only = False ):
         if rd_n >= 0.0:
             return None
 
-    pd = vector.dot( plane[ 0 ], plane[ 1 ] )
-    p0_n = vector.dot( ray[ 0 ], plane[ 1 ] )
+    pd = vector.dot( p, n )
+    p0_n = vector.dot( ray[ 0 ], n )
     t = (pd - p0_n) / rd_n
     return ray[ 0 ] + (ray[ 1 ] * t)
-
-@all_parameters_as_numpy_arrays
-def line_intersect_plane( line, plane ):
-    """Calculates the intersection point of a line
-    and a plane.
-    """
-    pass
-
-@all_parameters_as_numpy_arrays
-def line_segment_intersect_plane( segment, plane ):
-    """Calculates the intersection point of a segment and a
-    plane.
-
-    If the segment is not long enough to intersect the
-    plane, None will be returned.
-    """
-    pass
 
 @all_parameters_as_numpy_arrays
 def point_closest_point_on_ray( point, ray ):
@@ -292,14 +281,18 @@ def line_segment_intersect_line_segment( segment1, segment2 ):
 def point_height_above_plane( point, plane ):
     """Calculates how high a point is above a plane.
 
-    Performs no checking of the vector being within the plane's surface
-    if one is defined.
-
-    @return: The height above the plane as a float
+    :return: The height above the plane as a float. The value will be
+    negative if the point is behind the plane.
     """
-    plane_dot = numpy.dot( plane[ 1 ], plane[ 0 ] )
-    vector_dot = numpy.dot( point, plane[ 1 ] )
-    return vector_dot - plane_dot
+    """
+    http://www.vitutor.com/geometry/distance/point_plane.html
+    d(P) = (AX + BY + CZ + D) / sqrt(A^2 + B^2 + C^2)
+
+    Normal is unit length, so it's length is 1.0.
+    Therefore, we can ignore the division all together.
+    Just perform Pn . [XYZ1]
+    """
+    return numpy.dot( plane, [ point[0], point[1], point[2], 1.0] )
 
 @all_parameters_as_numpy_arrays
 def point_closest_point_on_plane( point, plane ):
@@ -314,9 +307,11 @@ def point_closest_point_on_plane( point, plane ):
     d is the value of normal dot position
     n is the plane normal
     """
-    d = numpy.dot( plane[ 1 ], plane[ 0 ] )
-    qn = numpy.dot( point, plane[ 1 ] )
-    return point + ( plane[ 1 ] * (d - qn) )
+    n = plane[ :3 ]
+    p = n * plane[ 3 ]
+    d = numpy.dot( p, n )
+    qn = numpy.dot( point, n )
+    return point + ( n * (d - qn) )
 
 @all_parameters_as_numpy_arrays
 def sphere_does_intersect_sphere( c1, c2 ):
@@ -366,5 +361,3 @@ def sphere_penetration_sphere( c1, c2 ):
     if penetration <= 0.0:
         return 0.0
     return penetration
-
-
