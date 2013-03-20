@@ -187,8 +187,8 @@ def is_zero_length( quat ):
     """Checks if a quaternion is zero length.
 
     :param numpy.array quat: The quaternion to check.
-    :rtype: A boolean. True if the quaternion is
-        zero length, otherwise False.
+    :rtype: boolean.
+    :return: True if the quaternion is zero length, otherwise False.
     """
     return quat[ 0 ] == quat[ 1 ] == quat[ 2 ] == quat[ 3 ] == 0.0
 
@@ -199,8 +199,8 @@ def is_non_zero_length( quat ):
     This is provided for readabilities sake.
 
     :param numpy.array quat: The quaternion to check.
-    :rtype: A boolean. False if the quaternion is
-        zero length, otherwise True.
+    :rtype: boolean
+    :return: False if the quaternion is zero length, otherwise True.
 
     .. seealso:: is_zero_length
     """
@@ -213,7 +213,8 @@ def squared_length( quat ):
     the square root function.
 
     :param numpy.array quat: The quaternion to measure.
-    :rtype: If a 1d array was passed, it will be a scalar.
+    :rtype: float, numpy.array
+    :return: If a 1d array was passed, it will be a scalar.
         Otherwise the result will be an array of scalars with shape
         vec.ndim with the last dimension being size 1.
     """
@@ -223,7 +224,8 @@ def length( quat ):
     """Calculates the length of a quaternion.
     
     :param numpy.array quat: The quaternion to measure.
-    :rtype: If a 1d array was passed, it will be a scalar.
+    :rtype: float, numpy.array
+    :return: If a 1d array was passed, it will be a scalar.
         Otherwise the result will be an array of scalars with shape
         vec.ndim with the last dimension being size 1.
     """
@@ -235,7 +237,8 @@ def normalise( quat ):
     The quaternion is **not** changed in place.
     
     :param numpy.array quat: The quaternion to normalise.
-    :rtype: The normalised quaternion(s).
+    :rtype: numpy.array
+    :return: The normalised quaternion(s).
     """
     return vector.normalise( quat )
 
@@ -243,7 +246,8 @@ def get_rotation_angle( quat ):
     """Calculates the rotation around the quaternion's axis.
 
     :param numpy.array quat: The quaternion.
-    :rtype: A float.
+    :rtype: float.
+    :return: The quaternion's rotation about the its axis in radians.
     """
     # extract the W component
     thetaOver2 = math.acos( quat[ 3 ] )
@@ -253,7 +257,8 @@ def get_rotation_axis( quat ):
     """Calculates the axis of the quaternion's rotation.
 
     :param numpy.array quat: The quaternion.
-    :rtype: A numpy.array.
+    :rtype: numpy.array.
+    :return: The quaternion's rotation axis.
     """
     # extract W component
     sinThetaOver2Sq = 1.0 - (quat[ 3 ] ** 2)
@@ -285,7 +290,8 @@ def dot( quat1, quat2 ):
 
     :param numpy.array quat1: The first quaternion(s).
     :param numpy.array quat2: The second quaternion(s).
-    :rtype: If a 1d array was passed, it will be a scalar.
+    :rtype: float, numpy.array
+    :return: If a 1d array was passed, it will be a scalar.
         Otherwise the result will be an array of scalars with shape
         vec.ndim with the last dimension being size 1.
     """
@@ -295,7 +301,8 @@ def conjugate( quat ):
     """Calculates a quaternion with the opposite rotation.
 
     :param numpy.array quat: The quaternion.
-    :rtype: A numpy.array.
+    :rtype: numpy.array.
+    :return: A quaternion representing the conjugate.
     """
 
     # invert x,y,z and leave w as is
@@ -315,7 +322,9 @@ def power( quat, exponent ):
 
     :param numpy.array quat: The quaternion.
     :param float scalar: The exponent.
-    :rtype: A numpy.array.
+    :rtype: numpy.array.
+    :return: A quaternion representing the original quaternion
+        to the specified power.
     """
     # check for identify quaternion
     if math.fabs( quat[ w ] ) > 0.9999:
@@ -351,7 +360,8 @@ def inverse( quat ):
     by the magnitude of the original quaternion.
 
     :param numpy.array quat: The quaternion to invert.
-    :rtype: A numpy.array.
+    :rtype: numpy.array.
+    :return: The inverse of the quaternion.
     """
     return conjugate( quat ) / squared_length( quat )
 
@@ -361,6 +371,8 @@ def negate( quat ):
     This is essentially the quaternion * -1.0.
 
     :param numpy.array quat: The quaternion.
+    :rtype: numpy.array
+    :return: The negated quaternion.
     """
     return quat * -1.0
 
@@ -369,6 +381,8 @@ def apply_to_vector( quat, vec ):
 
     :param numpy.array quat: The quaternion.
     :param numpy.array vec: The vector.
+    :rtype: numpy.array
+    :return: The vector rotated by the quaternion.
 
     .. seealso:: http://content.gpwiki.org/index.php/OpenGL:Tutorials:Using_Quaternions_to_represent_rotation
     """
