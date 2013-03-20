@@ -15,7 +15,8 @@ def count_bits( int_type ):
         4
     
     :param int int_type: An integer.
-    :rtype: An integer.
+    :rtype: integer
+    :return: The count of bits set to 1.
 
     .. seealso:: http://wiki.python.org/moin/BitManipulation
     """

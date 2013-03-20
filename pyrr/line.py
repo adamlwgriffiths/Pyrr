@@ -37,7 +37,8 @@ class index:
 def create_zeros():
     """Creates a line with the start and end at the origin.
 
-    :rtype: A numpy.array with shape (2,3).
+    :rtype: numpy.array
+    :return: A line with both start and end points at (0,0,0).
     """
     return numpy.zeros( (2,3) )
 
@@ -48,7 +49,8 @@ def create_from_points( v1, v2 ):
 
     :param numpy.array v1: Start point.
     :param numpy.array v2: End point.
-    :rtype: A numpy.array with shape (2,3).
+    :rtype: numpy.array
+    :return: A line extending from v1 to v2.
     """
     return numpy.array( [ v1, v2 ] )
 
@@ -58,7 +60,9 @@ def create_from_ray( ray ):
     The line will extend from 'ray origin -> ray origin + ray direction'.
 
     :param numpy.array ray: The ray to convert.
-    :rtype: A numpy.array with shape (2,3).
+    :rtype: numpy.array
+    :return: A line beginning at the ray start and extending for 1 unit
+        in the direction of the ray.
     """
     # convert ray relative direction to absolute
     # position
@@ -68,7 +72,8 @@ def start( line ):
     """Extracts the start point of the line.
 
     :param numpy.array line: The line to extract the start from.
-    :rtype: A numpy.array with shape 3.
+    :rtype: numpy.array
+    :return: The starting point of the line.
     """
     return line[ 0 ]
 
@@ -76,7 +81,8 @@ def end( line ):
     """Extracts the end point of the line.
 
     :param numpy.array line: The line to extract the end from.
-    :rtype: A numpy.array with shape 3.
+    :rtype: numpy.array
+    :return: The ending point of the line.
     """
     return line[ 1 ]
 

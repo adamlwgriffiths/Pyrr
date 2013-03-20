@@ -32,7 +32,9 @@ def apply_direction_scale( vectors, direction, scale ):
 
     :param numpy.array scale: a float value for the scaling. A scale of 0.0
         will flatten the vertices. 
-    :rtype: A numpy.array in the shape of the input parameter vectors.
+    :rtype: numpy.array
+    :return: The vectors flattend in the specified direction.
+        The array will be in the shape of the input parameter vectors.
     """
     """
     scaling is defined as:
@@ -86,7 +88,7 @@ def apply_direction_scale( vectors, direction, scale ):
     
     return numpy.dot( vectors, matrix )
 
-def apply_scale( vectors, scalingVector ):
+def apply_scale( vectors, scale ):
     """Applies a 3 dimensional scale to a set of vectors.
 
     :param numpy.array vectors: A 2D numpy array of vectors:
@@ -97,14 +99,16 @@ def apply_scale( vectors, scalingVector ):
                 [x,y,z]
                 ])
 
-    :param numpy.array scalingVector: The scale vector to apply.
+    :param numpy.array scale: The scale vector to apply.
         Can be a 1x3 array, list or tuple
+    :rtype: numpy.array
+    :return: The vectors scaled by the scaling vector.
     """
     # create a scaling matrix
     matrix = numpy.array([
-        [ scalingVector[ 0 ], 0.0, 0.0 ],
-        [ 0.0, scalingVector[ 1 ], 0.0 ],
-        [ 0.0, 0.0, scalingVector[ 2 ] ]
+        [ scale[ 0 ], 0.0, 0.0 ],
+        [ 0.0, scale[ 1 ], 0.0 ],
+        [ 0.0, 0.0, scale[ 2 ] ]
         ])
     return numpy.dot( vectors, matrix )
 
