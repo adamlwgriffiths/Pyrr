@@ -1,24 +1,15 @@
 # -*- coding: utf-8 -*-
 """Provide functions for the creation and manipulation of 3D Spheres.
 
-A sphere is defined as tuple with two values.
-The first value is the sphere's position as a numpy.array with shape 3.
-The second value is the sphere's radius as a float.
+A sphere is defined as a 4D vector.
+The first three values are the sphere's position.
+The fourth value is the sphere's radius.
 """
 from __future__ import absolute_import, division, print_function, unicode_literals
 
 import numpy
 
 from pyrr.utils import all_parameters_as_numpy_arrays
-
-
-class index:
-    #: The index of the position vector within the sphere
-    position = 0
-
-    #: The index of the radius within the sphere
-    radius = 1
-
 
 @all_parameters_as_numpy_arrays
 def create_from_points( points ):
@@ -41,11 +32,10 @@ def create_from_points( points ):
 
     # square root this, this is the radius
     radius = numpy.sqrt( maximum )
-    return (
-        numpy.array(
-            [ 0.0, 0.0, 0.0 ],
-            dtype = numpy.float
-            ),
-        radius
-        )
+    return numpy.array( [ 0.0, 0.0, 0.0, radius ] )
 
+def position( sphere ):
+    return sphere[ :3 ]
+
+def radius( sphere ):
+    return sphere[ 3 ]

@@ -368,10 +368,10 @@ def sphere_does_intersect_sphere( s1, s2 ):
     :return: Returns True if the circles overlap.
         Otherwise, returns False.
     """
-    delta = c2[ 0 ] - c1[ 0 ]
+    delta = s2[ :3 ] - s1[ :3 ]
     distance_squared = vector.length_squared( delta )
 
-    radii_squared = math.pow( c1[ 1 ] + c2[ 1 ], 2.0 )
+    radii_squared = math.pow( s1[ 3 ] + s2[ 3 ], 2.0 )
 
     if distance_squared > radii_squared:
         return False
@@ -392,10 +392,10 @@ def sphere_penetration_sphere( s1, s2 ):
         and distance is the length of the vector p2 - p1.
         Will return 0.0 if the circles do not overlap.
     """
-    delta = c2[ 0 ] - c1[ 0 ]
+    delta = s2[ :3 ] - s1[ :3 ]
     distance = vector.length( delta )
 
-    combined_radii = c1[ 1 ] + c2[ 1 ]
+    combined_radii = s1[ 3 ] + s2[ 3 ]
     penetration = combined_radii - distance
 
     if penetration <= 0.0:

@@ -27,22 +27,17 @@ class test_sphere( unittest.TestCase ):
             dtype = numpy.float
             )
         # the biggest should be 5,5,5
-        lengths = vector.length( vecs )
-        expected_radius = lengths.max()
-
         result = sphere.create_from_points( vecs )
-        self.assertEqual(
-            result[ 1 ],
-            expected_radius,
-            "Sphere radius not calculated correctly"
-            )
-        for value in result[ 0 ]:
-            self.assertEqual(
-                value,
-                0.0,
-                "Sphere not centred around origin"
-                )
 
+        # centred around 0,0,0
+        # with MAX LENGTH as radius
+        lengths = vector.length( vecs )
+        expected = numpy.array( [ 0.0, 0.0, 0.0, lengths.max() ] )
+
+        self.assertTrue(
+            numpy.array_equal( result, expected ),
+            "Sphere not calculated correctly"
+            )
 
 
 if __name__ == '__main__':
