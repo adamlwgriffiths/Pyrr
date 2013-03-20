@@ -263,13 +263,14 @@ def ray_coincident_ray( ray1, ray2 ):
 def ray_intersect_aabb( ray, aabb ):
     """Calculates the intersection point of a ray and an AABB
 
-    .. seealso:: http://gamedev.stackexchange.com/questions/18436/most-efficient-aabb-vs-ray-collision-algorithms
-
     :param numpy.array ray1: The ray to check.
     :param numpy.array aabb: The Axis-Aligned Bounding Box to check against.
     :rtype: numpy.array
     :return: Returns a vector if an intersection occurs.
         Returns None if no intersection occurs.
+    """
+    """
+    http://gamedev.stackexchange.com/questions/18436/most-efficient-aabb-vs-ray-collision-algorithms
     """
     # this is basically "numpy.divide( 1.0, ray[ 1 ] )"
     # except we're trying to avoid a divide by zero warning
