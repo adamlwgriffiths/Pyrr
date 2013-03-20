@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 """Provide functions for the creation and manipulation of 3D Spheres.
 
-A sphere is defined as a 4D vector.
+Sphere are represented using a numpy.array of shape (4,).
+
 The first three values are the sphere's position.
 The fourth value is the sphere's radius.
 """

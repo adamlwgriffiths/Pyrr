@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 """Provide functions for the creation and manipulation of 2D Rectangles.
 
-A rectangle is represented by two 2D vectors in the format of a
-numpy.array with shape (2,2).
+Rectangles are represented using a numpy.array of shape (2,2,).
 
-The first vector is the x,y position of the rectangle.
-The second vector is the width,height of the rectangle.
+The first value is a vector of x, y position of the rectangle.
+The second value is a vector with the width, height of the rectangle.
 """
 from __future__ import absolute_import, division, print_function, unicode_literals
 import math
