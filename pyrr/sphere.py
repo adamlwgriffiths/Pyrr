@@ -34,8 +34,22 @@ def create_from_points( points ):
     radius = numpy.sqrt( maximum )
     return numpy.array( [ 0.0, 0.0, 0.0, radius ] )
 
+@all_parameters_as_numpy_arrays
 def position( sphere ):
+    """Returns the position of the sphere.
+
+    :param numpy.array sphere: The sphere to extract the position from.
+    :rtype: numpy.array
+    :return: The centre of the sphere.
+    """
     return sphere[ :3 ]
 
+@all_parameters_as_numpy_arrays
 def radius( sphere ):
+    """Returns the radius of the sphere.
+
+    :param numpy.array sphere: The sphere to extract the radius from.
+    :rtype: float
+    :return: The radius of the sphere.
+    """
     return sphere[ 3 ]
