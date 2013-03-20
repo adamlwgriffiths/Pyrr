@@ -3,8 +3,6 @@ import math
 
 import numpy
 
-from nose.tools import ok_
-
 from pyrr import matrix33
 from pyrr import matrix44
 from pyrr import quaternion
