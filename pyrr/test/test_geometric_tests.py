@@ -30,8 +30,9 @@ class test_geometric_tests( unittest.TestCase ):
 
         expected = numpy.array( [ 0.5, 0.0, 0.0 ] )
 
-        self.assertEqual(
-            numpy.array_equal( result, expected )
+        self.assertTrue(
+            numpy.array_equal( result, expected ),
+            "Closest point on plane incorrect"
             )
 
     def test_height_above_plane( self ):
