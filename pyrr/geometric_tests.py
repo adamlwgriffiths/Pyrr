@@ -12,6 +12,9 @@ from pyrr.utils import all_parameters_as_numpy_arrays, parameters_as_numpy_array
 """
 TODO: line_intersect_plane
 TODO: line_segment_intersect_plane
+TODO: ray_intersect_ray
+TODO: line_intersect_line
+TODO: line_segment_intersect_line_segment
 """
 
 @all_parameters_as_numpy_arrays
@@ -63,7 +66,7 @@ def point_intersect_rectangle( point, rect ):
 
     For 3D points, the Z axis will be ignored.
 
-    @return: Returns True if the point is touching
+    :return: Returns True if the point is touching
     or within the rectangle.
     """
     left, right, bottom, top = rectangle.bounds( rect )
@@ -79,12 +82,14 @@ def point_intersect_rectangle( point, rect ):
 def ray_intersect_plane( ray, plane, front_only = False ):
     """Calculates the intersection point of a ray and a plane.
 
-    @param front_only: Specifies if the ray should
+    :param numpy.array ray: The ray to test for intersection.
+    :param numpy.array plane: The ray to test for intersection.
+    :param boolean front_only: Specifies if the ray should
     only hit the front of the plane.
     Collisions from the rear of the plane will be
     ignored.
 
-    @return The intersection point, or None
+    :return The intersection point, or None
     if the ray is parallel to the plane.
     Returns None if the ray intersects the back
     of the plane and front_only is True.
@@ -120,6 +125,11 @@ def ray_intersect_plane( ray, plane, front_only = False ):
 @all_parameters_as_numpy_arrays
 def point_closest_point_on_ray( point, ray ):
     """Calculates the point on a ray that is closest to a point.
+
+    :param numpy.array point: The point to check with.
+    :param numpy.array ray: The ray to check against.
+    :rtype: numpy.array
+    :return: The closest point on the ray to the point.
     """
     """
     t = (p - rp).n
@@ -139,6 +149,11 @@ def point_closest_point_on_ray( point, ray ):
 def point_closest_point_on_line( point, line ):
     """Calculates the point on the line that is closest to
     the specified point.
+
+    :param numpy.array point: The point to check with.
+    :param numpy.array line: The line to check against.
+    :rtype: numpy.array
+    :return: The closest point on the line to the point.
     """
     """
     rl = va->b (relative line)
@@ -161,6 +176,15 @@ def point_closest_point_on_line( point, line ):
 def point_closest_point_on_line_segment( point, segment ):
     """Calculates the point on the line segment that is closest
     to the specified point.
+
+    This is similar to point_closest_point_on_line, except this
+    is against the line segment of finite length. Whereas point_closest_point_on_line
+    checks against a line of infinite length.
+
+    :param numpy.array point: The point to check with.
+    :param numpy.array line_segment: The finite line segment to check against.
+    :rtype: numpy.array
+    :return: The closest point on the line segment to the point.
     """
     # check if the line has any length
     rl = segment[ 1 ] - segment[ 0 ]
@@ -184,6 +208,10 @@ def point_closest_point_on_line_segment( point, segment ):
 @all_parameters_as_numpy_arrays
 def vector_parallel_vector( v1, v2 ):
     """Checks if two vectors are parallel.
+
+    :param numpy.array v1, v2: The vectors to check.
+    :rtype: boolean
+    :return: Returns True if the two vectors are parallel.
     """
     # we cross product the 2 vectors
     # if the result is 0, then they are parallel
@@ -193,6 +221,10 @@ def vector_parallel_vector( v1, v2 ):
 @all_parameters_as_numpy_arrays
 def ray_parallel_ray( ray1, ray2 ):
     """Checks if two rays are parallel.
+
+    :param numpy.array ray1, ray2: The rays to check.
+    :rtype: boolean
+    :return: Returns True if the two rays are parallel.
     """
     # we use a cross product in-case the ray direction
     # isn't unit length
@@ -204,6 +236,10 @@ def ray_coincident_ray( ray1, ray2 ):
 
     Rays must not only be parallel to each other, but reside
     along the same vector.
+
+    :param numpy.array ray1, ray2: The rays to check.
+    :rtype: boolean
+    :return: Returns True if the two rays are co-incident.
     """
     # ensure the ray's directions are the same
     if ray_parallel_ray( ray1, ray2 ):
@@ -228,6 +264,12 @@ def ray_intersect_aabb( ray, aabb ):
     """Calculates the intersection point of a ray and an AABB
 
     .. seealso:: http://gamedev.stackexchange.com/questions/18436/most-efficient-aabb-vs-ray-collision-algorithms
+
+    :param numpy.array ray1: The ray to check.
+    :param numpy.array aabb: The Axis-Aligned Bounding Box to check against.
+    :rtype: numpy.array
+    :return: Returns a vector if an intersection occurs.
+        Returns None if no intersection occurs.
     """
     # this is basically "numpy.divide( 1.0, ray[ 1 ] )"
     # except we're trying to avoid a divide by zero warning
@@ -266,23 +308,14 @@ def ray_intersect_aabb( ray, aabb ):
     return point
 
 @all_parameters_as_numpy_arrays
-def ray_intersect_ray( ray1, ray2 ):
-    raise NotImplementedError()
-
-@all_parameters_as_numpy_arrays
-def line_intersect_line( line1, line2 ):
-    raise NotImplementedError()
-
-@all_parameters_as_numpy_arrays
-def line_segment_intersect_line_segment( segment1, segment2 ):
-    raise NotImplementedError()
-
-@all_parameters_as_numpy_arrays
 def point_height_above_plane( point, plane ):
     """Calculates how high a point is above a plane.
 
+    :param numpy.array point: The point to check.
+    :param numpy.array plane: The plane to check.
+    :rtype: float
     :return: The height above the plane as a float. The value will be
-    negative if the point is behind the plane.
+        negative if the point is behind the plane.
     """
     """
     http://www.vitutor.com/geometry/distance/point_plane.html
@@ -297,6 +330,11 @@ def point_height_above_plane( point, plane ):
 @all_parameters_as_numpy_arrays
 def point_closest_point_on_plane( point, plane ):
     """Calculates the point on a plane that is closest to a point.
+
+    :param numpy.array point: The point to check with.
+    :param numpy.array plane: The infinite plane to check against.
+    :rtype: numpy.array
+    :return: The closest point on the plane to the point.
     """
     """
     point on plane is defined as:
@@ -314,7 +352,7 @@ def point_closest_point_on_plane( point, plane ):
     return point + ( n * (d - qn) )
 
 @all_parameters_as_numpy_arrays
-def sphere_does_intersect_sphere( c1, c2 ):
+def sphere_does_intersect_sphere( s1, s2 ):
     """Checks if two spheres overlap.
 
     Note: This will return True if the two spheres are
@@ -324,10 +362,11 @@ def sphere_does_intersect_sphere( c1, c2 ):
     This is faster than circle_penetrate_amount_circle
     as it avoids a square root calculation.
 
-    @param c1: The first circle.
-    @param c2: The second circle.
-    @return: Returns True if the circles overlap.
-    Otherwise, returns False.
+    :param numpy.array s1: The first circle.
+    :param numpy.array s2: The second circle.
+    :rtype: boolean
+    :return: Returns True if the circles overlap.
+        Otherwise, returns False.
     """
     delta = c2[ 0 ] - c1[ 0 ]
     distance_squared = vector.length_squared( delta )
@@ -339,18 +378,19 @@ def sphere_does_intersect_sphere( c1, c2 ):
     return True
 
 @all_parameters_as_numpy_arrays
-def sphere_penetration_sphere( c1, c2 ):
+def sphere_penetration_sphere( s1, s2 ):
     """Calculates the distance two spheres have penetrated
     into one another.
 
-    @param c1: The first circle.
-    @param c2: The second circle.
-    @return: The total overlap of the two spheres.
-    This is essentially:
-    r1 + r2 - distance 
-    Where r1 and r2 are the radii of circle 1 and 2
-    and distance is the length of the vector p2 - p1.
-    Will return 0.0 if the circles do not overlap.
+    :param numpy.array s1: The first circle.
+    :param numpy.array s2: The second circle.
+    :rtype: float
+    :return: The total overlap of the two spheres.
+        This is essentially:
+        r1 + r2 - distance 
+        Where r1 and r2 are the radii of circle 1 and 2
+        and distance is the length of the vector p2 - p1.
+        Will return 0.0 if the circles do not overlap.
     """
     delta = c2[ 0 ] - c1[ 0 ]
     distance = vector.length( delta )
