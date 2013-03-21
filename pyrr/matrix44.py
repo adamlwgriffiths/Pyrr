@@ -238,7 +238,7 @@ def create_perspective_projection_matrix(fovy, aspect, znear, zfar):
         (0, 0, C, 0)
         ), dtype='float')
 
-def create_projection_view_matrix(
+def create_perspective_projection_matrix_from_bounds(
     left,
     right,
     top,
@@ -294,7 +294,7 @@ def create_projection_view_matrix(
             dtype = 'float'
         )
 
-def create_orthogonal_view_matrix(
+def create_orthogonal_projection_matrix(
     left,
     right,
     top,
