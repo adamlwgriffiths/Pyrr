@@ -3,6 +3,9 @@
 import math
 
 
+def aspect_ratio( width, height ):
+    return width / height
+
 def calculate_fov( zoom, height = 1.0 ):
     """Calculates the required FOV to set the
     view frustrum to have a view with the specified height

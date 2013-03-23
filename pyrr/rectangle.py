@@ -259,3 +259,9 @@ def scale_by_vector( rect, vec ):
         raise ValueError( "Vec must be length 2" )
     return rect * vec
 
+def aspect_ratio( rect ):
+    width = float( abs_width(rect) )
+    height = float( abs_height(rect) )
+    return width / height
+
+
