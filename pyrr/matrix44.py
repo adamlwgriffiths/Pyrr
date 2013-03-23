@@ -212,7 +212,7 @@ def multiply( m1, m2, out = None ):
 
     return numpy.dot( m1, m2, out = out )
 
-def create_perspective_projection_matrix(fovy, aspect, znear, zfar):
+def create_perspective_projection_matrix(fovy, aspect, near, far):
     '''
     Creates perspective projection matrix.
 
@@ -220,8 +220,8 @@ def create_perspective_projection_matrix(fovy, aspect, znear, zfar):
 
     :param float fovy: field of view in y direction in degrees
     :param float aspect: aspect ratio of the view (width / height)
-    :param float znear: distance from the viewer to the near clipping plane (only positive)
-    :param float zfar: distance from the viewer to the far clipping plane (only positive)
+    :param float near: distance from the viewer to the near clipping plane (only positive)
+    :param float far: distance from the viewer to the far clipping plane (only positive)
     :rtype: numpy.array
     :return: A projection matrix representing the specified perpective.
     '''
