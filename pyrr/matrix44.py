@@ -228,8 +228,8 @@ def create_perspective_projection_matrix(fovy, aspect, near, far):
 
     f = 1.0 / math.tan(math.radians(fovy / 2.0))
     A = f / aspect
-    B = 1.0 * (znear + zfar) / (znear - zfar)
-    C = (2.0 * znear * zfar) / (znear - zfar)
+    B = 1.0 * (near + far) / (near - far)
+    C = (2.0 * near * far) / (near - far)
 
     return numpy.array((
         (A, 0, 0, 0),
