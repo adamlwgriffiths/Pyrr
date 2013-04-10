@@ -16,8 +16,17 @@ def all_parameters_as_numpy_arrays( fn ):
     # or the decorator will hide the function from our doc generator
     @wraps( fn )
     def wrapper( *args, **kwargs ):
-        np_args = [ numpy.array( arg ) for arg in args ]
-        np_kwargs = dict(( key, numpy.array( value )) for (key, value) in kwargs )
+        np_args = [
+            numpy.array( arg ) if arg is not None else arg
+            for arg in args
+            ]
+        np_kwargs = dict(
+            (
+                key,
+                numpy.array( value ) if value is not None else value
+                )
+            for (key, value) in kwargs
+            )
         return fn( *np_args, **np_kwargs )
     return wrapper
 
@@ -52,14 +61,16 @@ def parameters_as_numpy_arrays( *args_to_convert ):
             # the inspect function
             np_args = [
                 numpy.array( value )
-                if key in args_to_convert
-                else value
+                    if key in args_to_convert and value is not None else value
                 for key, value in zip( fn_args.args, args )
                 ]
 
             # convert the **kwargs dict
             np_kwargs = dict(
-                (key, (numpy.array( value ) if key in args_to_convert else value))
+                (key, (numpy.array( value )
+                    if key in args_to_convert and value is not None else value
+                    )
+                )
                 for key, value in kwargs.items()
                 )
 
