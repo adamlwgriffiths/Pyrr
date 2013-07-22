@@ -30,6 +30,7 @@ API
     api_aabb
     api_euler
     api_geometric_tests
+    api_geometry
     api_integer
     api_line
     api_matrix
