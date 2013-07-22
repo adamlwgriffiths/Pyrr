@@ -341,13 +341,13 @@ def create_cube(scale=(1.0,1.0,1.0), st=False, rgba=False, dtype='float32', type
     vertices = numpy.array([
         # front
         # top right
-        ( width, height,-depth,),
+        ( width, height, depth,),
         # top left
-        (-width, height,-depth,),
+        (-width, height, depth,),
         # bottom left
-        (-width,-height,-depth,),
+        (-width,-height, depth,),
         # bottom right
-        ( width,-height,-depth,),
+        ( width,-height, depth,),
 
         # right
         # top right
@@ -355,49 +355,49 @@ def create_cube(scale=(1.0,1.0,1.0), st=False, rgba=False, dtype='float32', type
         # top left
         ( width, height, depth),
         # bottom left
-        ( width, height, depth),
+        ( width,-height, depth),
         # bottom right
         ( width,-height,-depth),
 
         # back
         # top right
-        (-width, height, depth),
+        (-width, height,-depth),
         # top left
-        ( width, height, depth),
+        ( width, height,-depth),
         # bottom left
-        ( width,-height, depth),
+        ( width,-height,-depth),
         # bottom right
-        (-width,-height, depth),
+        (-width,-height,-depth),
 
         # left
         # top right
-        (-width, height,-depth),
-        # top left
         (-width, height, depth),
+        # top left
+        (-width, height,-depth),
         # bottom left
-        (-width,-height, depth),
-        # bottom right
         (-width,-height,-depth),
+        # bottom right
+        (-width,-height, depth),
 
         # top
         # top right
-        ( width, height, depth),
-        # top left
-        (-width, height, depth),
-        # bottom left
-        (-width, height,-depth),
-        # bottom right
         ( width, height,-depth),
+        # top left
+        (-width, height,-depth),
+        # bottom left
+        (-width, height, depth),
+        # bottom right
+        ( width, height, depth),
 
         # bottom
         # top right
-        ( width,-height,-depth),
-        # top left
-        (-width,-height,-depth),
-        # bottom left
-        (-width,-height, depth),
-        # bottom right
         ( width,-height, depth),
+        # top left
+        (-width,-height, depth),
+        # bottom left
+        (-width,-height,-depth),
+        # bottom right
+        ( width,-height,-depth),
     ], dtype=dtype)
 
     st_values = None
@@ -488,6 +488,7 @@ def create_cube(scale=(1.0,1.0,1.0), st=False, rgba=False, dtype='float32', type
         indices = numpy.tile(numpy.array([0, 1, 2, 0, 2, 3], dtype='int'), (6,1))
         for face in range(6):
             indices[face] += (face * 4)
+        indices.shape = (-1,)
         return data[indices]
     elif type == 'triangle_strip':
         raise NotImplementedError
