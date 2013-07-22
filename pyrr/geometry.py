@@ -3,6 +3,9 @@
 import numpy
 
 
+def create_
+
+
 def create_quad(scale=(1.0,1.0), st=False, rgba=False, dtype='float32', type='triangles'):
     """Returns a Quad reading for rendering.
 
@@ -20,7 +23,8 @@ def create_quad(scale=(1.0,1.0), st=False, rgba=False, dtype='float32', type='tr
         <position>
     RGBA can also be of size 3 (RGB) or 4 (RGBA).
 
-    Output format is as follows:
+    Output format is as follows::
+
         numpy.array([
             # vertex 1
             [x, y, z, s, t, r, g, b, a],
@@ -219,7 +223,8 @@ def create_cube(scale=(1.0,1.0,1.0), st=False, rgba=False, dtype='float32', type
         <position>
     RGBA can also be of size 3 (RGB) or 4 (RGBA).
 
-    Output format is as follows:
+    Output format is as follows::
+    
         numpy.array([
             # vertex 1
             [x, y, z, s, t, r, g, b, a],
