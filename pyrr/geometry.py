@@ -33,7 +33,7 @@ def create_quad(scale=(1.0,1.0), st=False, rgba=False, dtype='float32', type='tr
         ], dtype = dtype)
 
 
-    :param (bool, scalar, list, tuple, numpy.ndarray) st: The ST texture co-ordinates.
+    :param bool, scalar, list, tuple, numpy.ndarray st: The ST texture co-ordinates.
 
         Default is False, which means ST will not be included in the array.
 
@@ -65,7 +65,7 @@ def create_quad(scale=(1.0,1.0), st=False, rgba=False, dtype='float32', type='tr
 
             [top-right, top-left, bottom-left, bottom-right,]
 
-    :param (bool scalar, list, tuple, numpy.ndarray) rgba: The RGBA colour.
+    :param bool scalar, list, tuple, numpy.ndarray rgba: The RGBA colour.
 
         Default is False, which means RGBA will not be included in the array.
 
@@ -232,7 +232,7 @@ def create_cube(scale=(1.0,1.0,1.0), st=False, rgba=False, dtype='float32', type
             [x, y, z, s, t, r, g, b, a],
         ], dtype = dtype)
 
-    :param (bool, scalar, list, tuple, numpy.ndarray) st: The ST texture co-ordinates.
+    :param bool, scalar, list, tuple, numpy.ndarray st: The ST texture co-ordinates.
 
         Default is False, which means ST will not be included in the array.
 
@@ -272,7 +272,7 @@ def create_cube(scale=(1.0,1.0,1.0), st=False, rgba=False, dtype='float32', type
             [front, right, back, left, top, bottom,]
 
 
-    :param (bool scalar, list, tuple, numpy.ndarray) rgba: The RGBA colour.
+    :param bool scalar, list, tuple, numpy.ndarray rgba: The RGBA colour.
 
         Default is False, which means RGBA will not be included in the array.
 
