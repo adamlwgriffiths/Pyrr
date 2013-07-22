@@ -11,13 +11,19 @@ def create_quad(scale=(1.0,1.0), st=False, rgba=False, dtype='float32', type='tr
     The first dimension contains the list of vertices.
     The second dimension is the vertex data.
 
-    Vertex data is always in the following order:
-        <position> <st> <rgba>
+    Vertex data is always in the following order::
+
+        [x, y, z, s, t, r, g, b, a]
+
     ST and RGBA are optional.
-    If ST is dropped but RGBA is included the format will be:
-        <position> <rgba>
-    If both ST and RGBA are dropped the format will be:
-        <position>
+    If ST is dropped but RGBA is included the format will be::
+
+        [x, y, z, r, g, b, a]
+
+    If both ST and RGBA are dropped the format will be::
+
+        [x, y, z]
+
     RGBA can also be of size 3 (RGB) or 4 (RGBA).
 
     Output format is as follows::
@@ -33,7 +39,7 @@ def create_quad(scale=(1.0,1.0), st=False, rgba=False, dtype='float32', type='tr
         ], dtype = dtype)
 
 
-    :param bool, scalar, list, tuple, numpy.ndarray st: The ST texture co-ordinates.
+    :param bool,scalar,list,tuple,numpy.ndarray st: The ST texture co-ordinates.
 
         Default is False, which means ST will not be included in the array.
 
@@ -42,7 +48,8 @@ def create_quad(scale=(1.0,1.0), st=False, rgba=False, dtype='float32', type='tr
         ST=(1.0,1.0).
 
         If a 2d list, tuple or numpy array is passed, it must have one of the following
-        shapes.
+        shapes::
+
                 (2,2,), (4,2,),
 
         If the shape is (2,2,), the values are interpreted as the minimum and maximum
@@ -61,11 +68,11 @@ def create_quad(scale=(1.0,1.0), st=False, rgba=False, dtype='float32', type='tr
         If the shape is (4,2,), the values are interpreted as being the actual ST values
         for the 4 vertices of the Quad.
 
-        The vertices are in counter-clockwise winding order from the top right:
+        The vertices are in counter-clockwise winding order from the top right::
 
             [top-right, top-left, bottom-left, bottom-right,]
 
-    :param bool scalar, list, tuple, numpy.ndarray rgba: The RGBA colour.
+    :param bool,scalar,list,tuple,numpy.ndarray rgba: The RGBA colour.
 
         Default is False, which means RGBA will not be included in the array.
 
@@ -73,8 +80,9 @@ def create_quad(scale=(1.0,1.0), st=False, rgba=False, dtype='float32', type='tr
         being RGBA=(1.0, 1.0, 1.0, 1.0)
 
         If a 2d list, tuple or numpy array is passed, it must have one of the following
-        shapes.
-                (3,), (4,), (4,3,), (4,4,),
+        shapes::
+
+            (3,), (4,), (4,3,), (4,4,),
 
         If the shape is (3,), the values are interpreted as being an RGB value (no alpha)
         to set on all vertices.
@@ -85,7 +93,7 @@ def create_quad(scale=(1.0,1.0), st=False, rgba=False, dtype='float32', type='tr
         If the shape is (4,3,), the values are interpreted as being a colour to set on
         the 4 vertices of the Quad.
 
-        The vertices are in counter-clockwise winding order from the top right:
+        The vertices are in counter-clockwise winding order from the top right::
 
             [top-right, top-left, bottom-left, bottom-right]
 
@@ -94,7 +102,9 @@ def create_quad(scale=(1.0,1.0), st=False, rgba=False, dtype='float32', type='tr
 
     :param string type: The type of indices to generate.
 
-        Valid values are ['triangles', 'triangle_strip', 'triangle_fan', 'quads', 'quad_strip',]
+        Valid values are::
+
+            ['triangles', 'triangle_strip', 'triangle_fan', 'quads', 'quad_strip',]
 
         If you just want the vertices without any index manipulation, use 'quads'.
 
@@ -211,13 +221,19 @@ def create_cube(scale=(1.0,1.0,1.0), st=False, rgba=False, dtype='float32', type
     The first dimension contains the list of vertices.
     The second dimension is the vertex data.
 
-    Vertex data is always in the following order:
-        <position> <st> <rgba>
+    Vertex data is always in the following order::
+
+        [x, y, z, s, t, r, g, b, a]
+
     ST and RGBA are optional.
-    If ST is dropped but RGBA is included the format will be:
-        <position> <rgba>
-    If both ST and RGBA are dropped the format will be:
-        <position>
+    If ST is dropped but RGBA is included the format will be::
+
+        [x, y, z, r, g, b, a]
+
+    If both ST and RGBA are dropped the format will be::
+
+        [x, y, z]
+
     RGBA can also be of size 3 (RGB) or 4 (RGBA).
 
     Output format is as follows::
@@ -232,7 +248,7 @@ def create_cube(scale=(1.0,1.0,1.0), st=False, rgba=False, dtype='float32', type
             [x, y, z, s, t, r, g, b, a],
         ], dtype = dtype)
 
-    :param bool, scalar, list, tuple, numpy.ndarray st: The ST texture co-ordinates.
+    :param bool,scalar,list,tuple,numpy.ndarray st: The ST texture co-ordinates.
 
         Default is False, which means ST will not be included in the array.
 
@@ -241,8 +257,9 @@ def create_cube(scale=(1.0,1.0,1.0), st=False, rgba=False, dtype='float32', type
         ST=(1.0,1.0).
 
         If a 2d list, tuple or numpy array is passed, it must have one of the following
-        shapes.
-                (2,2,), (4,2,), (6,2,),
+        shapes::
+
+            (2,2,), (4,2,), (6,2,),
 
         If the shape is (2,2,), the values are interpreted as the minimum and maximum
         values for ST.
@@ -260,27 +277,28 @@ def create_cube(scale=(1.0,1.0,1.0), st=False, rgba=False, dtype='float32', type
         If the shape is (4,2,), the values are interpreted as being the actual ST values
         for the 4 vertices of each face.
 
-        The vertices are in counter-clockwise winding order from the top right:
+        The vertices are in counter-clockwise winding order from the top right::
 
             [top-right, top-left, bottom-left, bottom-right,]
 
         If the shape is (6,2,), the values are interpreted as being the minimum and maximum
         values for each face of the cube.
 
-        The faces are in the following order:
+        The faces are in the following order::
 
             [front, right, back, left, top, bottom,]
 
 
-    :param bool scalar, list, tuple, numpy.ndarray rgba: The RGBA colour.
+    :param bool,scalar,list,tuple,numpy.ndarray rgba: The RGBA colour.
 
         Default is False, which means RGBA will not be included in the array.
 
         If True is passed, the default RGBA values will be provided with all vertices
-        being RGBA=(1.0, 1.0, 1.0, 1.0)
+        being RGBA=(1.0, 1.0, 1.0, 1.0).
 
         If a 2d list, tuple or numpy array is passed, it must have one of the following
-        shapes.
+        shapes.::
+
                 (3,), (4,), (4,3,), (4,4,), (6,3,), (6,4,), (24,3,), (24,4,),
 
         If the shape is (3,), the values are interpreted as being an RGB value (no alpha)
@@ -292,7 +310,7 @@ def create_cube(scale=(1.0,1.0,1.0), st=False, rgba=False, dtype='float32', type
         If the shape is (4,3,), the values are interpreted as being a colour to set on
         the 4 vertices of each face.
 
-        The vertices are in counter-clockwise winding order from the top right:
+        The vertices are in counter-clockwise winding order from the top right::
 
             [top-right, top-left, bottom-left, bottom-right]
 
@@ -302,7 +320,7 @@ def create_cube(scale=(1.0,1.0,1.0), st=False, rgba=False, dtype='float32', type
         If the shape is (6,3,), the values are interpreted as being one RGB value (no alpha)
         for each face.
 
-        The faces are in the following order:
+        The faces are in the following order::
 
             [front, right, back, left, top, bottom,]
 
@@ -312,11 +330,11 @@ def create_cube(scale=(1.0,1.0,1.0), st=False, rgba=False, dtype='float32', type
         If the shape is (24,3,), the values are interpreted as being an RGB value (no alpha)
         to set on each vertex of each face (4 * 6).
 
-        The faces are in the following order:
+        The faces are in the following order::
 
             [front, right, back, left, top, bottom,]
 
-        The vertices are in counter-clockwise winding order from the top right:
+        The vertices are in counter-clockwise winding order from the top right::
 
             [top-right, top-left, bottom-left, bottom-right]
 
@@ -326,7 +344,9 @@ def create_cube(scale=(1.0,1.0,1.0), st=False, rgba=False, dtype='float32', type
 
     :param string type: The type of indices to generate.
 
-        Valid values are ['triangles', 'triangle_strip', 'triangle_fan', 'quads', 'quad_strip',]
+        Valid values are::
+
+            ['triangles', 'triangle_strip', 'triangle_fan', 'quads', 'quad_strip',]
 
         If you just want the vertices without any index manipulation, use 'quads'.
     """
