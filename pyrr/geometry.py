@@ -188,7 +188,7 @@ def create_quad(scale=(1.0,1.0), st=False, rgba=False, dtype='float32', type='tr
         # counter clockwise
         # top right -> top left -> bottom left
         # top right -> bottom left -> bottom right
-        return data[0, 1, 2, 0, 2, 3]
+        return data[[0, 1, 2, 0, 2, 3]]
     elif type == 'triangle_strip':
         # verify
         return data
