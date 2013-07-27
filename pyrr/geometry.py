@@ -6,9 +6,10 @@ import numpy
 def create_quad(scale=(1.0,1.0), st=False, rgba=False, dtype='float32', type='triangles'):
     """Returns a Quad reading for rendering.
 
-    Output is a 2d numpy array.
+    Output is a tuple of numpy arrays.
+    The first value is the vertex data, the second is the indices.
 
-    The first dimension contains the list of vertices.
+    The first dimension of the vertex data contains the list of vertices.
     The second dimension is the vertex data.
 
     Vertex data is always in the following order::
@@ -199,26 +200,29 @@ def create_quad(scale=(1.0,1.0), st=False, rgba=False, dtype='float32', type='tr
         # counter clockwise
         # top right -> top left -> bottom left
         # top right -> bottom left -> bottom right
-        return data[[0, 1, 2, 0, 2, 3]]
+        indices = numpy.array([0, 1, 2, 0, 2, 3])
     elif type == 'triangle_strip':
         # verify
-        return data
+        indices = numpy.arange(len(data))
     elif type == 'triangle_fan':
         # verify
-        return data
+        indices = numpy.arange(len(data))
     elif type == 'quads':
-        return data
+        indices = numpy.arange(len(data))
     elif type == 'quad_strip':
-        return data
+        indices = numpy.arange(len(data))
     else:
         raise ValueError('Unknown type')
+
+    return data, indices
 
 def create_cube(scale=(1.0,1.0,1.0), st=False, rgba=False, dtype='float32', type='triangles'):
     """Returns a Cube reading for rendering.
 
-    Output is a 2d numpy array.
+    Output is a tuple of numpy arrays.
+    The first value is the vertex data, the second is the indices.
 
-    The first dimension contains the list of vertices.
+    The first dimension of the vertex data contains the list of vertices.
     The second dimension is the vertex data.
 
     Vertex data is always in the following order::
@@ -511,7 +515,6 @@ def create_cube(scale=(1.0,1.0,1.0), st=False, rgba=False, dtype='float32', type
         for face in range(6):
             indices[face] += (face * 4)
         indices.shape = (-1,)
-        return data[indices]
     elif type == 'triangle_strip':
         raise NotImplementedError
     elif type == 'triangle_fan':
@@ -522,3 +525,5 @@ def create_cube(scale=(1.0,1.0,1.0), st=False, rgba=False, dtype='float32', type
         raise NotImplementedError
     else:
         raise ValueError('Unknown type')
+
+    return data, indices
