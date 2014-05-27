@@ -2,22 +2,24 @@
 """Provides functions for creating and manipulating 3D vectors.
 """
 import numpy
+from pyrr.utils import parameters_as_numpy_arrays
 
 
-def create_identity():
-    return numpy.zeros( 3 )
+def create_identity( dtype=None ):
+    return numpy.zeros( 3, dtype=dtype )
 
-def create_unit_length_x():
-    return numpy.array( [ 1.0, 0.0, 0.0 ] )
+def create_unit_length_x( dtype=None ):
+    return numpy.array( [ 1.0, 0.0, 0.0 ], dtype=dtype )
 
-def create_unit_length_y():
-    return numpy.array( [ 0.0, 1.0, 0.0 ] )
+def create_unit_length_y( dtype=None ):
+    return numpy.array( [ 0.0, 1.0, 0.0 ], dtype=dtype )
 
-def create_unit_length_z():
-    return numpy.array( [ 0.0, 0.0, 1.0 ] )
+def create_unit_length_z( dtype=None ):
+    return numpy.array( [ 0.0, 0.0, 1.0 ], dtype=dtype )
 
-def create_from_vector4( vector ):
-    return numpy.array( vector[ :-1 ] )
+@parameters_as_numpy_arrays('vector')
+def create_from_vector4( vector, dtype=None ):
+    return numpy.array( vector[ :-1 ], dtype=dtype  or vector.dtype )
 
 def create_from_matrix44_translation( mat ):
     return mat[ 3, 0:3 ].copy()

@@ -36,7 +36,7 @@ def normalise( vec ):
         numpy.linalg.norm,
         vec.ndim - 1,
         vec
-        )
+    )
 
     # repeat the value for each value of the vector
     lengths = lengths.repeat( vec.shape[-1] ).reshape( vec.shape )
@@ -85,7 +85,7 @@ def length( vec ):
         numpy.linalg.norm,
         vec.ndim - 1,
         vec
-        )
+    )
 
     # a single vector will return a 0-d array
     # which doesn't act like a normal np array
@@ -120,7 +120,7 @@ def set_length( vec, len ):
         numpy.linalg.norm,
         vec.ndim - 1,
         vec
-        )
+    )
 
     # repeat the value for each value of the vector
     lengths = lengths.repeat( vec.shape[-1] ).reshape( vec.shape )

@@ -7,8 +7,10 @@ To convert to column-major format, transpose the array using the
 numpy.array.T method.
 """
 import numpy
+from pyrr.utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays
 
 
+@parameters_as_numpy_arrays('vectors')
 def apply_direction_scale( vectors, direction, scale ):
     """Applies a directional scaling to a set of vectors.
 
@@ -63,7 +65,7 @@ def apply_direction_scale( vectors, direction, scale ):
                 scaleMinus1 * direction[ 0 ] * direction[ 1 ]**2,
                 # m13 = (k - 1)n.x n.z
                 scaleMinus1 * direction[ 0 ] * direction[ 2 ]
-                ],
+            ],
             # m2
             [
                 # m21 = (k - 1)n.x n.y
@@ -72,7 +74,7 @@ def apply_direction_scale( vectors, direction, scale ):
                 1 + scaleMinus1 * direction[ 1 ],
                 # m23 = (k - 1)n.y n.z
                 scaleMinus1 * direction[ 1 ] * direction[ 2 ]
-                ],
+            ],
             # m3
             [
                 # m31 = (k - 1)n.x n.z
@@ -81,13 +83,14 @@ def apply_direction_scale( vectors, direction, scale ):
                 scaleMinus1 * direction[ 1 ] * direction[ 2 ],
                 # m33 = 1 + (k - 1)n.z^2
                 1 + scaleMinus1 * direction[ 2 ]**2
-                ]
-            ],
-        dtype = numpy.float
-        )
+            ]
+        ],
+        dtype = vectors.dtype
+    )
     
     return numpy.dot( vectors, matrix )
 
+@parameters_as_numpy_arrays('vectors')
 def apply_scale( vectors, scale ):
     """Applies a 3 dimensional scale to a set of vectors.
 
@@ -105,10 +108,13 @@ def apply_scale( vectors, scale ):
     :return: The vectors scaled by the scaling vector.
     """
     # create a scaling matrix
-    matrix = numpy.array([
-        [ scale[ 0 ], 0.0, 0.0 ],
-        [ 0.0, scale[ 1 ], 0.0 ],
-        [ 0.0, 0.0, scale[ 2 ] ]
-        ])
+    matrix = numpy.array(
+        [
+            [ scale[ 0 ], 0.0, 0.0 ],
+            [ 0.0, scale[ 1 ], 0.0 ],
+            [ 0.0, 0.0, scale[ 2 ] ],
+        ],
+        dtype=vectors.dtype
+    )
     return numpy.dot( vectors, matrix )
 

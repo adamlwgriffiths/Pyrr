@@ -37,18 +37,21 @@ class index:
     maximum = 1
 
 
-def create_zeros():
-    return numpy.zeroes( (2,3) )
+def create_zeros(dtype=None):
+    return numpy.zeroes( (2,3), dtype=dtype )
 
-def create_from_bounds( min, max ):
+@parameters_as_numpy_arrays('min', 'max')
+def create_from_bounds( min, max, dtype=None ):
     """Creates an AAMBB using the specified minimum
     and maximum values.
     """
+    dtype = dtype or min.dtype
     # stack our bounds together and add them as points
     bounds = numpy.vstack( min, max )
-    return create_from_points( bounds )
+    return create_from_points( bounds, dtype )
 
-def create_from_points( points ):
+@parameters_as_numpy_arrays('points')
+def create_from_points( points, dtype=None ):
     """Creates an AAMBB from the list of specified points.
 
     Points must be a 2D list. Ie::
@@ -57,6 +60,8 @@ def create_from_points( points ):
             [ x, y, z ],
             ])
     """
+    dtype = dtype or points.dtype
+
     # convert any negative values to positive
     abs_points = numpy.absolute( points )
 
@@ -72,11 +77,12 @@ def create_from_points( points ):
         [
             [-length,-length,-length ],
             [ length, length, length ]
-            ]
-        )
+        ],
+        dtype=dtype
+    )
 
 @all_parameters_as_numpy_arrays
-def create_from_aabbs( bbs ):
+def create_from_aabbs( bbs, dtype=None ):
     """Creates an AAMBB from a list of existing AABBs.
 
     AABBs must be a 2D list. Ie::
@@ -85,10 +91,11 @@ def create_from_aabbs( bbs ):
             AABB,
             ])
     """
+    dtype = dtype or bbs.dtype
     # reshape the AABBs as a series of points
     points = bbs.reshape( (-1, 3 ) )
 
-    return create_from_points( points )
+    return create_from_points( points, dtype=dtype )
 
 def add_points( bb, points ):
     """Extends an AAMBB to encompass a list
@@ -117,8 +124,9 @@ def add_points( bb, points ):
         [
             [-length,-length,-length ],
             [ length, length, length ]
-            ]
-        )
+        ],
+        dtype=bb.dtype
+    )
 
 @parameters_as_numpy_arrays( 'bbs' )
 def add_aabbs( bb, bbs ):

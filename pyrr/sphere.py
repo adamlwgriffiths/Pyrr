@@ -13,7 +13,7 @@ import numpy
 from pyrr.utils import all_parameters_as_numpy_arrays
 
 @all_parameters_as_numpy_arrays
-def create_from_points( points ):
+def create_from_points( points, dtype=None ):
     """Creates a sphere centred around 0,0,0 that encompasses
     the furthest point in the provided list.
 
@@ -26,14 +26,14 @@ def create_from_points( points ):
         numpy.sum,
         points.ndim - 1,
         points**2
-        )
+    )
 
     # find the maximum value
     maximum = lengths.max()
 
     # square root this, this is the radius
     radius = numpy.sqrt( maximum )
-    return numpy.array( [ 0.0, 0.0, 0.0, radius ] )
+    return numpy.array( [ 0.0, 0.0, 0.0, radius ], dtype= dtype or points.dtype )
 
 @all_parameters_as_numpy_arrays
 def position( sphere ):
@@ -43,9 +43,8 @@ def position( sphere ):
     :rtype: numpy.array
     :return: The centre of the sphere.
     """
-    return sphere[ :3 ]
+    return sphere[ :3 ].copy()
 
-@all_parameters_as_numpy_arrays
 def radius( sphere ):
     """Returns the radius of the sphere.
 

@@ -16,18 +16,14 @@ def all_parameters_as_numpy_arrays( fn ):
     # or the decorator will hide the function from our doc generator
     @wraps( fn )
     def wrapper( *args, **kwargs ):
-        np_args = [
-            numpy.array( arg ) if arg is not None else arg
-            for arg in args
-            ]
-        np_kwargs = dict(
-            (
-                key,
-                numpy.array( value ) if value is not None else value
-                )
-            for (key, value) in kwargs
-            )
-        return fn( *np_args, **np_kwargs )
+        args = list(args)
+        for i, v in enumerate(args):
+            if v is not None:
+                args[i] = numpy.array(v)
+        for k,v in kwargs.iteritems():
+            if v is not None:
+                kwargs[k] = numpy.array(v)
+        return fn( *args, **kwargs )
     return wrapper
 
 def parameters_as_numpy_arrays( *args_to_convert ):
@@ -59,22 +55,17 @@ def parameters_as_numpy_arrays( *args_to_convert ):
             # convert the *args list
             # we zip the args with the argument names we received from
             # the inspect function
-            np_args = [
-                numpy.array( value )
-                    if key in args_to_convert and value is not None else value
-                for key, value in zip( fn_args.args, args )
-                ]
+            args = list(args)
+            for i, (k, v) in enumerate(zip(fn_args.args, args)):
+                if k in args_to_convert and v is not None:
+                    args[i] = numpy.array(v)
 
             # convert the **kwargs dict
-            np_kwargs = dict(
-                (key, (numpy.array( value )
-                    if key in args_to_convert and value is not None else value
-                    )
-                )
-                for key, value in kwargs.items()
-                )
+            for k,v in kwargs.iteritems():
+                if k in args_to_convert and v is not None:
+                    kwargs[k] = numpy.array(v)
 
             # pass the converted values to our function
-            return fn( *np_args, **np_kwargs )
+            return fn( *args, **kwargs )
         return wrapper
     return decorator

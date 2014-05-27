@@ -4,7 +4,7 @@ import math
 
 
 def aspect_ratio( width, height ):
-    return width / height
+    return float(width) / float(height)
 
 def calculate_fov( zoom, height = 1.0 ):
     """Calculates the required FOV to set the

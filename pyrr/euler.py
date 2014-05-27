@@ -19,7 +19,7 @@ class index:
     yaw = 2
 
 
-def create( pitch, roll, yaw ):
+def create( pitch, roll, yaw, dtype=None ):
     """Creates an array storing the specified euler angles.
 
     Input values are in radians.
@@ -29,7 +29,7 @@ def create( pitch, roll, yaw ):
     :param float yaw: The yaw in radians.
     :rtype: numpy.array
     """
-    return numpy.array( [ pitch, roll, yaw ] )
+    return numpy.array( [ pitch, roll, yaw ], dtype=dtype )
 
 def pitch( eulers ):
     """Extracts the pitch value from the euler.

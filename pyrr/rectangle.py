@@ -87,6 +87,7 @@ def bounds( rect ):
 
     return xmin, xmax, ymin, ymax
 
+@all_parameters_as_numpy_arrays
 def position( rect ):
     """Returns the literal position of the rectangle.
 
@@ -96,8 +97,9 @@ def position( rect ):
     :rtype: numpy.array
     :return: The position of the rectangle.
     """
-    return rect[ 0 ]
+    return rect[ 0 ].copy()
 
+@all_parameters_as_numpy_arrays
 def size( rect ):
     """Returns the literal size of the rectangle.
 
@@ -106,7 +108,7 @@ def size( rect ):
     :rtype: numpy.array
     :return: The size of the rectangle.
     """
-    return rect[ 1 ]
+    return rect[ 1 ].copy()
 
 def abs_size( rect ):
     """Returns the absolute size of the rectangle.
@@ -115,7 +117,6 @@ def abs_size( rect ):
     :return: The absolute size of the rectangle.
     """
     return numpy.absolute( rect[ 1 ] )
-
 
 @all_parameters_as_numpy_arrays
 def x( rect ):

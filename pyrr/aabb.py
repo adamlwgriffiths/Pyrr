@@ -33,16 +33,19 @@ class index:
     maximum = 1
 
 
-def create_zeros():
-    return numpy.zeroes( (2,3) )
+def create_zeros( dtype=None ):
+    return numpy.zeroes( (2,3), dtype=dtype )
 
-def create_from_bounds( min, max):
+@parameters_as_numpy_arrays('min', 'max')
+def create_from_bounds( min, max, dtype=None ):
     """Creates an AABB using the specified minimum
     and maximum values.
     """
-    return numpy.array( [ min, max ] )
+    dtype = dtype or min.dtype
+    return numpy.array( [ min, max ], dtype=dtype )
 
-def create_from_points( points ):
+@parameters_as_numpy_arrays('points')
+def create_from_points( points, dtype=None ):
     """Creates an AABB from the list of specified points.
 
     Points must be a 2D list. Ie::
@@ -51,15 +54,17 @@ def create_from_points( points ):
             [ x, y, z ],
             ])
     """
+    dtype = dtype or points.dtype
     return numpy.array(
         [
             numpy.amin( points, axis = 0 ),
             numpy.amax( points, axis = 0 )
-            ]
-        )
+        ],
+        dtype=dtype
+    )
 
-@all_parameters_as_numpy_arrays
-def create_from_aabbs( aabbs ):
+@parameters_as_numpy_arrays('aabbs')
+def create_from_aabbs( aabbs, dtype=None ):
     """Creates an AABB from a list of existing AABBs.
 
     AABBs must be a 2D list. Ie::
@@ -71,8 +76,9 @@ def create_from_aabbs( aabbs ):
     # reshape the AABBs as a series of points
     points = aabbs.reshape( (-1, 3 ) )
 
-    return create_from_points( points )
+    return create_from_points( points, dtype or aabbs.dtype )
 
+@parameters_as_numpy_arrays('aabb')
 def add_points( aabb, points ):
     """Extends an AABB to encompass a list
     of points.
@@ -86,8 +92,9 @@ def add_points( aabb, points ):
         [
             numpy.minimum( aabb[ 0 ], minimum ),
             numpy.maximum( aabb[ 1 ], maximum )
-            ]
-        )
+        ],
+        dtype=aabb.dtype
+    )
 
 @parameters_as_numpy_arrays( 'aabbs' )
 def add_aabbs( aabb, aabbs ):
@@ -106,15 +113,17 @@ def centre_point( aabb ):
     """
     return (aabb[ 0 ] + aabb[ 1 ]) * 0.5
 
+@all_parameters_as_numpy_arrays
 def minimum( aabb ):
     """Returns the minimum point of the AABB.
     """
-    return aabb[ 0 ]
+    return aabb[ 0 ].copy()
 
+@all_parameters_as_numpy_arrays
 def maximum( aabb ):
     """ Returns the maximum point of the AABB.
     """
-    return aabb[ 1 ]
+    return aabb[ 1 ].copy()
 
 @all_parameters_as_numpy_arrays
 def clamp_points( aabb, points ):
@@ -155,8 +164,9 @@ def clamp_points( aabb, points ):
 
     return numpy.array(
         [
-            numpy.maximum( points, aabb_min ),
-            numpy.minimum( points, aabb_max )
-            ]
-        )
+        numpy.maximum( points, aabb_min ),
+        numpy.minimum( points, aabb_max )
+        ],
+        dtype=aabb.dtype
+    )
 

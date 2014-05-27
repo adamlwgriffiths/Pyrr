@@ -16,9 +16,10 @@ import numpy
 import numpy.linalg
 
 from pyrr import vector
+from pyrr.utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays
 
 
-def create_identity():
+def create_identity( dtype=None ):
     """Creates a plane that runs along the X,Y plane.
 
     It crosses the origin with a normal of 0,0,1 (+Z).
@@ -26,9 +27,10 @@ def create_identity():
     :rtype: numpy.array
     :return: A plane that runs along the X,Y plane.
     """
-    return numpy.array( [ 0.0, 0.0, 1.0, 0.0] )
+    return numpy.array( [ 0.0, 0.0, 1.0, 0.0], dtype=dtype )
 
-def create_from_points( vector1, vector2, vector3 ):
+@parameters_as_numpy_arrays('vector1', 'vector2', 'vector3')
+def create_from_points( vector1, vector2, vector3, dtype=None ):
     """Create a plane from 3 co-planar vectors.
 
     The vectors must all lie on the same
@@ -47,6 +49,8 @@ def create_from_points( vector1, vector2, vector3 ):
     :rtype: numpy.array
     :return: A plane that contains the 3 specified vectors.
     """
+    dtype = dtype or vector1.dtype
+
     # make the vectors relative to vector2
     relV1 = vector1 - vector2
     relV2 = vector3 - vector2
@@ -59,10 +63,12 @@ def create_from_points( vector1, vector2, vector3 ):
     # create our plane
     return create_from_position(
         position = vector2,
-        normal = normal
-        )
+        normal = normal,
+        dtype=dtype
+    )
 
-def create_from_position( position, normal ):
+@parameters_as_numpy_arrays('position', 'normal')
+def create_from_position( position, normal, dtype=None ):
     """Creates a plane at position with the normal being above the plane
     and up being the rotation of the plane.
 
@@ -73,10 +79,14 @@ def create_from_position( position, normal ):
     :return: A plane that crosses the specified position with the specified
         normal.
     """
+    dtype = dtype or position.dtype
     # -d = a * px  + b * py + c * pz
     n = vector.normalise( normal )
     d = -numpy.sum( n * position )
-    return numpy.array( [ n[ 0 ], n[ 1 ], n[ 2 ], d ] )
+    return numpy.array(
+        [ n[ 0 ], n[ 1 ], n[ 2 ], d ],
+        dtype=dtype
+    )
 
 def invert_normal( plane ):
     """Flips the normal of the plane.
@@ -107,4 +117,4 @@ def normal( plane ):
     :rtype: numpy.array
     :return: The normal vector of the plane.
     """
-    return plane[ :3 ]
+    return plane[ :3 ].copy()
