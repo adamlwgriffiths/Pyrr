@@ -42,7 +42,7 @@ def create_from_bounds(min, max, dtype=None):
     and maximum values.
     """
     dtype = dtype or min.dtype
-    return numpy.array([ min, max ], dtype=dtype)
+    return numpy.array([min, max], dtype=dtype)
 
 @parameters_as_numpy_arrays('points')
 def create_from_points(points, dtype=None):

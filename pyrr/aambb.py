@@ -38,7 +38,7 @@ class index:
 
 
 def create_zeros(dtype=None):
-    return numpy.zeroes( (2,3), dtype=dtype )
+    return numpy.zeroes((2,3), dtype=dtype)
 
 @parameters_as_numpy_arrays('min', 'max')
 def create_from_bounds(min, max, dtype=None):
