@@ -108,7 +108,7 @@ class test_matrix44( unittest.TestCase ):
 
     def test_create_from_quaternion( self ):
         def identity():
-            quat = quaternion.create_identity()
+            quat = quaternion.create()
             result = matrix44.create_from_quaternion( quat )
 
             expected = numpy.eye( 4 )

@@ -70,7 +70,7 @@ class test_matrix33( unittest.TestCase ):
 
     def test_create_from_quaternion( self ):
         def identity():
-            quat = quaternion.create_identity()
+            quat = quaternion.create()
             result = matrix33.create_from_quaternion( quat )
 
             expected = numpy.eye( 3 )

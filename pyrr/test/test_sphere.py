@@ -9,13 +9,6 @@ from pyrr import vector
 
 
 class test_sphere( unittest.TestCase ):
-
-    def setUp( self ):
-        pass
-
-    def tearDown( self ):
-        pass
-
     def test_create_from_points( self ):
         vecs = numpy.array(
             [

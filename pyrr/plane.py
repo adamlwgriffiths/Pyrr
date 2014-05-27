@@ -19,7 +19,7 @@ from pyrr import vector
 from pyrr.utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays
 
 
-def create_identity(dtype=None):
+def create(normal=None, distance=0.0, dtype=None):
     """Creates a plane that runs along the X,Y plane.
 
     It crosses the origin with a normal of 0,0,1 (+Z).
@@ -27,7 +27,9 @@ def create_identity(dtype=None):
     :rtype: numpy.array
     :return: A plane that runs along the X,Y plane.
     """
-    return numpy.array([0.0, 0.0, 1.0, 0.0], dtype=dtype)
+    if normal is None:
+        normal = [0.0, 0.0, 1.0]
+    return numpy.array([normal[0], normal[1], normal[2], distance], dtype=dtype)
 
 @parameters_as_numpy_arrays('vector1', 'vector2', 'vector3')
 def create_from_points(vector1, vector2, vector3, dtype=None):
@@ -79,7 +81,7 @@ def create_from_position(position, normal, dtype=None):
     # -d = a * px  + b * py + c * pz
     n = vector.normalise(normal)
     d = -numpy.sum(n * position)
-    return numpy.array([n[0], n[1], n[2], d], dtype=dtype)
+    return create(n, d, dtype)
 
 def invert_normal(plane):
     """Flips the normal of the plane.

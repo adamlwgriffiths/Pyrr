@@ -7,13 +7,6 @@ from pyrr import rectangle
 
 
 class test_rectangle( unittest.TestCase ):
-
-    def setUp( self ):
-        pass
-
-    def tearDown( self ):
-        pass
-
     def test_zero( self ):
         rect = rectangle.create_zeros()
 

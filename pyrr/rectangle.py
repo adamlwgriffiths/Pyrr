@@ -22,10 +22,7 @@ class index:
     size = 1
 
 
-def create_zeros(dtype = None):
-    return numpy.zeros((2,2), dtype = dtype)
-
-def create_from_position(x, y, width, height, dtype = None):
+def create(x=0, y=0, width=1, height=1, dtype=None):
     """Creates a rectangle from the specified position and sizes.
 
     This function will interpret the values literally. A negative width
@@ -34,15 +31,12 @@ def create_from_position(x, y, width, height, dtype = None):
     :rtype: numpy.array
     :return: Returns a rectangle with the specified values.
     """
-    return numpy.array(
-        [
-            [ x, y ],
-            [ width, height ]
-            ],
-        dtype = dtype
-    )
+    return numpy.array([[x, y], [width, height]], dtype = dtype)
 
-def create_from_bounds(left, right, bottom, top, dtype = None):
+def create_zeros(dtype=None):
+    return numpy.zeros((2,2), dtype = dtype)
+
+def create_from_bounds(left, right, bottom, top, dtype=None):
     """Creates a rectangle from the specified boundaries.
 
     This caters for the left and right, and for the
@@ -58,7 +52,7 @@ def create_from_bounds(left, right, bottom, top, dtype = None):
     ymin = min(top, bottom)
     ymax = max(top, bottom)
 
-    return create_from_position(
+    return create(
         xmin,
         ymin,
         xmax - xmin,

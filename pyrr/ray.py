@@ -30,17 +30,8 @@ class index:
     direction = 1
 
 
-def create_identity(dtype=None):
-    return numpy.array(
-        [
-            [ 0.0, 0.0, 0.0 ],
-            [ 0.0, 0.0,-1.0 ]
-        ],
-        dtype=dtype
-    )
-
 @parameters_as_numpy_arrays('start', 'direction')
-def create_ray(start, direction, dtype=None):
+def create(start, direction, dtype=None):
     dtype = dtype or start.dtype
     return numpy.array(
         [
@@ -52,8 +43,7 @@ def create_ray(start, direction, dtype=None):
 
 @parameters_as_numpy_arrays('line')
 def create_from_line(line, dtype=None):
-    """
-    Converts a line or line segment to a ray.
+    """Converts a line or line segment to a ray.
     """
     dtype = dtype or line.dtype
     # direction = vend - vstart
@@ -65,7 +55,43 @@ def create_from_line(line, dtype=None):
         dtype=dtype
     )
 
-def origin(ray):
+def create_xy(invert=False, dtype=None):
+    """Create a plane on the XY plane, starting at the origin with +Z being
+    the up vector.
+    """
+    r = create_ray(
+        numpy.array([0.,0.,0.], dtype=dtype),
+        numpy.array([0.,0.,1.], dtype=dtype)
+    )
+    if invert:
+        r[1] *= -1
+    return r
+
+def create_xz(invert=False, dtype=None):
+    r = create_ray(
+        numpy.array([0.,0.,0.], dtype=dtype),
+        numpy.array([0.,1.,0.], dtype=dtype)
+    )
+    if invert:
+        r[1] *= -1
+    return r
+
+def create_yz(invert=False, dtype=None):
+    r = create_ray(
+        numpy.array([0.,0.,0.], dtype=dtype),
+        numpy.array([1.,0.,0.], dtype=dtype)
+    )
+    if invert:
+        r[1] *= -1
+    return r
+
+@all_parameters_as_numpy_arrays
+def invert(r):
+    r2 = r.copy()
+    r2[1] *= -1
+    return r2
+
+def start(ray):
     return ray[0].copy()
 
 def direction(ray):

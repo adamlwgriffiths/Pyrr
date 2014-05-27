@@ -5,8 +5,8 @@ import numpy
 from pyrr.utils import parameters_as_numpy_arrays
 
 
-def create_identity(dtype=None):
-    return numpy.zeros(3, dtype=dtype)
+def create(x=0, y=0, z=0, dtype=None):
+    return numpy.array([x,y,z], dtype=dtype)
 
 def create_unit_length_x(dtype=None):
     return numpy.array([1.0, 0.0, 0.0], dtype=dtype)

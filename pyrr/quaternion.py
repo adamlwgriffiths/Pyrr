@@ -24,11 +24,8 @@ class index:
     w = 3
 
 
-def create(x, y, z, w, dtype=None):
-    return numpy.array([ x, y, z, w ], dtype = dtype)
-
-def create_identity(dtype=None):
-    return vector4.create_identity(dtype)
+def create(x=0, y=0, z=0, w=1, dtype=None):
+    return numpy.array([x, y, z, w], dtype = dtype)
 
 def create_from_x_rotation(theta, dtype=None):
     thetaOver2 = theta * 0.5
@@ -350,7 +347,7 @@ def power(quat, exponent):
         to the specified power.
     """
     # check for identify quaternion
-    if math.fabs(quat[index.w]) > 0.9999:
+    if math.fabs(quat[3]) > 0.9999:
         # assert for the time being
         assert False
         print("rotation axis was identity")
@@ -358,18 +355,18 @@ def power(quat, exponent):
         out[:] = quat
         return out
     
-    alpha = math.acos(quat[index.w])
+    alpha = math.acos(quat[3])
     newAlpha = alpha * exponent
     multi = math.sin(newAlpha) / math.sin(alpha)
     
     return numpy.array(
         [
             # x
-            quat[index.x] * multi,
+            quat[0] * multi,
             # y
-            quat[index.y] * multi,
+            quat[1] * multi,
             # z
-            quat[index.z] * multi,
+            quat[2] * multi,
             # w
             math.cos(newAlpha)
         ],

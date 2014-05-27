@@ -8,8 +8,9 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 pushd $DIR
 
 # move up to the parent
-cd ../pyrr/test
+cd ..
 
+#PYTHONPATH="$PYTHONPATH:$PWD"
 python -m unittest discover
 
 # return our path to its original state

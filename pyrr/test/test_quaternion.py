@@ -8,15 +8,8 @@ from pyrr import vector3
 
 
 class test_quaternion( unittest.TestCase ):
-
-    def setUp( self ):
-        pass
-
-    def tearDown( self ):
-        pass
-
-    def test_create_identity( self ):
-        result = quaternion.create_identity()
+    def test_create( self ):
+        result = quaternion.create()
 
         expected = numpy.array( [ 0.0, 0.0, 0.0, 1.0 ] )
 
@@ -28,7 +21,7 @@ class test_quaternion( unittest.TestCase ):
     def test_normalise( self ):
         def identity():
             # normalise an identity quaternion
-            quat = quaternion.create_identity()
+            quat = quaternion.create()
             result = quaternion.normalise( quat )
 
             expected = numpy.array( [ 0.0, 0.0, 0.0, 1.0 ] )
@@ -73,7 +66,7 @@ class test_quaternion( unittest.TestCase ):
 
     def test_length( self ):
         def identity():
-            quat = quaternion.create_identity()
+            quat = quaternion.create()
             result = quaternion.length( quat )
 
             expected = 1.0
@@ -86,7 +79,7 @@ class test_quaternion( unittest.TestCase ):
         identity()
 
         def identity_batch():
-            quat = quaternion.create_identity()
+            quat = quaternion.create()
             batch = numpy.tile( quat, (2,1) )
             result = quaternion.length( batch )
 
@@ -131,7 +124,7 @@ class test_quaternion( unittest.TestCase ):
 
     def test_squared_length( self ):
         def identity():
-            quat = quaternion.create_identity()
+            quat = quaternion.create()
             result = quaternion.squared_length( quat )
 
             expected = 1.0
@@ -175,7 +168,7 @@ class test_quaternion( unittest.TestCase ):
 
     def test_apply_to_vector( self ):
         def identity():
-            quat = quaternion.create_identity()
+            quat = quaternion.create()
             vec = vector3.unit.x
 
             result = quaternion.apply_to_vector( quat, vec )

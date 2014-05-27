@@ -7,14 +7,6 @@ from pyrr import ray
 
 
 class test_ray( unittest.TestCase ):
-
-    def setUp( self ):
-        pass
-
-    def tearDown( self ):
-        pass
-
-
     def test_create_from_line( self ):
         result = ray.create_from_line(
             numpy.array(
