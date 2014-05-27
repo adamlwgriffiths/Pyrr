@@ -20,7 +20,7 @@ def all_parameters_as_numpy_arrays(fn):
         for i, v in enumerate(args):
             if v is not None:
                 args[i] = numpy.array(v)
-        for k,v in kwargs.iteritems():
+        for k,v in kwargs.items():
             if v is not None:
                 kwargs[k] = numpy.array(v)
         return fn(*args, **kwargs)
@@ -61,7 +61,7 @@ def parameters_as_numpy_arrays(*args_to_convert):
                     args[i] = numpy.array(v)
 
             # convert the **kwargs dict
-            for k,v in kwargs.iteritems():
+            for k,v in kwargs.items():
                 if k in args_to_convert and v is not None:
                     kwargs[k] = numpy.array(v)
 
