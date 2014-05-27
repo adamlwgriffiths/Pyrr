@@ -3,6 +3,8 @@
 Coding Standard
 ***************
 
+* Follow PEP-8
+
 
 .. _coding_standard_modules:
 
@@ -29,15 +31,15 @@ Functions
 
 A good example::
 
-    def multiply( m1, m2 ):
+    def multiply(m1, m2):
         # it may not be obvious that the 'dot' operator is the
         # equivalent of multiplication when using arrays as matrices
         # so this is good to help point users in the right direction
-        return numpy.dot( m1, m2 )
+        return numpy.dot(m1, m2)
 
 A bad example::
 
-    def add( v1, v2 ):
+    def add(v1, v2):
         # this functionality is too obvious and too basic
         return v1 + v2
 
@@ -59,7 +61,7 @@ Function names
 
 * Function names and parameters shall be lower-case with underscores delimiting words::
 
-    def an_example_function( with_some, parameters ):
+    def an_example_function(with_some, parameters):
        pass
 
 * Each type shall have a basic *create* function which returns a zero-ed type, where it makes sense.
@@ -68,7 +70,7 @@ A good example::
 
     # vector3.py
     def create():
-        # vectors are commonly edited manually
+        # vectors are commonly initialised manually
         # so this is ok
         pass
 
@@ -81,7 +83,7 @@ A bad example::
 
     # matrix33.py
     def create():
-        # matrices aren't normally edited manually
+        # matrices aren't initialised manually
         # so this isn't ok
         pass
 
@@ -95,12 +97,12 @@ A bad example::
 
 * Conversion functions shall be prefixed with *create_from_* followed by the type being converted from::
 
-    def create_from_matrix( matrix ):
+    def create_from_matrix(matrix):
         # converts from one type to another
         # this would have to support both matrix33 and matrix44
         pass
 
-    def create_from_matrix33( matrix ):
+    def create_from_matrix33(matrix):
         # converts from a very specific type
         # only has to support matrix33
         pass
@@ -131,10 +133,7 @@ Tests
 
 * A test class shall be the only class in the test module.
 
-* The test module shall be named after the module and prefixed with *test_*::
-
-    pyrr/vector3.py
-    pyrr/test/test_vector3.py
+* Each source file shall have its own test file.
 
 * Each function shall have a test case associated with it::
 
@@ -145,31 +144,8 @@ Tests
     # test_vector3.py
     def test_create_identity():
         vec = vector3.create_identity()
-        self.assertTrue(
-            numpy.array_equal( vec, [ 0.0, 0.0, 0.0 ] ),
-            "Vector zeros not zeroed"
-            )
-
-* A function requiring multiple test cases shall encompass each test case in a closure / sub-function::
-
-    import unittest
-    import math
-    import numpy
-    from pyrr import vector
-
-
-    class test_vector( unittest.TestCase ):
-
-        def test_functon_name_goes_Here( self ):
-            def functionality_gets_tested_here():
-                # test case goes here
-                pass
-            functionality_gets_tested_here()
-
-            def another_functionality_gets_tested_here():
-                # test case goes here
-                pass
-            another_functionality_gets_tested_here()
+        expected = [ 0.0, 0.0, 0.0 ]
+        self.assertTrue(numpy.array_equal(vec, expected), "Vector zeros not zeroed")
 
 
 .. _coding_standard_layout:
@@ -189,15 +165,17 @@ A good example::
     # brackets and parenthesis are laid out to more clearly indicate
     # the end of an array / type.
     # where appropriate, values are still laid out horizontally.
+    # provide links where appropriate
+    #  http://www.example.com/a/link/to/a/relevant/explanation/of/this/code
     my_value = numpy.array(
         [
-            ( 0.0, 0.0, 0.0 ),
-            ( 1.0, 1.0, 1.0 )
-            ],
-        dtype = [
-            ('position', 'float32', (3,))
-            ]
-        )
+            # X = some comment about how X is calculated
+            (0.0, 0.0, 0.0),
+            # Y = some comment about how Y is calculated
+            (1.0, 1.0, 1.0)
+        ],
+        dtype=[('position', 'float32', (3,))]
+    )
 
     # laying out parameters vertically can improve readability.
     # we'll be less likely to accidently pass an invalid value
@@ -208,18 +186,18 @@ A good example::
         param_three,
         param_four,
         True if param_five else False
-        )
+    )
 
 A bad example::
 
     # leaving this on a single line would not compromise readability
     my_value = numpy.empty(
         (3,)
-        )
+    )
 
 The same applies to function definitions::
 
-    def some_function( that_takes, many_parameters, and_is, hard_to_read, because, its_so, big ):
+    def some_function(that_takes, many_parameters, and_is, hard_to_read, because, its_so, big):
         pass
 
 Should become::
@@ -232,7 +210,7 @@ Should become::
         because,
         its_so,
         big
-        ):
+    ):
         pass
 
 
@@ -247,16 +225,16 @@ Should become::
     class Y:
         pass
 
-* A functional class definition should be followed by a single, empty line::
+
+* Class variables and functions shall be separated by a single white line::
 
     class X:
-
         a = 1
 
         def __init__( self ):
             pass
 
-* A supplimental class containing **only** helper data, should not have an empty line after the definition::
+* Class members and variables shall begin immediately below the class declaration::
 
     class X:
         a = 1
@@ -265,7 +243,6 @@ Should become::
 * Variables and methods should have a single, empty line between them::
 
     class X:
-
         a = 1
         b = 2
 

@@ -11,7 +11,7 @@ from pyrr.utils import all_parameters_as_numpy_arrays, parameters_as_numpy_array
 
 
 @parameters_as_numpy_arrays('vectors')
-def apply_direction_scale( vectors, direction, scale ):
+def apply_direction_scale(vectors, direction, scale):
     """Applies a directional scaling to a set of vectors.
 
     An example usage for this is to flatten a mesh against a
@@ -60,38 +60,38 @@ def apply_direction_scale( vectors, direction, scale ):
             # m1
             [
                 # m11 = 1 + (k - 1)n.x^2
-                1 + scaleMinus1 * (direction[ 0 ]**2),
+                1 + scaleMinus1 * (direction[0]**2),
                 # m12 = (k - 1)n.x n.y^2
-                scaleMinus1 * direction[ 0 ] * direction[ 1 ]**2,
+                scaleMinus1 * direction[0] * direction[1]**2,
                 # m13 = (k - 1)n.x n.z
-                scaleMinus1 * direction[ 0 ] * direction[ 2 ]
+                scaleMinus1 * direction[0] * direction[2]
             ],
             # m2
             [
                 # m21 = (k - 1)n.x n.y
-                scaleMinus1 * direction[ 0 ] * direction[ 1 ],
+                scaleMinus1 * direction[0] * direction[1],
                 # m22 = 1 + (k - 1)n.y
-                1 + scaleMinus1 * direction[ 1 ],
+                1 + scaleMinus1 * direction[1],
                 # m23 = (k - 1)n.y n.z
-                scaleMinus1 * direction[ 1 ] * direction[ 2 ]
+                scaleMinus1 * direction[1] * direction[2]
             ],
             # m3
             [
                 # m31 = (k - 1)n.x n.z
-                scaleMinus1 * direction[ 0 ] * direction[ 2 ],
+                scaleMinus1 * direction[0] * direction[2],
                 # m32 = (k - 1)n.y n.z
-                scaleMinus1 * direction[ 1 ] * direction[ 2 ],
+                scaleMinus1 * direction[1] * direction[2],
                 # m33 = 1 + (k - 1)n.z^2
-                1 + scaleMinus1 * direction[ 2 ]**2
+                1 + scaleMinus1 * direction[2]**2
             ]
         ],
-        dtype = vectors.dtype
+        dtype=vectors.dtype
     )
     
-    return numpy.dot( vectors, matrix )
+    return numpy.dot(vectors, matrix)
 
 @parameters_as_numpy_arrays('vectors')
-def apply_scale( vectors, scale ):
+def apply_scale(vectors, scale):
     """Applies a 3 dimensional scale to a set of vectors.
 
     :param numpy.array vectors: A 2D numpy array of vectors:
@@ -110,11 +110,11 @@ def apply_scale( vectors, scale ):
     # create a scaling matrix
     matrix = numpy.array(
         [
-            [ scale[ 0 ], 0.0, 0.0 ],
-            [ 0.0, scale[ 1 ], 0.0 ],
-            [ 0.0, 0.0, scale[ 2 ] ],
+            [scale[0], 0.0, 0.0],
+            [0.0, scale[1], 0.0],
+            [0.0, 0.0, scale[2]],
         ],
         dtype=vectors.dtype
     )
-    return numpy.dot( vectors, matrix )
+    return numpy.dot(vectors, matrix)
 

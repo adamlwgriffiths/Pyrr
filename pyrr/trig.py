@@ -3,10 +3,10 @@
 import math
 
 
-def aspect_ratio( width, height ):
+def aspect_ratio(width, height):
     return float(width) / float(height)
 
-def calculate_fov( zoom, height = 1.0 ):
+def calculate_fov(zoom, height=1.0):
     """Calculates the required FOV to set the
     view frustrum to have a view with the specified height
     at the specified distance.
@@ -18,10 +18,10 @@ def calculate_fov( zoom, height = 1.0 ):
     :rtype: A float representing the FOV to use in degrees.
     """
     # http://www.glprogramming.com/red/chapter03.html
-    rad_theta = 2.0 * math.atan2( height / 2.0, zoom )
-    return math.degrees( rad_theta )
+    rad_theta = 2.0 * math.atan2(height / 2.0, zoom)
+    return math.degrees(rad_theta)
 
-def calculate_zoom( fov, height = 1.0 ):
+def calculate_zoom(fov, height=1.0):
     """Calculates the zoom (distance) from the camera
     with the specified FOV and height of image.
 
@@ -33,9 +33,9 @@ def calculate_zoom( fov, height = 1.0 ):
     :raise ZeroDivisionError: Raised if the fov is
         0.0.
     """
-    return height / math.tan( fov / 2.0 )
+    return height / math.tan(fov / 2.0)
 
-def calculate_height( fov, zoom ):
+def calculate_height(fov, zoom):
     """Performs the opposite of calculate_fov.
     Used to find the current height at a specific distance.
 
@@ -45,10 +45,10 @@ def calculate_height( fov, zoom ):
     :rtype: A float representing the height at the specified distance for the
         specified FOV.
     """
-    height = zoom * ( math.tan( fov / 2.0 ) )
+    height = zoom * (math.tan(fov / 2.0))
     return height
 
-def calculate_plane_size( aspect_ratio, fov, distance ):
+def calculate_plane_size(aspect_ratio, fov, distance):
     """Calculates the width and height of a plane at the
     specified distance using the FOV of the frustrum
     and aspect ratio of the viewport.
@@ -63,7 +63,7 @@ def calculate_plane_size( aspect_ratio, fov, distance ):
     # http://www.songho.ca/opengl/gl_transform.html
     # http://nehe.gamedev.net/article/replacement_for_gluperspective/21002/
     # http://steinsoft.net/index.php?site=Programming/Code%20Snippets/OpenGL/gluperspective&printable=1
-    tangent = math.radians( fov )
+    tangent = math.radians(fov)
     height = distance * tangent
     width = height * aspect_ratio
 

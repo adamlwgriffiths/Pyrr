@@ -33,19 +33,19 @@ class index:
     maximum = 1
 
 
-def create_zeros( dtype=None ):
-    return numpy.zeroes( (2,3), dtype=dtype )
+def create_zeros(dtype=None):
+    return numpy.zeroes((2,3), dtype=dtype)
 
 @parameters_as_numpy_arrays('min', 'max')
-def create_from_bounds( min, max, dtype=None ):
+def create_from_bounds(min, max, dtype=None):
     """Creates an AABB using the specified minimum
     and maximum values.
     """
     dtype = dtype or min.dtype
-    return numpy.array( [ min, max ], dtype=dtype )
+    return numpy.array([ min, max ], dtype=dtype)
 
 @parameters_as_numpy_arrays('points')
-def create_from_points( points, dtype=None ):
+def create_from_points(points, dtype=None):
     """Creates an AABB from the list of specified points.
 
     Points must be a 2D list. Ie::
@@ -57,14 +57,14 @@ def create_from_points( points, dtype=None ):
     dtype = dtype or points.dtype
     return numpy.array(
         [
-            numpy.amin( points, axis = 0 ),
-            numpy.amax( points, axis = 0 )
+            numpy.amin(points, axis=0),
+            numpy.amax(points, axis=0)
         ],
         dtype=dtype
     )
 
 @parameters_as_numpy_arrays('aabbs')
-def create_from_aabbs( aabbs, dtype=None ):
+def create_from_aabbs(aabbs, dtype=None):
     """Creates an AABB from a list of existing AABBs.
 
     AABBs must be a 2D list. Ie::
@@ -73,60 +73,61 @@ def create_from_aabbs( aabbs, dtype=None ):
             AABB,
             ])
     """
+    dtype = dtype or aabbs.dtype
     # reshape the AABBs as a series of points
-    points = aabbs.reshape( (-1, 3 ) )
+    points = aabbs.reshape((-1, 3))
 
-    return create_from_points( points, dtype or aabbs.dtype )
+    return create_from_points(points, dtype)
 
 @parameters_as_numpy_arrays('aabb')
-def add_points( aabb, points ):
+def add_points(aabb, points):
     """Extends an AABB to encompass a list
     of points.
     """
     # find the minimum and maximum point values
-    minimum = numpy.amin( points, axis = 0 )
-    maximum = numpy.amax( points, axis = 0 )
+    minimum = numpy.amin(points, axis=0)
+    maximum = numpy.amax(points, axis=0)
 
     # compare to existing AABB
     return numpy.array(
         [
-            numpy.minimum( aabb[ 0 ], minimum ),
-            numpy.maximum( aabb[ 1 ], maximum )
+            numpy.minimum(aabb[0], minimum),
+            numpy.maximum(aabb[1], maximum)
         ],
         dtype=aabb.dtype
     )
 
 @parameters_as_numpy_arrays( 'aabbs' )
-def add_aabbs( aabb, aabbs ):
+def add_aabbs(aabb, aabbs):
     """Extend an AABB to encompass a list
     of other AABBs.
     """
     # convert to points and use our existing add_points
     # function
-    points = aabbs.reshape( (-1, 3) )
+    points = aabbs.reshape((-1, 3))
 
-    return add_points( aabb, points )
+    return add_points(aabb, points)
 
 @all_parameters_as_numpy_arrays
-def centre_point( aabb ):
+def centre_point(aabb):
     """Returns the centre point of the AABB.
     """
-    return (aabb[ 0 ] + aabb[ 1 ]) * 0.5
+    return (aabb[0] + aabb[1]) * 0.5
 
 @all_parameters_as_numpy_arrays
-def minimum( aabb ):
+def minimum(aabb):
     """Returns the minimum point of the AABB.
     """
-    return aabb[ 0 ].copy()
+    return aabb[0].copy()
 
 @all_parameters_as_numpy_arrays
-def maximum( aabb ):
+def maximum(aabb):
     """ Returns the maximum point of the AABB.
     """
-    return aabb[ 1 ].copy()
+    return aabb[1].copy()
 
 @all_parameters_as_numpy_arrays
-def clamp_points( aabb, points ):
+def clamp_points(aabb, points):
     """Takes a list of points and modifies them to
     fit within the AABB.
     """
@@ -141,8 +142,8 @@ def clamp_points( aabb, points ):
     if points.ndim == 1:
         # only a single point
         # just take the existing AABB for comparisson
-        aabb_min = aabb[ 0 ]
-        aabb_max = aabb[ 1 ]
+        aabb_min = aabb[0]
+        aabb_max = aabb[1]
     else:
         # there are multiple points
         # so we'll repeat our AABB values for easy
@@ -152,21 +153,18 @@ def clamp_points( aabb, points ):
         # without actually allocating any data
         # http://stackoverflow.com/questions/5564098/repeat-numpy-array-without-replicating-data
         aabb_min = np.lib.stride_tricks.as_strided(
-            aabb[ 0 ],
-            (points.shape[ 0 ], aabb[ 0 ].size),
-            (0, aabb[ 0 ].itemsize)
-            )
+            aabb[0],
+            (points.shape[0], aabb[0].size),
+            (0, aabb[0].itemsize)
+        )
         aabb_max = np.lib.stride_tricks.as_strided(
-            aabb[ 1 ],
-            (points.shape[ 0 ], aabb[ 1 ].size),
-            (0, aabb[ 1 ].itemsize)
-            )
+            aabb[1],
+            (points.shape[0], aabb[1].size),
+            (0, aabb[1].itemsize)
+        )
 
     return numpy.array(
-        [
-        numpy.maximum( points, aabb_min ),
-        numpy.minimum( points, aabb_max )
-        ],
+        [numpy.maximum(points, aabb_min), numpy.minimum(points, aabb_max)],
         dtype=aabb.dtype
     )
 

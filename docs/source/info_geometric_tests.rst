@@ -22,12 +22,12 @@ The order of parameters matches the order of types given in the function name.
 
 The following are examples of this naming scheme::
 
-    def point_intersect_line( point, line ):
+    def point_intersect_line(point, line):
         """This function returns the intersection point as a vector or None if there is no intersection.
         """
         pass
 
-    def point_closest_point_on_line_segment( point, segment ):
+    def point_closest_point_on_line_segment(point, segment):
         """The function returns the closest on the line segment, to the given point.
         """
         pass

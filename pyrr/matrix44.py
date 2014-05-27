@@ -15,16 +15,16 @@ from pyrr import matrix33
 from pyrr.utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays
 
 
-def create_identity( dtype=None ):
+def create_identity(dtype=None):
     """Creates a new matrix44 and sets it to
     an identity matrix.
 
     :rtype: numpy.array
     :return: A matrix representing an identity matrix with shape (4,4).
     """
-    return numpy.identity( 4, dtype = dtype )
+    return numpy.identity(4, dtype = dtype)
 
-def create_from_matrix33( mat, dtype=None ):
+def create_from_matrix33(mat, dtype=None):
     """Creates a Matrix44 from a Matrix33.
 
     The translation will be 0,0,0.
@@ -32,11 +32,11 @@ def create_from_matrix33( mat, dtype=None ):
     :rtype: numpy.array
     :return: A matrix with shape (4,4) with the input matrix rotation.
     """
-    mat4 = numpy.identity( 4, dtype = dtype )
-    mat4[ 0:3, 0:3 ] = mat
+    mat4 = numpy.identity(4, dtype = dtype)
+    mat4[0:3, 0:3] = mat
     return mat4
 
-def create_matrix33_view( mat ):
+def create_matrix33_view(mat):
     """Returns a view into the matrix in Matrix33 format.
 
     This is different from matrix33.create_from_matrix44, in that
@@ -45,9 +45,9 @@ def create_matrix33_view( mat ):
     :rtype: numpy.array
     :return: A view into the matrix in the format of a matrix33 (shape (3,3)).
     """
-    return mat[ 0:3, 0:3 ]
+    return mat[0:3, 0:3]
 
-def create_from_eulers( eulers, dtype=None ):
+def create_from_eulers(eulers, dtype=None):
     """Creates a matrix from the specified Euler rotations.
 
     :param numpy.array eulers: A set of euler rotations in the format
@@ -58,14 +58,14 @@ def create_from_eulers( eulers, dtype=None ):
     dtype = dtype or quat.dtype
     # set to identity matrix
     # this will populate our extra rows for us
-    mat = create_identity( dtype )
+    mat = create_identity(dtype)
     
     # we'll use Matrix33 for our conversion
-    mat33 = mat[ 0:3, 0:3 ]
-    mat[ 0:3, 0:3 ] = matrix33.create_from_eulers( eulers, mat33, dtype )
+    mat33 = mat[0:3, 0:3]
+    mat[0:3, 0:3] = matrix33.create_from_eulers(eulers, mat33, dtype)
     return mat
 
-def create_from_quaternion( quat, dtype=None ):
+def create_from_quaternion(quat, dtype=None):
     """Creates a matrix with the same rotation as a quaternion.
 
     :param quat: The quaternion to create the matrix from.
@@ -75,14 +75,14 @@ def create_from_quaternion( quat, dtype=None ):
     dtype = dtype or quat.dtype
     # set to identity matrix
     # this will populate our extra rows for us
-    mat = create_identity( dtype )
+    mat = create_identity(dtype)
     
     # we'll use Matrix33 for our conversion
-    mat[ 0:3, 0:3 ] = matrix33.create_from_quaternion( quat, dtype )
+    mat[0:3, 0:3] = matrix33.create_from_quaternion(quat, dtype)
     return mat
 
 @parameters_as_numpy_arrays('quat')
-def create_from_inverse_of_quaternion( quat, dtype=None ):
+def create_from_inverse_of_quaternion(quat, dtype=None):
     """Creates a matrix with the inverse rotation of a quaternion.
 
     This can be used to go from object space to intertial space.
@@ -95,14 +95,14 @@ def create_from_inverse_of_quaternion( quat, dtype=None ):
     dtype = dtype or quat.dtype
     # set to identity matrix
     # this will populate our extra rows for us
-    mat = create_identity( dtype )
+    mat = create_identity(dtype)
     
     # we'll use Matrix33 for our conversion
-    mat[ 0:3, 0:3 ] = matrix33.create_from_inverse_of_quaternion( quat, dtype )
+    mat[0:3, 0:3] = matrix33.create_from_inverse_of_quaternion(quat, dtype)
     return mat
 
 @parameters_as_numpy_arrays('vec')
-def create_from_translation( vec, dtype=None ):
+def create_from_translation(vec, dtype=None):
     """Creates an identity matrix with the translation set.
 
     :param numpy.array vec: The translation vector (shape 3 or 4).
@@ -111,11 +111,11 @@ def create_from_translation( vec, dtype=None ):
         with the translation set to the specified vector.
     """
     dtype = dtype or vec.dtype
-    mat = create_identity( dtype )
-    mat[ 3, 0:3 ] = vec[:3]
+    mat = create_identity(dtype)
+    mat[3, 0:3] = vec[:3]
     return mat
 
-def create_from_scale( scale, dtype=None ):
+def create_from_scale(scale, dtype=None):
     """Creates an identity matrix with the scale set.
 
     :param numpy.array scale: The scale to apply as a vector (shape 3).
@@ -125,12 +125,12 @@ def create_from_scale( scale, dtype=None ):
     """
     # we need to expand 'scale' into it's components
     # because numpy isn't flattening them properly.
-    m = numpy.diagflat([ scale[ 0 ], scale[ 1 ], scale[ 2 ], 1.0 ])
+    m = numpy.diagflat([scale[0], scale[1], scale[2], 1.0])
     if dtype:
-        m = m.astype( dtype )
+        m = m.astype(dtype)
     return m
 
-def create_from_x_rotation( theta, dtype=None ):
+def create_from_x_rotation(theta, dtype=None):
     """Creates a matrix with the specified rotation about the X axis.
 
     :param float theta: The rotation, in radians, about the X-axis.
@@ -140,11 +140,11 @@ def create_from_x_rotation( theta, dtype=None ):
     
     .. seealso:: http://en.wikipedia.org/wiki/Rotation_matrix#In_three_dimensions
     """
-    mat = create_identity( dtype )
-    mat[ 0:3, 0:3 ] = matrix33.create_from_x_rotation( theta, dtype )
+    mat = create_identity(dtype)
+    mat[0:3, 0:3] = matrix33.create_from_x_rotation(theta, dtype)
     return mat
 
-def create_from_y_rotation( theta, dtype=None ):
+def create_from_y_rotation(theta, dtype=None):
     """Creates a matrix with the specified rotation about the Y axis.
 
     :param float theta: The rotation, in radians, about the Y-axis.
@@ -154,11 +154,11 @@ def create_from_y_rotation( theta, dtype=None ):
     
     .. seealso:: http://en.wikipedia.org/wiki/Rotation_matrix#In_three_dimensions
     """
-    mat = create_identity( dtype )
-    mat[ 0:3, 0:3 ] = matrix33.create_from_y_rotation( theta, dtype )
+    mat = create_identity(dtype)
+    mat[0:3, 0:3] = matrix33.create_from_y_rotation(theta, dtype)
     return mat
 
-def create_from_z_rotation( theta, dtype=None ):
+def create_from_z_rotation(theta, dtype=None):
     """Creates a matrix with the specified rotation about the Z axis.
 
     :param float theta: The rotation, in radians, about the Z-axis.
@@ -168,12 +168,12 @@ def create_from_z_rotation( theta, dtype=None ):
     
     .. seealso:: http://en.wikipedia.org/wiki/Rotation_matrix#In_three_dimensions
     """
-    mat = create_identity( dtype )
-    mat[ 0:3, 0:3 ] = matrix33.create_from_z_rotation( theta, dtype )
+    mat = create_identity(dtype)
+    mat[0:3, 0:3] = matrix33.create_from_z_rotation(theta, dtype)
     return mat
 
 @all_parameters_as_numpy_arrays
-def apply_to_vector( mat, vec ):
+def apply_to_vector(mat, vec):
     """Apply a matrix to a vector.
 
     The matrix's rotation and translation are applied to the vector.
@@ -188,23 +188,23 @@ def apply_to_vector( mat, vec ):
     """
     if vec.size == 3:
         # convert to a vec4
-        vec4 = numpy.array( [ vec[ 0 ], vec[ 1 ], vec[ 2 ], 1.0 ], dtype=vec.dtype )
-        vec4 = numpy.dot( vec4, mat )
+        vec4 = numpy.array([vec[0], vec[1], vec[2], 1.0], dtype=vec.dtype)
+        vec4 = numpy.dot(vec4, mat)
 
         # handle W value
         if vec4[-1] != 0.0:
             vec4 /= vec4[-1]
         return vec4[:-1]
     elif vec.size == 4:
-        return numpy.dot( vec, mat )
+        return numpy.dot(vec, mat)
     else:
-        raise ValueError( "Vector size unsupported" )
+        raise ValueError("Vector size unsupported")
 
-def multiply( m1, m2, out = None ):
+def multiply(m1, m2, out = None):
     """Multiply two matricies, m1 . m2.
 
     This is essentially a wrapper around
-    numpy.dot( m1, m2 )
+    numpy.dot(m1, m2)
 
     :param numpy.array m1: The first matrix.
         Can be a list of matrices.
@@ -215,9 +215,9 @@ def multiply( m1, m2, out = None ):
     """
     # using an input as the out value will cause corruption
     if out == m1 or out == m2:
-        raise ValueError( "Output must not be one of the inputs, use assignment instead" )
+        raise ValueError("Output must not be one of the inputs, use assignment instead")
 
-    return numpy.dot( m1, m2, out = out )
+    return numpy.dot(m1, m2, out=out)
 
 def create_perspective_projection_matrix(fovy, aspect, near, far, dtype=None):
     '''
@@ -255,7 +255,7 @@ def create_perspective_projection_matrix_from_bounds(
     near,
     far,
     dtype=None
-    ):
+):
     """Creates a perspective projection matrix using the specified near
     plane dimensions.
 
@@ -301,7 +301,7 @@ def create_perspective_projection_matrix_from_bounds(
             [   A,   B,   C,-1.0 ],
             [ 0.0, 0.0,   D, 0.0 ],
         ],
-        dtype = dtype
+        dtype=dtype
     )
 
 def create_orthogonal_projection_matrix(
@@ -312,7 +312,7 @@ def create_orthogonal_projection_matrix(
     near,
     far,
     dtype=None
-    ):
+):
     """Creates an orthogonal projection matrix.
 
     :param float left: The left of the near plane relative to the plane's centre.
@@ -349,11 +349,11 @@ def create_orthogonal_projection_matrix(
             [ 0.0,   B, 0.0, 0.0 ],
             [ 0.0, 0.0,   C, 0.0 ],
             [ 0.0, 0.0, 0.0, 1.0 ],
-            ],
-            dtype = dtype
-        )
+        ],
+        dtype=dtype
+    )
 
-def inverse( m ):
+def inverse(m):
     """Returns the inverse of the matrix.
 
     This is essentially a wrapper around numpy.linalg.inv.
@@ -364,4 +364,4 @@ def inverse( m ):
 
     .. seealso:: http://docs.scipy.org/doc/numpy/reference/generated/numpy.linalg.inv.html
     """
-    return numpy.linalg.inv( m )
+    return numpy.linalg.inv(m)

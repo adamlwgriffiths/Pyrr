@@ -30,7 +30,7 @@ class index:
     direction = 1
 
 
-def create_identity( dtype=None ):
+def create_identity(dtype=None):
     return numpy.array(
         [
             [ 0.0, 0.0, 0.0 ],
@@ -40,18 +40,18 @@ def create_identity( dtype=None ):
     )
 
 @parameters_as_numpy_arrays('start', 'direction')
-def create_ray( start, direction, dtype=None ):
+def create_ray(start, direction, dtype=None):
     dtype = dtype or start.dtype
     return numpy.array(
         [
             start,
-            vector.normalise( direction )
+            vector.normalise(direction)
         ],
         dtype=dtype
     )
 
 @parameters_as_numpy_arrays('line')
-def create_from_line( line, dtype=None ):
+def create_from_line(line, dtype=None):
     """
     Converts a line or line segment to a ray.
     """
@@ -59,15 +59,15 @@ def create_from_line( line, dtype=None ):
     # direction = vend - vstart
     return numpy.array(
         [
-            line[ 0 ],
-            vector.normalise( line[ 1 ] - line[ 0 ] )
+            line[0],
+            vector.normalise(line[1] - line[0])
         ],
         dtype=dtype
     )
 
-def origin( ray ):
-    return ray[ 0 ].copy()
+def origin(ray):
+    return ray[0].copy()
 
-def direction( ray ):
-    return ray[ 1 ].copy()
+def direction(ray):
+    return ray[1].copy()
 

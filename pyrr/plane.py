@@ -19,7 +19,7 @@ from pyrr import vector
 from pyrr.utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays
 
 
-def create_identity( dtype=None ):
+def create_identity(dtype=None):
     """Creates a plane that runs along the X,Y plane.
 
     It crosses the origin with a normal of 0,0,1 (+Z).
@@ -27,10 +27,10 @@ def create_identity( dtype=None ):
     :rtype: numpy.array
     :return: A plane that runs along the X,Y plane.
     """
-    return numpy.array( [ 0.0, 0.0, 1.0, 0.0], dtype=dtype )
+    return numpy.array([0.0, 0.0, 1.0, 0.0], dtype=dtype)
 
 @parameters_as_numpy_arrays('vector1', 'vector2', 'vector3')
-def create_from_points( vector1, vector2, vector3, dtype=None ):
+def create_from_points(vector1, vector2, vector3, dtype=None):
     """Create a plane from 3 co-planar vectors.
 
     The vectors must all lie on the same
@@ -56,19 +56,15 @@ def create_from_points( vector1, vector2, vector3, dtype=None ):
     relV2 = vector3 - vector2
     
     # cross our relative vectors
-    normal = numpy.cross( relV1, relV2 )
-    if numpy.count_nonzero( normal ) == 0:
-        raise ValueError( "Vectors are co-incident" )
+    normal = numpy.cross(relV1, relV2)
+    if numpy.count_nonzero(normal) == 0:
+        raise ValueError("Vectors are co-incident")
     
     # create our plane
-    return create_from_position(
-        position = vector2,
-        normal = normal,
-        dtype=dtype
-    )
+    return create_from_position(position=vector2, normal=normal, dtype=dtype)
 
 @parameters_as_numpy_arrays('position', 'normal')
-def create_from_position( position, normal, dtype=None ):
+def create_from_position(position, normal, dtype=None):
     """Creates a plane at position with the normal being above the plane
     and up being the rotation of the plane.
 
@@ -81,14 +77,11 @@ def create_from_position( position, normal, dtype=None ):
     """
     dtype = dtype or position.dtype
     # -d = a * px  + b * py + c * pz
-    n = vector.normalise( normal )
-    d = -numpy.sum( n * position )
-    return numpy.array(
-        [ n[ 0 ], n[ 1 ], n[ 2 ], d ],
-        dtype=dtype
-    )
+    n = vector.normalise(normal)
+    d = -numpy.sum(n * position)
+    return numpy.array([n[0], n[1], n[2], d], dtype=dtype)
 
-def invert_normal( plane ):
+def invert_normal(plane):
     """Flips the normal of the plane.
 
     The plane is **not** changed in place.
@@ -99,7 +92,7 @@ def invert_normal( plane ):
     # flip the normal, and the distance
     return -plane
 
-def position( plane ):
+def position(plane):
     """Extracts the position vector from a plane.
 
     This will be a vector co-incident with the plane's normal.
@@ -108,13 +101,13 @@ def position( plane ):
     :rtype: numpy.array
     :return: A valid position that lies on the plane.
     """
-    return plane[ :3 ] * plane[ 3 ]
+    return plane[:3] * plane[3]
 
-def normal( plane ):
+def normal(plane):
     """Extracts the normal vector from a plane.
 
     :param numpy.array plane: The plane.
     :rtype: numpy.array
     :return: The normal vector of the plane.
     """
-    return plane[ :3 ].copy()
+    return plane[:3].copy()

@@ -2,7 +2,7 @@
 """Provide functions for the manipulation of integers.
 """
 
-def count_bits( int_type ):
+def count_bits(int_type):
     """Counts the number of bits set to 1 in an integer.
 
     For example::

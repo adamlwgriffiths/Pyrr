@@ -8,7 +8,7 @@ from pyrr.utils import all_parameters_as_numpy_arrays, parameters_as_numpy_array
 
 
 @all_parameters_as_numpy_arrays
-def normalise( vec ):
+def normalise(vec):
     """Normalises an Nd list of vectors or a single vector
     to unit length.
 
@@ -39,11 +39,11 @@ def normalise( vec ):
     )
 
     # repeat the value for each value of the vector
-    lengths = lengths.repeat( vec.shape[-1] ).reshape( vec.shape )
+    lengths = lengths.repeat(vec.shape[-1]).reshape(vec.shape)
 
     return vec / lengths
 
-def squared_length( vec ):
+def squared_length(vec):
     """Calculates the squared length of a vector.
 
     Useful when trying to avoid the performance
@@ -54,12 +54,12 @@ def squared_length( vec ):
         Otherwise the result will be an array of scalars with shape
         vec.ndim with the last dimension being size 1.
     """
-    lengths = numpy.sum( vec ** 2, axis = -1 )
+    lengths = numpy.sum(vec ** 2, axis=-1)
 
     return lengths
 
 @all_parameters_as_numpy_arrays
-def length( vec ):
+def length(vec):
     """Returns the length of an Nd list of vectors
     or a single vector.
 
@@ -93,8 +93,8 @@ def length( vec ):
         return lengths.item()
     return lengths
 
-@parameters_as_numpy_arrays( 'vec' )
-def set_length( vec, len ):
+@parameters_as_numpy_arrays('vec')
+def set_length(vec, len):
     """Resizes an Nd list of vectors or a single vector to 'length'.
 
     The vector is **not** changed in place.
@@ -123,11 +123,11 @@ def set_length( vec, len ):
     )
 
     # repeat the value for each value of the vector
-    lengths = lengths.repeat( vec.shape[-1] ).reshape( vec.shape )
+    lengths = lengths.repeat(vec.shape[-1]).reshape(vec.shape)
 
-    return vec / (lengths * (1.0 / len) )
+    return vec / (lengths * (1.0 / len))
 
-def dot( v1, v2 ):
+def dot(v1, v2):
     """Calculates the dot product of two vectors.
 
     :param numpy.array v1: an Nd array with the final dimension
@@ -138,9 +138,9 @@ def dot( v1, v2 ):
         Otherwise the result will be an array of scalars with shape
         vec.ndim with the last dimension being size 1.
     """
-    return numpy.sum( v1 * v2, axis = -1 )
+    return numpy.sum(v1 * v2, axis=-1)
 
-def cross( v1, v2 ):
+def cross(v1, v2):
     """Calculates the cross-product of two vectors.
 
     :param numpy.array v1: an Nd array with the final dimension
@@ -149,9 +149,9 @@ def cross( v1, v2 ):
         being size 3. (a vector)
     :rtype: A numpy.array with shape v1.shape.
     """
-    return numpy.cross( v1, v2 )
+    return numpy.cross(v1, v2)
 
-def interpolate( v1, v2, delta ):
+def interpolate(v1, v2, delta):
     """Interpolates between 2 arrays of vectors (shape = N,3)
     by the specified delta (0.0 <= delta <= 1.0).
 
@@ -182,7 +182,7 @@ def interpolate( v1, v2, delta ):
     delta_t = t1 - t0
     return (t1 - t) / delta_t * v1 + (t - t0) / delta_t * v2
 
-def generate_normals( v1, v2, v3, normalise_result = True ):
+def generate_normals(v1, v2, v3, normalise_result=True):
     """Generates a normal vector for 3 vertices.
 
     The result is a normalised vector.
@@ -225,7 +225,7 @@ def generate_normals( v1, v2, v3, normalise_result = True ):
     # we assume opengl counter-clockwise ordering
     a = v1 - v2
     b = v3 - v2
-    n = cross( b, a )
+    n = cross(b, a)
     if normalise_result:
-        normalise( n )
+        normalise(n)
     return n

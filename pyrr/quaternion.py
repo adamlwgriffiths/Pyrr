@@ -24,30 +24,30 @@ class index:
     w = 3
 
 
-def create( x, y, z, w, dtype=None ):
-    return numpy.array( [ x, y, z, w ], dtype = dtype )
+def create(x, y, z, w, dtype=None):
+    return numpy.array([ x, y, z, w ], dtype = dtype)
 
-def create_identity( dtype=None ):
-    return vector4.create_identity( dtype )
+def create_identity(dtype=None):
+    return vector4.create_identity(dtype)
 
-def create_from_x_rotation( theta, dtype=None ):
+def create_from_x_rotation(theta, dtype=None):
     thetaOver2 = theta * 0.5
 
     return numpy.array(
         [
             # x
-            math.sin( thetaOver2 ),
+            math.sin(thetaOver2),
             # y
             0.0,
             # z
             0.0,
             # w
-            math.cos( thetaOver2 )
+            math.cos(thetaOver2)
         ],
         dtype=dtype
     )
 
-def create_from_y_rotation( theta, dtype=None ):
+def create_from_y_rotation(theta, dtype=None):
     thetaOver2 = theta * 0.5
 
     return numpy.array(
@@ -55,16 +55,16 @@ def create_from_y_rotation( theta, dtype=None ):
             # x
             0.0,
             # y
-            math.sin( thetaOver2 ),
+            math.sin(thetaOver2),
             # z
             0.0,
             # w
-            math.cos( thetaOver2 )
+            math.cos(thetaOver2)
         ],
         dtype=dtype
     )
 
-def create_from_z_rotation( theta, dtype=None ):
+def create_from_z_rotation(theta, dtype=None):
     thetaOver2 = theta * 0.5
 
     return numpy.array(
@@ -74,39 +74,39 @@ def create_from_z_rotation( theta, dtype=None ):
             # y
             0.0,
             # z
-            math.sin( thetaOver2 ),
+            math.sin(thetaOver2),
             # w
-            math.cos( thetaOver2 )
+            math.cos(thetaOver2)
         ],
         dtype=dtype
     )
 
 @parameters_as_numpy_arrays('axis')
-def create_from_axis_rotation( axis, theta, dtype=None ):
+def create_from_axis_rotation(axis, theta, dtype=None):
     # make sure the vector is normalised
     dtype = dtype or axis.dtype
 
-    assert (numpy.linalg.norm( axis, ord = None ) - 1.0) < 0.01
+    assert (numpy.linalg.norm(axis, ord = None) - 1.0) < 0.01
     
     thetaOver2 = theta * 0.5
-    sinThetaOver2 = math.sin( thetaOver2 )
+    sinThetaOver2 = math.sin(thetaOver2)
     
     return numpy.array(
         [
             # x
-            axis[ 0 ] * sinThetaOver2,
+            axis[0] * sinThetaOver2,
             # y
-            axis[ 1 ] * sinThetaOver2,
+            axis[1] * sinThetaOver2,
             # z
-            axis[ 2 ] * sinThetaOver2,
+            axis[2] * sinThetaOver2,
             # w
-            math.cos( thetaOver2 )
+            math.cos(thetaOver2)
         ],
         dtype=dtype
     )
 
 @parameters_as_numpy_arrays('eulers')
-def create_from_eulers( eulers, dtype=None ):
+def create_from_eulers(eulers, dtype=None):
     """Creates a quaternion from a set of Euler angles.
 
     Eulers are an array of length 3 in the following order::
@@ -114,17 +114,17 @@ def create_from_eulers( eulers, dtype=None ):
     """
     dtype = dtype or eulers.dtype
 
-    halfYaw = eulers[ 0 ] * 0.5
-    sinYaw = math.sin( halfYaw )
-    cosYaw = math.cos( halfYaw )
+    halfYaw = eulers[0] * 0.5
+    sinYaw = math.sin(halfYaw)
+    cosYaw = math.cos(halfYaw)
 
-    halfPitch = eulers[ 1 ] * 0.5
-    sinPitch = math.sin( halfPitch )
-    cosPitch = math.cos( halfPitch )
+    halfPitch = eulers[1] * 0.5
+    sinPitch = math.sin(halfPitch)
+    cosPitch = math.cos(halfPitch)
 
-    halfRoll = eulers[ 2 ] * 0.5
-    sinRoll = math.sin( halfRoll )
-    cosRoll = math.cos( halfRoll )
+    halfRoll = eulers[2] * 0.5
+    sinRoll = math.sin(halfRoll)
+    cosRoll = math.cos(halfRoll)
     
     return numpy.array(
         [
@@ -141,7 +141,7 @@ def create_from_eulers( eulers, dtype=None ):
     )
 
 @parameters_as_numpy_arrays('axis')
-def create_from_inverse_of_eulers( eulers, dtype=None ):
+def create_from_inverse_of_eulers(eulers, dtype=None):
     """Creates a quaternion from the inverse of a set of Euler angles.
 
     Eulers are an array of length 3 in the following order::
@@ -149,17 +149,17 @@ def create_from_inverse_of_eulers( eulers, dtype=None ):
     """
     dtype = dtype or eulers.dtype
 
-    halfYaw = eulers[ 0 ] * 0.5
-    sinYaw = math.sin( halfYaw )
-    cosYaw = math.cos( halfYaw )
+    halfYaw = eulers[0] * 0.5
+    sinYaw = math.sin(halfYaw)
+    cosYaw = math.cos(halfYaw)
 
-    halfPitch = eulers[ 1 ] * 0.5
-    sinPitch = math.sin( halfPitch )
-    cosPitch = math.cos( halfPitch )
+    halfPitch = eulers[1] * 0.5
+    sinPitch = math.sin(halfPitch)
+    cosPitch = math.cos(halfPitch)
     
-    halfRoll = eulers[ 2 ] * 0.5
-    sinRoll = math.sin( halfRoll )
-    cosRoll = math.cos( halfRoll )
+    halfRoll = eulers[2] * 0.5
+    sinRoll = math.sin(halfRoll)
+    cosRoll = math.cos(halfRoll)
     
     return numpy.array(
         [
@@ -176,7 +176,7 @@ def create_from_inverse_of_eulers( eulers, dtype=None ):
     )
 
 @all_parameters_as_numpy_arrays
-def cross( quat1, quat2 ):
+def cross(quat1, quat2):
     """Returns the cross-product of the two quaternions.
 
     Quaternions are **not** communicative. Therefore, order is important.
@@ -201,16 +201,16 @@ def cross( quat1, quat2 ):
         dtype=quat1.dtype
     )
 
-def is_zero_length( quat ):
+def is_zero_length(quat):
     """Checks if a quaternion is zero length.
 
     :param numpy.array quat: The quaternion to check.
     :rtype: boolean.
     :return: True if the quaternion is zero length, otherwise False.
     """
-    return quat[ 0 ] == quat[ 1 ] == quat[ 2 ] == quat[ 3 ] == 0.0
+    return quat[0] == quat[1] == quat[2] == quat[3] == 0.0
 
-def is_non_zero_length( quat ):
+def is_non_zero_length(quat):
     """Checks if a quaternion is not zero length.
 
     This is the opposite to 'is_zero_length'.
@@ -222,9 +222,9 @@ def is_non_zero_length( quat ):
 
     .. seealso:: is_zero_length
     """
-    return not is_zero_length( quat )
+    return not is_zero_length(quat)
 
-def squared_length( quat ):
+def squared_length(quat):
     """Calculates the squared length of a quaternion.
 
     Useful for avoiding the performanc penalty of
@@ -236,9 +236,9 @@ def squared_length( quat ):
         Otherwise the result will be an array of scalars with shape
         vec.ndim with the last dimension being size 1.
     """
-    return vector.squared_length( quat )
+    return vector.squared_length(quat)
 
-def length( quat ):
+def length(quat):
     """Calculates the length of a quaternion.
     
     :param numpy.array quat: The quaternion to measure.
@@ -247,9 +247,9 @@ def length( quat ):
         Otherwise the result will be an array of scalars with shape
         vec.ndim with the last dimension being size 1.
     """
-    return vector.length( quat )
+    return vector.length(quat)
 
-def normalise( quat ):
+def normalise(quat):
     """Ensure a quaternion is unit length (length ~= 1.0).
 
     The quaternion is **not** changed in place.
@@ -258,9 +258,9 @@ def normalise( quat ):
     :rtype: numpy.array
     :return: The normalised quaternion(s).
     """
-    return vector.normalise( quat )
+    return vector.normalise(quat)
 
-def get_rotation_angle( quat ):
+def get_rotation_angle(quat):
     """Calculates the rotation around the quaternion's axis.
 
     :param numpy.array quat: The quaternion.
@@ -268,11 +268,11 @@ def get_rotation_angle( quat ):
     :return: The quaternion's rotation about the its axis in radians.
     """
     # extract the W component
-    thetaOver2 = math.acos( quat[ 3 ] )
+    thetaOver2 = math.acos(quat[3])
     return thetaOver2 * 2.0
 
 @all_parameters_as_numpy_arrays
-def get_rotation_axis( quat ):
+def get_rotation_axis(quat):
     """Calculates the axis of the quaternion's rotation.
 
     :param numpy.array quat: The quaternion.
@@ -280,7 +280,7 @@ def get_rotation_axis( quat ):
     :return: The quaternion's rotation axis.
     """
     # extract W component
-    sinThetaOver2Sq = 1.0 - (quat[ 3 ] ** 2)
+    sinThetaOver2Sq = 1.0 - (quat[3] ** 2)
     
     if sinThetaOver2Sq <= 0.0:
         # assert here for the time being
@@ -290,22 +290,22 @@ def get_rotation_axis( quat ):
         # identity quaternion or numerical imprecision.
         # return a valid vector
         # we'll treat -Z as the default
-        out[:] = [ 0.0, 0.0, -1.0 ]
+        out[:] = [0.0, 0.0, -1.0]
         return out
     
-    oneOverSinThetaOver2 = 1.0 / math.sqrt( sinThetaOver2Sq )
+    oneOverSinThetaOver2 = 1.0 / math.sqrt(sinThetaOver2Sq)
     
     # we use the x,y,z values
     return numpy.array(
         [
-            quat[ 0 ] * oneOverSinThetaOver2,
-            quat[ 1 ] * oneOverSinThetaOver2,
-            quat[ 2 ] * oneOverSinThetaOver2
+            quat[0] * oneOverSinThetaOver2,
+            quat[1] * oneOverSinThetaOver2,
+            quat[2] * oneOverSinThetaOver2
         ],
         dtype=quat.dtype
     )
 
-def dot( quat1, quat2 ):
+def dot(quat1, quat2):
     """Calculate the dot product of quaternions.
 
     :param numpy.array quat1: The first quaternion(s).
@@ -315,10 +315,10 @@ def dot( quat1, quat2 ):
         Otherwise the result will be an array of scalars with shape
         vec.ndim with the last dimension being size 1.
     """
-    return vector.dot( quat1, quat2 )
+    return vector.dot(quat1, quat2)
 
 @all_parameters_as_numpy_arrays
-def conjugate( quat ):
+def conjugate(quat):
     """Calculates a quaternion with the opposite rotation.
 
     :param numpy.array quat: The quaternion.
@@ -329,16 +329,16 @@ def conjugate( quat ):
     # invert x,y,z and leave w as is
     return numpy.array(
         [
-            -quat[ 0 ],
-            -quat[ 1 ],
-            -quat[ 2 ],
-            quat[ 3 ]
+            -quat[0],
+            -quat[1],
+            -quat[2],
+            quat[3]
         ],
         dtype=quat.dtype
     )
 
 @parameters_as_numpy_arrays('quat')
-def power( quat, exponent ):
+def power(quat, exponent):
     """Multiplies the quaternion by the exponent.
 
     The quaternion is **not** changed in place.
@@ -350,7 +350,7 @@ def power( quat, exponent ):
         to the specified power.
     """
     # check for identify quaternion
-    if math.fabs( quat[ w ] ) > 0.9999:
+    if math.fabs(quat[index.w]) > 0.9999:
         # assert for the time being
         assert False
         print("rotation axis was identity")
@@ -358,25 +358,25 @@ def power( quat, exponent ):
         out[:] = quat
         return out
     
-    alpha = math.acos( quat[ index.w ] )
+    alpha = math.acos(quat[index.w])
     newAlpha = alpha * exponent
-    multi = math.sin( newAlpha ) / math.sin( alpha )
+    multi = math.sin(newAlpha) / math.sin(alpha)
     
     return numpy.array(
         [
             # x
-            quat[ index.x ] * multi,
+            quat[index.x] * multi,
             # y
-            quat[ index.y ] * multi,
+            quat[index.y] * multi,
             # z
-            quat[ index.z ] * multi,
+            quat[index.z] * multi,
             # w
-            math.cos( newAlpha )
+            math.cos(newAlpha)
         ],
         dtype=quat.dtype
     )
 
-def inverse( quat ):
+def inverse(quat):
     """Calculates the inverse quaternion.
 
     The inverse of a quaternion is defined as
@@ -387,9 +387,9 @@ def inverse( quat ):
     :rtype: numpy.array.
     :return: The inverse of the quaternion.
     """
-    return conjugate( quat ) / squared_length( quat )
+    return conjugate(quat) / squared_length(quat)
 
-def negate( quat ):
+def negate(quat):
     """Calculates the negated quaternion.
 
     This is essentially the quaternion * -1.0.
@@ -401,7 +401,7 @@ def negate( quat ):
     return quat * -1.0
 
 @all_parameters_as_numpy_arrays
-def apply_to_vector( quat, vec ):
+def apply_to_vector(quat, vec):
     """Rotates a vector by a quaternion.
 
     :param numpy.array quat: The quaternion.
@@ -411,33 +411,33 @@ def apply_to_vector( quat, vec ):
 
     .. seealso:: http://content.gpwiki.org/index.php/OpenGL:Tutorials:Using_Quaternions_to_represent_rotation
     """
-    def apply( quat, vec3 ):
+    def apply(quat, vec3):
         """
-        v = numpy.array( vec )
+        v = numpy.array(vec)
         return v + 2.0 * vector.cross(
             quat[:-1],
-            vector.cross( quat[:-1], v ) + (quat[-1] * v)
-            )
+            vector.cross(quat[:-1], v) + (quat[-1] * v)
+           )
         """
-        length = vector.length( vec3 )
-        vec3 = vector.normalise( vec3 )
+        length = vector.length(vec3)
+        vec3 = vector.normalise(vec3)
 
         # use the vector to create a new quaternion
         # this is basically the vector3 to vector4 conversion with W = 0
-        vec_quat = numpy.array( [ vec3[ 0 ], vec3[ 1 ], vec3[ 2 ], 0.0 ], dtype=vec.dtype )
+        vec_quat = numpy.array([vec3[0], vec3[1], vec3[2], 0.0], dtype=vec.dtype)
 
         # quat * vec * quat^-1
-        result = cross( quat, cross( vec_quat, conjugate( quat ) ) )
-        return result[ :-1 ] * length
+        result = cross(quat, cross(vec_quat, conjugate(quat)))
+        return result[:-1] * length
 
     if vec.size == 3:
         # convert to vector4
         # ignore w component
-        return apply( quat, vec )
+        return apply(quat, vec)
     elif vec.size == 4:
-        vec3 = vector3.create_from_vector4( vec )
-        vec3 = apply( quat, vec3 )
-        return vector4.create_from_vector3( vec3 )
+        vec3 = vector3.create_from_vector4(vec)
+        vec3 = apply(quat, vec3)
+        return vector4.create_from_vector3(vec3)
     else:
-        raise ValueError( "Vector size unsupported" )
+        raise ValueError("Vector size unsupported")
 

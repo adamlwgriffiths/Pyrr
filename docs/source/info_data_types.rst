@@ -32,11 +32,11 @@ Data conversion functions are provided in the module of the type being converted
 For example::
 
     # module matrix44.py
-    def create_from_matrix33( mat ) :
+    def create_from_matrix33(mat) :
         pass
 
-    def create_from_eulers( eulers ):
+    def create_from_eulers(eulers):
         pass
 
-    def create_from_quaternion( quat ):
+    def create_from_quaternion(quat):
         pass

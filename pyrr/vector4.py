@@ -5,24 +5,25 @@ import numpy
 from pyrr.utils import parameters_as_numpy_arrays
 
 
-def create_identity( dtype=None ):
-    return numpy.array( [ 0.0, 0.0, 0.0, 1.0 ], dtype=dtype )
+def create_identity(dtype=None):
+    return numpy.array([0.0, 0.0, 0.0, 1.0], dtype=dtype)
 
-def create_unit_length_x( dtype=None ):
-    return numpy.array( [ 1.0, 0.0, 0.0, 1.0 ], dtype=dtype )
+def create_unit_length_x(dtype=None):
+    return numpy.array([1.0, 0.0, 0.0, 1.0], dtype=dtype)
 
-def create_unit_length_y( dtype=None ):
-    return numpy.array( [ 0.0, 1.0, 0.0, 1.0 ], dtype=dtype )
+def create_unit_length_y(dtype=None):
+    return numpy.array([0.0, 1.0, 0.0, 1.0], dtype=dtype)
 
-def create_unit_length_z( dtype=None ):
-    return numpy.array( [ 0.0, 0.0, 1.0, 1.0 ], dtype=dtype )
+def create_unit_length_z(dtype=None):
+    return numpy.array([0.0, 0.0, 1.0, 1.0], dtype=dtype)
 
 @parameters_as_numpy_arrays('vector')
-def create_from_vector3( vector, dtype=None ):
-    return numpy.array( [ vec[0], vec[1], vec[2], 1.0 ], dtype=dtype or vector.dtype )
+def create_from_vector3(vector, dtype=None):
+    dtype = dtype or vector.dtype
+    return numpy.array([vec[0], vec[1], vec[2], 1.0], dtype=dtype)
 
-def create_from_matrix44_translation( mat ):
-    return mat[ 3, 0:4 ].copy()
+def create_from_matrix44_translation(mat):
+    return mat[3, 0:4].copy()
 
 
 class index:

@@ -41,17 +41,17 @@ def create_zeros(dtype=None):
     return numpy.zeroes( (2,3), dtype=dtype )
 
 @parameters_as_numpy_arrays('min', 'max')
-def create_from_bounds( min, max, dtype=None ):
+def create_from_bounds(min, max, dtype=None):
     """Creates an AAMBB using the specified minimum
     and maximum values.
     """
     dtype = dtype or min.dtype
     # stack our bounds together and add them as points
-    bounds = numpy.vstack( min, max )
-    return create_from_points( bounds, dtype )
+    bounds = numpy.vstack(min, max)
+    return create_from_points(bounds, dtype)
 
 @parameters_as_numpy_arrays('points')
-def create_from_points( points, dtype=None ):
+def create_from_points(points, dtype=None):
     """Creates an AAMBB from the list of specified points.
 
     Points must be a 2D list. Ie::
@@ -63,13 +63,13 @@ def create_from_points( points, dtype=None ):
     dtype = dtype or points.dtype
 
     # convert any negative values to positive
-    abs_points = numpy.absolute( points )
+    abs_points = numpy.absolute(points)
 
     # extract the maximum extent as a vector
-    vec = numpy.amax( abs_points, axis = 0 )
+    vec = numpy.amax(abs_points, axis=0)
 
     # find the length of this vector
-    length = vector.length( vec )
+    length = vector.length(vec)
 
     # our AAMBB extends from +length to -length
     # in all directions
@@ -82,7 +82,7 @@ def create_from_points( points, dtype=None ):
     )
 
 @all_parameters_as_numpy_arrays
-def create_from_aabbs( bbs, dtype=None ):
+def create_from_aabbs(bbs, dtype=None):
     """Creates an AAMBB from a list of existing AABBs.
 
     AABBs must be a 2D list. Ie::
@@ -93,11 +93,12 @@ def create_from_aabbs( bbs, dtype=None ):
     """
     dtype = dtype or bbs.dtype
     # reshape the AABBs as a series of points
-    points = bbs.reshape( (-1, 3 ) )
+    points = bbs.reshape((-1, 3))
 
-    return create_from_points( points, dtype=dtype )
+    return create_from_points(points, dtype=dtype)
 
-def add_points( bb, points ):
+@parameters_as_numpy_arrays('bb')
+def add_points(bb, points):
     """Extends an AAMBB to encompass a list
     of points.
 
@@ -107,16 +108,16 @@ def add_points( bb, points ):
     the AAMBB will create an even bigger AAMBB.
     """
     # add our AABB to the list of points
-    values = numpy.vstack( points, bb[ 0 ], bb[ 1 ] )
+    values = numpy.vstack(points, bb[0], bb[1])
 
     # convert any negative values to positive
-    abs_points = numpy.absolute( values )
+    abs_points = numpy.absolute(values)
 
     # extract the maximum extent as a vector
-    vec = numpy.amax( abs_points, axis = 0 )
+    vec = numpy.amax(abs_points, axis=0)
 
     # find the length of this vector
-    length = vector.length( vec )
+    length = vector.length(vec)
 
     # our AAMBB extends from +length to -length
     # in all directions
@@ -128,8 +129,8 @@ def add_points( bb, points ):
         dtype=bb.dtype
     )
 
-@parameters_as_numpy_arrays( 'bbs' )
-def add_aabbs( bb, bbs ):
+@parameters_as_numpy_arrays('bbs')
+def add_aabbs(bb, bbs):
     """Extend an AAMBB to encompass a list
     of other AABBs or AAMBBs.
 
@@ -139,31 +140,31 @@ def add_aabbs( bb, bbs ):
     will create an event bigger AAMBB.
     """
     # reshape the AABBs as a series of points
-    points = bbs.reshape( (-1, 3 ) )
+    points = bbs.reshape((-1, 3))
 
     # use the add_points
-    return add_points( bb, points )
+    return add_points(bb, points)
 
-def centre_point( bb ):
+def centre_point(bb):
     """Returns the centre point of the AABB.
     This should always be [0.0, 0.0, 0.0]
     """
-    return aabb.centre_point( bb )
+    return aabb.centre_point(bb)
 
-def minimum( bb ):
+def minimum(bb):
     """Returns the minimum point of the AABB.
     """
-    return aabb.minimum( bb )
+    return aabb.minimum(bb)
 
-def maximum( bb ):
+def maximum(bb):
     """Returns the maximum point of the AABB.
     """
-    return aabb.maximum( bb )
+    return aabb.maximum(bb)
 
-def clamp_points( bb, points ):
+def clamp_points(bb, points):
     """Takes a list of points and modifies them to
     fit within the AABB.
     """
     # use the same function as present in AABB
-    aabb.clamp_points( bb, points )
+    aabb.clamp_points(bb, points)
 
