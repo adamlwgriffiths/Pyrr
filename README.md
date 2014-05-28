@@ -6,20 +6,52 @@ Pyrr
 Provides 3D mathematical functions using the power of NumPy.
 
 Features:
-   * Matrix (3x3, 4x4)
-   * Quaternion
-   * Vector (3D, 4D)
-   * Plane
-   * Ray
-   * Line / Line Segment (3D)
-   * Rectangle (2D)
-   * Axis Aligned Bounding Box (AABB / AAMBB)
-   * Geometric collision / intersection testing
+    * Matrix (3x3, 4x4)
+    * Quaternion
+    * Vector (3D, 4D)
+    * Plane
+    * Ray
+    * Line / Line Segment (3D)
+    * Rectangle (2D)
+    * Axis Aligned Bounding Box (AABB / AAMBB)
+    * Geometric collision / intersection testing
 
 Documentation
 -------------
 
 [View Pyrr's documentation online](https://pyrr.readthedocs.org/en/latest/).
+
+
+Examples
+--------
+
+Maintain a rotation (quaternion) and translation (vector) and convert to a matrix
+
+    from pyrr import quaternion, matrix44, vector3
+    import numpy as np
+
+    orientation = quaternion.create_identity(dtype=np.float32)        
+    translation = vector3.create_identity(dtype=np.float32)
+    scale = vector3.create_identity(dtype=np.float32)
+
+    # translate along X by 1
+    translation += [1.0, 0.0, 0.0]
+
+    # rotate about Y by pi/2
+    rotation = quaternion.create_from_y_rotation(math.pi / 2.0, dtype=np.float32)
+    orientation = quaternion.cross(rotation, orientation)
+
+    # create a matrix
+    # start our matrix off using the scale
+    matrix = matrix44.create_from_scale(scale, dtype=np.float32)
+
+    # apply our orientation
+    orientation = matrix44.create_from_quaternion(orientation)
+    matrix = matrix44.multiply(matrix, orientation)
+
+    # apply our translation
+    translation = matrix44.create_from_translation(translation)
+    matrix = matrix44.multiply(matrix, translation)
 
 
 Installation
@@ -32,31 +64,18 @@ pip install pyrr
 
 Pyrr requires the following software:
 
-   * Python 2.6+ / 3.0+
-   * NumPy
+    * Python 2.6+ / 3.0+
+    * NumPy
 
-Source Installation
--------------------
 
-Install Pyrr
-```
-git clone git@github.com:adamlwgriffiths/Pyrr.git
-```
+Authors
+-------
 
-You can install dependencies easily by using the command:
-```
-cd Pyrr
-pip install -r pyrr/requirements.txt
-```
-
-Development
------------------------
-
-<img src="http://twistedpairdevelopment.files.wordpress.com/2010/10/twisted_pair-0086.png">
-
-Pyrr is developed by [Twisted Pair Development](http://twistedpairdevelopment.wordpress.com).
+    * [Adam Griffiths](https://github.com/adamlwgriffiths/).
+    * [Jakub Stasiak](https://github.com/jstasiak/).
 
 Contributions are welcome.
+
 
 License
 ---------------
