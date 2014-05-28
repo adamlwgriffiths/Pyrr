@@ -6,15 +6,15 @@ Pyrr
 Provides 3D mathematical functions using the power of NumPy.
 
 Features:
-    * Matrix (3x3, 4x4)
-    * Quaternion
-    * Vector (3D, 4D)
-    * Plane
-    * Ray
-    * Line / Line Segment (3D)
-    * Rectangle (2D)
-    * Axis Aligned Bounding Box (AABB / AAMBB)
-    * Geometric collision / intersection testing
+  * Matrix (3x3, 4x4)
+  * Quaternion
+  * Vector (3D, 4D)
+  * Plane
+  * Ray
+  * Line / Line Segment (3D)
+  * Rectangle (2D)
+  * Axis Aligned Bounding Box (AABB / AAMBB)
+  * Geometric collision / intersection testing
 
 Documentation
 -------------
@@ -64,15 +64,15 @@ pip install pyrr
 
 Pyrr requires the following software:
 
-    * Python 2.6+ / 3.0+
-    * NumPy
+  * Python 2.6+ / 3.0+
+  * NumPy
 
 
 Authors
 -------
 
-    * [Adam Griffiths](https://github.com/adamlwgriffiths/).
-    * [Jakub Stasiak](https://github.com/jstasiak/).
+  * [Adam Griffiths](https://github.com/adamlwgriffiths/).
+  * [Jakub Stasiak](https://github.com/jstasiak/).
 
 Contributions are welcome.
 
