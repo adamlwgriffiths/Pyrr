@@ -21,8 +21,8 @@ from pyrr.utils import all_parameters_as_numpy_arrays, parameters_as_numpy_array
 
 
 class index:
-    #: The index of the origin vector within the ray
-    origin = 0
+    #: The index of the start vector within the ray
+    position = 0
 
     #: The index of the direction vector within the ray
     direction = 1
@@ -60,7 +60,7 @@ def invert(r):
     return r2
 
 @all_parameters_as_numpy_arrays
-def start(ray):
+def position(ray):
     return ray[0].copy()
 
 @all_parameters_as_numpy_arrays
