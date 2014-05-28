@@ -43,6 +43,7 @@ def normalise(vec):
 
     return vec / lengths
 
+@all_parameters_as_numpy_arrays
 def squared_length(vec):
     """Calculates the squared length of a vector.
 
