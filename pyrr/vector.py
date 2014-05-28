@@ -153,6 +153,7 @@ def cross(v1, v2):
     """
     return numpy.cross(v1, v2)
 
+@parameters_as_numpy_arrays('v1', 'v2')
 def interpolate(v1, v2, delta):
     """Interpolates between 2 arrays of vectors (shape = N,3)
     by the specified delta (0.0 <= delta <= 1.0).
