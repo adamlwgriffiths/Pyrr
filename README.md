@@ -30,9 +30,9 @@ Maintain a rotation (quaternion) and translation (vector) and convert to a matri
     from pyrr import quaternion, matrix44, vector3
     import numpy as np
 
-    orientation = quaternion.create_identity(dtype=np.float32)        
-    translation = vector3.create_identity(dtype=np.float32)
-    scale = vector3.create_identity(dtype=np.float32)
+    orientation = quaternion.create(dtype=np.float32)        
+    translation = vector3.create(dtype=np.float32)
+    scale = vector3.create(1,1,1,dtype=np.float32)
 
     # translate along X by 1
     translation += [1.0, 0.0, 0.0]
