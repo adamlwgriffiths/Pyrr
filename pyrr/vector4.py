@@ -20,7 +20,7 @@ def create_unit_length_z(dtype=None):
 @parameters_as_numpy_arrays('vector')
 def create_from_vector3(vector, dtype=None):
     dtype = dtype or vector.dtype
-    return numpy.array([vec[0], vec[1], vec[2], 1.0], dtype=dtype)
+    return numpy.array([vector[0], vector[1], vector[2], 1.0], dtype=dtype)
 
 def create_from_matrix44_translation(mat):
     return mat[3, 0:4].copy()
