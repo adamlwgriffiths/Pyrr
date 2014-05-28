@@ -83,6 +83,36 @@ def create_from_position(position, normal, dtype=None):
     d = -numpy.sum(n * position)
     return create(n, d, dtype)
 
+def create_xy(invert=False, dtype=None):
+    """Create a plane on the XY plane, starting at the origin with +Z being
+    the up vector.
+    """
+    r = create_ray(
+        np.array([0.,0.,0.], dtype=dtype),
+        np.array([0.,0.,1.], dtype=dtype)
+    )
+    if invert:
+        r[1] *= -1
+    return r
+
+def create_xz(invert=False, dtype=None):
+    r = create_ray(
+        np.array([0.,0.,0.], dtype=dtype),
+        np.array([0.,1.,0.], dtype=dtype)
+    )
+    if invert:
+        r[1] *= -1
+    return r
+
+def create_yz(invert=False, dtype=None):
+    r = create_ray(
+        np.array([0.,0.,0.], dtype=dtype),
+        np.array([1.,0.,0.], dtype=dtype)
+    )
+    if invert:
+        r[1] *= -1
+    return r
+
 def invert_normal(plane):
     """Flips the normal of the plane.
 
