@@ -128,6 +128,7 @@ def set_length(vec, len):
 
     return vec / (lengths * (1.0 / len))
 
+@all_parameters_as_numpy_arrays
 def dot(v1, v2):
     """Calculates the dot product of two vectors.
 
