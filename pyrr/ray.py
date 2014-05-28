@@ -59,9 +59,11 @@ def invert(r):
     r2[1] *= -1
     return r2
 
+@all_parameters_as_numpy_arrays
 def start(ray):
     return ray[0].copy()
 
+@all_parameters_as_numpy_arrays
 def direction(ray):
     return ray[1].copy()
 
