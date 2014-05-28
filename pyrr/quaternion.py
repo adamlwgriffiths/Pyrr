@@ -24,8 +24,8 @@ class index:
     w = 3
 
 
-def create(x=0, y=0, z=0, w=1, dtype=None):
-    return numpy.array([x, y, z, w], dtype = dtype)
+def create(x=0., y=0., z=0., w=1., dtype=None):
+    return numpy.array([x, y, z, w], dtype=dtype)
 
 def create_from_x_rotation(theta, dtype=None):
     thetaOver2 = theta * 0.5

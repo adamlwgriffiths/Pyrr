@@ -19,7 +19,7 @@ class index:
     yaw = 2
 
 
-def create(pitch=0, roll=0, yaw=0, dtype=None):
+def create(pitch=0., roll=0., yaw=0., dtype=None):
     """Creates an array storing the specified euler angles.
 
     Input values are in radians.

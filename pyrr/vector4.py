@@ -5,7 +5,7 @@ import numpy
 from pyrr.utils import parameters_as_numpy_arrays
 
 
-def create(x=0, y=0, z=0, w=1.0, dtype=None):
+def create(x=0., y=0., z=0., w=1.0, dtype=None):
     return numpy.array([x,y,z,w], dtype=dtype)
 
 def create_unit_length_x(dtype=None):
