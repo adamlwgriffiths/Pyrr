@@ -1,29 +1,30 @@
 # -*- coding: utf-8 -*-
 """Provides functions for creating and manipulating 3D vectors.
 """
-import numpy
-from pyrr.utils import parameters_as_numpy_arrays
+from __future__ import absolute_import, division, print_function, unicode_literals
+import numpy as np
+from .utils import parameters_as_numpy_arrays
 
 
 def create(x=0., y=0., z=0., dtype=None):
-    return numpy.array([x,y,z], dtype=dtype)
+    return np.array([x,y,z], dtype=dtype)
 
 def create_unit_length_x(dtype=None):
-    return numpy.array([1.0, 0.0, 0.0], dtype=dtype)
+    return np.array([1.0, 0.0, 0.0], dtype=dtype)
 
 def create_unit_length_y(dtype=None):
-    return numpy.array([0.0, 1.0, 0.0], dtype=dtype)
+    return np.array([0.0, 1.0, 0.0], dtype=dtype)
 
 def create_unit_length_z(dtype=None):
-    return numpy.array([0.0, 0.0, 1.0], dtype=dtype)
+    return np.array([0.0, 0.0, 1.0], dtype=dtype)
 
 @parameters_as_numpy_arrays('vector')
 def create_from_vector4(vector, dtype=None):
     dtype = dtype or vector.dtype
-    return numpy.array(vector[:-1], dtype=dtype)
+    return np.array(vector[:3], dtype=dtype)
 
 def create_from_matrix44_translation(mat):
-    return mat[3, 0:3].copy()
+    return mat[3, :3].copy()
 
 
 class index:

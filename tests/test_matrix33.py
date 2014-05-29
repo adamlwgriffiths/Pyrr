@@ -1,31 +1,61 @@
 import unittest
-import math
-
-import numpy
-from numpy.testing import assert_array_almost_equal
-
+import numpy as np
 from pyrr import matrix33
-from pyrr import quaternion
-from pyrr import vector3
 
 
-class test_matrix33( unittest.TestCase ):
+class test_matrix33(unittest.TestCase):
+    # use wolfram alpha to get information on quaternion conversion values
+    # be aware that wolfram lists it as w,x,y,z
+    def test_create_from_quaternion_unit(self):
+        result = matrix33.create_from_quaternion([0.,0.,0.,1.])
+        np.testing.assert_almost_equal(result, np.eye(3), decimal=5)
+        self.assertTrue(result.dtype == np.float)
 
-    def setUp( self ):
-        pass
+    def test_create_from_quaternion_x(self):
+        result = matrix33.create_from_quaternion([1.,0.,0.,0.])
+        expected = [
+            [1.,0.,0.],
+            [0.,-1.,0.],
+            [0.,0.,-1.],
+        ]
+        np.testing.assert_almost_equal(result, expected, decimal=5)
+        self.assertTrue(result.dtype == np.float)
 
-    def tearDown( self ):
-        pass
+    def test_create_from_quaternion_y(self):
+        result = matrix33.create_from_quaternion([0.,1.,0.,0.])
+        expected = [
+            [-1.,0.,0.],
+            [0.,1.,0.],
+            [0.,0.,-1.],
+        ]
+        np.testing.assert_almost_equal(result, expected, decimal=5)
+        self.assertTrue(result.dtype == np.float)
 
+    def test_create_from_quaternion_z(self):
+        result = matrix33.create_from_quaternion([0.,0.,1.,0.])
+        expected = [
+            [-1.,0.,0.],
+            [0.,-1.,0.],
+            [0.,0.,1.],
+        ]
+        np.testing.assert_almost_equal(result, expected, decimal=5)
+        self.assertTrue(result.dtype == np.float)
+
+    def test_create_from_quaternion_rotation(self):
+        result = matrix33.create_from_quaternion([.57735,.57735,.57735,0.])
+        expected = [
+            [-0.333333, 0.666667, 0.666667],
+            [0.666667, -0.333333, 0.666667],
+            [0.666667, 0.666667, -0.333333],
+        ]
+        np.testing.assert_almost_equal(result, expected, decimal=5)
+        self.assertTrue(result.dtype == np.float)
+
+    """
     def test_create_identity( self ):
         result = matrix33.create_identity()
-
-        expected = numpy.eye( 3 )
-
-        self.assertTrue(
-            numpy.array_equal( result, expected ),
-            "Matrix44 identity incorrect"
-            )
+        np.testing.assert_almost_equal(result, numpy.eye(3), decimal=5)
+        self.assertTrue(result.dtype == np.float)
 
     def test_create_from_xyz_rotation( self ):
         angle = math.pi / 2.0
@@ -173,6 +203,7 @@ class test_matrix33( unittest.TestCase ):
                 "Matrix33 apply_to_vector incorrect with rotation about Y"
                 )
         rotated_z()
+    """
 
 if __name__ == '__main__':
     unittest.main()

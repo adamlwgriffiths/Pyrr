@@ -3,11 +3,9 @@
 various forms data types.
 """
 from __future__ import absolute_import, division, print_function, unicode_literals
-
-import numpy
-
-from pyrr import ray, rectangle, vector, plane
-from pyrr.utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays
+import numpy as np
+from . import ray, rectangle, vector, plane
+from .utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays
 
 """
 TODO: line_intersect_plane
@@ -30,7 +28,7 @@ def point_intersect_line(point, line):
     cross = vector.cross(rl, rp)
 
     # check if the cross product is zero
-    if numpy.count_nonzero(cross) > 0:
+    if np.count_nonzero(cross) > 0:
         return None
     return point
 
@@ -51,7 +49,7 @@ def point_intersect_line_segment(point, line):
     dot = vector.dot(rp, rl)
     squared_length = vector.squared_length(rl)
 
-    if numpy.count_nonzero(cross) > 0:
+    if np.count_nonzero(cross) > 0:
         return None
 
     if \
@@ -216,7 +214,7 @@ def vector_parallel_vector(v1, v2):
     # we cross product the 2 vectors
     # if the result is 0, then they are parallel
     cross = vector.cross(v1, v2)
-    return 0 == numpy.count_nonzero(cross)
+    return 0 == np.count_nonzero(cross)
     
 @all_parameters_as_numpy_arrays
 def ray_parallel_ray(ray1, ray2):
@@ -253,7 +251,7 @@ def ray_coincident_ray(ray1, ray2):
         # if the cross product is zero, the start of the
         # second ray is in line with the direction of the
         # first ray
-        if numpy.count_nonzero(cross) > 0:
+        if np.count_nonzero(cross) > 0:
             return False
 
         return True
@@ -277,9 +275,9 @@ def ray_intersect_aabb(ray, aabb):
     # so where the ray direction value is 0.0, just use infinity
     # which is what we want anyway
     direction = ray[1]
-    dir_fraction = numpy.empty(3, dtype = ray.dtype)
-    dir_fraction[direction == 0.0] = numpy.inf
-    dir_fraction[direction != 0.0] = numpy.divide(1.0, direction[direction != 0.0])
+    dir_fraction = np.empty(3, dtype = ray.dtype)
+    dir_fraction[direction == 0.0] = np.inf
+    dir_fraction[direction != 0.0] = np.divide(1.0, direction[direction != 0.0])
 
     t1 = (aabb[0,0] - ray[0,0]) * dir_fraction[ 0 ]
     t2 = (aabb[1,0] - ray[0,0]) * dir_fraction[ 0 ]
@@ -326,7 +324,7 @@ def point_height_above_plane(point, plane):
     Therefore, we can ignore the division all together.
     Just perform Pn . [XYZ1]
     """
-    return numpy.dot(plane, [point[0], point[1], point[2], 1.0])
+    return np.dot(plane, [point[0], point[1], point[2], 1.0])
 
 @all_parameters_as_numpy_arrays
 def point_closest_point_on_plane(point, plane):
@@ -348,8 +346,8 @@ def point_closest_point_on_plane(point, plane):
     """
     n = plane[:3]
     p = n * plane[3]
-    d = numpy.dot(p, n)
-    qn = numpy.dot(point, n)
+    d = np.dot(p, n)
+    qn = np.dot(point, n)
     return point + (n * (d - qn))
 
 @all_parameters_as_numpy_arrays

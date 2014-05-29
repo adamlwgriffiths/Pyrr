@@ -2,9 +2,8 @@
 """Common Vector manipulation functions.
 """
 from __future__ import absolute_import, division, print_function, unicode_literals
-
-import numpy
-from pyrr.utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays
+import numpy as np
+from .utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays
 
 
 @all_parameters_as_numpy_arrays
@@ -25,15 +24,15 @@ def normalise(vec):
             numpy.array([
                 [x1, y1, z1],
                 [x2, y2, z2]
-                ]).
+            ]).
 
     :rtype: A numpy.array the normalised value
     """
     # calculate the length
     # this is a duplicate of length(vec) because we
     # always want an array, even a 0-d array.
-    lengths = numpy.apply_along_axis(
-        numpy.linalg.norm,
+    lengths = np.apply_along_axis(
+        np.linalg.norm,
         vec.ndim - 1,
         vec
     )
@@ -55,7 +54,7 @@ def squared_length(vec):
         Otherwise the result will be an array of scalars with shape
         vec.ndim with the last dimension being size 1.
     """
-    lengths = numpy.sum(vec ** 2, axis=-1)
+    lengths = np.sum(vec ** 2, axis=-1)
 
     return lengths
 
@@ -76,14 +75,14 @@ def length(vec):
             numpy.array([
                 [x1, y1, z1],
                 [x2, y2, z2]
-                ]).
+            ]).
 
     :rtype: If a 1d array was passed, it will be a scalar.
         Otherwise the result will be an array of scalars with shape
         vec.ndim with the last dimension being size 1.
     """
-    lengths = numpy.apply_along_axis(
-        numpy.linalg.norm,
+    lengths = np.apply_along_axis(
+        np.linalg.norm,
         vec.ndim - 1,
         vec
     )
@@ -110,15 +109,15 @@ def set_length(vec, len):
             numpy.array([
                 [x1, y1, z1],
                 [x2, y2, z2]
-                ]).
+            ]).
 
     :rtype: A numpy.array of shape vec.shape.
     """
     # calculate the length
     # this is a duplicate of length(vec) because we
     # always want an array, even a 0-d array.
-    lengths = numpy.apply_along_axis(
-        numpy.linalg.norm,
+    lengths = np.apply_along_axis(
+        np.linalg.norm,
         vec.ndim - 1,
         vec
     )
@@ -140,7 +139,7 @@ def dot(v1, v2):
         Otherwise the result will be an array of scalars with shape
         vec.ndim with the last dimension being size 1.
     """
-    return numpy.sum(v1 * v2, axis=-1)
+    return np.sum(v1 * v2, axis=-1)
 
 def cross(v1, v2):
     """Calculates the cross-product of two vectors.
@@ -149,9 +148,9 @@ def cross(v1, v2):
         being size 3. (a vector)
     :param numpy.array v2: an Nd array with the final dimension
         being size 3. (a vector)
-    :rtype: A numpy.array with shape v1.shape.
+    :rtype: A np.array with shape v1.shape.
     """
-    return numpy.cross(v1, v2)
+    return np.cross(v1, v2)
 
 @parameters_as_numpy_arrays('v1', 'v2')
 def interpolate(v1, v2, delta):

@@ -3,8 +3,7 @@
 """
 import inspect
 from functools import wraps
-
-import numpy
+import numpy as np
 
 
 def all_parameters_as_numpy_arrays(fn):
@@ -19,10 +18,10 @@ def all_parameters_as_numpy_arrays(fn):
         args = list(args)
         for i, v in enumerate(args):
             if v is not None:
-                args[i] = numpy.array(v)
+                args[i] = np.array(v)
         for k,v in kwargs.items():
             if v is not None:
-                kwargs[k] = numpy.array(v)
+                kwargs[k] = np.array(v)
         return fn(*args, **kwargs)
     return wrapper
 
@@ -58,12 +57,12 @@ def parameters_as_numpy_arrays(*args_to_convert):
             args = list(args)
             for i, (k, v) in enumerate(zip(fn_args.args, args)):
                 if k in args_to_convert and v is not None:
-                    args[i] = numpy.array(v)
+                    args[i] = np.array(v)
 
             # convert the **kwargs dict
             for k,v in kwargs.items():
                 if k in args_to_convert and v is not None:
-                    kwargs[k] = numpy.array(v)
+                    kwargs[k] = np.array(v)
 
             # pass the converted values to our function
             return fn(*args, **kwargs)

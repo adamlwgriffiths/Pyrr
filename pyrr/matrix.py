@@ -6,8 +6,9 @@ into OpenGL.
 To convert to column-major format, transpose the array using the
 numpy.array.T method.
 """
-import numpy
-from pyrr.utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays
+from __future__ import absolute_import, division, print_function, unicode_literals
+import numpy as np
+from .utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays
 
 
 @parameters_as_numpy_arrays('vectors')
@@ -55,7 +56,7 @@ def apply_direction_scale(vectors, direction, scale):
     k is the scaling factor
     """
     scaleMinus1 = scale - 1
-    matrix = numpy.array(
+    matrix = np.array(
         [
             # m1
             [
@@ -88,7 +89,7 @@ def apply_direction_scale(vectors, direction, scale):
         dtype=vectors.dtype
     )
     
-    return numpy.dot(vectors, matrix)
+    return np.dot(vectors, matrix)
 
 @parameters_as_numpy_arrays('vectors')
 def apply_scale(vectors, scale):
@@ -108,7 +109,7 @@ def apply_scale(vectors, scale):
     :return: The vectors scaled by the scaling vector.
     """
     # create a scaling matrix
-    matrix = numpy.array(
+    matrix = np.array(
         [
             [scale[0], 0.0, 0.0],
             [0.0, scale[1], 0.0],
@@ -116,5 +117,5 @@ def apply_scale(vectors, scale):
         ],
         dtype=vectors.dtype
     )
-    return numpy.dot(vectors, matrix)
+    return np.dot(vectors, matrix)
 

@@ -1,5 +1,7 @@
+# -*- coding: utf-8 -*-
 """Provide functions for the trigonometric functions.
 """
+from __future__ import absolute_import, division, print_function, unicode_literals
 import math
 
 
@@ -33,7 +35,7 @@ def calculate_zoom(fov, height=1.0):
     :raise ZeroDivisionError: Raised if the fov is
         0.0.
     """
-    return height / math.tan(fov / 2.0)
+    return float(height) / math.tan(fov / 2.0)
 
 def calculate_height(fov, zoom):
     """Performs the opposite of calculate_fov.

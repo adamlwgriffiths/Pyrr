@@ -1,6 +1,8 @@
+# -*- coding: utf-8 -*-
 """Geometry functions.
 """
-import numpy
+from __future__ import absolute_import, division, print_function, unicode_literals
+import numpy as np
 
 
 def create_quad(scale=(1.0,1.0), st=False, rgba=False, dtype='float32', type='triangles'):
@@ -118,7 +120,7 @@ def create_quad(scale=(1.0,1.0), st=False, rgba=False, dtype='float32', type='tr
     width /= 2.0
     height /= 2.0
 
-    vertices = numpy.array([
+    vertices = np.array([
         # top right
         ( width, height, 0.0,),
         # top left
@@ -134,7 +136,7 @@ def create_quad(scale=(1.0,1.0), st=False, rgba=False, dtype='float32', type='tr
 
     if st:
         # default st values
-        st_values = numpy.array([
+        st_values = np.array([
             (1.0, 1.0,),
             (0.0, 1.0,),
             (0.0, 0.0,),
@@ -145,8 +147,8 @@ def create_quad(scale=(1.0,1.0), st=False, rgba=False, dtype='float32', type='tr
             pass
         elif isinstance(st, (int, float)):
             st_values *= st
-        elif isinstance(st, (list, tuple, numpy.ndarray)):
-            st = numpy.array(st, dtype=dtype)
+        elif isinstance(st, (list, tuple, np.ndarray)):
+            st = np.array(st, dtype=dtype)
             if st.shape == (2,2,):
                 # min / max
                 st_values *= st[1] - st[0]
@@ -164,18 +166,18 @@ def create_quad(scale=(1.0,1.0), st=False, rgba=False, dtype='float32', type='tr
 
     if rgba:
         # default rgba values
-        rgba_values = numpy.tile(numpy.array([1.0, 1.0, 1.0, 1.0], dtype=dtype), (4,1,))
+        rgba_values = np.tile(np.array([1.0, 1.0, 1.0, 1.0], dtype=dtype), (4,1,))
 
         if isinstance(rgba, bool):
             pass
         elif isinstance(rgba, (int, float)):
             # int / float expands to RGBA with all values == value
             rgba_values *= rgba 
-        elif isinstance(rgba, (list, tuple, numpy.ndarray)):
-            rgba = numpy.array(rgba, dtype=dtype)
+        elif isinstance(rgba, (list, tuple, np.ndarray)):
+            rgba = np.array(rgba, dtype=dtype)
 
             if rgba.shape == (3,):
-                rgba_values = numpy.tile(rgba, (4,1,))
+                rgba_values = np.tile(rgba, (4,1,))
             elif rgba.shape == (4,):
                 rgba_values[:] = rgba
             elif rgba.shape == (4,3,):
@@ -189,7 +191,7 @@ def create_quad(scale=(1.0,1.0), st=False, rgba=False, dtype='float32', type='tr
 
         shape[-1] += rgba_values.shape[-1]
 
-    data = numpy.empty(shape, dtype=dtype)
+    data = np.empty(shape, dtype=dtype)
     data[:,:3] = vertices
     if st_values != None:
         data[:,3:5] = st_values
@@ -200,17 +202,17 @@ def create_quad(scale=(1.0,1.0), st=False, rgba=False, dtype='float32', type='tr
         # counter clockwise
         # top right -> top left -> bottom left
         # top right -> bottom left -> bottom right
-        indices = numpy.array([0, 1, 2, 0, 2, 3])
+        indices = np.array([0, 1, 2, 0, 2, 3])
     elif type == 'triangle_strip':
         # verify
-        indices = numpy.arange(len(data))
+        indices = np.arange(len(data))
     elif type == 'triangle_fan':
         # verify
-        indices = numpy.arange(len(data))
+        indices = np.arange(len(data))
     elif type == 'quads':
-        indices = numpy.arange(len(data))
+        indices = np.arange(len(data))
     elif type == 'quad_strip':
-        indices = numpy.arange(len(data))
+        indices = np.arange(len(data))
     else:
         raise ValueError('Unknown type')
 
@@ -364,7 +366,7 @@ def create_cube(scale=(1.0,1.0,1.0), st=False, rgba=False, dtype='float32', type
     height /= 2.0
     depth /= 2.0
 
-    vertices = numpy.array([
+    vertices = np.array([
         # front
         # top right
         ( width, height, depth,),
@@ -431,8 +433,8 @@ def create_cube(scale=(1.0,1.0,1.0), st=False, rgba=False, dtype='float32', type
 
     if st:
         # default st values
-        st_values = numpy.tile(
-            numpy.array([
+        st_values = np.tile(
+            np.array([
                 (1.0, 1.0,),
                 (0.0, 1.0,),
                 (0.0, 0.0,),
@@ -445,15 +447,15 @@ def create_cube(scale=(1.0,1.0,1.0), st=False, rgba=False, dtype='float32', type
             pass
         elif isinstance(st, (int, float)):
             st_values *= st
-        elif isinstance(st, (list, tuple, numpy.ndarray)):
-            st = numpy.array(st, dtype=dtype)
+        elif isinstance(st, (list, tuple, np.ndarray)):
+            st = np.array(st, dtype=dtype)
             if st.shape == (2,2,):
                 # min / max
                 st_values *= st[1] - st[0]
                 st_values += st[0]
             elif st.shape == (4,2,):
                 # per face st values specified manually
-                st_values[:] = numpy.tile(st, (6,1,))
+                st_values[:] = np.tile(st, (6,1,))
             elif st.shape == (6,2,):
                 # st values specified manually
                 st_values[:] = st
@@ -467,28 +469,28 @@ def create_cube(scale=(1.0,1.0,1.0), st=False, rgba=False, dtype='float32', type
 
     if rgba:
         # default rgba values
-        rgba_values = numpy.tile(numpy.array([1.0, 1.0, 1.0, 1.0], dtype=dtype), (24,1,))
+        rgba_values = np.tile(np.array([1.0, 1.0, 1.0, 1.0], dtype=dtype), (24,1,))
 
         if isinstance(rgba, bool):
             pass
         elif isinstance(rgba, (int, float)):
             # int / float expands to RGBA with all values == value
             rgba_values *= rgba 
-        elif isinstance(rgba, (list, tuple, numpy.ndarray)):
-            rgba = numpy.array(rgba, dtype=dtype)
+        elif isinstance(rgba, (list, tuple, np.ndarray)):
+            rgba = np.array(rgba, dtype=dtype)
 
             if rgba.shape == (3,):
-                rgba_values = numpy.tile(rgba, (24,1,))
+                rgba_values = np.tile(rgba, (24,1,))
             elif rgba.shape == (4,):
-                rgba_values[:] = numpy.tile(rgba, (24,1,))
+                rgba_values[:] = np.tile(rgba, (24,1,))
             elif rgba.shape == (4,3,):
-                rgba_values = numpy.tile(rgba, (6,1,))
+                rgba_values = np.tile(rgba, (6,1,))
             elif rgba.shape == (4,4,):
-                rgba_values = numpy.tile(rgba, (6,1,))
+                rgba_values = np.tile(rgba, (6,1,))
             elif rgba.shape == (6,3,):
-                rgba_values = numpy.repeat(rgba, 4, axis=0)
+                rgba_values = np.repeat(rgba, 4, axis=0)
             elif rgba.shape == (6,4,):
-                rgba_values = numpy.repeat(rgba, 4, axis=0)
+                rgba_values = np.repeat(rgba, 4, axis=0)
             elif rgba.shape == (24,3,):
                 rgba_values = rgba
             elif rgba.shape == (24,4,):
@@ -500,7 +502,7 @@ def create_cube(scale=(1.0,1.0,1.0), st=False, rgba=False, dtype='float32', type
 
         shape[-1] += rgba_values.shape[-1]
 
-    data = numpy.empty(shape, dtype=dtype)
+    data = np.empty(shape, dtype=dtype)
     data[:,:3] = vertices
     if st_values != None:
         data[:,3:5] = st_values
@@ -511,7 +513,7 @@ def create_cube(scale=(1.0,1.0,1.0), st=False, rgba=False, dtype='float32', type
         # counter clockwise
         # top right -> top left -> bottom left
         # top right -> bottom left -> bottom right
-        indices = numpy.tile(numpy.array([0, 1, 2, 0, 2, 3], dtype='int'), (6,1))
+        indices = np.tile(np.array([0, 1, 2, 0, 2, 3], dtype='int'), (6,1))
         for face in range(6):
             indices[face] += (face * 4)
         indices.shape = (-1,)

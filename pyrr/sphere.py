@@ -7,10 +7,9 @@ The first three values are the sphere's position.
 The fourth value is the sphere's radius.
 """
 from __future__ import absolute_import, division, print_function, unicode_literals
+import numpy as np
+from .utils import all_parameters_as_numpy_arrays
 
-import numpy
-
-from pyrr.utils import all_parameters_as_numpy_arrays
 
 @all_parameters_as_numpy_arrays
 def create_from_points(points, dtype=None):
@@ -23,8 +22,8 @@ def create_from_points(points, dtype=None):
     dtype = dtype or points.dtype
     # calculate the lengths of all the points
     # use squared length to save processing
-    lengths = numpy.apply_along_axis(
-        numpy.sum,
+    lengths = np.apply_along_axis(
+        np.sum,
         points.ndim - 1,
         points**2
     )
@@ -33,8 +32,8 @@ def create_from_points(points, dtype=None):
     maximum = lengths.max()
 
     # square root this, this is the radius
-    radius = numpy.sqrt(maximum)
-    return numpy.array([0.0, 0.0, 0.0, radius], dtype=dtype)
+    radius = np.sqrt(maximum)
+    return np.array([0.0, 0.0, 0.0, radius], dtype=dtype)
 
 @all_parameters_as_numpy_arrays
 def position(sphere):

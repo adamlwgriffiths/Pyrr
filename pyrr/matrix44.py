@@ -7,12 +7,9 @@ To convert to column-major format, transpose the array using the
 numpy.array.T method.
 """
 from __future__ import absolute_import, division, print_function, unicode_literals
-import math
-
-import numpy
-
-from pyrr import matrix33
-from pyrr.utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays
+import numpy as np
+from . import matrix33
+from .utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays
 
 
 def create_identity(dtype=None):
@@ -22,7 +19,7 @@ def create_identity(dtype=None):
     :rtype: numpy.array
     :return: A matrix representing an identity matrix with shape (4,4).
     """
-    return numpy.identity(4, dtype = dtype)
+    return np.identity(4, dtype = dtype)
 
 def create_from_matrix33(mat, dtype=None):
     """Creates a Matrix44 from a Matrix33.
@@ -32,7 +29,7 @@ def create_from_matrix33(mat, dtype=None):
     :rtype: numpy.array
     :return: A matrix with shape (4,4) with the input matrix rotation.
     """
-    mat4 = numpy.identity(4, dtype = dtype)
+    mat4 = np.identity(4, dtype = dtype)
     mat4[0:3, 0:3] = mat
     return mat4
 
@@ -47,6 +44,7 @@ def create_matrix33_view(mat):
     """
     return mat[0:3, 0:3]
 
+@parameters_as_numpy_arrays('quat')
 def create_from_eulers(eulers, dtype=None):
     """Creates a matrix from the specified Euler rotations.
 
@@ -55,7 +53,7 @@ def create_from_eulers(eulers, dtype=None):
     :rtype: numpy.array
     :return: A matrix with shape (4,4) with the euler's rotation.
     """
-    dtype = dtype or quat.dtype
+    dtype = dtype or eulers.dtype
     # set to identity matrix
     # this will populate our extra rows for us
     mat = create_identity(dtype)
@@ -65,6 +63,7 @@ def create_from_eulers(eulers, dtype=None):
     mat[0:3, 0:3] = matrix33.create_from_eulers(eulers, mat33, dtype)
     return mat
 
+@parameters_as_numpy_arrays('quat')
 def create_from_quaternion(quat, dtype=None):
     """Creates a matrix with the same rotation as a quaternion.
 
@@ -125,7 +124,7 @@ def create_from_scale(scale, dtype=None):
     """
     # we need to expand 'scale' into it's components
     # because numpy isn't flattening them properly.
-    m = numpy.diagflat([scale[0], scale[1], scale[2], 1.0])
+    m = np.diagflat([scale[0], scale[1], scale[2], 1.0])
     if dtype:
         m = m.astype(dtype)
     return m
@@ -188,15 +187,15 @@ def apply_to_vector(mat, vec):
     """
     if vec.size == 3:
         # convert to a vec4
-        vec4 = numpy.array([vec[0], vec[1], vec[2], 1.0], dtype=vec.dtype)
-        vec4 = numpy.dot(vec4, mat)
+        vec4 = np.array([vec[0], vec[1], vec[2], 1.0], dtype=vec.dtype)
+        vec4 = np.dot(vec4, mat)
 
         # handle W value
         if vec4[-1] != 0.0:
             vec4 /= vec4[-1]
         return vec4[:-1]
     elif vec.size == 4:
-        return numpy.dot(vec, mat)
+        return np.dot(vec, mat)
     else:
         raise ValueError("Vector size unsupported")
 
@@ -217,7 +216,7 @@ def multiply(m1, m2, out = None):
     if out == m1 or out == m2:
         raise ValueError("Output must not be one of the inputs, use assignment instead")
 
-    return numpy.dot(m1, m2, out=out)
+    return np.dot(m1, m2, out=out)
 
 def create_perspective_projection_matrix(fovy, aspect, near, far, dtype=None):
     '''
@@ -233,12 +232,12 @@ def create_perspective_projection_matrix(fovy, aspect, near, far, dtype=None):
     :return: A projection matrix representing the specified perpective.
     '''
 
-    f = 1.0 / math.tan(math.radians(fovy / 2.0))
+    f = 1.0 / np.tan(np.radians(fovy / 2.0))
     A = f / aspect
     B = 1.0 * (near + far) / (near - far)
     C = (2.0 * near * far) / (near - far)
 
-    return numpy.array((
+    return np.array((
         (A, 0, 0, 0),
         (0, f, 0, 0),
         (0, 0, B,-1),
@@ -294,7 +293,7 @@ def create_perspective_projection_matrix_from_bounds(
     E = 2.0 * near / (right - left)
     F = 2.0 * near / (top - bottom)
 
-    return numpy.array(
+    return np.array(
         [
             [   E, 0.0, 0.0, 0.0 ],
             [ 0.0,   F, 0.0, 0.0 ],
@@ -343,7 +342,7 @@ def create_orthogonal_projection_matrix(
     B = 2 / (top - bottom)
     C = -2 / (far - near)
 
-    return numpy.array(
+    return np.array(
         [
             [   A, 0.0, 0.0, 0.0 ],
             [ 0.0,   B, 0.0, 0.0 ],
@@ -364,4 +363,4 @@ def inverse(m):
 
     .. seealso:: http://docs.scipy.org/doc/numpy/reference/generated/numpy.linalg.inv.html
     """
-    return numpy.linalg.inv(m)
+    return np.linalg.inv(m)

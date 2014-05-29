@@ -11,12 +11,9 @@ The fourth value is the distance of the plane from the origin, down the normal.
 .. seealso: http://mathworld.wolfram.com/Plane.html
 """
 from __future__ import absolute_import, division, print_function, unicode_literals
-
-import numpy
-import numpy.linalg
-
-from pyrr import vector
-from pyrr.utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays
+import numpy as np
+from . import vector
+from .utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays
 
 
 def create(normal=None, distance=0.0, dtype=None):
@@ -29,7 +26,7 @@ def create(normal=None, distance=0.0, dtype=None):
     """
     if normal is None:
         normal = [0.0, 0.0, 1.0]
-    return numpy.array([normal[0], normal[1], normal[2], distance], dtype=dtype)
+    return np.array([normal[0], normal[1], normal[2], distance], dtype=dtype)
 
 @parameters_as_numpy_arrays('vector1', 'vector2', 'vector3')
 def create_from_points(vector1, vector2, vector3, dtype=None):
@@ -58,8 +55,8 @@ def create_from_points(vector1, vector2, vector3, dtype=None):
     relV2 = vector3 - vector2
     
     # cross our relative vectors
-    normal = numpy.cross(relV1, relV2)
-    if numpy.count_nonzero(normal) == 0:
+    normal = np.cross(relV1, relV2)
+    if np.count_nonzero(normal) == 0:
         raise ValueError("Vectors are co-incident")
     
     # create our plane
@@ -80,7 +77,7 @@ def create_from_position(position, normal, dtype=None):
     dtype = dtype or position.dtype
     # -d = a * px  + b * py + c * pz
     n = vector.normalise(normal)
-    d = -numpy.sum(n * position)
+    d = -np.sum(n * position)
     return create(n, d, dtype)
 
 def create_xy(invert=False, dtype=None):

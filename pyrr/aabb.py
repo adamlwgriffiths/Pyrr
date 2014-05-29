@@ -19,10 +19,8 @@ It is up to the user to either:
 TODO: add transform( matrix )
 """
 from __future__ import absolute_import, division, print_function, unicode_literals
-
-import numpy
-
-from pyrr.utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays
+import numpy as np
+from .utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays
 
 
 class index:
@@ -34,7 +32,7 @@ class index:
 
 
 def create_zeros(dtype=None):
-    return numpy.zeroes((2,3), dtype=dtype)
+    return np.zeroes((2,3), dtype=dtype)
 
 @parameters_as_numpy_arrays('min', 'max')
 def create_from_bounds(min, max, dtype=None):
@@ -42,7 +40,7 @@ def create_from_bounds(min, max, dtype=None):
     and maximum values.
     """
     dtype = dtype or min.dtype
-    return numpy.array([min, max], dtype=dtype)
+    return np.array([min, max], dtype=dtype)
 
 @parameters_as_numpy_arrays('points')
 def create_from_points(points, dtype=None):
@@ -55,10 +53,10 @@ def create_from_points(points, dtype=None):
             ])
     """
     dtype = dtype or points.dtype
-    return numpy.array(
+    return np.array(
         [
-            numpy.amin(points, axis=0),
-            numpy.amax(points, axis=0)
+            np.amin(points, axis=0),
+            np.amax(points, axis=0)
         ],
         dtype=dtype
     )
@@ -85,14 +83,14 @@ def add_points(aabb, points):
     of points.
     """
     # find the minimum and maximum point values
-    minimum = numpy.amin(points, axis=0)
-    maximum = numpy.amax(points, axis=0)
+    minimum = np.amin(points, axis=0)
+    maximum = np.amax(points, axis=0)
 
     # compare to existing AABB
-    return numpy.array(
+    return np.array(
         [
-            numpy.minimum(aabb[0], minimum),
-            numpy.maximum(aabb[1], maximum)
+            np.minimum(aabb[0], minimum),
+            np.maximum(aabb[1], maximum)
         ],
         dtype=aabb.dtype
     )
@@ -163,8 +161,8 @@ def clamp_points(aabb, points):
             (0, aabb[1].itemsize)
         )
 
-    return numpy.array(
-        [numpy.maximum(points, aabb_min), numpy.minimum(points, aabb_max)],
+    return np.array(
+        [np.maximum(points, aabb_min), np.minimum(points, aabb_max)],
         dtype=aabb.dtype
     )
 

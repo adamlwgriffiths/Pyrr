@@ -1,22 +1,59 @@
 import unittest
-import math
-
-import numpy
-
-from pyrr import matrix33
+import numpy as np
 from pyrr import matrix44
-from pyrr import quaternion
-from pyrr import vector3
 
 
-class test_matrix44( unittest.TestCase ):
+class test_matrix44(unittest.TestCase):
+    def test_create_from_quaternion_unit(self):
+        result = matrix44.create_from_quaternion([0.,0.,0.,1.])
+        np.testing.assert_almost_equal(result, np.eye(4), decimal=5)
+        self.assertTrue(result.dtype == np.float)
 
-    def setUp( self ):
-        pass
+    def test_create_from_quaternion_x(self):
+        result = matrix44.create_from_quaternion([1.,0.,0.,0.])
+        expected = [
+            [1.,0.,0.,0.],
+            [0.,-1.,0.,0.],
+            [0.,0.,-1.,0.],
+            [0.,0.,0.,1.],
+        ]
+        np.testing.assert_almost_equal(result, expected, decimal=5)
+        self.assertTrue(result.dtype == np.float)
 
-    def tearDown( self ):
-        pass
+    def test_create_from_quaternion_y(self):
+        result = matrix44.create_from_quaternion([0.,1.,0.,0.])
+        expected = [
+            [-1.,0.,0.,0.],
+            [0.,1.,0.,0.],
+            [0.,0.,-1.,0.],
+            [0.,0.,0.,1.],
+        ]
+        np.testing.assert_almost_equal(result, expected, decimal=5)
+        self.assertTrue(result.dtype == np.float)
 
+    def test_create_from_quaternion_z(self):
+        result = matrix44.create_from_quaternion([0.,0.,1.,0.])
+        expected = [
+            [-1.,0.,0.,0.],
+            [0.,-1.,0.,0.],
+            [0.,0.,1.,0.],
+            [0.,0.,0.,1.],
+        ]
+        np.testing.assert_almost_equal(result, expected, decimal=5)
+        self.assertTrue(result.dtype == np.float)
+
+    def test_create_from_quaternion_rotation(self):
+        result = matrix44.create_from_quaternion([.57735,.57735,.57735,0.])
+        expected = [
+            [-0.333333, 0.666667, 0.666667,0.],
+            [0.666667, -0.333333, 0.666667,0.],
+            [0.666667, 0.666667, -0.333333,0.],
+            [0.,0.,0.,1.],
+        ]
+        np.testing.assert_almost_equal(result, expected, decimal=5)
+        self.assertTrue(result.dtype == np.float)
+
+    """
     def test_create_identity( self ):
         result = matrix44.create_identity()
 
@@ -226,6 +263,7 @@ class test_matrix44( unittest.TestCase ):
                 "Matrix44 apply_to_vector incorrect with translation"
                 )
         translation()
+    """
     
 if __name__ == '__main__':
     unittest.main()
