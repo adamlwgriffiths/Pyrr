@@ -66,6 +66,7 @@ class test_quaternion(unittest.TestCase):
         np.testing.assert_almost_equal(result, [0.,0.,1.,0.], decimal=5)
         self.assertTrue(result.dtype == np.float)
 
+    """
     @unittest.skip('Not implemented')
     def test_create_from_eulers(self):
         pass
@@ -77,6 +78,7 @@ class test_quaternion(unittest.TestCase):
     @unittest.skip('Not implemented')
     def test_cross(self):
         pass
+    """
 
     def test_is_zero_length(self):
         result = quaternion.is_zero_length([1.,0.,0.,0.])
@@ -188,9 +190,11 @@ class test_quaternion(unittest.TestCase):
         result = quaternion.conjugate([5.77350000e-01, 5.77350000e-01, 5.77350000e-01, 6.12323400e-17])
         np.testing.assert_almost_equal(result, [-0.57735, -0.57735, -0.57735, 6.12323e-17], decimal=5)
 
+    """
     @unittest.skip('Not implemented')
     def test_power(self):
         pass
+    """
 
     def test_inverse(self):
         result = quaternion.inverse([0.,0.,0.,1.])
