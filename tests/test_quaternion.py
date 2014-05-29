@@ -30,8 +30,9 @@ class test_quaternion(unittest.TestCase):
         self.assertTrue(result.dtype == np.float)
 
     def test_create_from_axis_rotation_non_normalised(self):
-        with self.assertRaises(ValueError):
-            quaternion.create_from_axis_rotation([1.,2.,3.,4.], 1.)
+        result = quaternion.create_from_axis_rotation([1.,1.,1.], np.pi)
+        np.testing.assert_almost_equal(result, [5.77350000e-01, 5.77350000e-01, 5.77350000e-01, 6.12323400e-17], decimal=3)
+        self.assertTrue(result.dtype == np.float)
 
     def test_create_from_matrix_unit(self):
         result = quaternion.create_from_matrix(np.eye(3))
