@@ -3,7 +3,7 @@
 """
 from __future__ import absolute_import, division, print_function, unicode_literals
 import numpy as np
-from . import vector, vector3, vector4
+from . import vector3, vector4
 from .utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays
 
 
@@ -68,7 +68,7 @@ def create_from_axis_rotation(axis, theta, dtype=None):
     dtype = dtype or axis.dtype
     # make sure the vector is normalised
     if not np.isclose(np.linalg.norm(axis), 1.):
-        axis = vector.normalise(axis)
+        axis = vector3.normalise(axis)
     
     thetaOver2 = theta * 0.5
     sinThetaOver2 = np.sin(thetaOver2)
@@ -240,7 +240,7 @@ def squared_length(quat):
         Otherwise the result will be an array of scalars with shape
         vec.ndim with the last dimension being size 1.
     """
-    return vector.squared_length(quat)
+    return vector4.squared_length(quat)
 
 def length(quat):
     """Calculates the length of a quaternion.
@@ -251,7 +251,7 @@ def length(quat):
         Otherwise the result will be an array of scalars with shape
         vec.ndim with the last dimension being size 1.
     """
-    return vector.length(quat)
+    return vector4.length(quat)
 
 def normalise(quat):
     """Ensure a quaternion is unit length (length ~= 1.0).
@@ -262,7 +262,7 @@ def normalise(quat):
     :rtype: numpy.array
     :return: The normalised quaternion(s).
     """
-    return vector.normalise(quat)
+    return vector4.normalise(quat)
 
 def rotation_angle(quat):
     """Calculates the rotation around the quaternion's axis.
@@ -317,7 +317,7 @@ def dot(quat1, quat2):
         Otherwise the result will be an array of scalars with shape
         vec.ndim with the last dimension being size 1.
     """
-    return vector.dot(quat1, quat2)
+    return vector4.dot(quat1, quat2)
 
 @all_parameters_as_numpy_arrays
 def conjugate(quat):
@@ -419,8 +419,8 @@ def apply_to_vector(quat, vec):
             vector.cross(quat[:-1], v) + (quat[-1] * v)
            )
         """
-        length = vector.length(vec3)
-        vec3 = vector.normalise(vec3)
+        length = vector3.length(vec3)
+        vec3 = vector3.normalise(vec3)
 
         # use the vector to create a new quaternion
         # this is basically the vector3 to vector4 conversion with W = 0

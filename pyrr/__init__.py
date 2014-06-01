@@ -13,7 +13,6 @@ __all__ = [
     'geometry',
     'integer',
     'line',
-    'matrix',
     'matrix33',
     'matrix44',
     'plane',
@@ -23,7 +22,6 @@ __all__ = [
     'sphere',
     'trig',
     'utils',
-    'vector',
     'vector3',
     'vector4',
 ]

@@ -12,7 +12,7 @@ The fourth value is the distance of the plane from the origin, down the normal.
 """
 from __future__ import absolute_import, division, print_function, unicode_literals
 import numpy as np
-from . import vector
+from . import vector3
 from .utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays
 
 
@@ -76,7 +76,7 @@ def create_from_position(position, normal, dtype=None):
     """
     dtype = dtype or position.dtype
     # -d = a * px  + b * py + c * pz
-    n = vector.normalise(normal)
+    n = vector3.normalise(normal)
     d = -np.sum(n * position)
     return create(n, d, dtype)
 

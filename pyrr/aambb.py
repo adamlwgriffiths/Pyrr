@@ -23,7 +23,7 @@ TODO: use point_within_aabb for unit tests
 """
 from __future__ import absolute_import, division, print_function, unicode_literals
 import numpy as np
-from . import aabb, vector
+from . import aabb, vector3
 from .utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays
 
 
@@ -67,7 +67,7 @@ def create_from_points(points, dtype=None):
     vec = np.amax(abs_points, axis=0)
 
     # find the length of this vector
-    length = vector.length(vec)
+    length = vector3.length(vec)
 
     # our AAMBB extends from +length to -length
     # in all directions
@@ -115,7 +115,7 @@ def add_points(bb, points):
     vec = np.amax(abs_points, axis=0)
 
     # find the length of this vector
-    length = vector.length(vec)
+    length = vector3.length(vec)
 
     # our AAMBB extends from +length to -length
     # in all directions

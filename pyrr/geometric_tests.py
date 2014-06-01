@@ -4,7 +4,7 @@ various forms data types.
 """
 from __future__ import absolute_import, division, print_function, unicode_literals
 import numpy as np
-from . import ray, rectangle, vector, plane
+from . import ray, rectangle, vector3, plane
 from .utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays
 
 """
@@ -25,7 +25,7 @@ def point_intersect_line(point, line):
     """
     rl = line[1] - line[0]
     rp = point - line[0]
-    cross = vector.cross(rl, rp)
+    cross = vector3.cross(rl, rp)
 
     # check if the cross product is zero
     if np.count_nonzero(cross) > 0:
@@ -45,9 +45,9 @@ def point_intersect_line_segment(point, line):
     """
     rl = line[1] - line[0]
     rp = point - line[0]
-    cross = vector.cross(rl, rp)
-    dot = vector.dot(rp, rl)
-    squared_length = vector.squared_length(rl)
+    cross = vector3.cross(rl, rp)
+    dot = vector3.dot(rp, rl)
+    squared_length = vector3.squared_length(rl)
 
     if np.count_nonzero(cross) > 0:
         return None
@@ -106,7 +106,7 @@ def ray_intersect_plane(ray, plane, front_only=False):
     """
     p = plane[:3] * plane[3]
     n = plane[:3]
-    rd_n = vector.dot(ray[1], n)
+    rd_n = vector3.dot(ray[1], n)
 
     if rd_n == 0.0:
         return None
@@ -115,8 +115,8 @@ def ray_intersect_plane(ray, plane, front_only=False):
         if rd_n >= 0.0:
             return None
 
-    pd = vector.dot(p, n)
-    p0_n = vector.dot(ray[0], n)
+    pd = vector3.dot(p, n)
+    p0_n = vector3.dot(ray[0], n)
     t = (pd - p0_n) / rd_n
     return ray[0] + (ray[1] * t)
 
@@ -138,9 +138,9 @@ def point_closest_point_on_ray(point, ray):
     n is the ray normal of unit length
     t is the distance along the ray to the point
     """
-    normalised_n = vector.normalise(ray[1])
+    normalised_n = vector3.normalise(ray[1])
     relative_point = (point - ray[0])
-    t = vector.dot(relative_point, normalised_n)
+    t = vector3.dot(relative_point, normalised_n)
     return ray[0] + (normalised_n * t)
 
 @all_parameters_as_numpy_arrays
@@ -166,8 +166,8 @@ def point_closest_point_on_line(point, line):
     """
     rl = line[1] - line[0]
     rp = point - line[0]
-    vector.normalise(rl)
-    dot = vector.dot(rl, rp)
+    vector3.normalise(rl)
+    dot = vector3.dot(rl, rp)
     return line[0] + (rl * dot)
 
 @all_parameters_as_numpy_arrays
@@ -186,13 +186,13 @@ def point_closest_point_on_line_segment(point, segment):
     """
     # check if the line has any length
     rl = segment[1] - segment[0]
-    squared_length = vector.squared_length(rl)
+    squared_length = vector3.squared_length(rl)
     if squared_length == 0.0:
         return segment[0]
 
     rp = point - segment[0]
     # check that / squared_length is correct
-    dot = vector.dot(rp, rl) / squared_length;
+    dot = vector3.dot(rp, rl) / squared_length;
 
     if dot < 0.0:
         return segment[0]
@@ -213,7 +213,7 @@ def vector_parallel_vector(v1, v2):
     """
     # we cross product the 2 vectors
     # if the result is 0, then they are parallel
-    cross = vector.cross(v1, v2)
+    cross = vector3.cross(v1, v2)
     return 0 == np.count_nonzero(cross)
     
 @all_parameters_as_numpy_arrays
@@ -246,7 +246,7 @@ def ray_coincident_ray(ray1, ray2):
 
         # get the cross product of the ray delta and
         # the direction of the rays
-        cross = vector.cross(delta, ray2[1])
+        cross = vector3.cross(delta, ray2[1])
 
         # if the cross product is zero, the start of the
         # second ray is in line with the direction of the
@@ -368,7 +368,7 @@ def sphere_does_intersect_sphere(s1, s2):
         Otherwise, returns False.
     """
     delta = s2[:3] - s1[:3]
-    distance_squared = vector.length_squared(delta)
+    distance_squared = vector3.length_squared(delta)
 
     radii_squared = math.pow(s1[3] + s2[3], 2.0)
 
@@ -392,7 +392,7 @@ def sphere_penetration_sphere(s1, s2):
         Will return 0.0 if the circles do not overlap.
     """
     delta = s2[:3] - s1[:3]
-    distance = vector.length(delta)
+    distance = vector3.length(delta)
 
     combined_radii = s1[3] + s2[3]
     penetration = combined_radii - distance
