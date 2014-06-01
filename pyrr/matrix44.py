@@ -187,15 +187,17 @@ def apply_to_vector(mat, vec):
     """
     if vec.size == 3:
         # convert to a vec4
-        vec4 = np.array([vec[0], vec[1], vec[2], 1.0], dtype=vec.dtype)
+        vec4 = np.array([vec[0], vec[1], vec[2], 1.], dtype=vec.dtype)
         vec4 = np.dot(vec4, mat)
-
         # handle W value
-        if vec4[-1] != 0.0:
+        if vec4[-1] != 0.:
             vec4 /= vec4[-1]
         return vec4[:-1]
     elif vec.size == 4:
-        return np.dot(vec, mat)
+        vec4 = np.dot(vec, mat)
+        if vec4[-1] != 0.:
+            vec4 /= vec4[-1]
+        return vec4
     else:
         raise ValueError("Vector size unsupported")
 
@@ -215,10 +217,10 @@ def multiply(m1, m2):
     return np.dot(m1, m2)
 
 def create_perspective_projection_matrix(fovy, aspect, near, far, dtype=None):
-    '''
-    Creates perspective projection matrix.
+    """Creates perspective projection matrix.
 
     .. seealso:: http://www.opengl.org/sdk/docs/man2/xhtml/gluPerspective.xml
+    .. seealso:: http://www.geeks3d.com/20090729/howto-perspective-projection-matrix-in-opengl/
 
     :param float fovy: field of view in y direction in degrees
     :param float aspect: aspect ratio of the view (width / height)
@@ -226,12 +228,12 @@ def create_perspective_projection_matrix(fovy, aspect, near, far, dtype=None):
     :param float far: distance from the viewer to the far clipping plane (only positive)
     :rtype: numpy.array
     :return: A projection matrix representing the specified perpective.
-    '''
-
-    f = 1.0 / np.tan(np.radians(fovy / 2.0))
+    """
+    f = 1. / np.tan(np.radians(fovy / 2.))
     A = f / aspect
-    B = (near + far) / (near - far)
-    C = (2.0 * near * far) / (near - far)
+    depth = near - far
+    B = (near + far) / depth
+    C = (2. * near * far) / depth
 
     return np.array((
         ( A, 0., 0., 0.),
@@ -285,9 +287,9 @@ def create_perspective_projection_matrix_from_bounds(
     A = (right + left) / (right - left)
     B = (top + bottom) / (top - bottom)
     C = -(far + near) / (far - near)
-    D = -2.0 * far * near / (far - near)
-    E = 2.0 * near / (right - left)
-    F = 2.0 * near / (top - bottom)
+    D = -2. * far * near / (far - near)
+    E = 2. * near / (right - left)
+    F = 2. * near / (top - bottom)
 
     return np.array((
         ( E, 0., 0., 0.),
