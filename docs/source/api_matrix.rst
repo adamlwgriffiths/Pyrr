@@ -3,13 +3,6 @@
 Matrix functions
 ****************
 
-Matrix
-======
-
-.. automodule:: pyrr.matrix
-    :members:
-    :undoc-members:
-
 .. _api_matrix33:
 
 Matrix33
