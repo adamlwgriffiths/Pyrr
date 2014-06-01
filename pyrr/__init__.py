@@ -22,6 +22,7 @@ __all__ = [
     'sphere',
     'trig',
     'utils',
+    'vector',
     'vector3',
     'vector4',
 ]
@@ -43,6 +44,7 @@ from . import (
     sphere,
     trig,
     utils,
+    vector,
     vector3,
     vector4,
 )

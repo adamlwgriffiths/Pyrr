@@ -16,7 +16,7 @@ function to function.
 """
 from __future__ import absolute_import, division, print_function, unicode_literals
 import numpy as np
-from . import vector3
+from . import vector
 from .utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays
 
 
@@ -34,7 +34,7 @@ def create(start, direction, dtype=None):
     return np.array(
         [
             start,
-            vector3.normalise(direction)
+            vector.normalise(direction)
         ],
         dtype=dtype
     )
@@ -48,7 +48,7 @@ def create_from_line(line, dtype=None):
     return np.array(
         [
             line[0],
-            vector3.normalise(line[1] - line[0])
+            vector.normalise(line[1] - line[0])
         ],
         dtype=dtype
     )

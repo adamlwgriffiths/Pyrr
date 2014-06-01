@@ -3,7 +3,7 @@
 """
 from __future__ import absolute_import, division, print_function, unicode_literals
 import numpy as np
-from . import vector3, vector4
+from . import vector, vector3, vector4
 from .utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays
 
 
@@ -68,7 +68,7 @@ def create_from_axis_rotation(axis, theta, dtype=None):
     dtype = dtype or axis.dtype
     # make sure the vector is normalised
     if not np.isclose(np.linalg.norm(axis), 1.):
-        axis = vector3.normalise(axis)
+        axis = vector.normalise(axis)
     
     thetaOver2 = theta * 0.5
     sinThetaOver2 = np.sin(thetaOver2)
@@ -419,8 +419,8 @@ def apply_to_vector(quat, vec):
             vector.cross(quat[:-1], v) + (quat[-1] * v)
            )
         """
-        length = vector3.length(vec3)
-        vec3 = vector3.normalise(vec3)
+        length = vector.length(vec3)
+        vec3 = vector.normalise(vec3)
 
         # use the vector to create a new quaternion
         # this is basically the vector3 to vector4 conversion with W = 0
@@ -435,9 +435,9 @@ def apply_to_vector(quat, vec):
         # ignore w component
         return apply(quat, vec)
     elif vec.size == 4:
-        vec3 = vector3.create_from_vector4(vec)
+        vec3 = vector.create_from_vector4(vec)
         vec3 = apply(quat, vec3)
-        return vector4.create_from_vector3(vec3)
+        return vector.create_from_vector3(vec3)
     else:
         raise ValueError("Vector size unsupported")
 

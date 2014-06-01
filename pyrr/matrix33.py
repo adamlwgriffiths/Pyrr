@@ -8,7 +8,7 @@ numpy.array.T method.
 """
 from __future__ import absolute_import, division, print_function, unicode_literals
 import numpy as np
-from . import vector3
+from . import vector
 from . import quaternion
 from .utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays
 
@@ -364,7 +364,7 @@ def create_direction_scale(direction, scale):
     k is the scaling factor
     """
     if not np.isclose(np.linalg.norm(direction), 1.):
-        vector3 = vector3.normalise(direction)
+        vector3 = vector.normalise(direction)
 
     scaleMinus1 = scale - 1.
     return np.array(

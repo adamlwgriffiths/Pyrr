@@ -3,6 +3,15 @@
 Vector functions
 ****************
 
+.. _api_vector_common:
+
+Common Vector Operations
+========================
+
+.. automodule:: pyrr.vector
+    :members:
+    :undoc-members:
+
 .. _api_vector3:
 
 Vector3

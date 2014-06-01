@@ -6,7 +6,7 @@ import numpy as np
 from .utils import parameters_as_numpy_arrays
 
 # import common vector operations
-from ._vector import *
+from .vector import *
 
 
 def create(x=0., y=0., z=0., w=1.0, dtype=None):
