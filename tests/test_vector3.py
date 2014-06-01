@@ -92,3 +92,7 @@ class test_vector3(unittest.TestCase):
         result = vector3.create_from_matrix44_translation(mat)
         np.testing.assert_almost_equal(result, [13.,14.,15.], decimal=5)
         self.assertTrue(result.dtype == np.float32)
+
+
+if __name__ == '__main__':
+    unittest.main()

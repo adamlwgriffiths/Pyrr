@@ -80,3 +80,7 @@ class test_vector4(unittest.TestCase):
         result = vector4.create_from_matrix44_translation(mat)
         np.testing.assert_almost_equal(result, [13.,14.,15.,16.], decimal=5)
         self.assertTrue(result.dtype == np.float32)
+
+
+if __name__ == '__main__':
+    unittest.main()
