@@ -199,7 +199,7 @@ def apply_to_vector(mat, vec):
     else:
         raise ValueError("Vector size unsupported")
 
-def multiply(m1, m2, out = None):
+def multiply(m1, m2):
     """Multiply two matricies, m1 . m2.
 
     This is essentially a wrapper around
@@ -212,11 +212,7 @@ def multiply(m1, m2, out = None):
     :rtype: numpy.array
     :return: A matrix that results from multiplying m1 by m2.
     """
-    # using an input as the out value will cause corruption
-    if out == m1 or out == m2:
-        raise ValueError("Output must not be one of the inputs, use assignment instead")
-
-    return np.dot(m1, m2, out=out)
+    return np.dot(m1, m2)
 
 def create_perspective_projection_matrix(fovy, aspect, near, far, dtype=None):
     '''
