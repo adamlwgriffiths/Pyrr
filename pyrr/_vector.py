@@ -54,7 +54,7 @@ def squared_length(vec):
         Otherwise the result will be an array of scalars with shape
         vec.ndim with the last dimension being size 1.
     """
-    lengths = np.sum(vec ** 2, axis=-1)
+    lengths = np.sum(vec ** 2., axis=-1)
 
     return lengths
 
