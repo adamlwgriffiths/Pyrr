@@ -3,13 +3,6 @@
 Vector functions
 ****************
 
-Vector
-======
-
-.. automodule:: pyrr.vector
-    :members:
-    :undoc-members:
-
 .. _api_vector3:
 
 Vector3
