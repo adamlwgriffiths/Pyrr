@@ -9,6 +9,7 @@ numpy.array.T method.
 from __future__ import absolute_import, division, print_function, unicode_literals
 import numpy as np
 
+from . import vector3
 from . import quaternion
 from .utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays
 
@@ -333,3 +334,85 @@ def inverse(mat):
     .. seealso:: http://docs.scipy.org/doc/numpy/reference/generated/numpy.linalg.inv.html
     """
     return np.linalg.inv(mat)
+
+def create_direction_scale(direction, scale):
+    """Creates a matrix which can apply a directional scaling to a set of vectors.
+
+    An example usage for this is to flatten a mesh against a
+    single plane.
+
+    :param numpy.array direction: a vector3 or numpy.array of shape (3,) of the direction to scale.
+    :param float scale: a float value for the scaling along the specified direction.
+        A scale of 0.0 will flatten the vertices into a single plane with the direction being the
+        plane's normal.
+    :rtype: numpy.array
+    :return: The scaling matrix.
+    """
+    """
+    scaling is defined as:
+    
+    [p'][1 + (k - 1)n.x^2, (k - 1)n.x n.y^2, (k - 1)n.x n.z   ]
+    S(n,k) = [q'][(k - 1)n.x n.y,   1 + (k - 1)n.y,   (k - 1)n.y n.z   ]
+    [r'][(k - 1)n.x n.z,   (k - 1)n.y n.z,   1 + (k - 1)n.z^2 ]
+    
+    where:
+    v' is the resulting vector after scaling
+    v is the vector to scale
+    n is the direction of the scaling
+    n.x is the x component of n
+    n.y is the y component of n
+    n.z is the z component of n
+    k is the scaling factor
+    """
+    if not np.isclose(np.linalg.norm(direction), 1.):
+        vector3 = vector3.normalise(direction)
+
+    scaleMinus1 = scale - 1.
+    return np.array(
+        [
+            # m1
+            [
+                # m11 = 1 + (k - 1)n.x^2
+                1. + scaleMinus1 * (direction[0]**2.),
+                # m12 = (k - 1)n.x n.y^2
+                scaleMinus1 * direction[0] * direction[1]**2.,
+                # m13 = (k - 1)n.x n.z
+                scaleMinus1 * direction[0] * direction[2]
+            ],
+            # m2
+            [
+                # m21 = (k - 1)n.x n.y
+                scaleMinus1 * direction[0] * direction[1],
+                # m22 = 1 + (k - 1)n.y
+                1. + scaleMinus1 * direction[1],
+                # m23 = (k - 1)n.y n.z
+                scaleMinus1 * direction[1] * direction[2]
+            ],
+            # m3
+            [
+                # m31 = (k - 1)n.x n.z
+                scaleMinus1 * direction[0] * direction[2],
+                # m32 = (k - 1)n.y n.z
+                scaleMinus1 * direction[1] * direction[2],
+                # m33 = 1 + (k - 1)n.z^2
+                1. + scaleMinus1 * direction[2]**2.
+            ]
+        ]
+    )
+
+def apply_scale(scale):
+    """Creates a scaling matrix which can apply a 3 dimensional scale to a set of vectors.
+
+    :param numpy.array scale: The scale vector to apply. Must be of shape (3,).
+    :rtype: numpy.array
+    :return: The scale matrix.
+    """
+    # create a scaling matrix
+    return np.array(
+        [
+            [scale[0], 0.0, 0.0],
+            [0.0, scale[1], 0.0],
+            [0.0, 0.0, scale[2]],
+        ],
+        dtype=vectors.dtype
+    )
