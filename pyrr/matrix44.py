@@ -230,14 +230,14 @@ def create_perspective_projection_matrix(fovy, aspect, near, far, dtype=None):
 
     f = 1.0 / np.tan(np.radians(fovy / 2.0))
     A = f / aspect
-    B = 1.0 * (near + far) / (near - far)
+    B = (near + far) / (near - far)
     C = (2.0 * near * far) / (near - far)
 
     return np.array((
-        (A, 0, 0, 0),
-        (0, f, 0, 0),
-        (0, 0, B,-1),
-        (0, 0, C, 0)
+        ( A, 0., 0., 0.),
+        (0.,  f, 0., 0.),
+        (0., 0.,  B,-1.),
+        (0., 0.,  C, 0.)
         ),
         dtype=dtype
     )
@@ -245,8 +245,8 @@ def create_perspective_projection_matrix(fovy, aspect, near, far, dtype=None):
 def create_perspective_projection_matrix_from_bounds(
     left,
     right,
-    top,
     bottom,
+    top,
     near,
     far,
     dtype=None
@@ -289,21 +289,20 @@ def create_perspective_projection_matrix_from_bounds(
     E = 2.0 * near / (right - left)
     F = 2.0 * near / (top - bottom)
 
-    return np.array(
-        [
-            [   E, 0.0, 0.0, 0.0 ],
-            [ 0.0,   F, 0.0, 0.0 ],
-            [   A,   B,   C,-1.0 ],
-            [ 0.0, 0.0,   D, 0.0 ],
-        ],
+    return np.array((
+        ( E, 0., 0., 0.),
+        (0.,  F, 0., 0.),
+        ( A,  B,  C,-1.),
+        (0., 0.,  D, 0.),
+        ),
         dtype=dtype
     )
 
 def create_orthogonal_projection_matrix(
     left,
     right,
-    top,
     bottom,
+    top,
     near,
     far,
     dtype=None
@@ -333,18 +332,28 @@ def create_orthogonal_projection_matrix(
     A = 2 / (right - left)
     B = 2 / (top - bottom)
     C = -2 / (far - near)
-    """
-    A = 2 / (right - left)
-    B = 2 / (top - bottom)
-    C = -2 / (far - near)
 
-    return np.array(
-        [
-            [   A, 0.0, 0.0, 0.0 ],
-            [ 0.0,   B, 0.0, 0.0 ],
-            [ 0.0, 0.0,   C, 0.0 ],
-            [ 0.0, 0.0, 0.0, 1.0 ],
-        ],
+    Tx = (right + left) / (right - left)
+    Ty = (top + bottom) / (top - bottom)
+    Tz = (far + near) / (far - near)
+    """
+    rml = right - left
+    tmb = top - bottom
+    fmn = far - near
+
+    A = 2. / rml
+    B = 2. / tmb
+    C = -2. / fmn
+    Tx = -(right + left) / rml
+    Ty = -(top + bottom) / tmb
+    Tz = -(far + near) / fmn
+
+    return np.array((
+        ( A, 0., 0., 0.),
+        (0.,  B, 0., 0.),
+        (0., 0.,  C, 0.),
+        (Tx, Ty, Tz, 1.),
+        ),
         dtype=dtype
     )
 
