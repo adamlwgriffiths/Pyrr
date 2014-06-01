@@ -4,6 +4,10 @@ from pyrr import matrix44
 
 
 class test_matrix44(unittest.TestCase):
+    def test_create_identity(self):
+        result = matrix44.create_identity()
+        np.testing.assert_almost_equal(result, np.eye(4), decimal=5)
+
     def test_create_from_quaternion_unit(self):
         result = matrix44.create_from_quaternion([0.,0.,0.,1.])
         np.testing.assert_almost_equal(result, np.eye(4), decimal=5)
@@ -53,217 +57,234 @@ class test_matrix44(unittest.TestCase):
         np.testing.assert_almost_equal(result, expected, decimal=5)
         self.assertTrue(result.dtype == np.float)
 
-    """
-    def test_create_identity( self ):
-        result = matrix44.create_identity()
-
-        expected = numpy.eye( 4 )
-
-        self.assertTrue(
-            numpy.array_equal( result, expected ),
-            "Matrix44 identity incorrect"
-            )
-
-    def test_perspective_projection_works_fine( self ):
-        p = matrix44.create_perspective_projection_matrix( 90, 4.0/3, 0.01, 1000 )
-
-        for point, is_inside in (
-            ( (0, 0, 1), False ),
-            ( (0, 0, 0), False ),
-            ( (0, 0, -0.02), True ),
-            ( (0, 0, -1000), True ),
-            ( (0, 1.50, -1), False ),
-            ( (0, 0, -1001), False ),
-            ( (50, 0, -0.02), False ),
-            ( (0, 50, -0.02), False ),
-                ):
-            self.check_projection_classifies_point_correctly(
-                p, numpy.array( point + ( 1, ) ), is_inside)
-
-    def check_projection_classifies_point_correctly( self, matrix, point, is_inside ):
-        transformed = matrix44.multiply( point, matrix )
-
-        # Avoid division by zero warning
-        if transformed[ 3 ] == 0:
-            assert not is_inside
-        else:
-            transformed[ 0:3 ] /= transformed[ 3 ]
-
-            max_coordinate = max( abs( c ) for c in transformed[ 0:3 ] )
-            assert is_inside == ( max_coordinate <= 1.0 )
-
-
     def test_create_from_translation( self ):
-        translation = numpy.array( [ 2.0, 3.0, 4.0 ] )
-        mat = matrix44.create_from_translation( translation )
-        result = mat[ 3, 0:3 ]
-
-        expected = translation
-
-        # translation goes down the last column in normal matrix
-        self.assertTrue(
-            numpy.array_equal( result, expected ),
-            "Matrix44 translation not set properly"
-            )
+        result = matrix44.create_from_translation([2.,3.,4.])
+        expected = np.eye(4)
+        expected[3,:3] = [2.,3.,4.]
+        np.testing.assert_almost_equal(result, expected, decimal=5)
 
     def test_create_from_scale( self ):
-        scale = numpy.array( [ 2.0, 3.0, 4.0 ] )
-
-        mat = matrix44.create_from_scale( scale )
-
-        result = mat.diagonal()[ :-1 ]
-
-        expected = scale
-
-        # extract the diagonal scale and ignore the last value
-        self.assertTrue(
-            numpy.array_equal( result, expected ),
-            "Matrix44 scale not set properly"
-            )
+        result = matrix44.create_from_scale([2.,3.,4.])
+        np.testing.assert_almost_equal(result.diagonal()[:-1], [2.,3.,4.], decimal=5)
 
     def test_create_matrix33_view( self ):
         mat = matrix44.create_identity()
-        result = matrix44.create_matrix33_view( mat )
-
-        expected = numpy.eye( 3 )
-
-        self.assertTrue(
-            numpy.array_equal( result, expected ),
-            "Matrix44 create_matrix33_view incorrect"
-            )
+        result = matrix44.create_matrix33_view(mat)
+        np.testing.assert_almost_equal(result, mat[:3,:3], decimal=5)
+        mat[0,0] = 2.
+        np.testing.assert_almost_equal(result, mat[:3,:3], decimal=5)
 
     def test_create_from_matrix33( self ):
-        mat = matrix33.create_identity()
-        result = matrix44.create_from_matrix33( mat )
+        mat = np.array([
+            [1.,2.,3.],
+            [3.,4.,5.],
+            [6.,7.,8.]
+        ])
+        result = matrix44.create_from_matrix33(mat)
+        np.testing.assert_almost_equal(result[:3,:3], mat, decimal=5)
+        orig = mat.copy()
+        mat[0,0] = 2.
+        np.testing.assert_almost_equal(result[:3,:3], orig, decimal=5)
 
-        expected = numpy.eye( 4 )
+    def test_create_perspective_projection_matrix_vector3(self):
+        m = matrix44.create_perspective_projection_matrix(90, 1024./768., 1., 10.)
 
-        self.assertTrue(
-            numpy.array_equal( result, expected ),
-            "Matrix44 create_from_matrix33 incorrect"
-            )
+        # the values will be in clip space from (-1.,-1.,-1.) -> (1.,1.,1.)
+        # to be inside = all(-1. < value < 1.)
+        for point, inside in (
+            (np.array((0.,0.,0.)), False),
+            (np.array((0.,0.,-.5)), False),
+            (np.array((0.,0.,-1.)), True),
+            (np.array((0.,0.,-2.)), True),
+            (np.array((0.,0.,-9.)), True),
+            (np.array((0.,0.,-11.)), False),
+            (np.array((1.,1.,-5.)), True),
+        ):
+            p = matrix44.apply_to_vector(m, point[:3])
 
-    def test_create_from_quaternion( self ):
-        def identity():
-            quat = quaternion.create()
-            result = matrix44.create_from_quaternion( quat )
+            # the values are now in clip space from (-1.,-1.,-1.) -> (1.,1.,1.)
+            # to be inside = all(-1. < value < 1.)
+            self.assertTrue(inside == (np.amax(np.absolute(p[:3])) <= 1.), (inside, point, p))
 
-            expected = numpy.eye( 4 )
+    def test_create_perspective_projection_matrix_vector4(self):
+        m = matrix44.create_perspective_projection_matrix(90, 1024./768., 1., 10.)
 
-            self.assertTrue(
-                numpy.array_equal( result, expected ),
-                "Matrix44 from quaternion incorrect with identity quaternion"
-                )
-        identity()
+        # the values will be in clip space from (-1.,-1.,-1.) -> (1.,1.,1.)
+        # to be inside = all(-1. < value < 1.)
+        for point, inside in (
+            (np.array((0.,0.,0.,1.)), False),
+            (np.array((0.,0.,-.5,1.)), False),
+            (np.array((0.,0.,-1.,1.)), True),
+            (np.array((0.,0.,-2.,1.)), True),
+            (np.array((0.,0.,-9.,1.)), True),
+            (np.array((0.,0.,-11.,1.)), False),
+            (np.array((1.,1.,-5.,1.)), True),
+        ):
+            p = matrix44.apply_to_vector(m, point)
+            if p[3] == 0.:
+                self.assertFalse(inside)
 
-        def rotated_x():
-            quat = quaternion.create_from_x_rotation( math.pi )
-            result = matrix44.create_from_quaternion( quat )
+            # the values are now in clip space from (-1.,-1.,-1.) -> (1.,1.,1.)
+            # to be inside = all(-1. < value < 1.)
+            self.assertTrue(inside == (np.amax(np.absolute(p[:3])) <= 1.), (inside, point, p))
 
-            expected = matrix44.create_from_x_rotation( math.pi )
+    def test_create_orthogonal_projection_matrix_vector3(self):
+        m = matrix44.create_orthogonal_projection_matrix(-1., 1., -1., 1., 1., 10.)
 
-            self.assertTrue(
-                numpy.allclose( result, expected ),
-                "Matrix44 from quaternion incorrect with PI rotation about X"
-                )
-        rotated_x()
+        for point, inside in (
+            # +Z
+            (np.array((0.,0.,0.)), False),
+            (np.array((0.,0.,1.)), False),
+            # -Z but outside near, far
+            (np.array((0.,0.,-.5)), False),
+            (np.array((0.,0.,-11.)), False),
+            (np.array((0.,0.,1.)), False),
+            # Valid
+            (np.array((0.,0.,-10.)), True),
+            (np.array((0.,0.,-1.)), True),
+            (np.array((0.,0.,-2.)), True),
+            (np.array((0.,0.,-9.)), True),
+            (np.array((-1.,-1.,-1.)), True),
+            (np.array((-1.,-1.,-10.)), True),
+            (np.array((1.,1.,-1.)), True),
+            (np.array((1.,1.,-10.)), True),
+            # Outside left, right, top, bottom
+            (np.array((1.1,1.1,-1.)), False),
+            (np.array((-1.1,-1.1,-1.)), False),
+            (np.array((1.1,1.1,-10.)), False),
+            (np.array((-1.1,-1.1,-10.)), False),
+        ):
+            p = matrix44.apply_to_vector(m, point)
 
-        def rotated_y():
-            quat = quaternion.create_from_y_rotation( math.pi )
-            result = matrix44.create_from_quaternion( quat )
+            # the values are now in clip space from (-1.,-1.,-1.) -> (1.,1.,1.)
+            # to be inside = all(-1. < value < 1.)
+            self.assertTrue(inside == (np.amax(np.absolute(p[:3])) <= 1.), (inside, point, p))
 
-            expected = matrix44.create_from_y_rotation( math.pi )
+    def test_create_orthogonal_projection_matrix_vector4(self):
+        m = matrix44.create_orthogonal_projection_matrix(-1., 1., -1., 1., 1., 10.)
 
-            self.assertTrue(
-                numpy.allclose( result, expected ),
-                "Matrix44 from quaternion incorrect with PI rotation about Y"
-                )
-        rotated_y()
+        for point, inside in (
+            # +Z
+            (np.array((0.,0.,0.,1.)), False),
+            (np.array((0.,0.,1.,1.)), False),
+            # -Z but outside near, far
+            (np.array((0.,0.,-.5,1.)), False),
+            (np.array((0.,0.,-11.,1.)), False),
+            (np.array((0.,0.,1.,1.)), False),
+            # Valid
+            (np.array((0.,0.,-10.,1.)), True),
+            (np.array((0.,0.,-1.,1.)), True),
+            (np.array((0.,0.,-2.,1.)), True),
+            (np.array((0.,0.,-9.,1.)), True),
+            (np.array((-1.,-1.,-1.,1.)), True),
+            (np.array((-1.,-1.,-10.,1.)), True),
+            (np.array((1.,1.,-1.,1.)), True),
+            (np.array((1.,1.,-10.,1.)), True),
+            # Outside left, right, top, bottom
+            (np.array((1.1,1.1,-1.,1.)), False),
+            (np.array((-1.1,-1.1,-1.,1.)), False),
+            (np.array((1.1,1.1,-10.,1.)), False),
+            (np.array((-1.1,-1.1,-10.,1.)), False),
+        ):
+            p = matrix44.apply_to_vector(m, point)
+            if p[3] == 0.:
+                self.assertFalse(inside)
 
-        def rotated_z():
-            quat = quaternion.create_from_z_rotation( math.pi )
-            result = matrix44.create_from_quaternion( quat )
+            # the values are now in clip space from (-1.,-1.,-1.) -> (1.,1.,1.)
+            # to be inside = all(-1. < value < 1.)
+            self.assertTrue(inside == (np.amax(np.absolute(p[:3])) <= 1.), (inside, point, p))
 
-            expected = matrix44.create_from_z_rotation( math.pi )
+    def create_perspective_projection_matrix_from_bounds_vector3(self):
+        m = matrix44.create_perspective_projection_matrix_from_bounds(-1.,1.,-1.,1.,1.,10.)
 
-            self.assertTrue(
-                numpy.allclose( result, expected ),
-                "Matrix44 from quaternion incorrect with PI rotation about Z"
-                )
-        rotated_z()
+        for point, inside in (
+            # +Z
+            (np.array((0.,0.,0.)), False),
+            (np.array((0.,0.,1.)), False),
+            # -Z but outside near, far
+            (np.array((0.,0.,-.5)), False),
+            (np.array((0.,0.,-11.)), False),
+            (np.array((0.,0.,1.)), False),
+            # Valid
+            (np.array((0.,0.,-10.)), True),
+            (np.array((0.,0.,-1.)), True),
+            (np.array((0.,0.,-2.)), True),
+            (np.array((0.,0.,-9.)), True),
+            (np.array((-1.,-1.,-1.)), True),
+            (np.array((-1.,-1.,-10.)), True),
+            (np.array((1.,1.,-1.)), True),
+            (np.array((1.,1.,-10.)), True),
+            # Outside left, right, top, bottom
+            (np.array((1.1,1.1,-1.)), False),
+            (np.array((-1.1,-1.1,-1.)), False),
+            (np.array((1.1,1.1,-10.)), False),
+            (np.array((-1.1,-1.1,-10.)), False),
+        ):
+            p = matrix44.apply_to_vector(m, point)
 
-    def test_apply_to_vector( self ):
-        def identity():
-            mat = matrix44.create_identity()
-            vec = vector3.unit.x
+            # the values are now in clip space from (-1.,-1.,-1.) -> (1.,1.,1.)
+            # to be inside = all(-1. < value < 1.)
+            self.assertTrue(inside == (np.amax(np.absolute(p[:3])) <= 1.), (inside, point, p))
 
-            result = matrix44.apply_to_vector( mat, vec )
+    def create_perspective_projection_matrix_from_bounds_vector4(self):
+        m = matrix44.create_perspective_projection_matrix_from_bounds(-1.,1.,-1.,1.,1.,10.)
 
-            expected = vec
+        for point, inside in (
+            # +Z
+            (np.array((0.,0.,0.,1.)), False),
+            (np.array((0.,0.,1.,1.)), False),
+            # -Z but outside near, far
+            (np.array((0.,0.,-.5,1.)), False),
+            (np.array((0.,0.,-11.,1.)), False),
+            (np.array((0.,0.,1.,1.)), False),
+            # Valid
+            (np.array((0.,0.,-10.,1.)), True),
+            (np.array((0.,0.,-1.,1.)), True),
+            (np.array((0.,0.,-2.,1.)), True),
+            (np.array((0.,0.,-9.,1.)), True),
+            (np.array((-1.,-1.,-1.,1.)), True),
+            (np.array((-1.,-1.,-10.,1.)), True),
+            (np.array((1.,1.,-1.,1.)), True),
+            (np.array((1.,1.,-10.,1.)), True),
+            # Outside left, right, top, bottom
+            (np.array((1.1,1.1,-1.,1.)), False),
+            (np.array((-1.1,-1.1,-1.,1.)), False),
+            (np.array((1.1,1.1,-10.,1.)), False),
+            (np.array((-1.1,-1.1,-10.,1.)), False),
+        ):
+            p = matrix44.apply_to_vector(m, point)
+            if p[3] == 0.:
+                self.assertFalse(inside)
 
-            self.assertTrue(
-                numpy.array_equal( result, expected ),
-                "Matrix44 apply_to_vector incorrect with identity"
-                )
-        identity()
+            # the values are now in clip space from (-1.,-1.,-1.) -> (1.,1.,1.)
+            # to be inside = all(-1. < value < 1.)
+            self.assertTrue(inside == (np.amax(np.absolute(p[:3])) <= 1.), (inside, point, p))
 
-        def rotated_x():
-            mat = matrix44.create_from_x_rotation( math.pi )
-            vec = vector3.unit.y
+    def test_apply_to_vector_identity(self):
+        mat = matrix44.create_identity()
+        result = matrix44.apply_to_vector(mat, [1.,0.,0.])
+        np.testing.assert_almost_equal(result, [1.,0.,0.], decimal=5)
 
-            result = matrix44.apply_to_vector( mat, vec )
+    def test_apply_to_vector_x_rotation(self):
+        mat = matrix44.create_from_x_rotation(np.pi)
+        result = matrix44.apply_to_vector(mat, [0.,1.,0.])
+        np.testing.assert_almost_equal(result, [0.,-1.,0.], decimal=5)
 
-            expected = -vec
+    def test_apply_to_vector_y_rotation(self):
+        mat = matrix44.create_from_y_rotation(np.pi)
+        result = matrix44.apply_to_vector(mat, [1.,0.,0.])
+        np.testing.assert_almost_equal(result, [-1.,0.,0.], decimal=5)
 
-            self.assertTrue(
-                numpy.allclose( result, expected ),
-                "Matrix44 apply_to_vector incorrect with rotation about X"
-                )
-        rotated_x()
+    def test_apply_to_vector_z_rotation(self):
+        mat = matrix44.create_from_z_rotation(np.pi)
+        result = matrix44.apply_to_vector(mat, [1.,0.,0.])
+        np.testing.assert_almost_equal(result, [-1.,0.,0.], decimal=5)
 
-        def rotated_y():
-            mat = matrix44.create_from_y_rotation( math.pi )
-            vec = vector3.unit.x
+    def test_apply_to_vector_with_translation(self):
+        mat = matrix44.create_from_translation([2.,3.,4.])
+        result = matrix44.apply_to_vector(mat, [1.,1.,1.])
+        np.testing.assert_almost_equal(result, [3.,4.,5.], decimal=5)
 
-            result = matrix44.apply_to_vector( mat, vec )
-
-            expected = -vec
-
-            self.assertTrue(
-                numpy.allclose( result, expected ),
-                "Matrix44 apply_to_vector incorrect with rotation about Y"
-                )
-        rotated_y()
-
-        def rotated_z():
-            mat = matrix44.create_from_z_rotation( math.pi )
-            vec = vector3.unit.x
-
-            result = matrix44.apply_to_vector( mat, vec )
-
-            expected = -vec
-
-            self.assertTrue(
-                numpy.allclose( result, expected ),
-                "Matrix44 apply_to_vector incorrect with rotation about Y"
-                )
-        rotated_z()
-
-        def translation():
-            mat = matrix44.create_identity()
-            vec = numpy.array([0.0, 0.0, 0.0])
-            mat[3,0:3] = [1.0, 2.0, 3.0]
-
-            result = matrix44.apply_to_vector( mat, vec )
-
-            expected = mat[3,0:3]
-
-            self.assertTrue(
-                numpy.allclose( result, expected ),
-                "Matrix44 apply_to_vector incorrect with translation"
-                )
-        translation()
-    """
     
 if __name__ == '__main__':
     unittest.main()
