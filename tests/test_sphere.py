@@ -1,8 +1,7 @@
 import unittest
-import math
 import numpy as np
 from pyrr import sphere
-from pyrr import vector
+
 
 class test_sphere( unittest.TestCase ):
     def test_create_from_points( self ):

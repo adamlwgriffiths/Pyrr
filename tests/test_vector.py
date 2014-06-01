@@ -1,5 +1,4 @@
 import unittest
-import math
 import numpy as np
 from pyrr import vector, vector3, vector4
 
