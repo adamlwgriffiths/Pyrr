@@ -44,7 +44,7 @@ def create_matrix33_view(mat):
     """
     return mat[0:3, 0:3]
 
-@parameters_as_numpy_arrays('quat')
+@parameters_as_numpy_arrays('eulers')
 def create_from_eulers(eulers, dtype=None):
     """Creates a matrix from the specified Euler rotations.
 
@@ -59,8 +59,7 @@ def create_from_eulers(eulers, dtype=None):
     mat = create_identity(dtype)
     
     # we'll use Matrix33 for our conversion
-    mat33 = mat[0:3, 0:3]
-    mat[0:3, 0:3] = matrix33.create_from_eulers(eulers, mat33, dtype)
+    mat[0:3, 0:3] = matrix33.create_from_eulers(eulers, dtype)
     return mat
 
 @parameters_as_numpy_arrays('quat')

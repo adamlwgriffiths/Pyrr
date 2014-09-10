@@ -285,6 +285,11 @@ class test_matrix44(unittest.TestCase):
         result = matrix44.apply_to_vector(mat, [1.,1.,1.])
         np.testing.assert_almost_equal(result, [3.,4.,5.], decimal=5)
 
+    def test_create_from_eulers(self):
+        # just call the function
+        # TODO: check the result
+        matrix44.create_from_eulers([1,2,3])
+
     
 if __name__ == '__main__':
     unittest.main()
