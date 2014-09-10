@@ -1,6 +1,7 @@
 import unittest
 import numpy as np
 from pyrr import matrix33
+from pyrr import quaternion
 
 
 class test_matrix33(unittest.TestCase):
@@ -48,6 +49,12 @@ class test_matrix33(unittest.TestCase):
             [0.666667, -0.333333, 0.666667],
             [0.666667, 0.666667, -0.333333],
         ]
+        np.testing.assert_almost_equal(result, expected, decimal=5)
+        self.assertTrue(result.dtype == np.float)
+
+    def test_create_from_quaternion_equivalent(self):
+        result = matrix33.create_from_quaternion(quaternion.create_from_x_rotation(0.5))
+        expected = matrix33.create_from_x_rotation(0.5)
         np.testing.assert_almost_equal(result, expected, decimal=5)
         self.assertTrue(result.dtype == np.float)
 
