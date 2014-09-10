@@ -384,7 +384,7 @@ def inverse(quat):
     :rtype: numpy.array.
     :return: The inverse of the quaternion.
     """
-    return conjugate(quat) / squared_length(quat)
+    return conjugate(quat) / length(quat)
 
 @all_parameters_as_numpy_arrays
 def negate(quat):
@@ -439,4 +439,3 @@ def apply_to_vector(quat, vec):
         return vector.create_from_vector3(vec3)
     else:
         raise ValueError("Vector size unsupported")
-

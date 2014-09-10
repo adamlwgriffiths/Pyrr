@@ -205,6 +205,12 @@ class test_quaternion(unittest.TestCase):
         result = quaternion.inverse([5.77350000e-01, 5.77350000e-01, 5.77350000e-01, 6.12323400e-17])
         np.testing.assert_almost_equal(result, [-0.577351, -0.577351, -0.577351, 6.12324e-17], decimal=5)
 
+    def test_inverse_non_unit(self):
+        q = [1,2,3,4]
+        result = quaternion.inverse(q)
+        expected = quaternion.conjugate(q) / quaternion.length(q)
+        np.testing.assert_almost_equal(result, expected, decimal=5)
+
     def test_negate_unit(self):
         result = quaternion.negate([0.,0.,0.,1.])
         np.testing.assert_almost_equal(result, [0.,0.,0.,-1.], decimal=5)
