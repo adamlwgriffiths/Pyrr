@@ -29,7 +29,7 @@ def create_from_matrix44(mat, dtype=None):
     :rtype: numpy.array
     :return: A matrix with shape (3,3) with the input matrix rotation.
     """
-    return np.array(mat[ 0:3, 0:3 ], dtype=dtype)
+    return np.array(mat[0:3,0:3], dtype=dtype)
 
 @parameters_as_numpy_arrays('eulers')
 def create_from_eulers(eulers, dtype=None):
