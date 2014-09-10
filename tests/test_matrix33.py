@@ -57,6 +57,17 @@ class test_matrix33(unittest.TestCase):
         expected = matrix33.create_from_x_rotation(0.5)
         np.testing.assert_almost_equal(result, expected, decimal=5)
         self.assertTrue(result.dtype == np.float)
+        
+    def test_inverse_equivalence(self):
+        q = [5.77350000e-01, 5.77350000e-01, 5.77350000e-01, 6.12323400e-17]
+        result = matrix33.create_from_quaternion(quaternion.inverse(q))
+        expected = matrix33.inverse(matrix33.create_from_quaternion(q))
+        np.testing.assert_almost_equal(result, expected, decimal=5)
+
+        q = quaternion.create_from_x_rotation(0.5)
+        result = matrix33.create_from_inverse_of_quaternion(q)
+        expected = matrix33.inverse(matrix33.create_from_quaternion(q))
+        np.testing.assert_almost_equal(result, expected, decimal=5)
 
     """
     def test_create_identity( self ):

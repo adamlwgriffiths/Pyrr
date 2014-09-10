@@ -192,7 +192,7 @@ def create_from_inverse_of_quaternion(quat, dtype=None):
                 # m31 = 2.0 * (q.x * q.z - q.w * q.y)
                 2.0 * (xz - wy),
                 # m32 = 2.0 * (q.y * q.z + q.w * q.x)
-                2.0 * (yz - wx),
+                2.0 * (yz + wx),
                 # m33 = 1.0 - 2.0 * (q.x * q.x + q.y * q.y)
                 1.0 - 2.0 * (x2 + y2)
             ]
