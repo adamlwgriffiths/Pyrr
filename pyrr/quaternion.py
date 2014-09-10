@@ -3,7 +3,7 @@
 """
 from __future__ import absolute_import, division, print_function, unicode_literals
 import numpy as np
-from . import vector, vector3, vector4
+from . import vector, vector4
 from .utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays
 
 
@@ -357,8 +357,7 @@ def power(quat, exponent):
         assert False
         print("rotation axis was identity")
         
-        out[:] = quat
-        return out
+        return quat
     
     alpha = np.arccos(quat[3])
     newAlpha = alpha * exponent
