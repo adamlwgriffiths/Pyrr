@@ -19,7 +19,7 @@ def create_identity(dtype=None):
     :rtype: numpy.array
     :return: A matrix representing an identity matrix with shape (4,4).
     """
-    return np.identity(4, dtype = dtype)
+    return np.identity(4, dtype=dtype)
 
 def create_from_matrix33(mat, dtype=None):
     """Creates a Matrix44 from a Matrix33.
@@ -29,7 +29,7 @@ def create_from_matrix33(mat, dtype=None):
     :rtype: numpy.array
     :return: A matrix with shape (4,4) with the input matrix rotation.
     """
-    mat4 = np.identity(4, dtype = dtype)
+    mat4 = np.identity(4, dtype=dtype)
     mat4[0:3, 0:3] = mat
     return mat4
 

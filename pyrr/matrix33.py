@@ -20,7 +20,7 @@ def create_identity(dtype=None):
     :rtype: numpy.array
     :return: A matrix representing an identity matrix with shape (3,3).
     """
-    return np.identity(3, dtype = dtype)
+    return np.identity(3, dtype=dtype)
 
 @all_parameters_as_numpy_arrays
 def create_from_matrix44(mat, dtype=None):
