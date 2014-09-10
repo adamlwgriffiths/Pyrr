@@ -398,20 +398,3 @@ def create_direction_scale(direction, scale):
             ]
         ]
     )
-
-def apply_scale(scale):
-    """Creates a scaling matrix which can apply a 3 dimensional scale to a set of vectors.
-
-    :param numpy.array scale: The scale vector to apply. Must be of shape (3,).
-    :rtype: numpy.array
-    :return: The scale matrix.
-    """
-    # create a scaling matrix
-    return np.array(
-        [
-            [scale[0], 0.0, 0.0],
-            [0.0, scale[1], 0.0],
-            [0.0, 0.0, scale[2]],
-        ],
-        dtype=vectors.dtype
-    )
