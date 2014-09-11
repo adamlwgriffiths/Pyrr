@@ -136,48 +136,48 @@ class test_object_quaternion(unittest.TestCase):
         m = Matrix33.from_x_rotation(0.5)
 
         # add
-        self.assertRaises(TypeError, lambda: q + m)
+        self.assertRaises((TypeError, ValueError), lambda: q + m)
 
         # subtract
-        self.assertRaises(TypeError, lambda: q - m)
+        self.assertRaises((TypeError, ValueError), lambda: q - m)
 
         # multiply
         self.assertTrue(np.array_equal(q * m, quaternion.cross(quaternion.create(), quaternion.create_from_matrix(matrix33.create_from_x_rotation(0.5)))))
 
         # divide
-        self.assertRaises(TypeError, lambda: q / m)
+        self.assertRaises((TypeError, ValueError), lambda: q / m)
 
     def test_operators_matrix44(self):
         q = Quaternion()
         m = Matrix44.from_x_rotation(0.5)
 
         # add
-        self.assertRaises(TypeError, lambda: q + m)
+        self.assertRaises((TypeError, ValueError), lambda: q + m)
 
         # subtract
-        self.assertRaises(TypeError, lambda: q - m)
+        self.assertRaises((TypeError, ValueError), lambda: q - m)
 
         # multiply
         self.assertTrue(np.array_equal(q * m, quaternion.cross(quaternion.create(), quaternion.create_from_matrix(matrix44.create_from_x_rotation(0.5)))))
 
         # divide
-        self.assertRaises(TypeError, lambda: q / m)
+        self.assertRaises((TypeError, ValueError), lambda: q / m)
 
     def test_operators_quaternion(self):
         q1 = Quaternion()
         q2 = Quaternion.from_x_rotation(0.5)
 
         # add
-        self.assertRaises(TypeError, lambda: q1 + q2)
+        self.assertRaises((TypeError, ValueError), lambda: q1 + q2)
 
         # subtract
-        self.assertRaises(TypeError, lambda: q1 - q2)
+        self.assertRaises((TypeError, ValueError), lambda: q1 - q2)
 
         # multiply
         self.assertTrue(np.array_equal(q1 * q2, quaternion.cross(quaternion.create(), quaternion.create_from_x_rotation(0.5))))
 
         # divide
-        self.assertRaises(TypeError, lambda: q1 / q2)
+        self.assertRaises((TypeError, ValueError), lambda: q1 / q2)
 
         # or
         self.assertTrue(np.array_equal(q1 | q2, quaternion.dot(quaternion.create(), quaternion.create_from_x_rotation(0.5))))
@@ -190,32 +190,32 @@ class test_object_quaternion(unittest.TestCase):
         v = Vector3([1.,0.,0.])
 
         # add
-        self.assertRaises(TypeError, lambda: q + v)
+        self.assertRaises((TypeError, ValueError), lambda: q + v)
 
         # subtract
-        self.assertRaises(TypeError, lambda: q - v)
+        self.assertRaises((TypeError, ValueError), lambda: q - v)
 
         # multiply
         self.assertTrue(np.array_equal(q * v, quaternion.apply_to_vector(quaternion.create_from_x_rotation(0.5), [1.,0.,0.])))
 
         # divide
-        self.assertRaises(TypeError, lambda: q / v)
+        self.assertRaises((TypeError, ValueError), lambda: q / v)
 
     def test_operators_vector4(self):
         q = Quaternion.from_x_rotation(0.5)
         v = Vector4([1.,0.,0.,1.])
 
         # add
-        self.assertRaises(TypeError, lambda: q + v)
+        self.assertRaises((TypeError, ValueError), lambda: q + v)
 
         # subtract
-        self.assertRaises(TypeError, lambda: q - v)
+        self.assertRaises((TypeError, ValueError), lambda: q - v)
 
         # multiply
         self.assertTrue(np.array_equal(q * v, quaternion.apply_to_vector(quaternion.create_from_x_rotation(0.5), [1.,0.,0.,1.])))
 
         # divide
-        self.assertRaises(TypeError, lambda: q / v)
+        self.assertRaises((TypeError, ValueError), lambda: q / v)
 
     def test_accessors(self):
         q = Quaternion(np.arange(self._size))
