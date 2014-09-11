@@ -3,8 +3,9 @@
 various forms data types.
 """
 from __future__ import absolute_import, division, print_function, unicode_literals
+import math
 import numpy as np
-from . import ray, rectangle, vector, plane
+from . import rectangle, vector
 from .utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays
 
 """
@@ -52,9 +53,7 @@ def point_intersect_line_segment(point, line):
     if np.count_nonzero(cross) > 0:
         return None
 
-    if \
-        dot < 0.0 or \
-        dot > squared_length:
+    if dot < 0.0 or dot > squared_length:
         return None
     return point
 
