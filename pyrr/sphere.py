@@ -8,10 +8,15 @@ The fourth value is the sphere's radius.
 """
 from __future__ import absolute_import, division, print_function, unicode_literals
 import numpy as np
-from .utils import all_parameters_as_numpy_arrays
+from .utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays
 
+@parameters_as_numpy_arrays('center')
+def create(center=None, radius=1.0, dtype=None):
+    if not center:
+        center = [0.,0.,0.]
+    return np.array([center[0], center[1], center[2], radius], dtype=dtype)
 
-@all_parameters_as_numpy_arrays
+@parameters_as_numpy_arrays('points')
 def create_from_points(points, dtype=None):
     """Creates a sphere centred around 0,0,0 that encompasses
     the furthest point in the provided list.
@@ -45,6 +50,7 @@ def position(sphere):
     """
     return sphere[:3].copy()
 
+@all_parameters_as_numpy_arrays
 def radius(sphere):
     """Returns the radius of the sphere.
 
