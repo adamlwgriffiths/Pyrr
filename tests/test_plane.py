@@ -1,85 +1,70 @@
 import unittest
-import math
-
-import numpy
-
+import numpy as np
 from pyrr import plane
 
-def vec_normalise( vec ):
-    x, y, z = vec
-    length = math.sqrt( x**2 + y**2 + z**2 )
-    return vec / length
+class test_plane(unittest.TestCase):
+    def test_create(self):
+        result = plane.create()
+        self.assertTrue(np.allclose(result, [0,0,1,0]))
 
+    def test_create_2(self):
+        result = plane.create([1.,0.,0.], 5.)
+        self.assertTrue(np.allclose(result, [1.,0.,0.,5.]))
 
-class test_plane( unittest.TestCase ):
+    def test_create_from_points(self):
+        vecs = np.array([
+            [ 1.0, 0.0, 0.0 ],
+            [ 0.0, 1.0, 0.0 ],
+            [ 1.0, 1.0, 0.0 ]
+        ])
+        result = plane.create_from_points(*vecs)
+        self.assertTrue(np.allclose(result, [0.,0.,1.,0.]))
 
-    def setUp( self ):
-        pass
+    def test_create_from_position(self):
+        position = np.array([1.0, 0.0, 0.0])
+        normal = np.array([0.0, 3.0, 0.0])
+        result = plane.create_from_position(position, normal)
+        self.assertTrue(np.allclose(result, [0., 1., 0., 0.]))
 
-    def tearDown( self ):
-        pass
+    def test_create_xy(self):
+        result = plane.create_xy()
+        self.assertTrue(np.allclose(result, [0., 0., 1., 0.]))
 
-    def test_create_from_points( self ):
-        def test_x_y():
-            vecs = numpy.array(
-                [
-                    [ 1.0, 0.0, 0.0 ],
-                    [ 0.0, 1.0, 0.0 ],
-                    [ 1.0, 1.0, 0.0 ]
-                    ],
-                dtype = numpy.float
-                )
-            result = plane.create_from_points(
-                vecs[ 0 ],
-                vecs[ 1 ],
-                vecs[ 2 ]
-                )
-            expected_normal = numpy.array([ 0.0, 0.0, 1.0 ])
-            expected_d = 0
+    def test_create_xy_invert_distance(self):
+        result = plane.create_xy(invert=True, distance=2.)
+        self.assertTrue(np.allclose(result, [0., 0., -1., 2.]))
 
-            self.assertTrue(
-                numpy.array_equal( result[ :3 ], expected_normal ),
-                "Plane normal incorrect"
-                )
-            self.assertTrue(
-                numpy.array_equal( result[ 3 ], expected_d ),
-                "Plane distance incorrect"
-                )
-        test_x_y()
+    def test_create_xz(self):
+        result = plane.create_xz()
+        self.assertTrue(np.allclose(result, [0., 1., 0., 0.]))
 
-    def test_create_from_position( self ):
-        position = numpy.array( [ 1.0, 0.0, 0.0 ] )
-        normal = numpy.array( [ 0.0, 3.0, 0.0 ] )
+    def test_create_xz_invert_distance(self):
+        result = plane.create_xz(invert=True, distance=2.)
+        self.assertTrue(np.allclose(result, [0., -1., 0., 2.]))
 
-        result = plane.create_from_position(
-            position,
-            normal
-            )
+    def test_create_yz(self):
+        result = plane.create_yz()
+        self.assertTrue(np.allclose(result, [1., 0., 0., 0.]))
 
-        expected_normal = numpy.array([0.0, 1.0, 0.0] )
-        expected_position = numpy.array([0.0, 0.0, 0.0] )
+    def test_create_yz_invert_distance(self):
+        result = plane.create_yz(invert=True, distance=2.)
+        self.assertTrue(np.allclose(result, [-1., 0., 0., 2.]))
 
-        self.assertTrue(
-            numpy.array_equal( result[ :3 ], expected_normal ),
-            "Plane normal incorrect"
-            )
-        self.assertTrue(
-            numpy.array_equal( plane.position(result), expected_position ),
-            "Plane position incorrect"
-            )
+    def test_invert_normal(self):
+        p = np.array([1.0, 0.0, 0.0, 1.0])
+        result = plane.invert_normal(p)
+        self.assertTrue(np.allclose(result, [-1.0, 0.0, 0.0, -1.0]))
 
-    def test_invert_normal( self ):
-        p = numpy.array( [ 1.0, 0.0, 0.0, 1.0 ] )
+    def test_position(self):
+        p = plane.create_xz(distance=5.)
+        result = plane.position(p)
+        self.assertTrue(np.allclose(result, [0.,5.,0.]))
 
-        result = plane.invert_normal( p )
+    def test_normal(self):
+        p = plane.create_xz(distance=5.)
+        result = plane.normal(p)
+        self.assertTrue(np.allclose(result, [0.,1.,0.]))
 
-        expected = numpy.array( [-1.0, 0.0, 0.0, -1.0 ] )
-
-        self.assertTrue(
-            numpy.array_equal( result, expected ),
-            "Plane normal invert incorrect"
-            )
-    
 if __name__ == '__main__':
     unittest.main()
 
