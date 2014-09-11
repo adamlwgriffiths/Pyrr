@@ -58,48 +58,48 @@ class test_object_vector3(unittest.TestCase):
         m = Matrix33.from_x_rotation(0.5)
 
         # add
-        self.assertRaises((TypeError, ValueError), lambda: v + m)
+        self.assertRaises(ValueError, lambda: v + m)
 
         # subtract
-        self.assertRaises((TypeError, ValueError), lambda: v - m)
+        self.assertRaises(ValueError, lambda: v - m)
 
         # multiply
-        self.assertRaises((TypeError, ValueError), lambda: v - m)
+        self.assertRaises(ValueError, lambda: v - m)
 
         # divide
-        self.assertRaises((TypeError, ValueError), lambda: v / m)
+        self.assertRaises(ValueError, lambda: v / m)
 
     def test_operators_matrix44(self):
         v = Vector3()
         m = Matrix44.from_x_rotation(0.5)
 
         # add
-        self.assertRaises((TypeError, ValueError), lambda: v + m)
+        self.assertRaises(ValueError, lambda: v + m)
 
         # subtract
-        self.assertRaises((TypeError, ValueError), lambda: v - m)
+        self.assertRaises(ValueError, lambda: v - m)
 
         # multiply
-        self.assertRaises((TypeError, ValueError), lambda: v * m)
+        self.assertRaises(ValueError, lambda: v * m)
 
         # divide
-        self.assertRaises((TypeError, ValueError), lambda: v / m)
+        self.assertRaises(ValueError, lambda: v / m)
 
     def test_operators_quaternion(self):
         v = Vector3()
         q = Quaternion.from_x_rotation(0.5)
 
         # add
-        self.assertRaises((TypeError, ValueError), lambda: v + q)
+        self.assertRaises(ValueError, lambda: v + q)
 
         # subtract
-        self.assertRaises((TypeError, ValueError), lambda: v - q)
+        self.assertRaises(ValueError, lambda: v - q)
 
         # multiply
-        self.assertRaises((TypeError, ValueError), lambda: v * q)
+        self.assertRaises(ValueError, lambda: v * q)
 
         # divide
-        self.assertRaises((TypeError, ValueError), lambda: v / q)
+        self.assertRaises(ValueError, lambda: v / q)
 
     def test_operators_vector3(self):
         v1 = Vector3()

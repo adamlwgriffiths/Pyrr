@@ -108,32 +108,32 @@ class test_object_matrix44(unittest.TestCase):
         m2 = Matrix33.from_x_rotation(0.5)
 
         # add
-        self.assertRaises((TypeError, ValueError), lambda: m1 + m2)
+        self.assertRaises(ValueError, lambda: m1 + m2)
 
         # subtract
-        self.assertRaises((TypeError, ValueError), lambda: m1 - m2)
+        self.assertRaises(ValueError, lambda: m1 - m2)
 
         # multiply
         self.assertTrue(np.array_equal(m1 * m2, matrix44.multiply(matrix44.create_identity(), matrix44.create_from_x_rotation(0.5))))
 
         # divide
-        self.assertRaises((TypeError, ValueError), lambda: m1 / m2)
+        self.assertRaises(ValueError, lambda: m1 / m2)
 
     def test_operators_matrix44(self):
         m1 = Matrix44.identity()
         m2 = Matrix44.from_x_rotation(0.5)
 
         # add
-        self.assertRaises((TypeError, ValueError), lambda: m1 + m2)
+        self.assertRaises(ValueError, lambda: m1 + m2)
 
         # subtract
-        self.assertRaises((TypeError, ValueError), lambda: m1 - m2)
+        self.assertRaises(ValueError, lambda: m1 - m2)
 
         # multiply
         self.assertTrue(np.array_equal(m1 * m2, matrix44.multiply(matrix44.create_identity(), matrix44.create_from_x_rotation(0.5))))
 
         # divide
-        self.assertRaises((TypeError, ValueError), lambda: m1 / m2)
+        self.assertRaises(ValueError, lambda: m1 / m2)
 
         # inverse
         self.assertTrue(np.array_equal(~m2, matrix44.inverse(matrix44.create_from_x_rotation(0.5))))
@@ -143,48 +143,48 @@ class test_object_matrix44(unittest.TestCase):
         q = Quaternion.from_x_rotation(0.7)
         
         # add
-        self.assertRaises((TypeError, ValueError), lambda: m + q)
+        self.assertRaises(ValueError, lambda: m + q)
 
         # subtract
-        self.assertRaises((TypeError, ValueError), lambda: m - q)
+        self.assertRaises(ValueError, lambda: m - q)
 
         # multiply
         self.assertTrue(np.array_equal(m * q, matrix44.multiply(matrix44.create_identity(), matrix44.create_from_quaternion(quaternion.create_from_x_rotation(0.7)))))
 
         # divide
-        self.assertRaises((TypeError, ValueError), lambda: m / q)
+        self.assertRaises(ValueError, lambda: m / q)
 
     def test_operators_vector3(self):
         m = Matrix44.identity()
         v = Vector3([1,1,1])
         
         # add
-        self.assertRaises((TypeError, ValueError), lambda: m + v)
+        self.assertRaises(ValueError, lambda: m + v)
 
         # subtract
-        self.assertRaises((TypeError, ValueError), lambda: m - v)
+        self.assertRaises(ValueError, lambda: m - v)
 
         # multiply
         self.assertTrue(np.array_equal(m * v, matrix44.apply_to_vector(matrix44.create_identity(), [1,1,1])))
 
         # divide
-        self.assertRaises((TypeError, ValueError), lambda: m / v)
+        self.assertRaises(ValueError, lambda: m / v)
 
     def test_operators_vector4(self):
         m = Matrix44.identity()
         v = Vector4([1,1,1,1])
         
         # add
-        self.assertRaises((TypeError, ValueError), lambda: m + v)
+        self.assertRaises(ValueError, lambda: m + v)
 
         # subtract
-        self.assertRaises((TypeError, ValueError), lambda: m - v)
+        self.assertRaises(ValueError, lambda: m - v)
 
         # multiply
         self.assertTrue(np.array_equal(m * v, matrix44.apply_to_vector(matrix44.create_identity(), [1,1,1,1])))
 
         # divide
-        self.assertRaises((TypeError, ValueError), lambda: m / v)
+        self.assertRaises(ValueError, lambda: m / v)
 
     def test_accessors(self):
         m = Matrix44(np.arange(self._size))
