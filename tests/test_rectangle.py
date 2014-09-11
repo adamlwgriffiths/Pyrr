@@ -7,17 +7,14 @@ class test_rectangle( unittest.TestCase ):
     def test_create(self):
         result = rectangle.create()
         np.testing.assert_almost_equal(result, [[0,0],[1,1]], decimal=5)
-        self.assertTrue(result.dtype == np.int)
 
     def test_create_dtype(self):
         result = rectangle.create(dtype=np.float)
         np.testing.assert_almost_equal(result, [[0.,0.],[1.,1.]], decimal=5)
-        self.assertTrue(result.dtype == np.float)
 
     def test_create_zeros(self):
         result = rectangle.create_zeros()
         np.testing.assert_almost_equal(result, [[0,0],[0,0]], decimal=5)
-        self.assertTrue(result.dtype == np.int)
 
     def test_create_from_bounds(self):
         result = rectangle.create_from_bounds(-1, 1, -2, 2)
