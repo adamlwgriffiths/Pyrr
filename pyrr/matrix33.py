@@ -340,7 +340,7 @@ def create_direction_scale(direction, scale):
     An example usage for this is to flatten a mesh against a
     single plane.
 
-    :param numpy.array direction: a vector3 or numpy.array of shape (3,) of the direction to scale.
+    :param numpy.array direction: a numpy.array of shape (3,) of the direction to scale.
     :param float scale: a float value for the scaling along the specified direction.
         A scale of 0.0 will flatten the vertices into a single plane with the direction being the
         plane's normal.
@@ -366,35 +366,41 @@ def create_direction_scale(direction, scale):
     if not np.isclose(np.linalg.norm(direction), 1.):
         vector3 = vector.normalise(direction)
 
+    x,y,z = direction
+
+    x2 = x**2.
+    y2 = y**2.
+    z2 = z**2
+
     scaleMinus1 = scale - 1.
     return np.array(
         [
             # m1
             [
                 # m11 = 1 + (k - 1)n.x^2
-                1. + scaleMinus1 * (direction[0]**2.),
+                1. + scaleMinus1 * x2,
                 # m12 = (k - 1)n.x n.y^2
-                scaleMinus1 * direction[0] * direction[1]**2.,
+                scaleMinus1 * x * y2,
                 # m13 = (k - 1)n.x n.z
-                scaleMinus1 * direction[0] * direction[2]
+                scaleMinus1 * x * z
             ],
             # m2
             [
                 # m21 = (k - 1)n.x n.y
-                scaleMinus1 * direction[0] * direction[1],
+                scaleMinus1 * x * y,
                 # m22 = 1 + (k - 1)n.y
-                1. + scaleMinus1 * direction[1],
+                1. + scaleMinus1 * y,
                 # m23 = (k - 1)n.y n.z
-                scaleMinus1 * direction[1] * direction[2]
+                scaleMinus1 * y * z
             ],
             # m3
             [
                 # m31 = (k - 1)n.x n.z
-                scaleMinus1 * direction[0] * direction[2],
+                scaleMinus1 * x * z,
                 # m32 = (k - 1)n.y n.z
-                scaleMinus1 * direction[1] * direction[2],
+                scaleMinus1 * y * z,
                 # m33 = 1 + (k - 1)n.z^2
-                1. + scaleMinus1 * direction[2]**2.
+                1. + scaleMinus1 * z2
             ]
         ]
     )
