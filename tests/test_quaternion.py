@@ -1,4 +1,5 @@
 import unittest
+import math
 import numpy as np
 from pyrr import quaternion
 
@@ -75,9 +76,11 @@ class test_quaternion(unittest.TestCase):
     def test_create_from_inverse_of_eulers(self):
         pass
 
-    @unittest.skip('Not implemented')
     def test_cross(self):
-        pass
+        q1 = quaternion.create_from_x_rotation(math.pi / 2.0)
+        q2 = quaternion.create_from_x_rotation(-math.pi / 2.0)
+        result = quaternion.cross(q1, q2)
+        np.testing.assert_almost_equal(result, quaternion.create(), decimal=5)
 
     def test_is_zero_length(self):
         result = quaternion.is_zero_length([1.,0.,0.,0.])
