@@ -129,40 +129,5 @@ def clamp_points(aabb, points):
     """Takes a list of points and modifies them to
     fit within the AABB.
     """
-    # we need to compare the points against our AABB.
-    # minimum( point, AABB maximum )
-    # maximum( point, AABB minimum )
-
-    # clamp the point by getting the maximum of the
-    # point and the AABB's minimum
-    # then the minimum of the point and the AABB's
-    # maximum
-    if points.ndim == 1:
-        # only a single point
-        # just take the existing AABB for comparisson
-        aabb_min = aabb[0]
-        aabb_max = aabb[1]
-    else:
-        # there are multiple points
-        # so we'll repeat our AABB values for easy
-        # comparison
-
-        # use a stride trick to repeat the AABB arrays
-        # without actually allocating any data
-        # http://stackoverflow.com/questions/5564098/repeat-numpy-array-without-replicating-data
-        aabb_min = np.lib.stride_tricks.as_strided(
-            aabb[0],
-            (points.shape[0], aabb[0].size),
-            (0, aabb[0].itemsize)
-        )
-        aabb_max = np.lib.stride_tricks.as_strided(
-            aabb[1],
-            (points.shape[0], aabb[1].size),
-            (0, aabb[1].itemsize)
-        )
-
-    return np.array(
-        [np.maximum(points, aabb_min), np.minimum(points, aabb_max)],
-        dtype=aabb.dtype
-    )
+    return np.clip(points, a_min=aabb[0], a_max=aabb[1])
 
