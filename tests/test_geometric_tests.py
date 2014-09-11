@@ -3,8 +3,6 @@ import numpy as np
 from pyrr import geometric_tests as gt
 from pyrr import line, plane, ray, sphere
 
-# TODO: add way more tests
-
 class test_geometric_tests(unittest.TestCase):
     def test_point_intersect_line(self):
         p = np.array([1.,1.,1.])
