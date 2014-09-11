@@ -62,19 +62,19 @@ class Matrix33(BaseMatrix33):
     # Base operators
     @dispatch((np.ndarray, list, tuple))
     def __add__(self, other):
-        return Matrix33(super(Matrix44, self).__add__(other))
+        raise TypeError('Invalid type')
 
     @dispatch((np.ndarray, list, tuple))
     def __sub__(self, other):
-        return Matrix33(super(Matrix44, self).__sub__(other))
+        raise TypeError('Invalid type')
 
     @dispatch((np.ndarray, list, tuple))
     def __mul__(self, other):
-        return Matrix33(matrix33.multiply(self, other))
+        raise TypeError('Invalid type')
 
     @dispatch((np.ndarray, list, tuple))
     def __div__(self, other):
-        return Matrix33(super(Matrix44, self).__div__(other))
+        raise TypeError('Invalid type')
 
     ########################
     # Matrices
