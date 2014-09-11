@@ -1,9 +1,12 @@
-import unittest
+try:
+    import unittest2 as unittest
+except ImportError:
+    import unittest
 import numpy as np
 from pyrr import rectangle
 
 
-class test_rectangle( unittest.TestCase ):
+class test_rectangle(unittest.TestCase):
     def test_create(self):
         result = rectangle.create()
         np.testing.assert_almost_equal(result, [[0,0],[1,1]], decimal=5)

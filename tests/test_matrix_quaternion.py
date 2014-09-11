@@ -1,4 +1,7 @@
-import unittest
+try:
+    import unittest2 as unittest
+except ImportError:
+    import unittest
 import numpy as np
 from pyrr import quaternion, matrix44, matrix33
 
