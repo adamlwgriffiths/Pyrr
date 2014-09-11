@@ -3,8 +3,8 @@ import numpy as np
 from pyrr import sphere
 
 
-class test_sphere( unittest.TestCase ):
-    def test_create_from_points( self ):
+class test_sphere(unittest.TestCase):
+    def test_create_from_points(self):
         # the biggest should be 5,5,5
         result = sphere.create_from_points([
             [ 0.0, 0.0, 0.0 ],
