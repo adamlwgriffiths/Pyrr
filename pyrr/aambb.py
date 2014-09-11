@@ -36,7 +36,7 @@ class index:
 
 
 def create_zeros(dtype=None):
-    return np.zeroes((2,3), dtype=dtype)
+    return np.zeros((2,3), dtype=dtype)
 
 @parameters_as_numpy_arrays('min', 'max')
 def create_from_bounds(min, max, dtype=None):
@@ -45,8 +45,8 @@ def create_from_bounds(min, max, dtype=None):
     """
     dtype = dtype or min.dtype
     # stack our bounds together and add them as points
-    bounds = np.vstack(min, max)
-    return create_from_points(bounds, dtype)
+    points = np.vstack((min, max))
+    return create_from_points(points, dtype)
 
 @parameters_as_numpy_arrays('points')
 def create_from_points(points, dtype=None):
@@ -63,11 +63,8 @@ def create_from_points(points, dtype=None):
     # convert any negative values to positive
     abs_points = np.absolute(points)
 
-    # extract the maximum extent as a vector
-    vec = np.amax(abs_points, axis=0)
-
     # find the length of this vector
-    length = vector.length(vec)
+    length = np.amax(vector.length(abs_points))
 
     # our AAMBB extends from +length to -length
     # in all directions
@@ -80,7 +77,7 @@ def create_from_points(points, dtype=None):
     )
 
 @all_parameters_as_numpy_arrays
-def create_from_aabbs(bbs, dtype=None):
+def create_from_aabbs(aabbs, dtype=None):
     """Creates an AAMBB from a list of existing AABBs.
 
     AABBs must be a 2D list. Ie::
@@ -89,9 +86,9 @@ def create_from_aabbs(bbs, dtype=None):
             AABB,
             ])
     """
-    dtype = dtype or bbs.dtype
+    dtype = dtype or aabbs.dtype
     # reshape the AABBs as a series of points
-    points = bbs.reshape((-1, 3))
+    points = aabbs.reshape((-1, 3))
 
     return create_from_points(points, dtype=dtype)
 
@@ -106,16 +103,17 @@ def add_points(bb, points):
     the AAMBB will create an even bigger AAMBB.
     """
     # add our AABB to the list of points
-    values = np.vstack(points, bb[0], bb[1])
+    values = np.vstack((points, bb[0], bb[1]))
 
     # convert any negative values to positive
     abs_points = np.absolute(values)
 
     # extract the maximum extent as a vector
-    vec = np.amax(abs_points, axis=0)
+    #vec = np.amax(abs_points, axis=0)
 
     # find the length of this vector
-    length = vector.length(vec)
+    #length = vector.length(vec)
+    length = np.amax(vector.length(abs_points))
 
     # our AAMBB extends from +length to -length
     # in all directions
