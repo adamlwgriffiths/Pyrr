@@ -66,6 +66,24 @@ class Quaternion(BaseQuaternion):
         return super(Quaternion, cls).__new__(cls, obj)
 
     ########################
+    # Base operators
+    @dispatch((np.ndarray, list, tuple))
+    def __add__(self, other):
+        raise TypeError('Invalid type')
+
+    @dispatch((np.ndarray, list, tuple))
+    def __sub__(self, other):
+        raise TypeError('Invalid type')
+
+    @dispatch((np.ndarray, list, tuple))
+    def __mul__(self, other):
+        raise TypeError('Invalid type')
+
+    @dispatch((np.ndarray, list, tuple))
+    def __div__(self, other):
+        raise TypeError('Invalid type')
+
+    ########################
     # Quaternions
     @dispatch(BaseQuaternion)
     def __add__(self, other):

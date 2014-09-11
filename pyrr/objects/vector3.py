@@ -37,22 +37,22 @@ class Vector3(BaseVector3):
 
     ########################
     # Base operators
-    @dispatch(np.ndarray)
+    @dispatch((np.ndarray, list, tuple))
     def __add__(self, other):
-        return Vector3(super(Vector3, self).__add__(other))
+        raise TypeError('Invalid type')
 
-    @dispatch(np.ndarray)
+    @dispatch((np.ndarray, list, tuple))
     def __sub__(self, other):
-        return Vector3(super(Vector3, self).__sub__(other))
+        raise TypeError('Invalid type')
 
-    @dispatch(np.ndarray)
+    @dispatch((np.ndarray, list, tuple))
     def __mul__(self, other):
-        return Vector3(super(Vector3, self).__mul__(other))
+        raise TypeError('Invalid type')
 
-    @dispatch(np.ndarray)
+    @dispatch((np.ndarray, list, tuple))
     def __div__(self, other):
-        return Vector3(super(Vector3, self).__div__(other))
-
+        raise TypeError('Invalid type')
+        
     ########################
     # Quaternion
     @dispatch(BaseQuaternion)
