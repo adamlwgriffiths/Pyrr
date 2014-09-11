@@ -367,7 +367,7 @@ def sphere_does_intersect_sphere(s1, s2):
         Otherwise, returns False.
     """
     delta = s2[:3] - s1[:3]
-    distance_squared = vector.length_squared(delta)
+    distance_squared = vector.squared_length(delta)
 
     radii_squared = math.pow(s1[3] + s2[3], 2.0)
 
