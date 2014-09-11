@@ -1,7 +1,4 @@
-try:
-    import unittest2 as unittest
-except ImportError:
-    import unittest
+import unittest
 import numpy as np
 from pyrr import matrix44, quaternion
 
@@ -293,11 +290,13 @@ class test_matrix44(unittest.TestCase):
         result = matrix44.apply_to_vector(mat, [1.,1.,1.])
         np.testing.assert_almost_equal(result, [3.,4.,5.], decimal=5)
 
+    """
     @unittest.skip('Not implemented')
     def test_create_from_eulers(self):
         # just call the function
         # TODO: check the result
         matrix44.create_from_eulers([1,2,3])
+    """
 
     def test_create_from_x_rotation(self):
         mat = matrix44.create_from_x_rotation(np.pi / 2.)

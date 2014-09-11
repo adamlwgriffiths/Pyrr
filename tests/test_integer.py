@@ -1,8 +1,4 @@
-try:
-    import unittest2 as unittest
-except ImportError:
-    import unittest
-import numpy as np
+import unittest
 from pyrr import integer
 
 class test_integer(unittest.TestCase):

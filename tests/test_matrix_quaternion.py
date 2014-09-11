@@ -1,9 +1,6 @@
-try:
-    import unittest2 as unittest
-except ImportError:
-    import unittest
+import unittest
 import numpy as np
-from pyrr import quaternion, matrix44, matrix33
+from pyrr import quaternion, matrix44
 
 class test_matrix_quaternion(unittest.TestCase):
     def test_m44_q_equivalence(self):
