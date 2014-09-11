@@ -80,35 +80,32 @@ def create_from_position(position, normal, dtype=None):
     d = -np.sum(n * position)
     return create(n, d, dtype)
 
-def create_xy(invert=False, dtype=None):
+def create_xy(invert=False, distance=0., dtype=None):
     """Create a plane on the XY plane, starting at the origin with +Z being
     the up vector.
+
+    The distance is the distance along the normal (-Z if inverted, otherwise +Z).
     """
-    r = create_ray(
-        np.array([0.,0.,0.], dtype=dtype),
-        np.array([0.,0.,1.], dtype=dtype)
-    )
-    if invert:
-        r[1] *= -1
-    return r
+    invert = -1. if invert else 1.
+    return np.array([0., 0., 1. * invert, distance])
 
-def create_xz(invert=False, dtype=None):
-    r = create_ray(
-        np.array([0.,0.,0.], dtype=dtype),
-        np.array([0.,1.,0.], dtype=dtype)
-    )
-    if invert:
-        r[1] *= -1
-    return r
+def create_xz(invert=False, distance=0., dtype=None):
+    """Create a plane on the XZ plane, starting at the origin with +Y being
+    the up vector.
 
-def create_yz(invert=False, dtype=None):
-    r = create_ray(
-        np.array([0.,0.,0.], dtype=dtype),
-        np.array([1.,0.,0.], dtype=dtype)
-    )
-    if invert:
-        r[1] *= -1
-    return r
+    The distance is the distance along the normal (-Y if inverted, otherwise +Y).
+    """
+    invert = -1. if invert else 1.
+    return np.array([0., 1. * invert, 0., distance])
+
+def create_yz(invert=False, distance=0., dtype=None):
+    """Create a plane on the YZ plane, starting at the origin with +X being
+    the up vector.
+
+    The distance is the distance along the normal (-X if inverted, otherwise +X).
+    """
+    invert = -1. if invert else 1.
+    return np.array([1. * invert, 0., 0., distance])
 
 def invert_normal(plane):
     """Flips the normal of the plane.
