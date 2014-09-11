@@ -2,6 +2,7 @@
 from __future__ import absolute_import
 import numpy as np
 from multipledispatch import dispatch
+from collections import Iterable
 from .base import BaseQuaternion, BaseMatrix, BaseVector, NpProxy
 from .. import quaternion
 
@@ -67,31 +68,31 @@ class Quaternion(BaseQuaternion):
 
     ########################
     # Base operators
-    @dispatch((np.ndarray, list, tuple))
+    @dispatch((np.ndarray, Iterable))
     def __add__(self, other):
-        raise TypeError('Invalid type')
+        return Quaternion(super(Quaternion, self).__add__(other))
 
-    @dispatch((np.ndarray, list, tuple))
+    @dispatch((np.ndarray, Iterable))
     def __sub__(self, other):
-        raise TypeError('Invalid type')
+        return Quaternion(super(Quaternion, self).__sub__(other))
 
-    @dispatch((np.ndarray, list, tuple))
+    @dispatch((np.ndarray, Iterable))
     def __mul__(self, other):
-        raise TypeError('Invalid type')
+        return Quaternion(super(Quaternion, self).__mul__(other))
 
-    @dispatch((np.ndarray, list, tuple))
+    @dispatch((np.ndarray, Iterable))
     def __div__(self, other):
-        raise TypeError('Invalid type')
+        return Quaternion(super(Quaternion, self).__div__(other))
 
     ########################
     # Quaternions
     @dispatch(BaseQuaternion)
     def __add__(self, other):
-        raise TypeError('Cannot add a quaternion to a quaternion')
+        raise ValueError('Cannot add a quaternion to a quaternion')
 
     @dispatch(BaseQuaternion)
     def __sub__(self, other):
-        raise TypeError('Cannot subtract a quaternion from a quaternion')
+        raise ValueError('Cannot subtract a quaternion from a quaternion')
 
     @dispatch(BaseQuaternion)
     def __mul__(self, other):
@@ -99,7 +100,7 @@ class Quaternion(BaseQuaternion):
 
     @dispatch(BaseQuaternion)
     def __div__(self, other):
-        raise TypeError('Cannot divide a quaternion by a quaternion')
+        raise ValueError('Cannot divide a quaternion by a quaternion')
 
     @dispatch(BaseQuaternion)
     def __or__(self, other):
@@ -112,11 +113,11 @@ class Quaternion(BaseQuaternion):
     # Matrices
     @dispatch(BaseMatrix)
     def __add__(self, other):
-        raise TypeError('Cannot add a matrix to a quaternion')
+        raise ValueError('Cannot add a matrix to a quaternion')
 
     @dispatch(BaseMatrix)
     def __sub__(self, other):
-        raise TypeError('Cannot subtract a matrix from a quaternion')
+        raise ValueError('Cannot subtract a matrix from a quaternion')
 
     @dispatch(BaseMatrix)
     def __mul__(self, other):
@@ -124,17 +125,17 @@ class Quaternion(BaseQuaternion):
 
     @dispatch(BaseMatrix)
     def __div__(self, other):
-        raise TypeError('Cannot divide a quaternion by a matrix')
+        raise ValueError('Cannot divide a quaternion by a matrix')
 
     ########################
     # Vectors
     @dispatch(BaseVector)
     def __add__(self, other):
-        raise TypeError('Cannot add a vector to a quaternion')
+        raise ValueError('Cannot add a vector to a quaternion')
 
     @dispatch(BaseVector)
     def __sub__(self, other):
-        raise TypeError('Cannot subtract a vector from a quaternion')
+        raise ValueError('Cannot subtract a vector from a quaternion')
 
     @dispatch(BaseVector)
     def __mul__(self, other):
@@ -142,7 +143,7 @@ class Quaternion(BaseQuaternion):
 
     @dispatch(BaseVector)
     def __div__(self, other):
-        raise TypeError('Cannot divide a quaternion by a vector')
+        raise ValueError('Cannot divide a quaternion by a vector')
 
     ########################
     # Methods and Properties

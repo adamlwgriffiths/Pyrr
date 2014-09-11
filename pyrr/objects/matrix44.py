@@ -2,6 +2,7 @@
 from __future__ import absolute_import
 import numpy as np
 from multipledispatch import dispatch
+from collections import Iterable
 from .base import BaseMatrix, BaseMatrix33, BaseMatrix44, BaseQuaternion, BaseVector, NpProxy
 from .. import matrix44
 
@@ -90,21 +91,21 @@ class Matrix44(BaseMatrix44):
 
     ########################
     # Base operators
-    @dispatch((np.ndarray, list, tuple))
+    @dispatch((np.ndarray, Iterable))
     def __add__(self, other):
-        raise TypeError('Invalid type')
+        return Matrix44(super(Matrix44, self).__add__(other))
 
-    @dispatch((np.ndarray, list, tuple))
+    @dispatch((np.ndarray, Iterable))
     def __sub__(self, other):
-        raise TypeError('Invalid type')
+        return Matrix44(super(Matrix44, self).__sub__(other))
 
-    @dispatch((np.ndarray, list, tuple))
+    @dispatch((np.ndarray, Iterable))
     def __mul__(self, other):
-        raise TypeError('Invalid type')
+        return Matrix44(matrix44.multiply(self, other))
 
-    @dispatch((np.ndarray, list, tuple))
+    @dispatch((np.ndarray, Iterable))
     def __div__(self, other):
-        raise TypeError('Invalid type')
+        return Matrix44(super(Matrix44, self).__div__(other))
 
     def __invert__(self):
         return self.inverse
@@ -113,11 +114,11 @@ class Matrix44(BaseMatrix44):
     # Matrices
     @dispatch(BaseMatrix)
     def __add__(self, other):
-        raise TypeError('Cannot add a matrix to a matrix')
+        raise ValueError('Cannot add a matrix to a matrix')
 
     @dispatch(BaseMatrix)
     def __sub__(self, other):
-        raise TypeError('Cannot subtract a matrix from a matrix')
+        raise ValueError('Cannot subtract a matrix from a matrix')
 
     @dispatch(BaseMatrix33)
     def __mul__(self, other):
@@ -129,17 +130,17 @@ class Matrix44(BaseMatrix44):
 
     @dispatch(BaseMatrix)
     def __div__(self, other):
-        raise TypeError('Cannot divide a matrix by a matrix')
+        raise ValueError('Cannot divide a matrix by a matrix')
 
     ########################
     # Quaternions
     @dispatch(BaseQuaternion)
     def __add__(self, other):
-        raise TypeError('Cannot add a quaternion to a matrix')
+        raise ValueError('Cannot add a quaternion to a matrix')
 
     @dispatch(BaseQuaternion)
     def __sub__(self, other):
-        raise TypeError('Cannot subtract a quaternion from a matrix')
+        raise ValueError('Cannot subtract a quaternion from a matrix')
 
     @dispatch(BaseQuaternion)
     def __mul__(self, other):
@@ -148,17 +149,17 @@ class Matrix44(BaseMatrix44):
 
     @dispatch(BaseQuaternion)
     def __div__(self, other):
-        raise TypeError('Cannot divide a matrix by a quaternion')
+        raise ValueError('Cannot divide a matrix by a quaternion')
 
     ########################
     # Vectors
     @dispatch(BaseVector)
     def __add__(self, other):
-        raise TypeError('Cannot add a vector to a matrix')
+        raise ValueError('Cannot add a vector to a matrix')
 
     @dispatch(BaseVector)
     def __sub__(self, other):
-        raise TypeError('Cannot subtract a vector from a matrix')
+        raise ValueError('Cannot subtract a vector from a matrix')
 
     @dispatch(BaseVector)
     def __mul__(self, other):
@@ -166,7 +167,7 @@ class Matrix44(BaseMatrix44):
 
     @dispatch(BaseVector)
     def __div__(self, other):
-        raise TypeError('Cannot divide a matrix by a vector')
+        raise ValueError('Cannot divide a matrix by a vector')
 
     ########################
     # Methods and Properties
