@@ -1,6 +1,7 @@
 import unittest
+import math
 import numpy as np
-from pyrr import matrix44
+from pyrr import matrix44, quaternion
 
 
 class test_matrix44(unittest.TestCase):
@@ -56,6 +57,11 @@ class test_matrix44(unittest.TestCase):
         ]
         np.testing.assert_almost_equal(result, expected, decimal=5)
         self.assertTrue(result.dtype == np.float)
+
+    def test_create_from_inverse_of_quaternion(self):
+        q = quaternion.create_from_x_rotation(math.pi / 2.0)
+        result = matrix44.create_from_inverse_of_quaternion(q)
+        self.assertTrue(np.allclose(result, matrix44.create_from_x_rotation(-math.pi / 2.0)))
 
     def test_create_from_translation( self ):
         result = matrix44.create_from_translation([2.,3.,4.])
@@ -285,10 +291,46 @@ class test_matrix44(unittest.TestCase):
         result = matrix44.apply_to_vector(mat, [1.,1.,1.])
         np.testing.assert_almost_equal(result, [3.,4.,5.], decimal=5)
 
+    @unittest.skip('Not implemented')
     def test_create_from_eulers(self):
         # just call the function
         # TODO: check the result
         matrix44.create_from_eulers([1,2,3])
+
+    def test_create_from_x_rotation(self):
+        mat = matrix44.create_from_x_rotation(-math.pi / 2.)
+        self.assertTrue(np.allclose(np.dot([0.,1.,0.,1.], mat), [0.,0.,-1.,1.]))
+        self.assertTrue(np.allclose(np.dot([1.,0.,0.,1.], mat), [1.,0.,0.,1.]))
+        self.assertTrue(np.allclose(np.dot([0.,0.,1.,1.], mat), [0.,1.,0.,1.]))
+
+    def test_create_from_y_rotation(self):
+        mat = matrix44.create_from_y_rotation(-math.pi / 2.)
+        self.assertTrue(np.allclose(np.dot([0.,1.,0.,1.], mat), [0.,1.,0.,1.]))
+        self.assertTrue(np.allclose(np.dot([1.,0.,0.,1.], mat), [0.,0.,1.,1.]))
+        self.assertTrue(np.allclose(np.dot([0.,0.,1.,1.], mat), [-1.,0.,0.,1.]))
+
+    def test_create_from_z_rotation(self):
+        mat = matrix44.create_from_z_rotation(-math.pi / 2.)
+        self.assertTrue(np.allclose(np.dot([0.,1.,0.,1.], mat), [1.,0.,0.,1.]))
+        self.assertTrue(np.allclose(np.dot([1.,0.,0.,1.], mat), [0.,-1.,0.,1.]))
+        self.assertTrue(np.allclose(np.dot([0.,0.,1.,1.], mat), [0.,0.,1.,1.]))
+
+    def test_multiply_identity(self):
+        m1 = matrix44.create_identity()
+        m2 = matrix44.create_identity()
+        result = matrix44.multiply(m1, m2)
+        self.assertTrue(np.allclose(result, np.dot(m1,m2)))
+
+    def test_multiply_rotation(self):
+        m1 = matrix44.create_from_x_rotation(math.pi)
+        m2 = matrix44.create_from_y_rotation(math.pi / 2.0)
+        result = matrix44.multiply(m1, m2)
+        self.assertTrue(np.allclose(result, np.dot(m1,m2)))
+
+    def test_inverse(self):
+        m = matrix44.create_from_y_rotation(math.pi)
+        result = matrix44.inverse(m)
+        self.assertTrue(np.allclose(result, matrix44.create_from_y_rotation(-math.pi)))
 
     
 if __name__ == '__main__':
