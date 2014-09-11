@@ -5,7 +5,7 @@ python:
     - "3.2"
     - "3.3"
 install:
-    - if [[ $TRAVIS_PYTHON_VERSION == '2.6' ]]; then pip install -r unittest2; else; fi
+    - if [[ $TRAVIS_PYTHON_VERSION == '2.6' ]]; then pip install unittest2; else; fi
     - pip install -r requirements-dev.txt
     - pip install -r requirements.txt
 script: PYTHONPATH=. nosetests
