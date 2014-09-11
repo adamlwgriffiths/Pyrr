@@ -1,7 +1,7 @@
 import unittest
+import math
 import numpy as np
-from pyrr import matrix33
-from pyrr import quaternion
+from pyrr import matrix33, quaternion, vector3
 
 
 class test_matrix33(unittest.TestCase):
@@ -69,163 +69,139 @@ class test_matrix33(unittest.TestCase):
         expected = matrix33.inverse(matrix33.create_from_quaternion(q))
         np.testing.assert_almost_equal(result, expected, decimal=5)
 
+    def test_create_from_inverse_of_quaternion(self):
+        q = quaternion.create_from_x_rotation(math.pi / 2.0)
+        result = matrix33.create_from_inverse_of_quaternion(q)
+        self.assertTrue(np.allclose(result, matrix33.create_from_x_rotation(-math.pi / 2.0)))
+
+    def test_create_identity(self):
+        result = matrix33.create_identity()
+        np.testing.assert_almost_equal(result, np.eye(3), decimal=5)
+        self.assertTrue(result.dtype == np.float)
+
+    def create_from_matrix44(self):
+        m44 = np.arange((4,4))
+        result = matrix33.create_from_matrix44(m44)
+        self.assertTrue(np.allclose(result, m44[:3][:3]))
+
+    @unittest.skip('Not implemented')
     def test_create_from_eulers(self):
         # just call the function
         # TODO: check the result
         matrix33.create_from_eulers([1,2,3])
-    """
-    def test_create_identity( self ):
-        result = matrix33.create_identity()
-        np.testing.assert_almost_equal(result, numpy.eye(3), decimal=5)
-        self.assertTrue(result.dtype == np.float)
 
-    def test_create_from_xyz_rotation( self ):
-        angle = math.pi / 2.0
+    def test_create_from_x_rotation(self):
+        mat = matrix33.create_from_x_rotation(-math.pi / 2.)
+        self.assertTrue(np.allclose(np.dot([0.,1.,0.], mat), [0.,0.,-1.]))
+        self.assertTrue(np.allclose(np.dot([1.,0.,0.], mat), [1.,0.,0.]))
+        self.assertTrue(np.allclose(np.dot([0.,0.,1.], mat), [0.,1.,0.]))
 
-        for input, axis, output in (
-            ( ( 0, 1, 0 ), 'x', ( 0, 0,-1 ) ),
-            ( ( 0, 1, 0 ), 'y', ( 0, 1, 0 ) ),
-            ( ( 0, 1, 0 ), 'z', ( 1, 0, 0 ) ),
-            ( ( 1, 0, 0 ), 'x', ( 1, 0, 0 ) ),
-            ( ( 1, 0, 0 ), 'y', ( 0, 0, 1 ) ),
-            ( ( 1, 0, 0 ), 'z', ( 0,-1, 0 ) ),
-            ( ( 0, 0, 1 ), 'x', ( 0, 1, 0 ) ),
-            ( ( 0, 0, 1 ), 'y', (-1, 0, 0 ) ),
-            ( ( 0, 0, 1 ), 'z', ( 0, 0, 1 ) ),
-        ):
-            input = numpy.array(input)
-            fun = getattr(matrix33, 'create_from_%s_rotation' % (axis,))
-            matrix = fun(angle)
-            result = numpy.dot(input, matrix)
-            expected = numpy.array(output)
+    def test_create_from_y_rotation(self):
+        mat = matrix33.create_from_y_rotation(-math.pi / 2.)
+        self.assertTrue(np.allclose(np.dot([0.,1.,0.], mat), [0.,1.,0.]))
+        self.assertTrue(np.allclose(np.dot([1.,0.,0.], mat), [0.,0.,1.]))
+        self.assertTrue(np.allclose(np.dot([0.,0.,1.], mat), [-1.,0.,0.]))
 
-            assert_array_almost_equal(
-                result, expected,
-                err_msg='Axis %s, input %s' % ( axis, input, )
-            )
+    def test_create_from_z_rotation(self):
+        mat = matrix33.create_from_z_rotation(-math.pi / 2.)
+        self.assertTrue(np.allclose(np.dot([0.,1.,0.], mat), [1.,0.,0.]))
+        self.assertTrue(np.allclose(np.dot([1.,0.,0.], mat), [0.,-1.,0.]))
+        self.assertTrue(np.allclose(np.dot([0.,0.,1.], mat), [0.,0.,1.]))
 
-
-    def test_create_from_scale( self ):
-        scale = numpy.array( [ 2.0, 3.0, 4.0 ] )
-
-        mat = matrix33.create_from_scale( scale )
-
+    def test_create_from_scale(self):
+        scale = np.array([ 2.0, 3.0, 4.0])
+        mat = matrix33.create_from_scale(scale)
         result = mat.diagonal()
-
         expected = scale
+        self.assertTrue(np.array_equal(result, expected))
 
-        # extract the diagonal scale and ignore the last value
-        self.assertTrue(
-            numpy.array_equal( result, expected ),
-            "Matrix33 scale not set properly"
-            )
+    def test_create_from_quaternion_identity(self):
+        quat = quaternion.create()
+        result = matrix33.create_from_quaternion(quat)
+        expected = np.eye(3)
+        self.assertTrue(np.array_equal(result, expected))
 
-    def test_create_from_quaternion( self ):
-        def identity():
-            quat = quaternion.create()
-            result = matrix33.create_from_quaternion( quat )
+    def test_create_from_quaternion_rotated_x(self):
+        quat = quaternion.create_from_x_rotation(math.pi)
+        result = matrix33.create_from_quaternion(quat)
+        expected = matrix33.create_from_x_rotation(math.pi)
+        self.assertTrue(np.allclose(result, expected))
 
-            expected = numpy.eye( 3 )
+    def test_create_from_quaternion_rotated_y(self):
+        quat = quaternion.create_from_y_rotation(math.pi)
+        result = matrix33.create_from_quaternion(quat)
+        expected = matrix33.create_from_y_rotation(math.pi)
+        self.assertTrue(np.allclose(result, expected))
 
-            self.assertTrue(
-                numpy.array_equal( result, expected ),
-                "Matrix33 from quaternion incorrect with identity quaternion"
-                )
-        identity()
+    def test_create_from_quaternion_rotated_z(self):
+        quat = quaternion.create_from_z_rotation(math.pi)
+        result = matrix33.create_from_quaternion(quat)
+        expected = matrix33.create_from_z_rotation(math.pi)
+        self.assertTrue(np.allclose(result, expected))
 
-        def rotated_x():
-            quat = quaternion.create_from_x_rotation( math.pi )
-            result = matrix33.create_from_quaternion( quat )
+    def test_apply_to_vector_identity(self):
+        mat = matrix33.create_identity()
+        vec = vector3.unit.x
+        result = matrix33.apply_to_vector(mat, vec)
+        expected = vec
+        self.assertTrue(np.array_equal(result, expected))
 
-            expected = matrix33.create_from_x_rotation( math.pi )
+    def test_apply_to_vector_rotated_x(self):
+        mat = matrix33.create_from_x_rotation(math.pi)
+        vec = vector3.unit.y
+        result = matrix33.apply_to_vector(mat, vec)
+        expected = -vec
+        self.assertTrue(np.allclose(result, expected))
 
-            self.assertTrue(
-                numpy.allclose( result, expected ),
-                "Matrix33 from quaternion incorrect with PI rotation about X"
-                )
-        rotated_x()
+    def test_apply_to_vector_rotated_y(self):
+        mat = matrix33.create_from_y_rotation(math.pi)
+        vec = vector3.unit.x
+        result = matrix33.apply_to_vector(mat, vec)
+        expected = -vec
+        self.assertTrue(np.allclose(result, expected))
 
-        def rotated_y():
-            quat = quaternion.create_from_y_rotation( math.pi )
-            result = matrix33.create_from_quaternion( quat )
+    def test_apply_to_vector_rotated_z(self):
+        mat = matrix33.create_from_z_rotation(math.pi)
+        vec = vector3.unit.x
+        result = matrix33.apply_to_vector(mat, vec)
+        expected = -vec
+        self.assertTrue(np.allclose(result, expected))
 
-            expected = matrix33.create_from_y_rotation( math.pi )
+    def test_multiply_identity(self):
+        m1 = matrix33.create_identity()
+        m2 = matrix33.create_identity()
+        result = matrix33.multiply(m1, m2)
+        self.assertTrue(np.allclose(result, np.dot(m1,m2)))
 
-            self.assertTrue(
-                numpy.allclose( result, expected ),
-                "Matrix33 from quaternion incorrect with PI rotation about Y"
-                )
-        rotated_y()
+    def test_multiply_identity(self):
+        m1 = matrix33.create_from_x_rotation(math.pi)
+        m2 = matrix33.create_from_y_rotation(math.pi / 2.0)
+        result = matrix33.multiply(m1, m2)
+        self.assertTrue(np.allclose(result, np.dot(m1,m2)))
 
-        def rotated_z():
-            quat = quaternion.create_from_z_rotation( math.pi )
-            result = matrix33.create_from_quaternion( quat )
+    def test_inverse(self):
+        m = matrix33.create_from_y_rotation(math.pi)
+        result = matrix33.inverse(m)
+        self.assertTrue(np.allclose(result, matrix33.create_from_y_rotation(-math.pi)))
 
-            expected = matrix33.create_from_z_rotation( math.pi )
-
-            self.assertTrue(
-                numpy.allclose( result, expected ),
-                "Matrix33 from quaternion incorrect with PI rotation about Z"
-                )
-        rotated_z()
-
-    def test_apply_to_vector( self ):
-        def identity():
-            mat = matrix33.create_identity()
-            vec = vector3.unit.x
-
-            result = matrix33.apply_to_vector( mat, vec )
-
-            expected = vec
-
-            self.assertTrue(
-                numpy.array_equal( result, expected ),
-                "Matrix33 apply_to_vector incorrect with identity"
-                )
-        identity()
-
-        def rotated_x():
-            mat = matrix33.create_from_x_rotation( math.pi )
-            vec = vector3.unit.y
-
-            result = matrix33.apply_to_vector( mat, vec )
-
-            expected = -vec
-
-            self.assertTrue(
-                numpy.allclose( result, expected ),
-                "Matrix33 apply_to_vector incorrect with rotation about X"
-                )
-        rotated_x()
-
-        def rotated_y():
-            mat = matrix33.create_from_y_rotation( math.pi )
-            vec = vector3.unit.x
-
-            result = matrix33.apply_to_vector( mat, vec )
-
-            expected = -vec
-
-            self.assertTrue(
-                numpy.allclose( result, expected ),
-                "Matrix33 apply_to_vector incorrect with rotation about Y"
-                )
-        rotated_y()
-
-        def rotated_z():
-            mat = matrix33.create_from_z_rotation( math.pi )
-            vec = vector3.unit.x
-
-            result = matrix33.apply_to_vector( mat, vec )
-
-            expected = -vec
-
-            self.assertTrue(
-                numpy.allclose( result, expected ),
-                "Matrix33 apply_to_vector incorrect with rotation about Y"
-                )
-        rotated_z()
-    """
+    def test_create_direction_scale(self):
+        m = matrix33.create_direction_scale([0.,1.,0.], 0.5)
+        v = np.array([
+            [1.,0.,0.],
+            [1.,1.,1.],
+            [10.,10.,10.]
+        ])
+        result = np.array([
+            matrix33.apply_to_vector(m, v[0]),
+            matrix33.apply_to_vector(m, v[1]),
+            matrix33.apply_to_vector(m, v[2]),
+        ])
+        expected = np.array([
+            [1.,0.,0.],
+            [1.,.5,1.],
+            [10.,5.,10.]
+        ])
+        self.assertTrue(np.allclose(result, expected))
 
 if __name__ == '__main__':
     unittest.main()
