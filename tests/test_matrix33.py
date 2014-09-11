@@ -173,7 +173,7 @@ class test_matrix33(unittest.TestCase):
         result = matrix33.multiply(m1, m2)
         self.assertTrue(np.allclose(result, np.dot(m1,m2)))
 
-    def test_multiply_identity(self):
+    def test_multiply_rotation(self):
         m1 = matrix33.create_from_x_rotation(math.pi)
         m2 = matrix33.create_from_y_rotation(math.pi / 2.0)
         result = matrix33.multiply(m1, m2)
