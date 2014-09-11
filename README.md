@@ -6,6 +6,7 @@ Pyrr
 Provides 3D mathematical functions using the power of NumPy.
 
 Features:
+  * Object Oriented and Procedural interfaces
   * Matrix (3x3, 4x4)
   * Quaternion
   * Vector (3D, 4D)
@@ -27,23 +28,60 @@ Examples
 
 Maintain a rotation (quaternion) and translation (vector) and convert to a matrix
 
-    from pyrr import quaternion, matrix44, vector3
+Object Oriented Interface
+
+    from pyrr import Quaternion, Matrix44, Vector3
     import numpy as np
 
-    orientation = quaternion.create(dtype=np.float32)        
-    translation = vector3.create(dtype=np.float32)
-    scale = vector3.create(1,1,1,dtype=np.float32)
+    point = Vector3([1.,2.,3.])
+    orientation = Quaternion()
+    translation = Vector3()
+    scale = Vector3([1.,1.,1.])
 
     # translate along X by 1
     translation += [1.0, 0.0, 0.0]
 
     # rotate about Y by pi/2
-    rotation = quaternion.create_from_y_rotation(math.pi / 2.0, dtype=np.float32)
+    rotation = Quaternion.from_y_rotation(np.pi / 2.0)
+    orientation = rotation * orientation
+
+    # create a matrix
+    # start our matrix off using the scale
+    matrix = Matrix44.from_scale(scale)
+
+    # apply our orientation
+    # we can multiply matricies and quaternions directly!
+    matrix = matrix * orientation
+
+    # apply our translation
+    translation = Matrix44.from_translation(translation)
+    matrix = matrix * translation
+
+    # transform our point by the matrix
+    # vectors are transformable by matrices and quaternions directly
+    point = point * matrix
+
+
+Procedural Interface
+
+    from pyrr import quaternion, matrix44, vector3
+    import numpy as np
+
+    point = vector3.create([1.,2.,3.])
+    orientation = quaternion.create()
+    translation = vector3.create()
+    scale = vector3.create(1,1,1)
+
+    # translate along X by 1
+    translation += [1.0, 0.0, 0.0]
+
+    # rotate about Y by pi/2
+    rotation = quaternion.create_from_y_rotation(np.pi / 2.0)
     orientation = quaternion.cross(rotation, orientation)
 
     # create a matrix
     # start our matrix off using the scale
-    matrix = matrix44.create_from_scale(scale, dtype=np.float32)
+    matrix = matrix44.create_from_scale(scale)
 
     # apply our orientation
     orientation = matrix44.create_from_quaternion(orientation)
@@ -52,6 +90,75 @@ Maintain a rotation (quaternion) and translation (vector) and convert to a matri
     # apply our translation
     translation = matrix44.create_from_translation(translation)
     matrix = matrix44.multiply(matrix, translation)
+
+    # transform our point by the matrix
+    point = matrix44.apply_to_vector(point)
+
+
+
+Object Oriented Features
+------------------------
+
+* Convertable types
+
+    v = Vector4([1.,0.,0.,0.])
+    v3 = Vector3(v)
+    v4 = Vector4(v3)
+
+    m44 = Matrix44()
+    q = Quaternion(m44)
+    m33 = Matrix33(q)
+
+
+* Convenient Operators
+
+    # matrix multiplication
+    m = Matrix44() * Matrix()
+    m = Matrix44() * Quaternion()
+    m = Matrix33() * Quaternion()
+    
+    # matrix inverse
+    m = ~Matrix44()
+
+    # quaternion multiplication
+    q = Quaternion() * Quaternion()
+    q = Quaternion() * Matrix44()
+    q = Quaternion() * Matrix33()
+
+    # quaternion inverse (conjugate)
+    q = ~Quaternion()
+
+    # quaternion dot product
+    d = Quaternion() | Quaternion()
+
+    # vector oprations
+    v = Vector3() + Vector3()
+    v = Vector3() - Vector4()
+    v = Vector4() * Vector3()
+    v = Vector4() / Vector4()
+
+    # vector transform
+    v = Vector3() * Quaternion()
+    v = Vector3() * Matrix44()
+    v = Vector4() * Matrix44()
+    v = Vector3() * Matrix33()
+    v = Vector4() * Matrix33()
+
+    # dot and cross products
+    dot = Vector3() | Vector3()
+    cross = Vector3() ^ Vector3()
+
+    # conversions
+    m = Matrix44().matrix33
+    m = Matrix33().matrix44
+    q = Matrix44().quaternion
+    q = Matrix33().quaternion
+
+    v = Vector3().vector4
+    v = Vector4().vector3
+
+    m = Quaternion().matrix33
+    m = Quaternion().matrix44
 
 
 Installation

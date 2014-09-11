@@ -12,17 +12,20 @@ Overview
     info_data_types
     info_geometric_tests
 
-Development
-===========
+
+Object Oriented API
+===================
 
 .. toctree::
-    :maxdepth: 1
+    :maxdepth: 2
 
-    info_coding_standard
-    info_contributing
+    oo_api_matrix
+    oo_api_quaternion
+    oo_api_vector
 
-API
-===
+
+Procedural API
+==============
 
 .. toctree::
     :maxdepth: 2
@@ -42,6 +45,17 @@ API
     api_trig
     api_utils
     api_vector
+
+
+Development
+===========
+
+.. toctree::
+    :maxdepth: 1
+
+    info_coding_standard
+    info_contributing
+
 
 
 Indices and tables

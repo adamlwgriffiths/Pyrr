@@ -21,7 +21,7 @@ setup(
     requires = ['numpy',],
     platforms = ['any'],
     test_suite = 'tests',
-    packages = ['pyrr',],
+    packages = ['pyrr','pyrr.objects'],
     classifiers = [
         'Natural Language :: English',
         'Intended Audience :: Developers',
