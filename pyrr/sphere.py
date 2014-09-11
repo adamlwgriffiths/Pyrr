@@ -12,7 +12,7 @@ from .utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays
 
 @parameters_as_numpy_arrays('center')
 def create(center=None, radius=1.0, dtype=None):
-    if not center:
+    if center == None:
         center = [0.,0.,0.]
     return np.array([center[0], center[1], center[2], radius], dtype=dtype)
 
