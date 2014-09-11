@@ -117,29 +117,29 @@ def create_from_quaternion(quat, dtype=None):
             [
                 # m11 = 1.0 - 2.0 * (q.y * q.y + q.z * q.z)
                 1.0 - 2.0 * (y2 + z2),
-                # m12 = 2.0 * (q.x * q.y + q.w * q.z)
-                2.0 * (xy + wz),
-                # m13 = 2.0 * (q.x * q.z - q.w * q.y)
-                2.0 * (xz - wy)
+                # m21 = 2.0 * (q.x * q.y - q.w * q.z)
+                2.0 * (xy - wz),
+                # m31 = 2.0 * (q.x * q.z + q.w * q.y)
+                2.0 * (xz + wy),
             ],
             # m2
             [
-                # m21 = 2.0 * (q.x * q.y - q.w * q.z)
-                2.0 * (xy - wz),
+                # m12 = 2.0 * (q.x * q.y + q.w * q.z)
+                2.0 * (xy + wz),
                 # m22 = 1.0 - 2.0 * (q.x * q.x + q.z * q.z)
                 1.0 - 2.0 * (x2 + z2),
-                # m23 = 2.0 * (q.y * q.z + q.w * q.x)
-                2.0 * (yz + wx)
+                # m32 = 2.0 * (q.y * q.z - q.w * q.x)
+                2.0 * (yz - wx),
             ],
             # m3
             [
-                # m31 = 2.0 * (q.x * q.z + q.w * q.y)
-                2.0 * (xz + wy),
-                # m32 = 2.0 * (q.y * q.z - q.w * q.x)
-                2.0 * (yz - wx),
+                # m13 = 2.0 * (q.x * q.z - q.w * q.y)
+                2.0 * (xz - wy),
+                # m23 = 2.0 * (q.y * q.z + q.w * q.x)
+                2.0 * (yz + wx),
                 # m33 = 1.0 - 2.0 * (q.x * q.x + q.y * q.y)
-                1.0 - 2.0 * (x2 + y2)
-            ]
+                1.0 - 2.0 * (x2 + y2),
+            ],
         ],
         dtype=dtype
     )
@@ -173,28 +173,28 @@ def create_from_inverse_of_quaternion(quat, dtype=None):
             [
                 # m11 = 1.0 - 2.0 * (q.y * q.y + q.z * q.z)
                 1.0 - 2.0 * (y2 + z2),
-                # m12 = 2.0 * (q.x * q.y - q.w * q.z)
-                2.0 * (xy - wz),
-                # m13 = 2.0 * ( q.x * q.z + q.w * q.y)
-                2.0 * (xz + wy)
+                # m21 = 2.0 * (q.x * q.y + q.w * q.z)
+                2.0 * (xy + wz),
+                # m31 = 2.0 * (q.x * q.z - q.w * q.y)
+                2.0 * (xz - wy),
             ],
             # m2
             [
-                # m21 = 2.0 * (q.x * q.y + q.w * q.z)
-                2.0 * (xy + wz),
+                # m12 = 2.0 * (q.x * q.y - q.w * q.z)
+                2.0 * (xy - wz),
                 # m22 = 1.0 - 2.0 * (q.x * q.x + q.z * q.z)
                 1.0 - 2.0 * (x2 + z2),
-                # m23 = 2.0 * (q.y * q.z - q.w * q.x)
-                2.0 * (yz - wx)
+                # m32 = 2.0 * (q.y * q.z + q.w * q.x)
+                2.0 * (yz + wx),
             ],
             # m3
             [
-                # m31 = 2.0 * (q.x * q.z - q.w * q.y)
-                2.0 * (xz - wy),
-                # m32 = 2.0 * (q.y * q.z + q.w * q.x)
-                2.0 * (yz + wx),
+                # m13 = 2.0 * ( q.x * q.z + q.w * q.y)
+                2.0 * (xz + wy),
+                # m23 = 2.0 * (q.y * q.z - q.w * q.x)
+                2.0 * (yz - wx),
                 # m33 = 1.0 - 2.0 * (q.x * q.x + q.y * q.y)
-                1.0 - 2.0 * (x2 + y2)
+                1.0 - 2.0 * (x2 + y2),
             ]
         ],
         dtype=dtype
@@ -231,8 +231,8 @@ def create_from_x_rotation(theta, dtype=None):
     return np.array(
         [
             [ 1.0, 0.0, 0.0 ],
-            [ 0.0, cosT, sinT ],
-            [ 0.0, -sinT, cosT ]
+            [ 0.0, cosT,-sinT ],
+            [ 0.0, sinT, cosT ]
         ],
         dtype=dtype
     )
@@ -252,9 +252,9 @@ def create_from_y_rotation(theta, dtype=None):
     
     return np.array(
         [
-            [ cosT, 0.0,-sinT ],
+            [ cosT, 0.0,sinT ],
             [ 0.0, 1.0, 0.0 ],
-            [ sinT, 0.0, cosT ]
+            [-sinT, 0.0, cosT ]
         ],
         dtype=dtype
     )
@@ -274,8 +274,8 @@ def create_from_z_rotation(theta, dtype=None):
     
     return np.array(
         [
-            [ cosT, sinT, 0.0 ],
-            [-sinT, cosT, 0.0 ],
+            [ cosT,-sinT, 0.0 ],
+            [ sinT, cosT, 0.0 ],
             [ 0.0, 0.0, 1.0 ]
         ],
         dtype=dtype
@@ -364,7 +364,7 @@ def create_direction_scale(direction, scale):
     k is the scaling factor
     """
     if not np.isclose(np.linalg.norm(direction), 1.):
-        vector3 = vector.normalise(direction)
+        direction = vector.normalise(direction)
 
     x,y,z = direction
 

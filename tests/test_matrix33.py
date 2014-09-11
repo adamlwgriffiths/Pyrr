@@ -1,5 +1,4 @@
 import unittest
-import math
 import numpy as np
 from pyrr import matrix33, quaternion, vector3
 
@@ -70,9 +69,9 @@ class test_matrix33(unittest.TestCase):
         np.testing.assert_almost_equal(result, expected, decimal=5)
 
     def test_create_from_inverse_of_quaternion(self):
-        q = quaternion.create_from_x_rotation(math.pi / 2.0)
+        q = quaternion.create_from_x_rotation(np.pi / 2.0)
         result = matrix33.create_from_inverse_of_quaternion(q)
-        self.assertTrue(np.allclose(result, matrix33.create_from_x_rotation(-math.pi / 2.0)))
+        self.assertTrue(np.allclose(result, matrix33.create_from_x_rotation(-np.pi / 2.0)))
 
     def test_create_identity(self):
         result = matrix33.create_identity()
@@ -91,21 +90,21 @@ class test_matrix33(unittest.TestCase):
         matrix33.create_from_eulers([1,2,3])
 
     def test_create_from_x_rotation(self):
-        mat = matrix33.create_from_x_rotation(-math.pi / 2.)
-        self.assertTrue(np.allclose(np.dot([0.,1.,0.], mat), [0.,0.,-1.]))
+        mat = matrix33.create_from_x_rotation(np.pi / 2.)
         self.assertTrue(np.allclose(np.dot([1.,0.,0.], mat), [1.,0.,0.]))
+        self.assertTrue(np.allclose(np.dot([0.,1.,0.], mat), [0.,0.,-1.]))
         self.assertTrue(np.allclose(np.dot([0.,0.,1.], mat), [0.,1.,0.]))
 
     def test_create_from_y_rotation(self):
-        mat = matrix33.create_from_y_rotation(-math.pi / 2.)
-        self.assertTrue(np.allclose(np.dot([0.,1.,0.], mat), [0.,1.,0.]))
+        mat = matrix33.create_from_y_rotation(np.pi / 2.)
         self.assertTrue(np.allclose(np.dot([1.,0.,0.], mat), [0.,0.,1.]))
+        self.assertTrue(np.allclose(np.dot([0.,1.,0.], mat), [0.,1.,0.]))
         self.assertTrue(np.allclose(np.dot([0.,0.,1.], mat), [-1.,0.,0.]))
 
     def test_create_from_z_rotation(self):
-        mat = matrix33.create_from_z_rotation(-math.pi / 2.)
-        self.assertTrue(np.allclose(np.dot([0.,1.,0.], mat), [1.,0.,0.]))
+        mat = matrix33.create_from_z_rotation(np.pi / 2.)
         self.assertTrue(np.allclose(np.dot([1.,0.,0.], mat), [0.,-1.,0.]))
+        self.assertTrue(np.allclose(np.dot([0.,1.,0.], mat), [1.,0.,0.]))
         self.assertTrue(np.allclose(np.dot([0.,0.,1.], mat), [0.,0.,1.]))
 
     def test_create_from_scale(self):
@@ -122,21 +121,21 @@ class test_matrix33(unittest.TestCase):
         self.assertTrue(np.array_equal(result, expected))
 
     def test_create_from_quaternion_rotated_x(self):
-        quat = quaternion.create_from_x_rotation(math.pi)
+        quat = quaternion.create_from_x_rotation(np.pi)
         result = matrix33.create_from_quaternion(quat)
-        expected = matrix33.create_from_x_rotation(math.pi)
+        expected = matrix33.create_from_x_rotation(np.pi)
         self.assertTrue(np.allclose(result, expected))
 
     def test_create_from_quaternion_rotated_y(self):
-        quat = quaternion.create_from_y_rotation(math.pi)
+        quat = quaternion.create_from_y_rotation(np.pi)
         result = matrix33.create_from_quaternion(quat)
-        expected = matrix33.create_from_y_rotation(math.pi)
+        expected = matrix33.create_from_y_rotation(np.pi)
         self.assertTrue(np.allclose(result, expected))
 
     def test_create_from_quaternion_rotated_z(self):
-        quat = quaternion.create_from_z_rotation(math.pi)
+        quat = quaternion.create_from_z_rotation(np.pi)
         result = matrix33.create_from_quaternion(quat)
-        expected = matrix33.create_from_z_rotation(math.pi)
+        expected = matrix33.create_from_z_rotation(np.pi)
         self.assertTrue(np.allclose(result, expected))
 
     def test_apply_to_vector_identity(self):
@@ -147,21 +146,21 @@ class test_matrix33(unittest.TestCase):
         self.assertTrue(np.array_equal(result, expected))
 
     def test_apply_to_vector_rotated_x(self):
-        mat = matrix33.create_from_x_rotation(math.pi)
+        mat = matrix33.create_from_x_rotation(np.pi)
         vec = vector3.unit.y
         result = matrix33.apply_to_vector(mat, vec)
         expected = -vec
         self.assertTrue(np.allclose(result, expected))
 
     def test_apply_to_vector_rotated_y(self):
-        mat = matrix33.create_from_y_rotation(math.pi)
+        mat = matrix33.create_from_y_rotation(np.pi)
         vec = vector3.unit.x
         result = matrix33.apply_to_vector(mat, vec)
         expected = -vec
         self.assertTrue(np.allclose(result, expected))
 
     def test_apply_to_vector_rotated_z(self):
-        mat = matrix33.create_from_z_rotation(math.pi)
+        mat = matrix33.create_from_z_rotation(np.pi)
         vec = vector3.unit.x
         result = matrix33.apply_to_vector(mat, vec)
         expected = -vec
@@ -174,15 +173,15 @@ class test_matrix33(unittest.TestCase):
         self.assertTrue(np.allclose(result, np.dot(m1,m2)))
 
     def test_multiply_rotation(self):
-        m1 = matrix33.create_from_x_rotation(math.pi)
-        m2 = matrix33.create_from_y_rotation(math.pi / 2.0)
+        m1 = matrix33.create_from_x_rotation(np.pi)
+        m2 = matrix33.create_from_y_rotation(np.pi / 2.0)
         result = matrix33.multiply(m1, m2)
         self.assertTrue(np.allclose(result, np.dot(m1,m2)))
 
     def test_inverse(self):
-        m = matrix33.create_from_y_rotation(math.pi)
+        m = matrix33.create_from_y_rotation(np.pi)
         result = matrix33.inverse(m)
-        self.assertTrue(np.allclose(result, matrix33.create_from_y_rotation(-math.pi)))
+        self.assertTrue(np.allclose(result, matrix33.create_from_y_rotation(-np.pi)))
 
     def test_create_direction_scale(self):
         m = matrix33.create_direction_scale([0.,1.,0.], 0.5)

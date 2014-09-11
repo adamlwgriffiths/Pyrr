@@ -3,7 +3,7 @@
 """
 from __future__ import absolute_import, division, print_function, unicode_literals
 import numpy as np
-from . import vector, vector4
+from . import vector, vector3, vector4
 from .utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays
 
 
@@ -88,7 +88,6 @@ def create_from_matrix(mat, dtype=None):
     # http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion/index.htm
     dtype = dtype or mat.dtype
 
-    # this method may be crap
     quat = np.array(
         [
             np.sqrt(np.maximum(0., 1. + mat[0][0] - mat[1][1] - mat[2][2])) / 2.,
@@ -434,8 +433,8 @@ def apply_to_vector(quat, vec):
         # ignore w component
         return apply(quat, vec)
     elif vec.size == 4:
-        vec3 = vector.create_from_vector4(vec)
+        vec3 = vector3.create_from_vector4(vec)
         vec3 = apply(quat, vec3)
-        return vector.create_from_vector3(vec3)
+        return vector4.create_from_vector3(vec3)
     else:
         raise ValueError("Vector size unsupported")

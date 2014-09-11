@@ -1,10 +1,10 @@
 import unittest
-import math
 import numpy as np
 from pyrr import quaternion
 
 
 class test_quaternion(unittest.TestCase):
+    # many of these values are taken from searches on wolfram alpha
     def test_create(self):
         result = quaternion.create()
         np.testing.assert_almost_equal(result, [0.,0.,0.,1.], decimal=5)
@@ -77,8 +77,8 @@ class test_quaternion(unittest.TestCase):
         pass
 
     def test_cross(self):
-        q1 = quaternion.create_from_x_rotation(math.pi / 2.0)
-        q2 = quaternion.create_from_x_rotation(-math.pi / 2.0)
+        q1 = quaternion.create_from_x_rotation(np.pi / 2.0)
+        q2 = quaternion.create_from_x_rotation(-np.pi / 2.0)
         result = quaternion.cross(q1, q2)
         np.testing.assert_almost_equal(result, quaternion.create(), decimal=5)
 
@@ -223,19 +223,22 @@ class test_quaternion(unittest.TestCase):
         np.testing.assert_almost_equal(result, [1.,0.,0.], decimal=5)
 
     def test_apply_to_vector_x(self):
-        quat = quaternion.create_from_x_rotation(np.pi)
-        result = quaternion.apply_to_vector(quat,[0.,1.,0.])
-        np.testing.assert_almost_equal(result, [0.,-1.,0.], decimal=5)
+        quat = quaternion.create_from_x_rotation(np.pi / 2.)
+        self.assertTrue(np.allclose(quaternion.apply_to_vector(quat,[1.,0.,0.]), [1.,0.,0.]))
+        self.assertTrue(np.allclose(quaternion.apply_to_vector(quat,[0.,1.,0.]), [0.,0.,-1.]))
+        self.assertTrue(np.allclose(quaternion.apply_to_vector(quat,[0.,0.,1.]), [0.,1.,0.]))
 
     def test_apply_to_vector_y(self):
-        quat = quaternion.create_from_y_rotation(np.pi)
-        result = quaternion.apply_to_vector(quat,[1.,0.,0.])
-        np.testing.assert_almost_equal(result, [-1.,0.,0.], decimal=5)
+        quat = quaternion.create_from_y_rotation(np.pi / 2.)
+        self.assertTrue(np.allclose(quaternion.apply_to_vector(quat,[1.,0.,0.]), [0.,0.,1.]))
+        self.assertTrue(np.allclose(quaternion.apply_to_vector(quat,[0.,1.,0.]), [0.,1.,0.]))
+        self.assertTrue(np.allclose(quaternion.apply_to_vector(quat,[0.,0.,1.]), [-1.,0.,0.]))
 
     def test_apply_to_vector_z(self):
-        quat = quaternion.create_from_z_rotation(np.pi)
-        result = quaternion.apply_to_vector(quat,[1.,0.,0.])
-        np.testing.assert_almost_equal(result, [-1.,0.,0.], decimal=5)
+        quat = quaternion.create_from_z_rotation(np.pi / 2.)
+        self.assertTrue(np.allclose(quaternion.apply_to_vector(quat,[1.,0.,0.]), [0.,-1.,0.]))
+        self.assertTrue(np.allclose(quaternion.apply_to_vector(quat,[0.,1.,0.]), [1.,0.,0.]))
+        self.assertTrue(np.allclose(quaternion.apply_to_vector(quat,[0.,0.,1.]), [0.,0.,1.]))
 
 if __name__ == '__main__':
     unittest.main()
