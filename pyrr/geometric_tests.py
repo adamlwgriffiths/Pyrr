@@ -165,7 +165,7 @@ def point_closest_point_on_line(point, line):
     """
     rl = line[1] - line[0]
     rp = point - line[0]
-    vector.normalise(rl)
+    rl = vector.normalise(rl)
     dot = vector.dot(rl, rp)
     return line[0] + (rl * dot)
 
