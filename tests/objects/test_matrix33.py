@@ -175,16 +175,16 @@ class test_object_matrix33(unittest.TestCase):
         v = Vector4([1,1,1,1])
         
         # add
-        self.assertRaises(TypeError, lambda: m + v)
+        self.assertRaises(ValueError, lambda: m + v)
 
         # subtract
-        self.assertRaises(TypeError, lambda: m - v)
+        self.assertRaises(ValueError, lambda: m - v)
 
         # multiply
         self.assertTrue(np.array_equal(m * v, matrix33.apply_to_vector(matrix33.create_identity(), [1,1,1,1])))
 
         # divide
-        self.assertRaises(TypeError, lambda: m / v)
+        self.assertRaises(ValueError, lambda: m / v)
 
     def test_accessors(self):
         m = Matrix33(np.arange(self._size))
