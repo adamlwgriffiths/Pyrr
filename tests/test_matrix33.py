@@ -1,4 +1,7 @@
-import unittest
+try:
+    import unittest2 as unittest
+except:
+    import unittest
 import numpy as np
 from pyrr import matrix33, quaternion, vector3
 
@@ -83,13 +86,11 @@ class test_matrix33(unittest.TestCase):
         result = matrix33.create_from_matrix44(m44)
         self.assertTrue(np.allclose(result, m44[:3][:3]))
 
-    """
     @unittest.skip('Not implemented')
     def test_create_from_eulers(self):
         # just call the function
         # TODO: check the result
         matrix33.create_from_eulers([1,2,3])
-    """
 
     def test_create_from_x_rotation(self):
         mat = matrix33.create_from_x_rotation(np.pi / 2.)

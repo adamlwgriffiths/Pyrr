@@ -1,4 +1,7 @@
-import unittest
+try:
+    import unittest2 as unittest
+except:
+    import unittest
 
 class test_import(unittest.TestCase):
     def test_import_files(self):

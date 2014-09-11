@@ -1,4 +1,7 @@
-import unittest
+try:
+    import unittest2 as unittest
+except:
+    import unittest
 from pyrr import integer
 
 class test_integer(unittest.TestCase):

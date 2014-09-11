@@ -1,4 +1,7 @@
-import unittest
+try:
+    import unittest2 as unittest
+except:
+    import unittest
 import numpy as np
 from pyrr import vector, vector3, vector4
 
@@ -9,8 +12,6 @@ class test_vector(unittest.TestCase):
         np.testing.assert_almost_equal(result, [0.57735, 0.57735, 0.57735], decimal=5)
 
     def test_normalise_batch(self):
-        vec = np.array([1.,1.,1.])
-        batch = np.tile(vec, (3,1))
         result = vector3.normalise([
             [1.,1.,1.],
             [-1.,-1.,-1.],

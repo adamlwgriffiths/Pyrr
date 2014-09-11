@@ -1,4 +1,7 @@
-import unittest
+try:
+    import unittest2 as unittest
+except:
+    import unittest
 import numpy as np
 from pyrr import geometric_tests as gt
 from pyrr import line, plane, ray, sphere
