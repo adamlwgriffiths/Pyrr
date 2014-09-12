@@ -53,7 +53,7 @@ class Quaternion(BaseQuaternion):
         return cls(quaternion.create_from_inverse_of_eulers(eulers, dtype))
 
     def __new__(cls, value=None, dtype=None):
-        if value != None:
+        if value is not None:
             obj = value
             if not isinstance(value, np.ndarray):
                 obj = np.array(value, dtype=dtype)
@@ -81,6 +81,10 @@ class Quaternion(BaseQuaternion):
         return Quaternion(super(Quaternion, self).__mul__(other))
 
     @dispatch((np.ndarray, Iterable))
+    def __truediv__(self, other):
+        return Quaternion(super(Quaternion, self).__truediv__(other))
+
+    @dispatch((np.ndarray, Iterable))
     def __div__(self, other):
         return Quaternion(super(Quaternion, self).__div__(other))
 
@@ -97,6 +101,10 @@ class Quaternion(BaseQuaternion):
     @dispatch(BaseQuaternion)
     def __mul__(self, other):
         return self.cross(other)
+
+    @dispatch(BaseQuaternion)
+    def __truediv__(self, other):
+        raise ValueError('Cannot divide a quaternion by a quaternion')
 
     @dispatch(BaseQuaternion)
     def __div__(self, other):
@@ -124,6 +132,10 @@ class Quaternion(BaseQuaternion):
         return self * Quaternion(other)
 
     @dispatch(BaseMatrix)
+    def __truediv__(self, other):
+        raise ValueError('Cannot divide a quaternion by a matrix')
+
+    @dispatch(BaseMatrix)
     def __div__(self, other):
         raise ValueError('Cannot divide a quaternion by a matrix')
 
@@ -140,6 +152,10 @@ class Quaternion(BaseQuaternion):
     @dispatch(BaseVector)
     def __mul__(self, other):
         return other.__class__(quaternion.apply_to_vector(self, other))
+
+    @dispatch(BaseVector)
+    def __truediv__(self, other):
+        raise ValueError('Cannot divide a quaternion by a vector')
 
     @dispatch(BaseVector)
     def __div__(self, other):

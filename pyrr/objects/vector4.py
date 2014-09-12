@@ -6,6 +6,8 @@ from collections import Iterable
 from .base import BaseVector, BaseVector4, BaseQuaternion, BaseMatrix, NpProxy
 from .. import vector4
 
+# TODO: add < <= > >= == != operators
+
 class Vector4(BaseVector4):
     _module = vector4
     _shape = (4,)
@@ -24,7 +26,7 @@ class Vector4(BaseVector4):
     ########################
     # Creation
     def __new__(cls, value=None, dtype=None):
-        if value != None:
+        if value is not None:
             obj = value
             if not isinstance(value, np.ndarray):
                 obj = np.array(value, dtype=dtype)
@@ -55,6 +57,10 @@ class Vector4(BaseVector4):
         return Vector4(super(Vector4, self).__mul__(other))
 
     @dispatch((np.ndarray, Iterable))
+    def __truediv__(self, other):
+        return Vector4(super(Vector4, self).__truediv__(other))
+
+    @dispatch((np.ndarray, Iterable))
     def __div__(self, other):
         return Vector4(super(Vector4, self).__div__(other))
 
@@ -71,6 +77,10 @@ class Vector4(BaseVector4):
     @dispatch(BaseQuaternion)
     def __mul__(self, other):
         raise ValueError('Cannot multiply a vector by a quaternion')
+
+    @dispatch(BaseQuaternion)
+    def __truediv__(self, other):
+        raise ValueError('Cannot divide a vector by a quaternion')
 
     @dispatch(BaseQuaternion)
     def __div__(self, other):
@@ -91,6 +101,10 @@ class Vector4(BaseVector4):
         raise ValueError('Cannot multiply a vector by a matrix')
 
     @dispatch(BaseMatrix)
+    def __truediv__(self, other):
+        raise ValueError('Cannot divide a vector by a matrix')
+
+    @dispatch(BaseMatrix)
     def __div__(self, other):
         raise ValueError('Cannot divide a vector by a matrix')
 
@@ -107,6 +121,10 @@ class Vector4(BaseVector4):
     @dispatch(BaseVector)
     def __mul__(self, other):
         return Vector4(super(Vector4, self).__mul__(Vector4(other)))
+
+    @dispatch(BaseVector)
+    def __truediv__(self, other):
+        return Vector4(super(Vector4, self).__truediv__(Vector4(other)))
 
     @dispatch(BaseVector)
     def __div__(self, other):

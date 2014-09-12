@@ -97,9 +97,11 @@ Procedural Interface
 
 
 Object Oriented Features
-------------------------
+========================
 
-* Convertable types
+Convertable types
+-----------------
+
 
     v = Vector4([1.,0.,0.,0.])
     v3 = Vector3(v)
@@ -110,7 +112,9 @@ Object Oriented Features
     m33 = Matrix33(q)
 
 
-* Convenient Operators
+Convenient Operators
+--------------------
+
 
     # matrix multiplication
     m = Matrix44() * Matrix()

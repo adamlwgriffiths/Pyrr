@@ -73,7 +73,7 @@ class Matrix44(BaseMatrix44):
         return cls(matrix44.create_from_quaternion(quat, dtype=dtype))
 
     def __new__(cls, value=None, dtype=None):
-        if value != None:
+        if value is not None:
             obj = value
             if not isinstance(value, np.ndarray):
                 obj = np.array(value, dtype=dtype)
@@ -104,6 +104,10 @@ class Matrix44(BaseMatrix44):
         return Matrix44(matrix44.multiply(self, other))
 
     @dispatch((np.ndarray, Iterable))
+    def __truediv__(self, other):
+        return Matrix44(super(Matrix44, self).__truediv__(other))
+
+    @dispatch((np.ndarray, Iterable))
     def __div__(self, other):
         return Matrix44(super(Matrix44, self).__div__(other))
 
@@ -129,6 +133,10 @@ class Matrix44(BaseMatrix44):
         return Matrix44(matrix44.multiply(self, other))
 
     @dispatch(BaseMatrix)
+    def __truediv__(self, other):
+        raise ValueError('Cannot divide a matrix by a matrix')
+
+    @dispatch(BaseMatrix)
     def __div__(self, other):
         raise ValueError('Cannot divide a matrix by a matrix')
 
@@ -148,6 +156,10 @@ class Matrix44(BaseMatrix44):
         return self * m
 
     @dispatch(BaseQuaternion)
+    def __truediv__(self, other):
+        raise ValueError('Cannot divide a matrix by a quaternion')
+
+    @dispatch(BaseQuaternion)
     def __div__(self, other):
         raise ValueError('Cannot divide a matrix by a quaternion')
 
@@ -164,6 +176,10 @@ class Matrix44(BaseMatrix44):
     @dispatch(BaseVector)
     def __mul__(self, other):
         return other.__class__(matrix44.apply_to_vector(self, other))
+
+    @dispatch(BaseVector)
+    def __truediv__(self, other):
+        raise ValueError('Cannot divide a matrix by a vector')
 
     @dispatch(BaseVector)
     def __div__(self, other):

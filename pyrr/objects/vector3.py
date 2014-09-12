@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
-from __future__ import absolute_import
+from __future__ import absolute_import, division
 import numpy as np
 from multipledispatch import dispatch
 from collections import Iterable
 from .base import BaseVector, BaseVector3, BaseMatrix, BaseQuaternion, NpProxy
 from .. import vector3
+
+# TODO: add < <= > >= == != operators
 
 class Vector3(BaseVector3):
     _module = vector3
@@ -20,7 +22,7 @@ class Vector3(BaseVector3):
     ########################
     # Creation
     def __new__(cls, value=None, dtype=None):
-        if value != None:
+        if value is not None:
             obj = value
             if not isinstance(value, np.ndarray):
                 obj = np.array(value, dtype=dtype)
@@ -51,6 +53,10 @@ class Vector3(BaseVector3):
         return Vector3(super(Vector3, self).__mul__(other))
 
     @dispatch((np.ndarray, Iterable))
+    def __truediv__(self, other):
+        return Vector3(super(Vector3, self).__truediv__(other))
+
+    @dispatch((np.ndarray, Iterable))
     def __div__(self, other):
         return Vector3(super(Vector3, self).__div__(other))
 
@@ -67,6 +73,10 @@ class Vector3(BaseVector3):
     @dispatch(BaseQuaternion)
     def __mul__(self, other):
         raise ValueError('Cannot multiply a vector by a quaternion')
+
+    @dispatch(BaseQuaternion)
+    def __truediv__(self, other):
+        raise ValueError('Cannot divide a vector by a quaternion')
 
     @dispatch(BaseQuaternion)
     def __div__(self, other):
@@ -87,6 +97,10 @@ class Vector3(BaseVector3):
         raise ValueError('Cannot multiply a vector by a matrix')
 
     @dispatch(BaseMatrix)
+    def __truediv__(self, other):
+        raise ValueError('Cannot divide a vector by a matrix')
+
+    @dispatch(BaseMatrix)
     def __div__(self, other):
         raise ValueError('Cannot divide a vector by a matrix')
 
@@ -103,6 +117,10 @@ class Vector3(BaseVector3):
     @dispatch(BaseVector)
     def __mul__(self, other):
         return Vector3(super(Vector3, self).__mul__(other[:3]))
+
+    @dispatch(BaseVector)
+    def __truediv__(self, other):
+        return Vector3(super(Vector3, self).__truediv__(other[:3]))
 
     @dispatch(BaseVector)
     def __div__(self, other):

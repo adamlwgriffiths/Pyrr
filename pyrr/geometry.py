@@ -193,9 +193,9 @@ def create_quad(scale=(1.0,1.0), st=False, rgba=False, dtype='float32', type='tr
 
     data = np.empty(shape, dtype=dtype)
     data[:,:3] = vertices
-    if st_values != None:
+    if st_values is not None:
         data[:,3:5] = st_values
-    if rgba_values != None:
+    if rgba_values is not None:
         data[:,rgba_offset:] = rgba_values
 
     if type == 'triangles':
@@ -504,9 +504,9 @@ def create_cube(scale=(1.0,1.0,1.0), st=False, rgba=False, dtype='float32', type
 
     data = np.empty(shape, dtype=dtype)
     data[:,:3] = vertices
-    if st_values != None:
+    if st_values is not None:
         data[:,3:5] = st_values
-    if rgba_values != None:
+    if rgba_values is not None:
         data[:,rgba_offset:] = rgba_values
 
     if type == 'triangles':
