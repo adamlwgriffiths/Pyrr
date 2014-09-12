@@ -3,7 +3,7 @@ from __future__ import absolute_import
 import numpy as np
 from multipledispatch import dispatch
 from collections import Iterable
-from .base import BaseMatrix, BaseMatrix33, BaseMatrix44, BaseQuaternion, BaseVector, NpProxy
+from .base import BaseObject, BaseMatrix, BaseMatrix33, BaseMatrix44, BaseQuaternion, BaseVector, NpProxy
 from .. import matrix33
 
 class Matrix33(BaseMatrix33):
@@ -60,100 +60,48 @@ class Matrix33(BaseMatrix33):
         return super(Matrix33, cls).__new__(cls, obj)
 
     ########################
-    # Base operators
-    @dispatch((np.ndarray, Iterable))
+    # Basic Operators
+    @dispatch(BaseObject)
     def __add__(self, other):
-        return Matrix33(super(Matrix44, self).__add__(other))
+        raise ValueError('Cannot {} a {} to a {}'.format('add', other.__class__.__name__, self.__class__.__name__))
 
-    @dispatch((np.ndarray, Iterable))
+    @dispatch(BaseObject)
     def __sub__(self, other):
-        return Matrix33(super(Matrix44, self).__sub__(other))
+        raise ValueError('Cannot {} a {} from a {}'.format('subtract', other.__class__.__name__, self.__class__.__name__))
 
-    @dispatch((np.ndarray, Iterable))
+    @dispatch(BaseObject)
     def __mul__(self, other):
-        return Matrix33(matrix33.multiply(self, other))
+        raise ValueError('Cannot {} a {} by a {}'.format('multiply', self.__class__.__name__, other.__class__.__name__))
 
-    @dispatch((np.ndarray, Iterable))
+    @dispatch(BaseObject)
     def __truediv__(self, other):
-        return Matrix33(super(Matrix44, self).__truediv__(other))
+        raise ValueError('Cannot {} a {} by a {}'.format('divide', self.__class__.__name__, other.__class__.__name__))
 
-    @dispatch((np.ndarray, Iterable))
+    @dispatch(BaseObject)
     def __div__(self, other):
-        return Matrix33(super(Matrix44, self).__div__(other))
-
-    ########################
-    # Matrices
-    @dispatch(BaseMatrix)
-    def __add__(self, other):
-        raise ValueError('Cannot add a matrix to a matrix')
-
-    @dispatch(BaseMatrix)
-    def __sub__(self, other):
-        raise ValueError('Cannot subtract a matrix from a matrix')
-
-    @dispatch(BaseMatrix33)
-    def __mul__(self, other):
-        return Matrix33(matrix33.multiply(self, other))
-
-    @dispatch(BaseMatrix44)
-    def __mul__(self, other):
-        return Matrix33(matrix33.multiply(self, other.matrix33))
-
-    @dispatch(BaseMatrix)
-    def __truediv__(self, other):
-        raise ValueError('Cannot divide a matrix by a matrix')
-
-    @dispatch(BaseMatrix)
-    def __div__(self, other):
-        raise ValueError('Cannot divide a matrix by a matrix')
+        raise ValueError('Cannot {} a {} by a {}'.format('divide', self.__class__.__name__, other.__class__.__name__))
 
     def __invert__(self):
         return self.inverse
 
     ########################
+    # Matrices
+    @dispatch(BaseMatrix)
+    def __mul__(self, other):
+        return Matrix33(matrix33.multiply(self, other.matrix33))
+
+    ########################
     # Quaternions
-    @dispatch(BaseQuaternion)
-    def __add__(self, other):
-        raise ValueError('Cannot add a quaternion to a matrix')
-
-    @dispatch(BaseQuaternion)
-    def __sub__(self, other):
-        raise ValueError('Cannot subtract a quaternion from a matrix')
-
     @dispatch(BaseQuaternion)
     def __mul__(self, other):
         m = other.matrix33
         return self * m
-
-    @dispatch(BaseQuaternion)
-    def __truediv__(self, other):
-        raise ValueError('Cannot divide a matrix by a quaternion')
-        
-    @dispatch(BaseQuaternion)
-    def __div__(self, other):
-        raise ValueError('Cannot divide a matrix by a quaternion')
-        
+ 
     ########################
     # Vectors
     @dispatch(BaseVector)
-    def __add__(self, other):
-        raise ValueError('Cannot add a vector to a matrix')
-
-    @dispatch(BaseVector)
-    def __sub__(self, other):
-        raise ValueError('Cannot subtract a vector from a matrix')
-
-    @dispatch(BaseVector)
     def __mul__(self, other):
         return other.__class__(matrix33.apply_to_vector(self, other))
-
-    @dispatch(BaseVector)
-    def __truediv__(self, other):
-        raise ValueError('Cannot divide a matrix by a vector')
-
-    @dispatch(BaseVector)
-    def __div__(self, other):
-        raise ValueError('Cannot divide a matrix by a vector')
 
     ########################
     # Methods and Properties

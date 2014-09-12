@@ -137,9 +137,7 @@ Convenient Operators
 
     # vector oprations
     v = Vector3() + Vector3()
-    v = Vector3() - Vector4()
-    v = Vector4() * Vector3()
-    v = Vector4() / Vector4()
+    v = Vector4() - Vector4()
 
     # vector transform
     v = Vector3() * Quaternion()

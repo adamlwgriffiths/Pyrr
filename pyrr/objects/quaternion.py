@@ -3,7 +3,7 @@ from __future__ import absolute_import
 import numpy as np
 from multipledispatch import dispatch
 from collections import Iterable
-from .base import BaseQuaternion, BaseMatrix, BaseVector, NpProxy
+from .base import BaseObject, BaseQuaternion, BaseMatrix, BaseVector, NpProxy
 from .. import quaternion
 
 class Quaternion(BaseQuaternion):
@@ -67,48 +67,32 @@ class Quaternion(BaseQuaternion):
         return super(Quaternion, cls).__new__(cls, obj)
 
     ########################
-    # Base operators
-    @dispatch((np.ndarray, Iterable))
+    # Basic Operators
+    @dispatch(BaseObject)
     def __add__(self, other):
-        return Quaternion(super(Quaternion, self).__add__(other))
+        raise ValueError('Cannot {} a {} to a {}'.format('add', other.__class__.__name__, self.__class__.__name__))
 
-    @dispatch((np.ndarray, Iterable))
+    @dispatch(BaseObject)
     def __sub__(self, other):
-        return Quaternion(super(Quaternion, self).__sub__(other))
+        raise ValueError('Cannot {} a {} from a {}'.format('subtract', other.__class__.__name__, self.__class__.__name__))
 
-    @dispatch((np.ndarray, Iterable))
+    @dispatch(BaseObject)
     def __mul__(self, other):
-        return Quaternion(super(Quaternion, self).__mul__(other))
+        raise ValueError('Cannot {} a {} by a {}'.format('multiply', self.__class__.__name__, other.__class__.__name__))
 
-    @dispatch((np.ndarray, Iterable))
+    @dispatch(BaseObject)
     def __truediv__(self, other):
-        return Quaternion(super(Quaternion, self).__truediv__(other))
+        raise ValueError('Cannot {} a {} by a {}'.format('divide', self.__class__.__name__, other.__class__.__name__))
 
-    @dispatch((np.ndarray, Iterable))
+    @dispatch(BaseObject)
     def __div__(self, other):
-        return Quaternion(super(Quaternion, self).__div__(other))
+        raise ValueError('Cannot {} a {} by a {}'.format('divide', self.__class__.__name__, other.__class__.__name__))
 
     ########################
     # Quaternions
     @dispatch(BaseQuaternion)
-    def __add__(self, other):
-        raise ValueError('Cannot add a quaternion to a quaternion')
-
-    @dispatch(BaseQuaternion)
-    def __sub__(self, other):
-        raise ValueError('Cannot subtract a quaternion from a quaternion')
-
-    @dispatch(BaseQuaternion)
     def __mul__(self, other):
         return self.cross(other)
-
-    @dispatch(BaseQuaternion)
-    def __truediv__(self, other):
-        raise ValueError('Cannot divide a quaternion by a quaternion')
-
-    @dispatch(BaseQuaternion)
-    def __div__(self, other):
-        raise ValueError('Cannot divide a quaternion by a quaternion')
 
     @dispatch(BaseQuaternion)
     def __or__(self, other):
@@ -120,46 +104,14 @@ class Quaternion(BaseQuaternion):
     ########################
     # Matrices
     @dispatch(BaseMatrix)
-    def __add__(self, other):
-        raise ValueError('Cannot add a matrix to a quaternion')
-
-    @dispatch(BaseMatrix)
-    def __sub__(self, other):
-        raise ValueError('Cannot subtract a matrix from a quaternion')
-
-    @dispatch(BaseMatrix)
     def __mul__(self, other):
         return self * Quaternion(other)
-
-    @dispatch(BaseMatrix)
-    def __truediv__(self, other):
-        raise ValueError('Cannot divide a quaternion by a matrix')
-
-    @dispatch(BaseMatrix)
-    def __div__(self, other):
-        raise ValueError('Cannot divide a quaternion by a matrix')
 
     ########################
     # Vectors
     @dispatch(BaseVector)
-    def __add__(self, other):
-        raise ValueError('Cannot add a vector to a quaternion')
-
-    @dispatch(BaseVector)
-    def __sub__(self, other):
-        raise ValueError('Cannot subtract a vector from a quaternion')
-
-    @dispatch(BaseVector)
     def __mul__(self, other):
         return other.__class__(quaternion.apply_to_vector(self, other))
-
-    @dispatch(BaseVector)
-    def __truediv__(self, other):
-        raise ValueError('Cannot divide a quaternion by a vector')
-
-    @dispatch(BaseVector)
-    def __div__(self, other):
-        raise ValueError('Cannot divide a quaternion by a vector')
 
     ########################
     # Methods and Properties

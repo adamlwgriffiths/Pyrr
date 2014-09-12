@@ -3,7 +3,7 @@ from __future__ import absolute_import, division
 import numpy as np
 from multipledispatch import dispatch
 from collections import Iterable
-from .base import BaseVector, BaseVector3, BaseMatrix, BaseQuaternion, NpProxy
+from .base import BaseObject, BaseVector, BaseVector3, BaseVector4, BaseMatrix, BaseQuaternion, NpProxy
 from .. import vector3
 
 # TODO: add < <= > >= == != operators
@@ -39,100 +39,80 @@ class Vector3(BaseVector3):
         return super(Vector3, cls).__new__(cls, obj)
 
     ########################
-    # Base operators
-    @dispatch((np.ndarray, Iterable))
+    # Basic Operators
+    @dispatch(BaseObject)
     def __add__(self, other):
-        return Vector3(super(Vector3, self).__add__(other))
+        raise ValueError('Cannot {} a {} to a {}'.format('add', other.__class__.__name__, self.__class__.__name__))
 
-    @dispatch((np.ndarray, Iterable))
+    @dispatch(BaseObject)
     def __sub__(self, other):
-        return Vector3(super(Vector3, self).__sub__(other))
+        raise ValueError('Cannot {} a {} from a {}'.format('subtract', other.__class__.__name__, self.__class__.__name__))
 
-    @dispatch((np.ndarray, Iterable))
+    @dispatch(BaseObject)
     def __mul__(self, other):
-        return Vector3(super(Vector3, self).__mul__(other))
+        raise ValueError('Cannot {} a {} by a {}'.format('multiply', self.__class__.__name__, other.__class__.__name__))
 
-    @dispatch((np.ndarray, Iterable))
+    @dispatch(BaseObject)
     def __truediv__(self, other):
-        return Vector3(super(Vector3, self).__truediv__(other))
+        raise ValueError('Cannot {} a {} by a {}'.format('divide', self.__class__.__name__, other.__class__.__name__))
 
-    @dispatch((np.ndarray, Iterable))
+    @dispatch(BaseObject)
     def __div__(self, other):
-        return Vector3(super(Vector3, self).__div__(other))
+        raise ValueError('Cannot {} a {} by a {}'.format('divide', self.__class__.__name__, other.__class__.__name__))
 
-    ########################
-    # Quaternion
-    @dispatch(BaseQuaternion)
-    def __add__(self, other):
-        raise ValueError('Cannot add a quaternion to a vector')
+    @dispatch(BaseObject)
+    def __xor__(self, other):
+        raise ValueError('Cannot {} a {} by a {}'.format('xor', self.__class__.__name__, other.__class__.__name__))
 
-    @dispatch(BaseQuaternion)
-    def __sub__(self, other):
-        raise ValueError('Cannot subtract a quaternion from a vector')
+    @dispatch(BaseObject)
+    def __or__(self, other):
+        raise ValueError('Cannot {} a {} by a {}'.format('or', self.__class__.__name__, other.__class__.__name__))
 
-    @dispatch(BaseQuaternion)
-    def __mul__(self, other):
-        raise ValueError('Cannot multiply a vector by a quaternion')
+    @dispatch(BaseObject)
+    def __ne__(self, other):
+        raise ValueError('Cannot {} a {} by a {}'.format('compare', self.__class__.__name__, other.__class__.__name__))
 
-    @dispatch(BaseQuaternion)
-    def __truediv__(self, other):
-        raise ValueError('Cannot divide a vector by a quaternion')
-
-    @dispatch(BaseQuaternion)
-    def __div__(self, other):
-        raise ValueError('Cannot divide a vector by a quaternion')
-
-    ########################
-    # Matrices
-    @dispatch(BaseMatrix)
-    def __add__(self, other):
-        raise ValueError('Cannot add a matrix to a vector')
-
-    @dispatch(BaseMatrix)
-    def __sub__(self, other):
-        raise ValueError('Cannot subtract a matrix from a vector')
-
-    @dispatch(BaseMatrix)
-    def __mul__(self, other):
-        raise ValueError('Cannot multiply a vector by a matrix')
-
-    @dispatch(BaseMatrix)
-    def __truediv__(self, other):
-        raise ValueError('Cannot divide a vector by a matrix')
-
-    @dispatch(BaseMatrix)
-    def __div__(self, other):
-        raise ValueError('Cannot divide a vector by a matrix')
+    @dispatch(BaseObject)
+    def __eq__(self, other):
+        raise ValueError('Cannot {} a {} by a {}'.format('compare', self.__class__.__name__, other.__class__.__name__))
 
     ########################
     # Vectors
-    @dispatch(BaseVector)
+    @dispatch(BaseVector3)
     def __add__(self, other):
-        return Vector3(super(Vector3, self).__add__(other[:3]))
+        return Vector3(super(Vector3, self).__add__(other.vector3))
 
-    @dispatch(BaseVector)
+    @dispatch(BaseVector3)
     def __sub__(self, other):
-        return Vector3(super(Vector3, self).__sub__(other[:3]))
+        return Vector3(super(Vector3, self).__sub__(other.vector3))
 
-    @dispatch(BaseVector)
+    @dispatch(BaseVector3)
     def __mul__(self, other):
-        return Vector3(super(Vector3, self).__mul__(other[:3]))
+        return Vector3(super(Vector3, self).__mul__(other.vector3))
 
-    @dispatch(BaseVector)
+    @dispatch(BaseVector3)
     def __truediv__(self, other):
-        return Vector3(super(Vector3, self).__truediv__(other[:3]))
+        return Vector3(super(Vector3, self).__truediv__(other.vector3))
 
-    @dispatch(BaseVector)
+    @dispatch(BaseVector3)
     def __div__(self, other):
-        return Vector3(super(Vector3, self).__div__(other[:3]))
+        return Vector3(super(Vector3, self).__div__(other.vector3))
 
-    @dispatch(BaseVector)
+    @dispatch(BaseVector3)
     def __xor__(self, other):
-        return self.cross(other)
+        return self.cross(other.vector3)
 
-    @dispatch(BaseVector)
+    @dispatch(BaseVector3)
     def __or__(self, other):
-        return self.dot(other)
+        return self.dot(other.vector3)
+
+    @dispatch(BaseVector3)
+    def __ne__(self, other):
+        return bool(np.any(super(Vector3, self).__ne__(other.vector3)))
+
+    @dispatch(BaseVector3)
+    def __eq__(self, other):
+        return bool(np.all(super(Vector3, self).__eq__(other.vector3)))
 
     ########################
     # Methods and Properties

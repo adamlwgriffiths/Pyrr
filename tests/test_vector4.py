@@ -13,7 +13,7 @@ from pyrr import vector4
 class test_vector4(unittest.TestCase):
     def test_create(self):
         result = vector4.create()
-        np.testing.assert_almost_equal(result, [0.,0.,0.,1.], decimal=5)
+        np.testing.assert_almost_equal(result, [0.,0.,0.,0.], decimal=5)
         self.assertTrue(result.dtype == np.float)
 
     def test_create_values(self):
@@ -23,47 +23,57 @@ class test_vector4(unittest.TestCase):
 
     def test_create_unit_length_x(self):
         result = vector4.create_unit_length_x()
-        np.testing.assert_almost_equal(result, [1.,0.,0.,1.], decimal=5)
+        np.testing.assert_almost_equal(result, [1.,0.,0.,0.], decimal=5)
         self.assertTrue(result.dtype == np.float)
 
     def test_create_unit_length_x_dtype(self):
         result = vector4.create_unit_length_x(dtype=np.float32)
-        np.testing.assert_almost_equal(result, [1.,0.,0.,1.], decimal=5)
+        np.testing.assert_almost_equal(result, [1.,0.,0.,0.], decimal=5)
         self.assertTrue(result.dtype == np.float32)
 
     def test_create_unit_length_y(self):
         result = vector4.create_unit_length_y()
-        np.testing.assert_almost_equal(result, [0.,1.,0.,1.], decimal=5)
+        np.testing.assert_almost_equal(result, [0.,1.,0.,0.], decimal=5)
         self.assertTrue(result.dtype == np.float)
 
     def test_create_unit_length_y_dtype(self):
         result = vector4.create_unit_length_y(dtype=np.float32)
-        np.testing.assert_almost_equal(result, [0.,1.,0.,1.], decimal=5)
+        np.testing.assert_almost_equal(result, [0.,1.,0.,0.], decimal=5)
         self.assertTrue(result.dtype == np.float32)
 
     def test_create_unit_length_z(self):
         result = vector4.create_unit_length_z()
-        np.testing.assert_almost_equal(result, [0.,0.,1.,1.], decimal=5)
+        np.testing.assert_almost_equal(result, [0.,0.,1.,0.], decimal=5)
         self.assertTrue(result.dtype == np.float)
 
     def test_create_unit_length_z_dtype(self):
         result = vector4.create_unit_length_z(dtype=np.float32)
-        np.testing.assert_almost_equal(result, [0.,0.,1.,1.], decimal=5)
+        np.testing.assert_almost_equal(result, [0.,0.,1.,0.], decimal=5)
+        self.assertTrue(result.dtype == np.float32)
+
+    def test_create_unit_length_w(self):
+        result = vector4.create_unit_length_w()
+        np.testing.assert_almost_equal(result, [0.,0.,0.,1.], decimal=5)
+        self.assertTrue(result.dtype == np.float)
+
+    def test_create_unit_length_w_dtype(self):
+        result = vector4.create_unit_length_w(dtype=np.float32)
+        np.testing.assert_almost_equal(result, [0.,0.,0.,1.], decimal=5)
         self.assertTrue(result.dtype == np.float32)
 
     def test_create_from_vector3(self):
         result = vector4.create_from_vector3([2.,3.,4.])
-        np.testing.assert_almost_equal(result, [2.,3.,4.,1.], decimal=5)
+        np.testing.assert_almost_equal(result, [2.,3.,4.,0.], decimal=5)
         self.assertTrue(result.dtype == np.float)
 
     def test_create_from_vector3_dtype(self):
         result = vector4.create_from_vector3([2.,3.,4.], dtype=np.float32)
-        np.testing.assert_almost_equal(result, [2.,3.,4.,1.], decimal=5)
+        np.testing.assert_almost_equal(result, [2.,3.,4.,0.], decimal=5)
         self.assertTrue(result.dtype == np.float32)
 
     def test_create_from_vector3_int_assumed(self):
-        result = vector4.create_from_vector3([2,3,4,1])
-        np.testing.assert_almost_equal(result, [2,3,4,1], decimal=5)
+        result = vector4.create_from_vector3([2,3,4])
+        np.testing.assert_almost_equal(result, [2,3,4,0], decimal=5)
         self.assertTrue(result.dtype == np.int)
 
     def test_create_from_matrix44_translation(self):

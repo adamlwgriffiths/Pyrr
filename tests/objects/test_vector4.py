@@ -32,7 +32,7 @@ class test_object_vector4(unittest.TestCase):
         self.assertEqual(v.shape, self._shape)
 
         v = Vector4([1.,2.,3.])
-        self.assertTrue(np.array_equal(v, [1.,2.,3.,1.]))
+        self.assertTrue(np.array_equal(v, [1.,2.,3.,0.]))
         self.assertEqual(v.shape, self._shape)
 
         v = Vector4(Vector4())
@@ -106,22 +106,28 @@ class test_object_vector4(unittest.TestCase):
         v2 = Vector3([1.,2.,3.])
 
         # add
-        self.assertTrue(np.array_equal(v1 + v2, [1.,2.,3.,1.]))
+        self.assertRaises(ValueError, lambda: v1 + v2)
 
         # subtract
-        self.assertTrue(np.array_equal(v1 - v2, [-1.,-2.,-3.,-1.]))
+        self.assertRaises(ValueError, lambda: v1 - v2)
 
         # multiply
-        self.assertTrue(np.array_equal(v1 * v2, [0.,0.,0.,0.]))
+        self.assertRaises(ValueError, lambda: v1 * v2)
 
         # divide
-        self.assertTrue(np.array_equal(v1 / v2, [0.,0.,0.,0.]))
+        #self.assertRaises(ValueError, lambda: v1 / v2)
 
         # or
-        self.assertTrue(np.array_equal(v1 | v2, vector4.dot([0.,0.,0.,0.], [1.,2.,3.,1.])))
+        self.assertRaises(ValueError, lambda: v1 | v2)
 
         # xor
-        #self.assertTrue(np.array_equal(v1 ^ v2, vector4.cross([0.,0.,0.,0.], [1.,2.,3.,1.])))
+        #self.assertRaises(ValueError, lambda: v1 ^ v2)
+
+        # ==
+        self.assertRaises(ValueError, lambda: Vector4() == Vector3())
+
+        # !=
+        self.assertRaises(ValueError, lambda: Vector4() != Vector3([1.,1.,1.]))
 
     def test_operators_vector4(self):
         v1 = Vector4()
@@ -144,6 +150,14 @@ class test_object_vector4(unittest.TestCase):
 
         # xor
         #self.assertTrue(np.array_equal(v1 ^ v2, vector4.cross([0.,0.,0.,0.], [1.,2.,3.,4.])))
+
+        # ==
+        self.assertTrue(Vector4() == Vector4())
+        self.assertFalse(Vector4() == Vector4([1.,1.,1.,1.]))
+
+        # !=
+        self.assertTrue(Vector4() != Vector4([1.,1.,1.,1.]))
+        self.assertFalse(Vector4() != Vector4())
 
     def test_accessors(self):
         v = Vector3(np.arange(self._size))

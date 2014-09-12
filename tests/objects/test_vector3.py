@@ -47,7 +47,7 @@ class test_object_vector3(unittest.TestCase):
     def test_vector4(self):
         v1 = Vector3([1.,2.,3.])
         v2 = v1.vector4
-        self.assertTrue(np.array_equal(v2, [1.,2.,3.,1.]))
+        self.assertTrue(np.array_equal(v2, [1.,2.,3.,0.]))
 
     def test_negative(self):
         v = Vector3([1.,2.,3.])
@@ -123,21 +123,41 @@ class test_object_vector3(unittest.TestCase):
         # xor
         self.assertTrue(np.array_equal(v1 ^ v2, vector3.cross(v1, v2)))
 
+        # ==
+        self.assertTrue(Vector3() == Vector3())
+        self.assertFalse(Vector3() == Vector3([1.,1.,1.]))
+
+        # !=
+        self.assertTrue(Vector3() != Vector3([1.,1.,1.]))
+        self.assertFalse(Vector3() != Vector3())
+
     def test_operators_vector4(self):
         v1 = Vector3()
         v2 = Vector4([1.,2.,3.,4.])
 
         # add
-        self.assertTrue(np.array_equal(v1 + v2, [1.,2.,3.]))
+        self.assertRaises(ValueError, lambda: v1 + v2)
 
         # subtract
-        self.assertTrue(np.array_equal(v1 - v2, [-1.,-2.,-3.]))
+        self.assertRaises(ValueError, lambda: v1 - v2)
 
         # multiply
-        self.assertTrue(np.array_equal(v1 * v2, [0.,0.,0.]))
+        self.assertRaises(ValueError, lambda: v1 * v2)
 
         # divide
-        self.assertTrue(np.array_equal(v1 / v2, [0.,0.,0.]))
+        self.assertRaises(ValueError, lambda: v1 / v2)
+
+        # or
+        self.assertRaises(ValueError, lambda: v1 | v2)
+
+        # xor
+        self.assertRaises(ValueError, lambda: v1 ^ v2)
+
+        # ==
+        self.assertRaises(ValueError, lambda: Vector3() == Vector4())
+
+        # !=
+        self.assertRaises(ValueError, lambda: Vector3() != Vector4([1.,1.,1.,1.]))
 
     def test_accessors(self):
         v = Vector3(np.arange(self._size))

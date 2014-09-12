@@ -9,22 +9,25 @@ from .utils import parameters_as_numpy_arrays
 from .vector import *
 
 
-def create(x=0., y=0., z=0., w=1.0, dtype=None):
+def create(x=0., y=0., z=0., w=0.0, dtype=None):
     return np.array([x,y,z,w], dtype=dtype)
 
 def create_unit_length_x(dtype=None):
-    return np.array([1.0, 0.0, 0.0, 1.0], dtype=dtype)
+    return np.array([1.0, 0.0, 0.0, 0.0], dtype=dtype)
 
 def create_unit_length_y(dtype=None):
-    return np.array([0.0, 1.0, 0.0, 1.0], dtype=dtype)
+    return np.array([0.0, 1.0, 0.0, 0.0], dtype=dtype)
 
 def create_unit_length_z(dtype=None):
-    return np.array([0.0, 0.0, 1.0, 1.0], dtype=dtype)
+    return np.array([0.0, 0.0, 1.0, 0.0], dtype=dtype)
+
+def create_unit_length_w(dtype=None):
+    return np.array([0.0, 0.0, 0.0, 1.0], dtype=dtype)
 
 @parameters_as_numpy_arrays('vector')
-def create_from_vector3(vector, dtype=None):
+def create_from_vector3(vector, w=0., dtype=None):
     dtype = dtype or vector.dtype
-    return np.array([vector[0], vector[1], vector[2], 1.0], dtype=dtype)
+    return np.array([vector[0], vector[1], vector[2], w], dtype=dtype)
 
 def create_from_matrix44_translation(mat):
     return mat[3, 0:4].copy()
