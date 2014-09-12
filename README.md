@@ -177,6 +177,12 @@ Pyrr requires the following software:
   * NumPy
 
 
+Changelog
+---------
+
+[View the changelog](CHANGELOG.md).
+
+
 Authors
 -------
 
