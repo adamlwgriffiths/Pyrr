@@ -2,7 +2,6 @@
 from __future__ import absolute_import
 import numpy as np
 from multipledispatch import dispatch
-from collections import Iterable
 from .base import BaseObject, BaseQuaternion, BaseMatrix, BaseVector, NpProxy
 from .. import quaternion
 
@@ -154,6 +153,10 @@ class Quaternion(BaseQuaternion):
     @property
     def negative(self):
         return Quaternion(quaternion.negate(self))
+
+    @property
+    def is_identity(self):
+        return quaternion.is_identity(self)
 
     @property
     def matrix44(self):

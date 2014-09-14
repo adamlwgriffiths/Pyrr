@@ -123,6 +123,11 @@ class test_object_quaternion(unittest.TestCase):
         q = Quaternion.from_x_rotation(np.pi / 2.0)
         self.assertTrue(np.allclose(q.negative, quaternion.negate(q)))
 
+    def test_is_identity(self):
+        self.assertTrue(quaternion.is_identity(Quaternion()))
+        self.assertTrue(quaternion.is_identity(Quaternion([0.,0.,0.,1.])))
+        self.assertFalse(quaternion.is_identity(Quaternion([1.,0.,0.,0.])))
+
     def test_matrix33(self):
         q = Quaternion.from_x_rotation(np.pi / 2.0)
         self.assertTrue(np.allclose(q.matrix33, matrix33.create_from_quaternion(q)))

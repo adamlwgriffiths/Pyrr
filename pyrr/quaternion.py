@@ -397,6 +397,9 @@ def negate(quat):
     """
     return quat * -1.0
 
+def is_identity(quat):
+    return np.allclose(quat, [0.,0.,0.,1.])
+
 @all_parameters_as_numpy_arrays
 def apply_to_vector(quat, vec):
     """Rotates a vector by a quaternion.
