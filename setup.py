@@ -18,7 +18,7 @@ setup(
     author = 'Adam Griffiths',
     author_email = 'adam.lw.griffiths@gmail.com',
     url = 'https://github.com/adamlwgriffiths/Pyrr',
-    requires = ['numpy',],
+    install_requires = ['numpy', 'multipledispatch'],
     platforms = ['any'],
     test_suite = 'tests',
     packages = ['pyrr','pyrr.objects'],
