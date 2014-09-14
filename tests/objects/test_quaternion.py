@@ -217,7 +217,6 @@ class test_object_quaternion(unittest.TestCase):
         self.assertRaises(ValueError, lambda: q - v)
 
         # multiply
-        print q * v, quaternion.apply_to_vector(quaternion.create_from_x_rotation(0.5), [1.,0.,0.,1.])
         self.assertTrue(np.array_equal(q * v, quaternion.apply_to_vector(quaternion.create_from_x_rotation(0.5), [1.,0.,0.,1.])))
 
         # divide
