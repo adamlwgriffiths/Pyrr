@@ -181,7 +181,7 @@ class test_object_matrix33(unittest.TestCase):
         self.assertRaises(ValueError, lambda: m - v)
 
         # multiply
-        self.assertTrue(np.array_equal(m * v, matrix33.apply_to_vector(matrix33.create_identity(), [1,1,1,1])))
+        self.assertTrue(ValueError, lambda: m * v)
 
         # divide
         self.assertRaises(ValueError, lambda: m / v)

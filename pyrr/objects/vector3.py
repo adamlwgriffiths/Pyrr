@@ -27,11 +27,8 @@ class Vector3(BaseVector3):
             if not isinstance(value, np.ndarray):
                 obj = np.array(value, dtype=dtype)
 
-            # vector4
-            if obj.shape == (4,) or isinstance(obj, Vector4):
-                obj = vector3.create_from_vector4(obj, dtype=dtype)
             # matrix44
-            elif obj.shape == (4,4):
+            if obj.shape == (4,4):
                 obj = vector3.create_from_matrix44_translation(obj, dtype=dtype)
         else:
             obj = np.zeros(cls._shape, dtype=dtype)
@@ -80,50 +77,42 @@ class Vector3(BaseVector3):
     # Vectors
     @dispatch(BaseVector3)
     def __add__(self, other):
-        return Vector3(super(Vector3, self).__add__(other.vector3))
+        return Vector3(super(Vector3, self).__add__(other))
 
     @dispatch(BaseVector3)
     def __sub__(self, other):
-        return Vector3(super(Vector3, self).__sub__(other.vector3))
+        return Vector3(super(Vector3, self).__sub__(other))
 
     @dispatch(BaseVector3)
     def __mul__(self, other):
-        return Vector3(super(Vector3, self).__mul__(other.vector3))
+        return Vector3(super(Vector3, self).__mul__(other))
 
     @dispatch(BaseVector3)
     def __truediv__(self, other):
-        return Vector3(super(Vector3, self).__truediv__(other.vector3))
+        return Vector3(super(Vector3, self).__truediv__(other))
 
     @dispatch(BaseVector3)
     def __div__(self, other):
-        return Vector3(super(Vector3, self).__div__(other.vector3))
+        return Vector3(super(Vector3, self).__div__(other))
 
     @dispatch(BaseVector3)
     def __xor__(self, other):
-        return self.cross(other.vector3)
+        return self.cross(other)
 
     @dispatch(BaseVector3)
     def __or__(self, other):
-        return self.dot(other.vector3)
+        return self.dot(other)
 
     @dispatch(BaseVector3)
     def __ne__(self, other):
-        return bool(np.any(super(Vector3, self).__ne__(other.vector3)))
+        return bool(np.any(super(Vector3, self).__ne__(other)))
 
     @dispatch(BaseVector3)
     def __eq__(self, other):
-        return bool(np.all(super(Vector3, self).__eq__(other.vector3)))
+        return bool(np.all(super(Vector3, self).__eq__(other)))
 
     ########################
     # Methods and Properties
-    @property
-    def vector3(self):
-        return self
-
-    @property
-    def vector4(self):
-        return Vector4(self)
-
     @property
     def negative(self):
         return Vector3(-self)

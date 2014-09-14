@@ -39,16 +39,6 @@ class test_object_vector4(unittest.TestCase):
         self.assertTrue(np.array_equal(v, [0.,0.,0.,0.]))
         self.assertEqual(v.shape, self._shape)
 
-    def test_vector3(self):
-        v1 = Vector4([1.,2.,3.,4.])
-        v2 = v1.vector3
-        self.assertTrue(np.array_equal(v2, [1.,2.,3.]))
-
-    def test_vector4(self):
-        v1 = Vector4()
-        v2 = v1.vector4
-        self.assertTrue(v1 is v2)
-
     def test_negative(self):
         v = Vector4([1.,2.,3.,4.])
         self.assertTrue(np.array_equal(v.negative, [-1.,-2.,-3.,-4.]))
@@ -160,7 +150,7 @@ class test_object_vector4(unittest.TestCase):
         self.assertFalse(Vector4() != Vector4())
 
     def test_accessors(self):
-        v = Vector3(np.arange(self._size))
+        v = Vector4(np.arange(self._size))
         self.assertTrue(np.array_equal(v.xy,[0,1]))
         self.assertTrue(np.array_equal(v.xyz,[0,1,2]))
         self.assertTrue(np.array_equal(v.xz,[0,2]))

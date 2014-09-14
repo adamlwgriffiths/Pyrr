@@ -31,23 +31,9 @@ class test_object_vector3(unittest.TestCase):
         self.assertTrue(np.array_equal(v, [1.,2.,3.]))
         self.assertEqual(v.shape, self._shape)
 
-        v = Vector3([1.,2.,3.,4.])
-        self.assertTrue(np.array_equal(v, [1.,2.,3.]))
-        self.assertEqual(v.shape, self._shape)
-
         v = Vector3(Vector3())
         self.assertTrue(np.array_equal(v, [0.,0.,0.]))
         self.assertEqual(v.shape, self._shape)
-
-    def test_vector3(self):
-        v1 = Vector3()
-        v2 = v1.vector3
-        self.assertTrue(v1 is v2)
-
-    def test_vector4(self):
-        v1 = Vector3([1.,2.,3.])
-        v2 = v1.vector4
-        self.assertTrue(np.array_equal(v2, [1.,2.,3.,0.]))
 
     def test_negative(self):
         v = Vector3([1.,2.,3.])

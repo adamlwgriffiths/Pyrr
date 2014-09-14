@@ -188,15 +188,13 @@ def apply_to_vector(mat, vec):
         # convert to a vec4
         vec4 = np.array([vec[0], vec[1], vec[2], 1.], dtype=vec.dtype)
         vec4 = np.dot(vec4, mat)
-        # handle W value
-        if vec4[-1] != 0.:
-            vec4 /= vec4[-1]
-        return vec4[:-1]
+        if np.allclose(vec4[3], 0.):
+            vec4[:] = [np.inf, np.inf, np.inf, np.inf]
+        else:
+            vec4 /= vec4[3]
+        return vec4[:3]
     elif vec.size == 4:
-        vec4 = np.dot(vec, mat)
-        if vec4[-1] != 0.:
-            vec4 /= vec4[-1]
-        return vec4
+        return np.dot(vec, mat)
     else:
         raise ValueError("Vector size unsupported")
 
@@ -228,20 +226,9 @@ def create_perspective_projection_matrix(fovy, aspect, near, far, dtype=None):
     :rtype: numpy.array
     :return: A projection matrix representing the specified perpective.
     """
-    f = 1. / np.tan(np.radians(fovy / 2.))
-    A = f / aspect
-    depth = near - far
-    B = (near + far) / depth
-    C = (2. * near * far) / depth
-
-    return np.array((
-        ( A, 0., 0., 0.),
-        (0.,  f, 0., 0.),
-        (0., 0.,  B,-1.),
-        (0., 0.,  C, 0.)
-        ),
-        dtype=dtype
-    )
+    ymax = near * np.tan(fovy * np.pi / 360.0)
+    xmax = ymax * aspect
+    return create_perspective_projection_matrix_from_bounds(-xmax, xmax, -ymax, ymax, near, far)
 
 def create_perspective_projection_matrix_from_bounds(
     left,
@@ -271,10 +258,10 @@ def create_perspective_projection_matrix_from_bounds(
     """
 
     """
-    E  0  A  0
-    0  F  B  0
-    0  0  C  D
-    0  0  -1 0
+    E 0 A 0
+    0 F B 0
+    0 0 C D
+    0 0-1 0
 
     A = (right+left)/(right-left)
     B = (top+bottom)/(top-bottom)
@@ -291,13 +278,11 @@ def create_perspective_projection_matrix_from_bounds(
     F = 2. * near / (top - bottom)
 
     return np.array((
-        ( E, 0., 0., 0.),
-        (0.,  F, 0., 0.),
-        ( A,  B,  C,-1.),
-        (0., 0.,  D, 0.),
-        ),
-        dtype=dtype
-    )
+        (  E, 0., 0., 0.),
+        ( 0.,  F, 0., 0.),
+        (  A,  B,  C,-1.),
+        ( 0., 0.,  D, 0.),
+    ), dtype=dtype)
 
 def create_orthogonal_projection_matrix(
     left,
@@ -354,9 +339,7 @@ def create_orthogonal_projection_matrix(
         (0.,  B, 0., 0.),
         (0., 0.,  C, 0.),
         (Tx, Ty, Tz, 1.),
-        ),
-        dtype=dtype
-    )
+    ), dtype=dtype)
 
 def inverse(m):
     """Returns the inverse of the matrix.

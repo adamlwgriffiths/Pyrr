@@ -2,7 +2,7 @@
 from __future__ import absolute_import
 import numpy as np
 from multipledispatch import dispatch
-from pyrr import vector
+from pyrr import vector, vector3
 
 class NpProxy(object):
     def __init__(self, index):
@@ -101,13 +101,13 @@ class BaseVector(BaseObject):
         return vector.dot(self, self.__class__(other))
 
     def cross(self, other):
-        return self.__class__(vector.cross(self[:3], other[:3]))
+        return self.__class__(vector3.cross(self[:3], other[:3]))
 
     def interpolate(self, other, delta):
         return self.__class__(vector.interpolate(self, self.__class__(other), delta))
 
     def normal(self, v2, v3, normalise_result=True):
-        return self.__class__(vector.generate_normals(self, self.__class__(v2), self.__class__(v3), normalise_result))
+        return self.__class__(vector3.generate_normals(self, self.__class__(v2), self.__class__(v3), normalise_result))
 
 class BaseQuaternion(BaseObject):
     pass

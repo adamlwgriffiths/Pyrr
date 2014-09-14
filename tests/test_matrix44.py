@@ -95,171 +95,147 @@ class test_matrix44(unittest.TestCase):
         np.testing.assert_almost_equal(result[:3,:3], orig, decimal=5)
 
     def test_create_perspective_projection_matrix_vector3(self):
-        m = matrix44.create_perspective_projection_matrix(90, 1024./768., 1., 10.)
-
-        # the values will be in clip space from (-1.,-1.,-1.) -> (1.,1.,1.)
-        # to be inside = all(-1. < value < 1.)
-        for point, inside in (
-            (np.array((0.,0.,0.)), False),
-            (np.array((0.,0.,-.5)), False),
-            (np.array((0.,0.,-1.)), True),
-            (np.array((0.,0.,-2.)), True),
-            (np.array((0.,0.,-9.)), True),
-            (np.array((0.,0.,-11.)), False),
-            (np.array((1.,1.,-5.)), True),
-        ):
-            p = matrix44.apply_to_vector(m, point[:3])
+        def apply_test(m, point, inside):
+            p = matrix44.apply_to_vector(m, point)
 
             # the values are now in clip space from (-1.,-1.,-1.) -> (1.,1.,1.)
             # to be inside = all(-1. < value < 1.)
-            self.assertTrue(inside == (np.amax(np.absolute(p[:3])) <= 1.), (inside, point, p))
+            self.assertTrue(inside == (np.amax(np.absolute(p)) <= 1.), (inside, point, p))
 
-    def test_create_perspective_projection_matrix_vector4(self):
         m = matrix44.create_perspective_projection_matrix(90, 1024./768., 1., 10.)
 
-        # the values will be in clip space from (-1.,-1.,-1.) -> (1.,1.,1.)
-        # to be inside = all(-1. < value < 1.)
-        for point, inside in (
-            (np.array((0.,0.,0.,1.)), False),
-            (np.array((0.,0.,-.5,1.)), False),
-            (np.array((0.,0.,-1.,1.)), True),
-            (np.array((0.,0.,-2.,1.)), True),
-            (np.array((0.,0.,-9.,1.)), True),
-            (np.array((0.,0.,-11.,1.)), False),
-            (np.array((1.,1.,-5.,1.)), True),
-        ):
+        apply_test(m, np.array((0.,0.,0.)), False)
+        apply_test(m, np.array((0.,0.,-.5)), False)
+        apply_test(m, np.array((0.,0.,-1.)), True)
+        apply_test(m, np.array((0.,0.,-2.)), True)
+        apply_test(m, np.array((0.,0.,-9.)), True)
+        apply_test(m, np.array((0.,0.,-11.)), False)
+        apply_test(m, np.array((1.,1.,-5.)), True)
+
+    def test_create_perspective_projection_matrix_vector4_inside(self):
+        def apply_test(m, point, inside):
             p = matrix44.apply_to_vector(m, point)
-            if p[3] == 0.:
+            if np.allclose(p[3], 0.):
                 self.assertFalse(inside)
 
             # the values are now in clip space from (-1.,-1.,-1.) -> (1.,1.,1.)
             # to be inside = all(-1. < value < 1.)
+            if np.allclose(p[3],0.):
+                p[:] = [np.inf,np.inf,np.inf,np.inf]
+            else:
+                p[:3] /= p[3]
             self.assertTrue(inside == (np.amax(np.absolute(p[:3])) <= 1.), (inside, point, p))
+
+        m = matrix44.create_perspective_projection_matrix(90, 1024./768., 1., 10.)
+        apply_test(m, np.array((0.,0.,0.,1.)), False)
+        apply_test(m, np.array((0.,0.,-.5,1.)), False)
+        apply_test(m, np.array((0.,0.,-1.,1.)), True)
+        apply_test(m, np.array((0.,0.,-2.,1.)), True)
+        apply_test(m, np.array((0.,0.,-9.,1.)), True)
+        apply_test(m, np.array((0.,0.,-11.,1.)), False)
+        apply_test(m, np.array((1.,1.,-5.,1.)), True)
 
     def test_create_orthogonal_projection_matrix_vector3(self):
-        m = matrix44.create_orthogonal_projection_matrix(-1., 1., -1., 1., 1., 10.)
-
-        for point, inside in (
-            # +Z
-            (np.array((0.,0.,0.)), False),
-            (np.array((0.,0.,1.)), False),
-            # -Z but outside near, far
-            (np.array((0.,0.,-.5)), False),
-            (np.array((0.,0.,-11.)), False),
-            (np.array((0.,0.,1.)), False),
-            # Valid
-            (np.array((0.,0.,-10.)), True),
-            (np.array((0.,0.,-1.)), True),
-            (np.array((0.,0.,-2.)), True),
-            (np.array((0.,0.,-9.)), True),
-            (np.array((-1.,-1.,-1.)), True),
-            (np.array((-1.,-1.,-10.)), True),
-            (np.array((1.,1.,-1.)), True),
-            (np.array((1.,1.,-10.)), True),
-            # Outside left, right, top, bottom
-            (np.array((1.1,1.1,-1.)), False),
-            (np.array((-1.1,-1.1,-1.)), False),
-            (np.array((1.1,1.1,-10.)), False),
-            (np.array((-1.1,-1.1,-10.)), False),
-        ):
+        def apply_test(m, point, inside):
             p = matrix44.apply_to_vector(m, point)
 
             # the values are now in clip space from (-1.,-1.,-1.) -> (1.,1.,1.)
             # to be inside = all(-1. < value < 1.)
             self.assertTrue(inside == (np.amax(np.absolute(p[:3])) <= 1.), (inside, point, p))
+
+        m = matrix44.create_orthogonal_projection_matrix(-1., 1., -1., 1., 1., 10.)
+
+        # +Z
+        apply_test(m, np.array((0.,0.,0.)), False)
+        apply_test(m, np.array((0.,0.,1.)), False)
+        # -Z but outside near, far
+        apply_test(m, np.array((0.,0.,-.5)), False)
+        apply_test(m, np.array((0.,0.,-11.)), False)
+        apply_test(m, np.array((0.,0.,1.)), False)
+        # Valid
+        apply_test(m, np.array((0.,0.,-10.)), True)
+        apply_test(m, np.array((0.,0.,-1.)), True)
+        apply_test(m, np.array((0.,0.,-2.)), True)
+        apply_test(m, np.array((0.,0.,-9.)), True)
+        apply_test(m, np.array((-1.,-1.,-1.)), True)
+        apply_test(m, np.array((-1.,-1.,-10.)), True)
+        apply_test(m, np.array((1.,1.,-1.)), True)
+        apply_test(m, np.array((1.,1.,-10.)), True)
+        # Outside left, right, top, bottom
+        apply_test(m, np.array((1.1,1.1,-1.)), False)
+        apply_test(m, np.array((-1.1,-1.1,-1.)), False)
+        apply_test(m, np.array((1.1,1.1,-10.)), False)
+        apply_test(m, np.array((-1.1,-1.1,-10.)), False)
+
 
     def test_create_orthogonal_projection_matrix_vector4(self):
+        def apply_test(m, point, inside):
+            p = matrix44.apply_to_vector(m, point)
+            if p[3] == 0.:
+                self.assertFalse(inside)
+
+            # the values are now in clip space from (-1.,-1.,-1.) -> (1.,1.,1.)
+            # to be inside = all(-1. < value < 1.)
+            self.assertTrue(inside == (np.amax(np.absolute(p[:3])) <= 1.), (inside, point, p))
+
         m = matrix44.create_orthogonal_projection_matrix(-1., 1., -1., 1., 1., 10.)
 
-        for point, inside in (
-            # +Z
-            (np.array((0.,0.,0.,1.)), False),
-            (np.array((0.,0.,1.,1.)), False),
-            # -Z but outside near, far
-            (np.array((0.,0.,-.5,1.)), False),
-            (np.array((0.,0.,-11.,1.)), False),
-            (np.array((0.,0.,1.,1.)), False),
-            # Valid
-            (np.array((0.,0.,-10.,1.)), True),
-            (np.array((0.,0.,-1.,1.)), True),
-            (np.array((0.,0.,-2.,1.)), True),
-            (np.array((0.,0.,-9.,1.)), True),
-            (np.array((-1.,-1.,-1.,1.)), True),
-            (np.array((-1.,-1.,-10.,1.)), True),
-            (np.array((1.,1.,-1.,1.)), True),
-            (np.array((1.,1.,-10.,1.)), True),
-            # Outside left, right, top, bottom
-            (np.array((1.1,1.1,-1.,1.)), False),
-            (np.array((-1.1,-1.1,-1.,1.)), False),
-            (np.array((1.1,1.1,-10.,1.)), False),
-            (np.array((-1.1,-1.1,-10.,1.)), False),
-        ):
-            p = matrix44.apply_to_vector(m, point)
-            if p[3] == 0.:
-                self.assertFalse(inside)
-
-            # the values are now in clip space from (-1.,-1.,-1.) -> (1.,1.,1.)
-            # to be inside = all(-1. < value < 1.)
-            self.assertTrue(inside == (np.amax(np.absolute(p[:3])) <= 1.), (inside, point, p))
+        # +Z
+        apply_test(m, np.array((0.,0.,0.,1.)), False)
+        apply_test(m, np.array((0.,0.,1.,1.)), False)
+        # -Z but outside near, far
+        apply_test(m, np.array((0.,0.,-.5,1.)), False)
+        apply_test(m, np.array((0.,0.,-11.,1.)), False)
+        apply_test(m, np.array((0.,0.,1.,1.)), False)
+        # Valid
+        apply_test(m, np.array((0.,0.,-10.,1.)), True)
+        apply_test(m, np.array((0.,0.,-1.,1.)), True)
+        apply_test(m, np.array((0.,0.,-2.,1.)), True)
+        apply_test(m, np.array((0.,0.,-9.,1.)), True)
+        apply_test(m, np.array((-1.,-1.,-1.,1.)), True)
+        apply_test(m, np.array((-1.,-1.,-10.,1.)), True)
+        apply_test(m, np.array((1.,1.,-1.,1.)), True)
+        apply_test(m, np.array((1.,1.,-10.,1.)), True)
+        # Outside left, right, top, bottom
+        apply_test(m, np.array((1.1,1.1,-1.,1.)), False)
+        apply_test(m, np.array((-1.1,-1.1,-1.,1.)), False)
+        apply_test(m, np.array((1.1,1.1,-10.,1.)), False)
+        apply_test(m, np.array((-1.1,-1.1,-10.,1.)), False)
 
     def create_perspective_projection_matrix_from_bounds_vector3(self):
-        m = matrix44.create_perspective_projection_matrix_from_bounds(-1.,1.,-1.,1.,1.,10.)
-
-        for point, inside in (
-            # +Z
-            (np.array((0.,0.,0.)), False),
-            (np.array((0.,0.,1.)), False),
-            # -Z but outside near, far
-            (np.array((0.,0.,-.5)), False),
-            (np.array((0.,0.,-11.)), False),
-            (np.array((0.,0.,1.)), False),
-            # Valid
-            (np.array((0.,0.,-10.)), True),
-            (np.array((0.,0.,-1.)), True),
-            (np.array((0.,0.,-2.)), True),
-            (np.array((0.,0.,-9.)), True),
-            (np.array((-1.,-1.,-1.)), True),
-            (np.array((-1.,-1.,-10.)), True),
-            (np.array((1.,1.,-1.)), True),
-            (np.array((1.,1.,-10.)), True),
-            # Outside left, right, top, bottom
-            (np.array((1.1,1.1,-1.)), False),
-            (np.array((-1.1,-1.1,-1.)), False),
-            (np.array((1.1,1.1,-10.)), False),
-            (np.array((-1.1,-1.1,-10.)), False),
-        ):
+        def apply_test(m, point, inside):
             p = matrix44.apply_to_vector(m, point)
 
             # the values are now in clip space from (-1.,-1.,-1.) -> (1.,1.,1.)
             # to be inside = all(-1. < value < 1.)
             self.assertTrue(inside == (np.amax(np.absolute(p[:3])) <= 1.), (inside, point, p))
 
-    def create_perspective_projection_matrix_from_bounds_vector4(self):
         m = matrix44.create_perspective_projection_matrix_from_bounds(-1.,1.,-1.,1.,1.,10.)
 
-        for point, inside in (
-            # +Z
-            (np.array((0.,0.,0.,1.)), False),
-            (np.array((0.,0.,1.,1.)), False),
-            # -Z but outside near, far
-            (np.array((0.,0.,-.5,1.)), False),
-            (np.array((0.,0.,-11.,1.)), False),
-            (np.array((0.,0.,1.,1.)), False),
-            # Valid
-            (np.array((0.,0.,-10.,1.)), True),
-            (np.array((0.,0.,-1.,1.)), True),
-            (np.array((0.,0.,-2.,1.)), True),
-            (np.array((0.,0.,-9.,1.)), True),
-            (np.array((-1.,-1.,-1.,1.)), True),
-            (np.array((-1.,-1.,-10.,1.)), True),
-            (np.array((1.,1.,-1.,1.)), True),
-            (np.array((1.,1.,-10.,1.)), True),
-            # Outside left, right, top, bottom
-            (np.array((1.1,1.1,-1.,1.)), False),
-            (np.array((-1.1,-1.1,-1.,1.)), False),
-            (np.array((1.1,1.1,-10.,1.)), False),
-            (np.array((-1.1,-1.1,-10.,1.)), False),
-        ):
+        # +Z
+        apply_test(m, np.array((0.,0.,0.)), False)
+        apply_test(m, np.array((0.,0.,1.)), False)
+        # -Z but outside near, far
+        apply_test(m, np.array((0.,0.,-.5)), False)
+        apply_test(m, np.array((0.,0.,-11.)), False)
+        apply_test(m, np.array((0.,0.,1.)), False)
+        # Valid
+        apply_test(m, np.array((0.,0.,-10.)), True)
+        apply_test(m, np.array((0.,0.,-1.)), True)
+        apply_test(m, np.array((0.,0.,-2.)), True)
+        apply_test(m, np.array((0.,0.,-9.)), True)
+        apply_test(m, np.array((-1.,-1.,-1.)), True)
+        apply_test(m, np.array((-1.,-1.,-10.)), True)
+        apply_test(m, np.array((1.,1.,-1.)), True)
+        apply_test(m, np.array((1.,1.,-10.)), True)
+        # Outside left, right, top, bottom
+        apply_test(m, np.array((1.1,1.1,-1.)), False)
+        apply_test(m, np.array((-1.1,-1.1,-1.)), False)
+        apply_test(m, np.array((1.1,1.1,-10.)), False)
+        apply_test(m, np.array((-1.1,-1.1,-10.)), False)
+
+    def create_perspective_projection_matrix_from_bounds_vector4(self):
+        def apply_test(m, point, inside):
             p = matrix44.apply_to_vector(m, point)
             if p[3] == 0.:
                 self.assertFalse(inside)
@@ -267,6 +243,30 @@ class test_matrix44(unittest.TestCase):
             # the values are now in clip space from (-1.,-1.,-1.) -> (1.,1.,1.)
             # to be inside = all(-1. < value < 1.)
             self.assertTrue(inside == (np.amax(np.absolute(p[:3])) <= 1.), (inside, point, p))
+
+        m = matrix44.create_perspective_projection_matrix_from_bounds(-1.,1.,-1.,1.,1.,10.)
+
+        # +Z
+        apply_test(m, np.array((0.,0.,0.,1.)), False)
+        apply_test(m, np.array((0.,0.,1.,1.)), False)
+        # -Z but outside near, far
+        apply_test(m, np.array((0.,0.,-.5,1.)), False)
+        apply_test(m, np.array((0.,0.,-11.,1.)), False)
+        apply_test(m, np.array((0.,0.,1.,1.)), False)
+        # Valid
+        apply_test(m, np.array((0.,0.,-10.,1.)), True)
+        apply_test(m, np.array((0.,0.,-1.,1.)), True)
+        apply_test(m, np.array((0.,0.,-2.,1.)), True)
+        apply_test(m, np.array((0.,0.,-9.,1.)), True)
+        apply_test(m, np.array((-1.,-1.,-1.,1.)), True)
+        apply_test(m, np.array((-1.,-1.,-10.,1.)), True)
+        apply_test(m, np.array((1.,1.,-1.,1.)), True)
+        apply_test(m, np.array((1.,1.,-10.,1.)), True)
+        # Outside left, right, top, bottom
+        apply_test(m, np.array((1.1,1.1,-1.,1.)), False)
+        apply_test(m, np.array((-1.1,-1.1,-1.,1.)), False)
+        apply_test(m, np.array((1.1,1.1,-10.,1.)), False)
+        apply_test(m, np.array((-1.1,-1.1,-10.,1.)), False)
 
     def test_apply_to_vector_identity(self):
         mat = matrix44.create_identity()

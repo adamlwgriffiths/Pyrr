@@ -5,7 +5,7 @@ various forms data types.
 from __future__ import absolute_import, division, print_function, unicode_literals
 import math
 import numpy as np
-from . import rectangle, vector
+from . import rectangle, vector, vector3
 from .utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays
 
 """
@@ -26,7 +26,7 @@ def point_intersect_line(point, line):
     """
     rl = line[1] - line[0]
     rp = point - line[0]
-    cross = vector.cross(rl, rp)
+    cross = vector3.cross(rl, rp)
 
     # check if the cross product is zero
     if np.count_nonzero(cross) > 0:
@@ -46,7 +46,7 @@ def point_intersect_line_segment(point, line):
     """
     rl = line[1] - line[0]
     rp = point - line[0]
-    cross = vector.cross(rl, rp)
+    cross = vector3.cross(rl, rp)
     dot = vector.dot(rp, rl)
     squared_length = vector.squared_length(rl)
 
@@ -212,7 +212,7 @@ def vector_parallel_vector(v1, v2):
     """
     # we cross product the 2 vectors
     # if the result is 0, then they are parallel
-    cross = vector.cross(v1, v2)
+    cross = vector3.cross(v1, v2)
     return 0 == np.count_nonzero(cross)
     
 @all_parameters_as_numpy_arrays
@@ -245,7 +245,7 @@ def ray_coincident_ray(ray1, ray2):
 
         # get the cross product of the ray delta and
         # the direction of the rays
-        cross = vector.cross(delta, ray2[1])
+        cross = vector3.cross(delta, ray2[1])
 
         # if the cross product is zero, the start of the
         # second ray is in line with the direction of the

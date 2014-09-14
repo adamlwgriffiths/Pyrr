@@ -110,24 +110,6 @@ class test_vector(unittest.TestCase):
         expected = [0.,1.,0.36]
         np.testing.assert_almost_equal(result, expected, decimal=5)
 
-    def test_cross_single_vector(self):
-        result = vector3.cross([1.,0.,0.], [0.,1.,0.])
-        np.testing.assert_almost_equal(result, [0.,0.,1.], decimal=5)
-
-    def test_cross_batch(self):
-        result = vector3.cross([
-            [1.,0.,0.],
-            [0.,0.,1.]
-        ],[
-            [0.,1.,0.],
-            [0.,1.,0.],
-        ])
-        expected = [
-            [0.,0.,1.],
-            [-1.,0.,0.],
-        ]
-        np.testing.assert_almost_equal(result, expected, decimal=5)
-
     def test_interoplation(self):
         result = vector3.interpolate([0.,0.,0.], [1.,1.,1.], 0.5)
         np.testing.assert_almost_equal(result, [.5,.5,.5], decimal=5)
@@ -135,14 +117,5 @@ class test_vector(unittest.TestCase):
         result = vector3.interpolate([0.,0.,0.], [2.,2.,2.], 0.5)
         np.testing.assert_almost_equal(result, [1.,1.,1.], decimal=5)
 
-    def test_generate_normals(self):
-        v = np.array([
-            [1.,0.,0.],
-            [0.,1.,0.],
-            [1.,1.,0.]
-        ])
-        result = vector.generate_normals(*v)
-        np.testing.assert_almost_equal(result, [0.,0.,-1.], decimal=5)
-    
 if __name__ == '__main__':
     unittest.main()

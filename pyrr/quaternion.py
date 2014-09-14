@@ -412,7 +412,7 @@ def apply_to_vector(quat, vec):
 
     .. seealso:: http://content.gpwiki.org/index.php/OpenGL:Tutorials:Using_Quaternions_to_represent_rotation
     """
-    def apply(quat, vec3):
+    def apply(quat, vec4):
         """
         v = numpy.array(vec)
         return v + 2.0 * vector.cross(
@@ -420,24 +420,23 @@ def apply_to_vector(quat, vec):
             vector.cross(quat[:-1], v) + (quat[-1] * v)
            )
         """
-        length = vector.length(vec3)
-        vec3 = vector.normalise(vec3)
-
-        # use the vector to create a new quaternion
-        # this is basically the vector3 to vector4 conversion with W = 0
-        vec_quat = np.array([vec3[0], vec3[1], vec3[2], 0.0], dtype=vec.dtype)
+        length = vector.length(vec4)
+        vec4[:] = vector.normalise(vec4)
 
         # quat * vec * quat^-1
-        result = cross(quat, cross(vec_quat, conjugate(quat)))
-        return result[:-1] * length
+        result = cross(quat, cross(vec4, conjugate(quat)))
+        result *= length
+        return result
 
     if vec.size == 3:
         # convert to vector4
-        # ignore w component
-        return apply(quat, vec)
+        # ignore w component by setting it to 0.
+        vec = np.array([vec[0], vec[1], vec[2], 0.0], dtype=vec.dtype)
+        vec = apply(quat, vec)
+        vec = vec[:3]
+        return vec
     elif vec.size == 4:
-        vec3 = vector3.create_from_vector4(vec)
-        vec3 = apply(quat, vec3)
-        return vector4.create_from_vector3(vec3, 1.0)
+        vec = apply(quat, vec)
+        return vec
     else:
         raise ValueError("Vector size unsupported")

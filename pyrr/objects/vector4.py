@@ -84,23 +84,23 @@ class Vector4(BaseVector4):
     # Vectors
     @dispatch(BaseVector4)
     def __add__(self, other):
-        return Vector4(super(Vector4, self).__add__(other.vector4))
+        return Vector4(super(Vector4, self).__add__(other))
 
     @dispatch(BaseVector4)
     def __sub__(self, other):
-        return Vector4(super(Vector4, self).__sub__(other.vector4))
+        return Vector4(super(Vector4, self).__sub__(other))
 
     @dispatch(BaseVector4)
     def __mul__(self, other):
-        return Vector4(super(Vector4, self).__mul__(other.vector4))
+        return Vector4(super(Vector4, self).__mul__(other))
 
     @dispatch(BaseVector4)
     def __truediv__(self, other):
-        return Vector4(super(Vector4, self).__truediv__(other.vector4))
+        return Vector4(super(Vector4, self).__truediv__(other))
 
     @dispatch(BaseVector4)
     def __div__(self, other):
-        return Vector4(super(Vector4, self).__div__(other.vector4))
+        return Vector4(super(Vector4, self).__div__(other))
 
     #@dispatch(BaseVector)
     #def __xor__(self, other):
@@ -112,22 +112,14 @@ class Vector4(BaseVector4):
 
     @dispatch(BaseVector4)
     def __ne__(self, other):
-        return bool(np.any(super(Vector4, self).__ne__(other.vector4)))
+        return bool(np.any(super(Vector4, self).__ne__(other)))
 
     @dispatch(BaseVector4)
     def __eq__(self, other):
-        return bool(np.all(super(Vector4, self).__eq__(other.vector4)))
+        return bool(np.all(super(Vector4, self).__eq__(other)))
 
     ########################
     # Methods and Properties
-    @property
-    def vector3(self):
-        return Vector3(self)
-
-    @property
-    def vector4(self):
-        return self
-
     @property
     def negative(self):
         return Vector4(-self)
