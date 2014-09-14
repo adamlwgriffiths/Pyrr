@@ -1,6 +1,12 @@
 Changelog
 =========
 
+0.5.1
+-----
+
+* Add multipledispatch to setup.py requirements
+
+
 0.5.0
 -----
 
