@@ -6,13 +6,13 @@ Matrices
 Matrix33
 ========
 
-.. automodule:: pyrr.object.matrix33
+.. automodule:: pyrr.objects.matrix33
     :members:
     :undoc-members:
 
 Matrix44
 ========
 
-.. automodule:: pyrr.object.matrix44
+.. automodule:: pyrr.objects.matrix44
     :members:
     :undoc-members:

@@ -43,6 +43,22 @@ class test_object_matrix33(unittest.TestCase):
         m = Matrix33.identity()
         self.assertTrue(np.array_equal(m, np.eye(3)))
 
+    @unittest.skip('Not implemented')
+    def test_perspective_projection(self):
+        pass
+
+    @unittest.skip('Not implemented')
+    def test_perspective_projection_bounds(self):
+        pass
+
+    @unittest.skip('Not implemented')
+    def test_orthogonal_projection(self):
+        pass
+
+    @unittest.skip('Not implemented')
+    def test_from_translation(self):
+        pass
+
     def test_create_from_matrix44(self):
         m1 = Matrix44.identity()
         m = Matrix33.from_matrix44(m1)

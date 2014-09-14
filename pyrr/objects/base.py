@@ -43,18 +43,26 @@ class BaseObject(np.ndarray):
 class BaseMatrix(BaseObject):
     @classmethod
     def identity(cls, dtype=None):
+        """Creates an identity Matrix.
+        """
         return cls(cls._module.create_identity(dtype), dtype)
 
     @classmethod
     def from_eulers(cls, eulers, dtype=None):
+        """Creates a Matrix from the specified Euler angles.
+        """
         return cls(cls._module.create_from_eulers(eulers, dtype=dtype))
 
     @classmethod
     def from_quaternion(cls, quat, dtype=None):
+        """Creates a Matrix from a Quaternion.
+        """
         return cls(cls._module.create_from_quaternion(quat, dtype=dtype))
 
     @classmethod
     def from_inverse_of_quaternion(cls, quat, dtype=None):
+        """Creates a Matrix from the inverse of the specified Quaternion.
+        """
         return cls(cls._module.create_from_inverse_of_quaternion(quat, dtype=dtype))
 
     @classmethod
@@ -63,6 +71,8 @@ class BaseMatrix(BaseObject):
 
     @classmethod
     def from_x_rotation(cls, theta, dtype=None):
+        """Creates a Matrix with a rotation around the X-axis.
+        """
         return cls(cls._module.create_from_x_rotation(theta, dtype=dtype))
 
     @classmethod
@@ -71,11 +81,15 @@ class BaseMatrix(BaseObject):
 
     @classmethod
     def from_z_rotation(cls, theta, dtype=None):
+        """Creates a Matrix with a rotation around the Z-axis.
+        """
         return cls(cls._module.create_from_z_rotation(theta, dtype=dtype))
 
     @property
     def inverse(self):
-        return self._module.inverse(self)
+        """Returns the inverse of this matrix.
+        """
+        return self.__class__(self._module.inverse(self))
 
 class BaseVector(BaseObject):
     def normalise(self):

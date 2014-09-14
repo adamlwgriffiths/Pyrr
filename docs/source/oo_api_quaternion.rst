@@ -6,6 +6,6 @@ Quaternion
 Quaternion
 ==========
 
-.. automodule:: pyrr.object.quaternion
+.. automodule:: pyrr.objects.quaternion
     :members:
     :undoc-members:

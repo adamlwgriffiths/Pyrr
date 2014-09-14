@@ -35,9 +35,9 @@ class test_object_vector3(unittest.TestCase):
         self.assertTrue(np.array_equal(v, [0.,0.,0.]))
         self.assertEqual(v.shape, self._shape)
 
-    def test_negative(self):
+    def test_inverse(self):
         v = Vector3([1.,2.,3.])
-        self.assertTrue(np.array_equal(v.negative, [-1.,-2.,-3.]))
+        self.assertTrue(np.array_equal(v.inverse, [-1.,-2.,-3.]))
 
     def test_operators_matrix33(self):
         v = Vector3()
