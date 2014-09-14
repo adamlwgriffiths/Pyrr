@@ -1,6 +1,53 @@
 Changelog
 =========
 
+0.5.0
+-----
+
+* Add quaternion.is_identity
+
+* Remove vector3.create_from_vector4, this is ambiguous
+and was assuming 3d graphics style conversion (w=1.0).
+Do this manually instead to remove ambiguities.
+
+* Remove vector3|4.create_from_matrix44_translation.
+This was assuming vector4 had w=1.0 again.
+Instead create a basic vector and multiply it by the
+matrix.
+
+* Move vector.cross into vector3. This is ambiguous
+for vector4.
+
+* Move vector.generate_normals into vector3. This is
+ambiguous for vector4.
+
+* Change how quaternion.apply_to_vector works.
+Previously vectors were converted to vec3s with w=0.
+Now vectors are converted to vec4s, with vector 4's being
+untouched.
+
+* Change how matrix44 works with vector4s.
+It no longer divides by W for vector4s.
+Vector 3's are converted to vec4s during the calculation
+and back again. They were previously not divided by W
+if W was 0. Now they are converted to [np.inf, ...]
+in the case that W is 0.
+
+* Remove conversions from Vector4 and Vector3 in the OO API.
+These were ambiguous.
+
+* Remove Vector3|4.vector3 and Vector3|4.vector4.
+These conversions were ambiguous, convert manually.
+
+* Remove ability to transform vector4's in matrix33.apply_to_vector.
+This was ambiguous. Perform the conversion manually then call this.
+Or convert to a matrix44 and then transform.
+
+* Make matrix44.create_perspective_projection_matrix use
+matrix44.create_perspective_projection_matrix_from_bounds
+based on code from GLU.
+
+
 0.4.0
 -----
 
