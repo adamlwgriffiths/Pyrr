@@ -20,6 +20,10 @@ def create_unit_length_y(dtype=None):
 def create_unit_length_z(dtype=None):
     return np.array([0.0, 0.0, 1.0], dtype=dtype)
 
+@parameters_as_numpy_arrays('mat')
+def create_from_matrix44_translation(mat, dtype=None):
+    return np.array(mat[3, :3], dtype=dtype)
+
 def cross(v1, v2):
     """Calculates the cross-product of two vectors.
 

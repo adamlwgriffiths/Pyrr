@@ -29,6 +29,9 @@ def create_from_vector3(vector, w=0., dtype=None):
     dtype = dtype or vector.dtype
     return np.array([vector[0], vector[1], vector[2], w], dtype=dtype)
 
+@parameters_as_numpy_arrays('mat')
+def create_from_matrix44_translation(mat, dtype=None):
+    return np.array(mat[3, :4], dtype=dtype)
 
 class index:
     #: The index of the X value within the vector

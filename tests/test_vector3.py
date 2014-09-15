@@ -47,6 +47,28 @@ class test_vector3(unittest.TestCase):
         np.testing.assert_almost_equal(result, [0.,0.,1.], decimal=5)
         self.assertTrue(result.dtype == np.float32)
 
+    def test_create_from_matrix44_translation(self):
+        mat = np.array([
+            [1.,2.,3.,4.,],
+            [5.,6.,7.,8.,],
+            [9.,10.,11.,12.,],
+            [13.,14.,15.,16.,],
+        ])
+        result = vector3.create_from_matrix44_translation(mat)
+        np.testing.assert_almost_equal(result, [13.,14.,15.], decimal=5)
+        self.assertTrue(result.dtype == np.float)
+
+    def test_create_from_matrix44_translation_dtype_matches(self):
+        mat = np.array([
+            [1.,2.,3.,4.,],
+            [5.,6.,7.,8.,],
+            [9.,10.,11.,12.,],
+            [13.,14.,15.,16.,],
+        ], dtype=np.float32)
+        result = vector3.create_from_matrix44_translation(mat)
+        np.testing.assert_almost_equal(result, [13.,14.,15.], decimal=5)
+        self.assertTrue(result.dtype == np.float32)
+
     def test_normalise_single_vector(self):
         result = vector3.normalise([1.,1.,1.])
         np.testing.assert_almost_equal(result, [0.57735, 0.57735, 0.57735], decimal=5)

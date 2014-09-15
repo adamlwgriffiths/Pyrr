@@ -91,6 +91,10 @@ class BaseMatrix(BaseObject):
         return type(self)(self._module.inverse(self))
 
 class BaseVector(BaseObject):
+    @classmethod
+    def from_matrix44_translation(cls, matrix, dtype=None):
+        return cls(cls._module.create_from_matrix44_translation(matrix, dtype))
+
     def normalise(self):
         self[:] = self.normalised
 

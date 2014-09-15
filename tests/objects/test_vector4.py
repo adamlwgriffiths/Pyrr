@@ -39,6 +39,14 @@ class test_object_vector4(unittest.TestCase):
         self.assertTrue(np.array_equal(v, [0.,0.,0.,0.]))
         self.assertEqual(v.shape, self._shape)
 
+        m = Matrix44.from_translation([1.,2.,3.])
+        v = Vector4.from_matrix44_translation(m)
+        self.assertTrue(np.array_equal(v, [1.,2.,3.,1.]))
+
+        m = Matrix44.from_translation([1.,2.,3.])
+        v = Vector4(m)
+        self.assertTrue(np.array_equal(v, [1.,2.,3.,1.]))
+
     def test_inverse(self):
         v = Vector4([1.,2.,3.,4.])
         self.assertTrue(np.array_equal(v.inverse, [-1.,-2.,-3.,-4.]))

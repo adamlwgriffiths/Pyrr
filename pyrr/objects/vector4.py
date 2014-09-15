@@ -45,7 +45,7 @@ conversions.
 from __future__ import absolute_import
 import numpy as np
 from multipledispatch import dispatch
-from .base import BaseObject, BaseVector4, NpProxy
+from .base import BaseObject, BaseVector4, BaseMatrix44, NpProxy
 from .. import vector4
 
 # TODO: add < <= > >= == != operators
@@ -92,6 +92,10 @@ class Vector4(BaseVector4):
             obj = value
             if not isinstance(value, np.ndarray):
                 obj = np.array(value, dtype=dtype)
+
+            # matrix44
+            if obj.shape in ((4,4,)) or isinstance(obj, BaseMatrix44):
+                obj = vector4.create_from_matrix44_translation(obj, dtype=dtype)
         else:
             obj = np.zeros(cls._shape, dtype=dtype)
         obj = obj.view(cls)
