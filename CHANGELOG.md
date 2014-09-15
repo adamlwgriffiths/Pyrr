@@ -1,6 +1,37 @@
 Changelog
 =========
 
+0.6.1
+-----
+
+* Readd vector3|4.from_matrix44_translation.
+
+* Remove unused import
+
+* Use type(obj) instead of obj.__class__
+
+* Add tests for = and += on NpProxy
+
+
+0.6.0
+-----
+
+* Remove unused imports.
+
+* Add docstrings to functions.
+
+* Remove Matrix44.translation. Multiply a vector by
+the matrix to get this.
+
+* Rename vector3|4.negative to inverse. This matches matrix.
+
+* Remove ambiguous conversions in object api Matrix44->Vector, etc.
+
+* Add Vector4.from_vector3 with w parameter, default w=0.0.
+
+* Add Vector4.xyw.
+
+
 0.5.1
 -----
 
