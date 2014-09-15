@@ -8,6 +8,11 @@ from pyrr import geometry
 # TODO: test all combinations of st, rgba, and type
 
 class test_geometry(unittest.TestCase):
+    def test_import(self):
+        import pyrr
+        pyrr.geometry
+        from pyrr import geometry
+
     def test_create_quad(self):
         v, i = geometry.create_quad()
         expected_v = np.array([

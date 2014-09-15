@@ -8,6 +8,11 @@ from pyrr import quaternion
 
 class test_quaternion(unittest.TestCase):
     # many of these values are taken from searches on wolfram alpha
+    def test_import(self):
+        import pyrr
+        pyrr.quaternion
+        from pyrr import quaternion
+
     def test_create(self):
         result = quaternion.create()
         np.testing.assert_almost_equal(result, [0.,0.,0.,1.], decimal=5)

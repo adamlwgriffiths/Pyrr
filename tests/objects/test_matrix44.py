@@ -24,6 +24,10 @@ class test_object_matrix44(unittest.TestCase):
         pyrr.matrix44.Matrix44()
         pyrr.objects.matrix44.Matrix44()
 
+        from pyrr import Matrix44
+        from pyrr.objects import Matrix44
+        from pyrr.objects.matrix44 import Matrix44
+        
     def test_create(self):
         m = Matrix44()
         self.assertTrue(np.array_equal(m, np.zeros(self._shape)))

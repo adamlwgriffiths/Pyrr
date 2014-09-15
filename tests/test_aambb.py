@@ -9,6 +9,11 @@ from pyrr import vector
 
 
 class test_aambb(unittest.TestCase):
+    def test_import(self):
+        import pyrr
+        pyrr.aambb
+        from pyrr import aambb
+
     def test_create_zeros(self):
         result = aambb.create_zeros()
         self.assertTrue(np.array_equal(result, [[0.,0.,0.],[0.,0.,0.]]))

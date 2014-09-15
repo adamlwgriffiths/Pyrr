@@ -9,6 +9,11 @@ from pyrr import matrix33, quaternion, vector3
 class test_matrix33(unittest.TestCase):
     # use wolfram alpha to get information on quaternion conversion values
     # be aware that wolfram lists it as w,x,y,z
+    def test_import(self):
+        import pyrr
+        pyrr.matrix33
+        from pyrr import matrix33
+
     def test_create_from_quaternion_unit(self):
         result = matrix33.create_from_quaternion([0.,0.,0.,1.])
         np.testing.assert_almost_equal(result, np.eye(3), decimal=5)

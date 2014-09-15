@@ -7,6 +7,11 @@ from pyrr import geometric_tests as gt
 from pyrr import line, plane, ray, sphere
 
 class test_geometric_tests(unittest.TestCase):
+    def test_import(self):
+        import pyrr
+        pyrr.geometric_tests
+        from pyrr import geometric_tests
+
     def test_point_intersect_line(self):
         p = np.array([1.,1.,1.])
         l = np.array([[0.,0.,0.],[2.,2.,2.]])

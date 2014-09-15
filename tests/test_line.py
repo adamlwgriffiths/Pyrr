@@ -6,6 +6,11 @@ import numpy as np
 from pyrr import line, ray
 
 class test_line(unittest.TestCase):
+    def test_import(self):
+        import pyrr
+        pyrr.line
+        from pyrr import line
+
     def test_create_zeros(self):
         result = line.create_zeros()
         self.assertTrue(np.allclose(result, [[0,0,0],[0,0,0]]))

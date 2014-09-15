@@ -6,6 +6,11 @@ import numpy as np
 from pyrr import plane
 
 class test_plane(unittest.TestCase):
+    def test_import(self):
+        import pyrr
+        pyrr.plane
+        from pyrr import plane
+
     def test_create(self):
         result = plane.create()
         self.assertTrue(np.allclose(result, [0,0,1,0]))

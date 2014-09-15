@@ -7,6 +7,11 @@ from pyrr import aabb
 
 
 class test_aabb(unittest.TestCase):
+    def test_import(self):
+        import pyrr
+        pyrr.aabb
+        from pyrr import aabb
+
     def test_create_zeros(self):
         result = aabb.create_zeros()
         self.assertTrue(np.array_equal(result, [[0,0,0],[0,0,0]]))

@@ -22,6 +22,10 @@ class test_object_vector3(unittest.TestCase):
         pyrr.vector3.Vector3()
         pyrr.objects.vector3.Vector3()
 
+        from pyrr import Vector3
+        from pyrr.objects import Vector3
+        from pyrr.objects.vector3 import Vector3
+        
     def test_create(self):
         v = Vector3()
         self.assertTrue(np.array_equal(v, [0.,0.,0.]))

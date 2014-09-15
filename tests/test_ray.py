@@ -7,6 +7,11 @@ from pyrr import ray
 
 
 class test_ray(unittest.TestCase):
+    def test_import(self):
+        import pyrr
+        pyrr.ray
+        from pyrr import ray
+
     def test_create(self):
         result = ray.create([0.,0.,0.],[0.,0.,1.])
         np.testing.assert_almost_equal(result, [[0.,0.,0.],[0.,0.,1.]], decimal=5)

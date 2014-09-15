@@ -7,6 +7,11 @@ from pyrr import vector, vector3, vector4
 
 
 class test_vector(unittest.TestCase):
+    def test_import(self):
+        import pyrr
+        pyrr.vector
+        from pyrr import vector
+
     def test_normalise_single_vector(self):
         result = vector3.normalise([1.,1.,1.])
         np.testing.assert_almost_equal(result, [0.57735, 0.57735, 0.57735], decimal=5)

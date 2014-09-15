@@ -7,6 +7,11 @@ from pyrr import matrix44, quaternion
 
 
 class test_matrix44(unittest.TestCase):
+    def test_import(self):
+        import pyrr
+        pyrr.matrix44
+        from pyrr import matrix44
+
     def test_create_identity(self):
         result = matrix44.create_identity()
         np.testing.assert_almost_equal(result, np.eye(4), decimal=5)

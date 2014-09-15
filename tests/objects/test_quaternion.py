@@ -24,6 +24,10 @@ class test_object_quaternion(unittest.TestCase):
         pyrr.quaternion.Quaternion()
         pyrr.objects.quaternion.Quaternion()
 
+        from pyrr import Quaternion
+        from pyrr.objects import Quaternion
+        from pyrr.objects.quaternion import Quaternion
+        
     def test_create(self):
         q = Quaternion()
         self.assertTrue(np.array_equal(q, [0.,0.,0.,1.]))

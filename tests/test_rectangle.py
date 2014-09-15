@@ -7,6 +7,11 @@ from pyrr import rectangle
 
 
 class test_rectangle(unittest.TestCase):
+    def test_import(self):
+        import pyrr
+        pyrr.rectangle
+        from pyrr import rectangle
+
     def test_create(self):
         result = rectangle.create()
         np.testing.assert_almost_equal(result, [[0,0],[1,1]], decimal=5)

@@ -7,6 +7,11 @@ from pyrr import vector3
 
 
 class test_vector3(unittest.TestCase):
+    def test_import(self):
+        import pyrr
+        pyrr.vector3
+        from pyrr import vector3
+
     def test_create(self):
         result = vector3.create()
         np.testing.assert_almost_equal(result, [0.,0.,0.], decimal=5)
