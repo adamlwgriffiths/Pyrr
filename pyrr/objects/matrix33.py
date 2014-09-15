@@ -142,23 +142,23 @@ class Matrix33(BaseMatrix33):
     # Basic Operators
     @dispatch(BaseObject)
     def __add__(self, other):
-        raise ValueError('Cannot {} a {} to a {}'.format('add', other.__class__.__name__, self.__class__.__name__))
+        raise ValueError('Cannot {} a {} to a {}'.format('add', type(other).__name__, type(self).__name__))
 
     @dispatch(BaseObject)
     def __sub__(self, other):
-        raise ValueError('Cannot {} a {} from a {}'.format('subtract', other.__class__.__name__, self.__class__.__name__))
+        raise ValueError('Cannot {} a {} from a {}'.format('subtract', type(other).__name__, type(self).__name__))
 
     @dispatch(BaseObject)
     def __mul__(self, other):
-        raise ValueError('Cannot {} a {} by a {}'.format('multiply', self.__class__.__name__, other.__class__.__name__))
+        raise ValueError('Cannot {} a {} by a {}'.format('multiply', type(self).__name__, type(other).__name__))
 
     @dispatch(BaseObject)
     def __truediv__(self, other):
-        raise ValueError('Cannot {} a {} by a {}'.format('divide', self.__class__.__name__, other.__class__.__name__))
+        raise ValueError('Cannot {} a {} by a {}'.format('divide', type(self).__name__, type(other).__name__))
 
     @dispatch(BaseObject)
     def __div__(self, other):
-        raise ValueError('Cannot {} a {} by a {}'.format('divide', self.__class__.__name__, other.__class__.__name__))
+        raise ValueError('Cannot {} a {} by a {}'.format('divide', type(self).__name__, type(other).__name__))
 
     def __invert__(self):
         return self.inverse
@@ -180,7 +180,7 @@ class Matrix33(BaseMatrix33):
     # Vectors
     @dispatch(BaseVector)
     def __mul__(self, other):
-        return other.__class__(matrix33.apply_to_vector(self, other))
+        return type(other)(matrix33.apply_to_vector(self, other))
 
     ########################
     # Methods and Properties

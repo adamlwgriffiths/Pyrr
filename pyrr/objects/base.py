@@ -89,7 +89,7 @@ class BaseMatrix(BaseObject):
     def inverse(self):
         """Returns the inverse of this matrix.
         """
-        return self.__class__(self._module.inverse(self))
+        return type(self)(self._module.inverse(self))
 
 class BaseVector(BaseObject):
     def normalise(self):
@@ -97,7 +97,7 @@ class BaseVector(BaseObject):
 
     @property
     def normalised(self):
-        return self.__class__(self._module.normalise(self))
+        return type(self)(self._module.normalise(self))
 
     @property
     def squared_length(self):
@@ -112,16 +112,16 @@ class BaseVector(BaseObject):
         self[:] = vector.set_length(self, length)
 
     def dot(self, other):
-        return vector.dot(self, self.__class__(other))
+        return vector.dot(self, type(self)(other))
 
     def cross(self, other):
-        return self.__class__(vector3.cross(self[:3], other[:3]))
+        return type(self)(vector3.cross(self[:3], other[:3]))
 
     def interpolate(self, other, delta):
-        return self.__class__(vector.interpolate(self, self.__class__(other), delta))
+        return type(self)(vector.interpolate(self, type(self)(other), delta))
 
     def normal(self, v2, v3, normalise_result=True):
-        return self.__class__(vector3.generate_normals(self, self.__class__(v2), self.__class__(v3), normalise_result))
+        return type(self)(vector3.generate_normals(self, type(self)(v2), type(self)(v3), normalise_result))
 
 class BaseQuaternion(BaseObject):
     pass
