@@ -160,10 +160,12 @@ class test_object_vector4(unittest.TestCase):
         self.assertEqual(v.y, 1)
         self.assertEqual(v.z, 2)
 
+        v.x = 1
+        self.assertEqual(v.x, 1)
+        self.assertEqual(v[0], 1)
+        v.x += 1
+        self.assertEqual(v.x, 2)
+        self.assertEqual(v[0], 2)
 
 if __name__ == '__main__':
     unittest.main()
-try:
-    import unittest2 as unittest
-except:
-    import unittest

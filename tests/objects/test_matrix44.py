@@ -236,5 +236,12 @@ class test_object_matrix44(unittest.TestCase):
         self.assertEqual(m.m43, 14)
         self.assertEqual(m.m44, 15)
 
+        m.m11 = 1
+        self.assertEqual(m.m11, 1)
+        self.assertEqual(m[0,0], 1)
+        m.m11 += 1
+        self.assertEqual(m.m11, 2)
+        self.assertEqual(m[0,0], 2)
+
 if __name__ == '__main__':
     unittest.main()

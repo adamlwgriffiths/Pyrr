@@ -238,6 +238,12 @@ class test_object_quaternion(unittest.TestCase):
         self.assertEqual(q.z, 2)
         self.assertEqual(q.w, 3)
 
+        q.x = 1
+        self.assertEqual(q.x, 1)
+        self.assertEqual(q[0], 1)
+        q.x += 1
+        self.assertEqual(q.x, 2)
+        self.assertEqual(q[0], 2)
 
 
 if __name__ == '__main__':
