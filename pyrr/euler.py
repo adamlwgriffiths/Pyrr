@@ -5,7 +5,7 @@ Eulers represent 3 rotations: Pitch, Roll and Yaw.
 
 Eulers are represented using a numpy.array of shape (3,).
 """
-from __future__ import absolute_import, division, print_function, unicode_literals
+from __future__ import absolute_import, division, print_function
 import numpy as np
 
 

@@ -6,7 +6,7 @@ Sphere are represented using a numpy.array of shape (4,).
 The first three values are the sphere's position.
 The fourth value is the sphere's radius.
 """
-from __future__ import absolute_import, division, print_function, unicode_literals
+from __future__ import absolute_import, division, print_function
 import numpy as np
 from .utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays
 

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Provide functions for the creation and manipulation of Quaternions.
 """
-from __future__ import absolute_import, division, print_function, unicode_literals
+from __future__ import absolute_import, division, print_function
 import numpy as np
 from . import vector, vector3, vector4
 from .utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays

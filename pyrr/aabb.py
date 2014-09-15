@@ -18,7 +18,7 @@ It is up to the user to either:
 
 TODO: add transform( matrix )
 """
-from __future__ import absolute_import, division, print_function, unicode_literals
+from __future__ import absolute_import, division, print_function
 import numpy as np
 from .utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays
 

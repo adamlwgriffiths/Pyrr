@@ -6,7 +6,7 @@ Rectangles are represented using a numpy.array of shape (2,2,).
 The first value is a vector of x, y position of the rectangle.
 The second value is a vector with the width, height of the rectangle.
 """
-from __future__ import absolute_import, division, print_function, unicode_literals
+from __future__ import absolute_import, division, print_function
 import numpy as np
 from .utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays
 

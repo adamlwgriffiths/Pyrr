@@ -14,7 +14,7 @@ Some functions may work correctly with directions
 that are not unit length, but this may vary from
 function to function.
 """
-from __future__ import absolute_import, division, print_function, unicode_literals
+from __future__ import absolute_import, division, print_function
 import numpy as np
 from . import vector
 from .utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays

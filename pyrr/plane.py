@@ -10,7 +10,7 @@ The fourth value is the distance of the plane from the origin, down the normal.
 .. seealso: http://en.wikipedia.org/wiki/Plane_(geometry)
 .. seealso: http://mathworld.wolfram.com/Plane.html
 """
-from __future__ import absolute_import, division, print_function, unicode_literals
+from __future__ import absolute_import, division, print_function
 import numpy as np
 from . import vector
 from .utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays

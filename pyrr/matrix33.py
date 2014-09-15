@@ -6,7 +6,7 @@ into OpenGL.
 To convert to column-major format, transpose the array using the
 numpy.array.T method.
 """
-from __future__ import absolute_import, division, print_function, unicode_literals
+from __future__ import absolute_import, division, print_function
 import numpy as np
 from . import vector
 from . import quaternion
