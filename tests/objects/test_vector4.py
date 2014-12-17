@@ -161,6 +161,33 @@ class test_object_vector4(unittest.TestCase):
         self.assertTrue(Vector4() != Vector4([1.,1.,1.,1.]))
         self.assertFalse(Vector4() != Vector4())
 
+    def test_operators_number(self):
+        v1 = Vector4([1.,2.,3.,4.])
+
+        # add
+        self.assertTrue(np.array_equal(v1 + 1., [2., 3., 4., 5.]))
+
+        # subtract
+        self.assertTrue(np.array_equal(v1 - 1., [0., 1., 2., 3.]))
+
+        # multiply
+        self.assertTrue(np.array_equal(v1 * 2., [2., 4., 6., 8.]))
+
+        # divide
+        self.assertTrue(np.array_equal(v1 / 2., [.5, 1., 1.5, 2.]))
+
+        # or
+        self.assertRaises(ValueError, lambda: v1 | .5)
+
+        # xor
+        self.assertRaises(ValueError, lambda: v1 ^ .5)
+
+        # ==
+        self.assertRaises(ValueError, lambda: Vector3() == .5)
+
+        # !=
+        self.assertRaises(ValueError, lambda: Vector3() != .5)
+
     def test_accessors(self):
         v = Vector4(np.arange(self._size))
         self.assertTrue(np.array_equal(v.xy,[0,1]))

@@ -40,6 +40,7 @@ conversions.
     xyz = v.xyz
 """
 from __future__ import absolute_import, division
+from numbers import Number
 import numpy as np
 from multipledispatch import dispatch
 from .base import BaseObject, BaseVector3, BaseMatrix44, NpProxy
@@ -102,19 +103,19 @@ class Vector3(BaseVector3):
     def __div__(self, other):
         raise ValueError('Cannot {} a {} by a {}'.format('divide', type(self).__name__, type(other).__name__))
 
-    @dispatch(BaseObject)
+    @dispatch((BaseObject, Number))
     def __xor__(self, other):
         raise ValueError('Cannot {} a {} by a {}'.format('xor', type(self).__name__, type(other).__name__))
 
-    @dispatch(BaseObject)
+    @dispatch((BaseObject, Number))
     def __or__(self, other):
         raise ValueError('Cannot {} a {} by a {}'.format('or', type(self).__name__, type(other).__name__))
 
-    @dispatch(BaseObject)
+    @dispatch((BaseObject, Number))
     def __ne__(self, other):
         raise ValueError('Cannot {} a {} by a {}'.format('compare', type(self).__name__, type(other).__name__))
 
-    @dispatch(BaseObject)
+    @dispatch((BaseObject, Number))
     def __eq__(self, other):
         raise ValueError('Cannot {} a {} by a {}'.format('compare', type(self).__name__, type(other).__name__))
 
@@ -155,6 +156,28 @@ class Vector3(BaseVector3):
     @dispatch(BaseVector3)
     def __eq__(self, other):
         return bool(np.all(super(Vector3, self).__eq__(other)))
+
+    ########################
+    # Number
+    @dispatch(Number)
+    def __add__(self, other):
+        return Vector3(super(Vector3, self).__add__(other))
+
+    @dispatch(Number)
+    def __sub__(self, other):
+        return Vector3(super(Vector3, self).__sub__(other))
+
+    @dispatch(Number)
+    def __mul__(self, other):
+        return Vector3(super(Vector3, self).__mul__(other))
+
+    @dispatch(Number)
+    def __truediv__(self, other):
+        return Vector3(super(Vector3, self).__truediv__(other))
+
+    @dispatch(Number)
+    def __div__(self, other):
+        return Vector3(super(Vector3, self).__div__(other))
 
     ########################
     # Methods and Properties
