@@ -175,6 +175,7 @@ Pyrr requires the following software:
 
   * Python 2.6+ / 3.0+
   * NumPy
+  * [multipledispatch](https://github.com/mrocklin/multipledispatch/)
 
 
 Changelog
