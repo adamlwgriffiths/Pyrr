@@ -1,6 +1,12 @@
 Changelog
 =========
 
+0.6.4
+-----
+
+* Fix Vector3/4 normalise failing.
+
+
 0.6.3
 -----
 
