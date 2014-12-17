@@ -1,6 +1,15 @@
 Changelog
 =========
 
+0.6.3
+-----
+
+* Add support for +- Matrix33/44. Fixes #24.
+* Add scalar support to Matrix33/44. Fixes #23.
+* Add scalar support to Vector3/4. Fixes #22.
+* Update version (0.6.2 was marked as 0.6.1!)
+
+
 0.6.2
 -----
 
