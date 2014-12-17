@@ -128,10 +128,10 @@ class test_object_matrix33(unittest.TestCase):
         m2 = Matrix33.from_x_rotation(0.5)
 
         # add
-        self.assertRaises(ValueError, lambda: m1 + m2)
+        self.assertTrue(np.array_equal(m1 + m2, matrix33.create_identity() + matrix33.create_from_x_rotation(0.5)))
 
         # subtract
-        self.assertRaises(ValueError, lambda: m1 - m2)
+        self.assertTrue(np.array_equal(m1 - m2, matrix33.create_identity() - matrix33.create_from_x_rotation(0.5)))
 
         # multiply
         self.assertTrue(np.array_equal(m1 * m2, matrix33.multiply(matrix33.create_identity(), matrix33.create_from_x_rotation(0.5))))
@@ -147,10 +147,10 @@ class test_object_matrix33(unittest.TestCase):
         m2 = Matrix44.from_x_rotation(0.5)
 
         # add
-        self.assertRaises(ValueError, lambda: m1 + m2)
+        self.assertTrue(np.array_equal(m1 + m2, matrix33.create_identity() + matrix33.create_from_x_rotation(0.5)))
 
         # subtract
-        self.assertRaises(ValueError, lambda: m1 - m2)
+        self.assertTrue(np.array_equal(m1 - m2, matrix33.create_identity() - matrix33.create_from_x_rotation(0.5)))
 
         # multiply
         self.assertTrue(np.array_equal(m1 * m2, matrix33.multiply(matrix33.create_identity(), matrix33.create_from_x_rotation(0.5))))

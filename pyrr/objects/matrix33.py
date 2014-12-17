@@ -167,6 +167,14 @@ class Matrix33(BaseMatrix33):
     ########################
     # Matrices
     @dispatch(BaseMatrix)
+    def __add__(self, other):
+        return Matrix33(super(Matrix33, self).__add__(other.matrix33))
+
+    @dispatch(BaseMatrix)
+    def __sub__(self, other):
+        return Matrix33(super(Matrix33, self).__sub__(other.matrix33))
+
+    @dispatch(BaseMatrix)
     def __mul__(self, other):
         return Matrix33(matrix33.multiply(self, other.matrix33))
 
