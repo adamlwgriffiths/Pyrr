@@ -196,10 +196,10 @@ class test_object_vector3(unittest.TestCase):
         v2 = Vector3([0.,1.,0.])
 
         # xor (cross)
-        self.assertTrue(np.array_equal(v1 ^ v2, [0., 0., 1.]))
+        self.assertTrue(np.array_equal(v1 ^ v2, vector3.cross(v1, v2)))
 
         # or (dot)
-        self.assertTrue(np.array_equal(v1 | v2, 0.))
+        self.assertTrue(np.array_equal(v1 | v2, vector3.dot(v1, v2)))
 
     def test_accessors(self):
         v = Vector3(np.arange(self._size))

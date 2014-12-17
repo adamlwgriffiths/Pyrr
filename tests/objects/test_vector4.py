@@ -200,7 +200,7 @@ class test_object_vector4(unittest.TestCase):
         v2 = Vector4([0.,1.,0.,1.])
 
         # or (dot)
-        self.assertTrue(np.array_equal(v1 | v2, 1.))
+        self.assertTrue(np.array_equal(v1 | v2, vector4.dot(v1, v2)))
 
     def test_accessors(self):
         v = Vector4(np.arange(self._size))
