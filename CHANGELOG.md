@@ -1,6 +1,9 @@
 Changelog
 =========
 
+* Add tests for Vector3/4 |^ operators
+
+
 0.6.4
 -----
 

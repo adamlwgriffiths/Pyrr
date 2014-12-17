@@ -191,6 +191,16 @@ class test_object_vector3(unittest.TestCase):
         # !=
         self.assertRaises(ValueError, lambda: Vector3() != .5)
 
+    def test_bitwise(self):
+        v1 = Vector3([1.,0.,0.])
+        v2 = Vector3([0.,1.,0.])
+
+        # xor (cross)
+        self.assertTrue(np.array_equal(v1 ^ v2, [0., 0., 1.]))
+
+        # or (dot)
+        self.assertTrue(np.array_equal(v1 | v2, 0.))
+
     def test_accessors(self):
         v = Vector3(np.arange(self._size))
         self.assertTrue(np.array_equal(v.xy,[0,1]))
