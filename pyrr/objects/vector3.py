@@ -121,23 +121,23 @@ class Vector3(BaseVector3):
 
     ########################
     # Vectors
-    @dispatch(BaseVector3)
+    @dispatch((BaseVector3, np.ndarray))
     def __add__(self, other):
         return Vector3(super(Vector3, self).__add__(other))
 
-    @dispatch(BaseVector3)
+    @dispatch((BaseVector3, np.ndarray))
     def __sub__(self, other):
         return Vector3(super(Vector3, self).__sub__(other))
 
-    @dispatch(BaseVector3)
+    @dispatch((BaseVector3, np.ndarray))
     def __mul__(self, other):
         return Vector3(super(Vector3, self).__mul__(other))
 
-    @dispatch(BaseVector3)
+    @dispatch((BaseVector3, np.ndarray))
     def __truediv__(self, other):
         return Vector3(super(Vector3, self).__truediv__(other))
 
-    @dispatch(BaseVector3)
+    @dispatch((BaseVector3, np.ndarray))
     def __div__(self, other):
         return Vector3(super(Vector3, self).__div__(other))
 

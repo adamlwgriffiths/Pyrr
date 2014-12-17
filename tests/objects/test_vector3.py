@@ -51,6 +51,13 @@ class test_object_vector3(unittest.TestCase):
         v = Vector3([1.,2.,3.])
         self.assertTrue(np.array_equal(v.inverse, [-1.,-2.,-3.]))
 
+    def test_normalise(self):
+        v = Vector3([1.,1.,1.])
+        np.testing.assert_almost_equal(v.normalised, [0.57735, 0.57735, 0.57735], decimal=5)
+
+        v.normalise()
+        np.testing.assert_almost_equal(v, [0.57735, 0.57735, 0.57735], decimal=5)
+
     def test_operators_matrix33(self):
         v = Vector3()
         m = Matrix33.from_x_rotation(0.5)

@@ -142,23 +142,23 @@ class Vector4(BaseVector4):
 
     ########################
     # Vectors
-    @dispatch(BaseVector4)
+    @dispatch((BaseVector4, np.ndarray))
     def __add__(self, other):
         return Vector4(super(Vector4, self).__add__(other))
 
-    @dispatch(BaseVector4)
+    @dispatch((BaseVector4, np.ndarray))
     def __sub__(self, other):
         return Vector4(super(Vector4, self).__sub__(other))
 
-    @dispatch(BaseVector4)
+    @dispatch((BaseVector4, np.ndarray))
     def __mul__(self, other):
         return Vector4(super(Vector4, self).__mul__(other))
 
-    @dispatch(BaseVector4)
+    @dispatch((BaseVector4, np.ndarray))
     def __truediv__(self, other):
         return Vector4(super(Vector4, self).__truediv__(other))
 
-    @dispatch(BaseVector4)
+    @dispatch((BaseVector4, np.ndarray))
     def __div__(self, other):
         return Vector4(super(Vector4, self).__div__(other))
 
