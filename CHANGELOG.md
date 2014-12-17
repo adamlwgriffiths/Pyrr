@@ -1,6 +1,15 @@
 Changelog
 =========
 
+0.6.2
+-----
+
+* Remove import of unicode_literals.
+It seems to be buggering up 'from pyrr import *'
+
+* Move import tests into each module
+
+
 0.6.1
 -----
 
