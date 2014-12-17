@@ -58,6 +58,7 @@ conversions.
     c1 = m.c1
 """
 from __future__ import absolute_import
+from numbers import Number
 import numpy as np
 from multipledispatch import dispatch
 from .base import BaseObject, BaseMatrix, BaseMatrix33, BaseQuaternion, BaseVector, NpProxy
@@ -181,6 +182,28 @@ class Matrix33(BaseMatrix33):
     @dispatch(BaseVector)
     def __mul__(self, other):
         return type(other)(matrix33.apply_to_vector(self, other))
+
+    ########################
+    # Number
+    @dispatch(Number)
+    def __add__(self, other):
+        return Matrix33(super(Matrix33, self).__add__(other))
+
+    @dispatch(Number)
+    def __sub__(self, other):
+        return Matrix33(super(Matrix33, self).__sub__(other))
+
+    @dispatch(Number)
+    def __mul__(self, other):
+        return Matrix33(super(Matrix33, self).__mul__(other))
+
+    @dispatch(Number)
+    def __truediv__(self, other):
+        return Matrix33(super(Matrix33, self).__truediv__(other))
+
+    @dispatch(Number)
+    def __div__(self, other):
+        return Matrix33(super(Matrix33, self).__div__(other))
 
     ########################
     # Methods and Properties

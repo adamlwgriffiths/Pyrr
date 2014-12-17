@@ -206,6 +206,21 @@ class test_object_matrix44(unittest.TestCase):
         # divide
         self.assertRaises(ValueError, lambda: m / v)
 
+    def test_operators_number(self):
+        m = Matrix44.identity()
+        
+        # add
+        self.assertTrue(np.array_equal(m + 1.0, matrix44.create_identity()[:] + 1.0))
+
+        # subtract
+        self.assertTrue(np.array_equal(m - 1.0, matrix44.create_identity()[:] - 1.0))
+
+        # multiply
+        self.assertTrue(np.array_equal(m * 2.0, matrix44.create_identity()[:] * 2.0))
+
+        # divide
+        self.assertTrue(np.array_equal(m / 2.0, matrix44.create_identity()[:] / 2.0))
+
     def test_accessors(self):
         m = Matrix44(np.arange(self._size))
         self.assertTrue(np.array_equal(m.m1,[0,1,2,3]))
