@@ -234,23 +234,23 @@ class Matrix44(BaseMatrix44):
 
     ########################
     # Number
-    @dispatch(Number)
+    @dispatch((Number, np.number))
     def __add__(self, other):
         return Matrix44(super(Matrix44, self).__add__(other))
 
-    @dispatch(Number)
+    @dispatch((Number, np.number))
     def __sub__(self, other):
         return Matrix44(super(Matrix44, self).__sub__(other))
 
-    @dispatch(Number)
+    @dispatch((Number, np.number))
     def __mul__(self, other):
         return Matrix44(super(Matrix44, self).__mul__(other))
 
-    @dispatch(Number)
+    @dispatch((Number, np.number))
     def __truediv__(self, other):
         return Matrix44(super(Matrix44, self).__truediv__(other))
 
-    @dispatch(Number)
+    @dispatch((Number, np.number))
     def __div__(self, other):
         return Matrix44(super(Matrix44, self).__div__(other))
 

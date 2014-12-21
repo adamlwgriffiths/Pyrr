@@ -170,30 +170,64 @@ class test_object_vector4(unittest.TestCase):
 
     def test_operators_number(self):
         v1 = Vector4([1.,2.,3.,4.])
+        fv = np.empty((1,), dtype=[('i', np.int16, 1),('f', np.float32, 1)])
+        fv[0] = (2, 2.0)
 
         # add
         self.assertTrue(np.array_equal(v1 + 1., [2., 3., 4., 5.]))
+        self.assertTrue(np.array_equal(v1 + 1, [2., 3., 4., 5.]))
+        self.assertTrue(np.array_equal(v1 + np.float(1.), [2., 3., 4., 5.]))
+        self.assertTrue(np.array_equal(v1 + fv[0]['f'], [3., 4., 5., 6.]))
+        self.assertTrue(np.array_equal(v1 + fv[0]['i'], [3., 4., 5., 6.]))
 
         # subtract
         self.assertTrue(np.array_equal(v1 - 1., [0., 1., 2., 3.]))
+        self.assertTrue(np.array_equal(v1 - 1, [0., 1., 2., 3.]))
+        self.assertTrue(np.array_equal(v1 - np.float(1.), [0., 1., 2., 3.]))
+        self.assertTrue(np.array_equal(v1 - fv[0]['f'], [-1., 0., 1., 2.]))
+        self.assertTrue(np.array_equal(v1 - fv[0]['i'], [-1., 0., 1., 2.]))
 
         # multiply
         self.assertTrue(np.array_equal(v1 * 2., [2., 4., 6., 8.]))
+        self.assertTrue(np.array_equal(v1 * 2, [2., 4., 6., 8.]))
+        self.assertTrue(np.array_equal(v1 * np.float(2.), [2., 4., 6., 8.]))
+        self.assertTrue(np.array_equal(v1 * fv[0]['f'], [2., 4., 6., 8.]))
+        self.assertTrue(np.array_equal(v1 * fv[0]['i'], [2., 4., 6., 8.]))
 
         # divide
         self.assertTrue(np.array_equal(v1 / 2., [.5, 1., 1.5, 2.]))
+        self.assertTrue(np.array_equal(v1 / 2, [.5, 1., 1.5, 2.]))
+        self.assertTrue(np.array_equal(v1 / np.float(2.), [.5, 1., 1.5, 2.]))
+        self.assertTrue(np.array_equal(v1 / fv[0]['f'], [.5, 1., 1.5, 2.]))
+        self.assertTrue(np.array_equal(v1 / fv[0]['i'], [.5, 1., 1.5, 2.]))
 
         # or
         self.assertRaises(ValueError, lambda: v1 | .5)
+        self.assertRaises(ValueError, lambda: v1 | 5)
+        self.assertRaises(ValueError, lambda: v1 | np.float(2.))
+        self.assertRaises(ValueError, lambda: v1 | fv[0]['f'])
+        self.assertRaises(ValueError, lambda: v1 | fv[0]['i'])
 
         # xor
         self.assertRaises(ValueError, lambda: v1 ^ .5)
+        self.assertRaises(ValueError, lambda: v1 ^ 5)
+        self.assertRaises(ValueError, lambda: v1 ^ np.float(2.))
+        self.assertRaises(ValueError, lambda: v1 ^ fv[0]['f'])
+        self.assertRaises(ValueError, lambda: v1 ^ fv[0]['i'])
 
         # ==
-        self.assertRaises(ValueError, lambda: Vector3() == .5)
+        self.assertRaises(ValueError, lambda: v1 == .5)
+        self.assertRaises(ValueError, lambda: v1 == 5)
+        self.assertRaises(ValueError, lambda: v1 == np.float(2.))
+        self.assertRaises(ValueError, lambda: v1 == fv[0]['f'])
+        self.assertRaises(ValueError, lambda: v1 == fv[0]['i'])
 
         # !=
-        self.assertRaises(ValueError, lambda: Vector3() != .5)
+        self.assertRaises(ValueError, lambda: v1 != .5)
+        self.assertRaises(ValueError, lambda: v1 != 5)
+        self.assertRaises(ValueError, lambda: v1 != np.float(2.))
+        self.assertRaises(ValueError, lambda: v1 != fv[0]['f'])
+        self.assertRaises(ValueError, lambda: v1 != fv[0]['i'])
 
     def test_bitwise(self):
         v1 = Vector4([1.,0.,0.,1.])

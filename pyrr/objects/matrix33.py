@@ -193,23 +193,23 @@ class Matrix33(BaseMatrix33):
 
     ########################
     # Number
-    @dispatch(Number)
+    @dispatch((Number, np.number))
     def __add__(self, other):
         return Matrix33(super(Matrix33, self).__add__(other))
 
-    @dispatch(Number)
+    @dispatch((Number, np.number))
     def __sub__(self, other):
         return Matrix33(super(Matrix33, self).__sub__(other))
 
-    @dispatch(Number)
+    @dispatch((Number, np.number))
     def __mul__(self, other):
         return Matrix33(super(Matrix33, self).__mul__(other))
 
-    @dispatch(Number)
+    @dispatch((Number, np.number))
     def __truediv__(self, other):
         return Matrix33(super(Matrix33, self).__truediv__(other))
 
-    @dispatch(Number)
+    @dispatch((Number, np.number))
     def __div__(self, other):
         return Matrix33(super(Matrix33, self).__div__(other))
 

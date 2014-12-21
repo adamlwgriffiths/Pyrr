@@ -176,6 +176,10 @@ class test_vector3(unittest.TestCase):
         result = vector3.cross([1.,0.,0.], [0.,1.,0.])
         np.testing.assert_almost_equal(result, [0.,0.,1.], decimal=5)
 
+    def test_cross_coincident(self):
+        result = vector3.cross([1.,0.,0.], [1.,0.,0.])
+        np.testing.assert_almost_equal(result, [0.,0.,0.], decimal=5)
+
     def test_cross_batch(self):
         result = vector3.cross([
             [1.,0.,0.],

@@ -208,18 +208,36 @@ class test_object_matrix33(unittest.TestCase):
 
     def test_operators_number(self):
         m = Matrix33.identity()
+        fv = np.empty((1,), dtype=[('i', np.int16, 1),('f', np.float32, 1)])
+        fv[0] = (2, 2.0)
         
         # add
         self.assertTrue(np.array_equal(m + 1.0, matrix33.create_identity()[:] + 1.0))
+        self.assertTrue(np.array_equal(m + 1, matrix33.create_identity()[:] + 1.0))
+        self.assertTrue(np.array_equal(m + np.float(1.), matrix33.create_identity()[:] + 1.0))
+        self.assertTrue(np.array_equal(m + fv[0]['f'], matrix33.create_identity()[:] + 2.0))
+        self.assertTrue(np.array_equal(m + fv[0]['i'], matrix33.create_identity()[:] + 2.0))
 
         # subtract
         self.assertTrue(np.array_equal(m - 1.0, matrix33.create_identity()[:] - 1.0))
+        self.assertTrue(np.array_equal(m - 1, matrix33.create_identity()[:] - 1.0))
+        self.assertTrue(np.array_equal(m - np.float(1.), matrix33.create_identity()[:] - 1.0))
+        self.assertTrue(np.array_equal(m - fv[0]['f'], matrix33.create_identity()[:] - 2.0))
+        self.assertTrue(np.array_equal(m - fv[0]['i'], matrix33.create_identity()[:] - 2.0))
 
         # multiply
         self.assertTrue(np.array_equal(m * 2.0, matrix33.create_identity()[:] * 2.0))
+        self.assertTrue(np.array_equal(m * 2, matrix33.create_identity()[:] * 2.0))
+        self.assertTrue(np.array_equal(m * np.float(2.), matrix33.create_identity()[:] * 2.0))
+        self.assertTrue(np.array_equal(m * fv[0]['f'], matrix33.create_identity()[:] * 2.0))
+        self.assertTrue(np.array_equal(m * fv[0]['i'], matrix33.create_identity()[:] * 2.0))
 
         # divide
         self.assertTrue(np.array_equal(m / 2.0, matrix33.create_identity()[:] / 2.0))
+        self.assertTrue(np.array_equal(m / 2, matrix33.create_identity()[:] / 2.0))
+        self.assertTrue(np.array_equal(m / np.float(2.), matrix33.create_identity()[:] / 2.0))
+        self.assertTrue(np.array_equal(m / fv[0]['f'], matrix33.create_identity()[:] / 2.0))
+        self.assertTrue(np.array_equal(m / fv[0]['i'], matrix33.create_identity()[:] / 2.0))
 
     def test_accessors(self):
         m = Matrix33(np.arange(self._size))

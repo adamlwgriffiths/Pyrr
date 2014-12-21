@@ -103,19 +103,19 @@ class Vector3(BaseVector3):
     def __div__(self, other):
         raise ValueError('Cannot {} a {} by a {}'.format('divide', type(self).__name__, type(other).__name__))
 
-    @dispatch((BaseObject, Number))
+    @dispatch((BaseObject, Number, np.number))
     def __xor__(self, other):
         raise ValueError('Cannot {} a {} by a {}'.format('xor', type(self).__name__, type(other).__name__))
 
-    @dispatch((BaseObject, Number))
+    @dispatch((BaseObject, Number, np.number))
     def __or__(self, other):
         raise ValueError('Cannot {} a {} by a {}'.format('or', type(self).__name__, type(other).__name__))
 
-    @dispatch((BaseObject, Number))
+    @dispatch((BaseObject, Number, np.number))
     def __ne__(self, other):
         raise ValueError('Cannot {} a {} by a {}'.format('compare', type(self).__name__, type(other).__name__))
 
-    @dispatch((BaseObject, Number))
+    @dispatch((BaseObject, Number, np.number))
     def __eq__(self, other):
         raise ValueError('Cannot {} a {} by a {}'.format('compare', type(self).__name__, type(other).__name__))
 
@@ -159,23 +159,23 @@ class Vector3(BaseVector3):
 
     ########################
     # Number
-    @dispatch(Number)
+    @dispatch((Number,np.number))
     def __add__(self, other):
         return Vector3(super(Vector3, self).__add__(other))
 
-    @dispatch(Number)
+    @dispatch((Number,np.number))
     def __sub__(self, other):
         return Vector3(super(Vector3, self).__sub__(other))
 
-    @dispatch(Number)
+    @dispatch((Number,np.number))
     def __mul__(self, other):
         return Vector3(super(Vector3, self).__mul__(other))
 
-    @dispatch(Number)
+    @dispatch((Number,np.number))
     def __truediv__(self, other):
         return Vector3(super(Vector3, self).__truediv__(other))
 
-    @dispatch(Number)
+    @dispatch((Number,np.number))
     def __div__(self, other):
         return Vector3(super(Vector3, self).__div__(other))
 
