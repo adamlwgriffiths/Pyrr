@@ -1,7 +1,11 @@
 Changelog
 =========
 
+0.6.5
+-----
+
 * Add tests for Vector3/4 |^ operators
+* Add support for numpy.number types
 
 
 0.6.4
