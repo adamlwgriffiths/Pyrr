@@ -56,6 +56,13 @@ class test_vector3(unittest.TestCase):
         np.testing.assert_almost_equal(result, [0.,0.,1.], decimal=5)
         self.assertTrue(result.dtype == np.float32)
 
+    def test_create_from_vector4(self):
+        v4 = [1., 2., 3., 4.]
+        result = vector3.create_from_vector4(v4)
+        v, w = result
+        np.testing.assert_almost_equal(v, [1.,2.,3.], decimal=5)
+        np.testing.assert_almost_equal(w, 4., decimal=5)
+
     def test_create_from_matrix44_translation(self):
         mat = np.array([
             [1.,2.,3.,4.,],

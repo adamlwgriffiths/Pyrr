@@ -13,6 +13,8 @@ def normalise(vec):
 
     The vector is **not** changed in place.
 
+    For zero-length vectors, the result will be np.nan.
+
     :param numpy.array vec: an Nd array with the final dimension
         being vectors
         ::

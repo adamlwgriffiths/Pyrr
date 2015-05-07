@@ -43,6 +43,7 @@ class test_oo_examples(unittest.TestCase):
 
         v3 = Vector3([1.,0.,0.])
         v4 = Vector4.from_vector3(v3, w=1.0)
+        v3, w = Vector3.from_vector4(v4)
 
         m44 = Matrix44()
         q = Quaternion(m44)
@@ -52,8 +53,6 @@ class test_oo_examples(unittest.TestCase):
         m44 = Matrix33().matrix44
         q = Matrix44().quaternion
         q = Matrix33().quaternion
-
-        v4 = Vector4().from_vector3(v3, w=1.0)
 
         m33 = Quaternion().matrix33
         m44 = Quaternion().matrix44

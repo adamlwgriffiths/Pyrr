@@ -67,7 +67,16 @@ class Vector3(BaseVector3):
 
     ########################
     # Creation
-    def __new__(cls, value=None, dtype=None):
+    @classmethod
+    def from_vector4(cls, vector, dtype=None):
+        """Create a Vector3 from a Vector4.
+
+        Returns the Vector3 and the W component as a tuple.
+        """
+        vec, w = vector3.create_from_vector4(vector, dtype)
+        return (cls(vec), w)
+
+    def __new__(cls, value=None, w=0.0, dtype=None):
         if value is not None:
             obj = value
             if not isinstance(value, np.ndarray):
@@ -186,3 +195,7 @@ class Vector3(BaseVector3):
         """Returns the opposite of this vector.
         """
         return Vector3(-self)
+
+    @property
+    def vector3(self):
+        return self

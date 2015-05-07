@@ -208,4 +208,11 @@ class Vector4(BaseVector4):
         """
         return Vector4(-self)
 
+    @property
+    def vector3(self):
+        """Returns a Vector3 and the W component as a tuple.
+        """
+        return (Vector3(self[:3]), self[3])
+
 from .matrix44 import Matrix44
+from .vector3 import Vector3

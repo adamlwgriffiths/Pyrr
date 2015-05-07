@@ -22,10 +22,18 @@ class test_object_vector3(unittest.TestCase):
         pyrr.vector3.Vector3()
         pyrr.objects.vector3.Vector3()
 
+    def test_imports_1(self):
         from pyrr import Vector3
+        Vector3
+
+    def test_imports_2(self):
         from pyrr.objects import Vector3
+        Vector3
+
+    def test_imports_3(self):
         from pyrr.objects.vector3 import Vector3
-        
+        Vector3
+
     def test_create(self):
         v = Vector3()
         self.assertTrue(np.array_equal(v, [0.,0.,0.]))
@@ -38,6 +46,19 @@ class test_object_vector3(unittest.TestCase):
         v = Vector3(Vector3())
         self.assertTrue(np.array_equal(v, [0.,0.,0.]))
         self.assertEqual(v.shape, self._shape)
+
+        v4 = [1., 2., 3., 4.]
+        result = vector3.create_from_vector4(v4)
+        v, w = result
+        np.testing.assert_almost_equal(v, [1.,2.,3.], decimal=5)
+        np.testing.assert_almost_equal(w, 4., decimal=5)
+
+        v4 = Vector4([1., 2., 3., 4.])
+        result = vector3.create_from_vector4(v4)
+        v, w = result
+        np.testing.assert_almost_equal(v, [1.,2.,3.], decimal=5)
+        np.testing.assert_almost_equal(w, 4., decimal=5)
+
 
         m = Matrix44.from_translation([1.,2.,3.])
         v = Vector3.from_matrix44_translation(m)

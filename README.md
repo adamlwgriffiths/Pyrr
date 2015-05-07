@@ -102,14 +102,12 @@ Object Oriented Features
 Convertable types
 -----------------
 
-Please note, Vector3 -> Vector4 conversion is not supported due to it's ambiguous
-nature.
-
 
     from pyrr import Quaternion, Matrix33, Matrix44, Vector3, Vector4
 
     v3 = Vector3([1.,0.,0.])
     v4 = Vector4.from_vector3(v3, w=1.0)
+    v3, w = Vector3.from_vector4(v4)
 
     m44 = Matrix44()
     q = Quaternion(m44)
@@ -119,8 +117,6 @@ nature.
     m44 = Matrix33().matrix44
     q = Matrix44().quaternion
     q = Matrix33().quaternion
-
-    v4 = Vector4().from_vector3(v3, w=1.0)
 
     m33 = Quaternion().matrix33
     m44 = Quaternion().matrix44
