@@ -102,10 +102,8 @@ Object Oriented Features
 Convertable types
 -----------------
 
-Please note, Vector3 / Vector4 conversion is not supported due to it's ambiguous
-usages in both standard mathematics, and 3D graphics (should we divide by W or not?).
-
-Please perform the conversion yourself in the method you require.
+Please note, Vector3 -> Vector4 conversion is not supported due to it's ambiguous
+nature.
 
 
     from pyrr import Quaternion, Matrix33, Matrix44, Vector3, Vector4
