@@ -22,6 +22,10 @@ class test_vector3(unittest.TestCase):
         np.testing.assert_almost_equal(result, [1.,2.,3.], decimal=5)
         self.assertTrue(result.dtype == np.float32)
 
+    def test_create_list(self):
+        with self.assertRaises(ValueError):
+            vector3.create([1., 2., 3.])
+
     def test_create_unit_length_x(self):
         result = vector3.create_unit_length_x()
         np.testing.assert_almost_equal(result, [1.,0.,0.], decimal=5)

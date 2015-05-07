@@ -59,7 +59,7 @@ Object Oriented Interface
 
     # transform our point by the matrix
     # vectors are transformable by matrices and quaternions directly
-    point = point * matrix
+    point = matrix * point
 
 
 Procedural Interface
@@ -67,7 +67,7 @@ Procedural Interface
     from pyrr import quaternion, matrix44, vector3
     import numpy as np
 
-    point = vector3.create([1.,2.,3.])
+    point = vector3.create(1.,2.,3.)
     orientation = quaternion.create()
     translation = vector3.create()
     scale = vector3.create(1,1,1)
@@ -88,11 +88,11 @@ Procedural Interface
     matrix = matrix44.multiply(matrix, orientation)
 
     # apply our translation
-    translation = matrix44.create_from_translation(translation)
-    matrix = matrix44.multiply(matrix, translation)
+    translation_matrix = matrix44.create_from_translation(translation)
+    matrix = matrix44.multiply(matrix, translation_matrix)
 
     # transform our point by the matrix
-    point = matrix44.apply_to_vector(point)
+    point = matrix44.apply_to_vector(matrix, point)
 
 
 
@@ -102,27 +102,42 @@ Object Oriented Features
 Convertable types
 -----------------
 
+Please note, Vector3 / Vector4 conversion is not supported due to it's ambiguous
+usages in both standard mathematics, and 3D graphics (should we divide by W or not?).
 
-    v = Vector4([1.,0.,0.,0.])
-    v3 = Vector3(v)
-    v4 = Vector4(v3)
+Please perform the conversion yourself in the method you require.
+
+
+    from pyrr import Quaternion, Matrix33, Matrix44, Vector3, Vector4
+
+    v3 = Vector3([1.,0.,0.])
+    v4 = Vector4.from_vector3(v3, w=1.0)
 
     m44 = Matrix44()
     q = Quaternion(m44)
     m33 = Matrix33(q)
 
+    q = m33.quaternion
+    q = m44.quaternion
+    m33 = m44.matrix33
+    m44 = m33.matrix44
+    m33 = q.matrix33
+    m44 = q.matrix44
+
 
 Convenient Operators
 --------------------
 
+    from pyrr import Quaternion, Matrix44, Matrix33, Vector3, Vector4
+    import numpy as np
 
     # matrix multiplication
-    m = Matrix44() * Matrix()
+    m = Matrix44() * Matrix33()
     m = Matrix44() * Quaternion()
     m = Matrix33() * Quaternion()
-    
+
     # matrix inverse
-    m = ~Matrix44()
+    m = ~Matrix44.from_x_rotation(np.pi)
 
     # quaternion multiplication
     q = Quaternion() * Quaternion()
@@ -140,11 +155,10 @@ Convenient Operators
     v = Vector4() - Vector4()
 
     # vector transform
-    v = Vector3() * Quaternion()
-    v = Vector3() * Matrix44()
-    v = Vector4() * Matrix44()
-    v = Vector3() * Matrix33()
-    v = Vector4() * Matrix33()
+    v = Quaternion() * Vector3()
+    v = Matrix44() * Vector3()
+    v = Matrix44() * Vector4()
+    v = Matrix33() * Vector3()
 
     # dot and cross products
     dot = Vector3() | Vector3()
@@ -156,8 +170,7 @@ Convenient Operators
     q = Matrix44().quaternion
     q = Matrix33().quaternion
 
-    v = Vector3().vector4
-    v = Vector4().vector3
+    v = Vector4().from_vector3(Vector3(), w=1.0)
 
     m = Quaternion().matrix33
     m = Quaternion().matrix44

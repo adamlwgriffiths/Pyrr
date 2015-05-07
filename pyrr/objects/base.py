@@ -21,6 +21,9 @@ class BaseObject(np.ndarray):
         obj.shape = cls._shape
         return obj
 
+    def _unsupported_type(self, method, other):
+        raise ValueError('Cannot {} a {} to a {}'.format(method, type(other).__name__, type(self).__name__))
+
     ########################
     # Redirect assignment operators
     def __iadd__(self, other):

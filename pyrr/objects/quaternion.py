@@ -146,31 +146,31 @@ class Quaternion(BaseQuaternion):
     # Basic Operators
     @dispatch(BaseObject)
     def __add__(self, other):
-        raise ValueError('Cannot {} a {} to a {}'.format('add', type(other).__name__, type(self).__name__))
+        self._unsupported_type('add', other)
 
     @dispatch(BaseObject)
     def __sub__(self, other):
-        raise ValueError('Cannot {} a {} from a {}'.format('subtract', type(other).__name__, type(self).__name__))
+        self._unsupported_type('subtract', other)
 
     @dispatch(BaseObject)
     def __mul__(self, other):
-        raise ValueError('Cannot {} a {} by a {}'.format('multiply', type(self).__name__, type(other).__name__))
+        self._unsupported_type('multiply', other)
 
     @dispatch(BaseObject)
     def __truediv__(self, other):
-        raise ValueError('Cannot {} a {} by a {}'.format('divide', type(self).__name__, type(other).__name__))
+        self._unsupported_type('divide', other)
 
     @dispatch(BaseObject)
     def __div__(self, other):
-        raise ValueError('Cannot {} a {} by a {}'.format('divide', type(self).__name__, type(other).__name__))
+        self._unsupported_type('divide', other)
 
     ########################
     # Quaternions
-    @dispatch(BaseQuaternion)
+    @dispatch((BaseQuaternion,list))
     def __mul__(self, other):
         return self.cross(other)
 
-    @dispatch(BaseQuaternion)
+    @dispatch((BaseQuaternion,list))
     def __or__(self, other):
         return self.dot(other)
 

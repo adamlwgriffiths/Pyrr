@@ -10,6 +10,8 @@ from .vector import *
 
 
 def create(x=0., y=0., z=0., w=0.0, dtype=None):
+    if isinstance(x, (list, np.ndarray)):
+        raise ValueError('Function requires non-list arguments')
     return np.array([x,y,z,w], dtype=dtype)
 
 def create_unit_length_x(dtype=None):

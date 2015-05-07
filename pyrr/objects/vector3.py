@@ -85,75 +85,75 @@ class Vector3(BaseVector3):
     # Basic Operators
     @dispatch(BaseObject)
     def __add__(self, other):
-        raise ValueError('Cannot {} a {} to a {}'.format('add', type(other).__name__, type(self).__name__))
+        self._unsupported_type('add', other)
 
     @dispatch(BaseObject)
     def __sub__(self, other):
-        raise ValueError('Cannot {} a {} from a {}'.format('subtract', type(other).__name__, type(self).__name__))
+        self._unsupported_type('subtract', other)
 
     @dispatch(BaseObject)
     def __mul__(self, other):
-        raise ValueError('Cannot {} a {} by a {}'.format('multiply', type(self).__name__, type(other).__name__))
+        self._unsupported_type('multiply', other)
 
     @dispatch(BaseObject)
     def __truediv__(self, other):
-        raise ValueError('Cannot {} a {} by a {}'.format('divide', type(self).__name__, type(other).__name__))
+        self._unsupported_type('divide', other)
 
     @dispatch(BaseObject)
     def __div__(self, other):
-        raise ValueError('Cannot {} a {} by a {}'.format('divide', type(self).__name__, type(other).__name__))
+        self._unsupported_type('divide', other)
 
     @dispatch((BaseObject, Number, np.number))
     def __xor__(self, other):
-        raise ValueError('Cannot {} a {} by a {}'.format('xor', type(self).__name__, type(other).__name__))
+        self._unsupported_type('XOR', other)
 
     @dispatch((BaseObject, Number, np.number))
     def __or__(self, other):
-        raise ValueError('Cannot {} a {} by a {}'.format('or', type(self).__name__, type(other).__name__))
+        self._unsupported_type('OR', other)
 
     @dispatch((BaseObject, Number, np.number))
     def __ne__(self, other):
-        raise ValueError('Cannot {} a {} by a {}'.format('compare', type(self).__name__, type(other).__name__))
+        self._unsupported_type('NE', other)
 
     @dispatch((BaseObject, Number, np.number))
     def __eq__(self, other):
-        raise ValueError('Cannot {} a {} by a {}'.format('compare', type(self).__name__, type(other).__name__))
+        self._unsupported_type('EQ', other)
 
     ########################
     # Vectors
-    @dispatch((BaseVector3, np.ndarray))
+    @dispatch((BaseVector3, np.ndarray, list))
     def __add__(self, other):
         return Vector3(super(Vector3, self).__add__(other))
 
-    @dispatch((BaseVector3, np.ndarray))
+    @dispatch((BaseVector3, np.ndarray, list))
     def __sub__(self, other):
         return Vector3(super(Vector3, self).__sub__(other))
 
-    @dispatch((BaseVector3, np.ndarray))
+    @dispatch((BaseVector3, np.ndarray, list))
     def __mul__(self, other):
         return Vector3(super(Vector3, self).__mul__(other))
 
-    @dispatch((BaseVector3, np.ndarray))
+    @dispatch((BaseVector3, np.ndarray, list))
     def __truediv__(self, other):
         return Vector3(super(Vector3, self).__truediv__(other))
 
-    @dispatch((BaseVector3, np.ndarray))
+    @dispatch((BaseVector3, np.ndarray, list))
     def __div__(self, other):
         return Vector3(super(Vector3, self).__div__(other))
 
-    @dispatch(BaseVector3)
+    @dispatch((BaseVector3, np.ndarray, list))
     def __xor__(self, other):
         return self.cross(other)
 
-    @dispatch(BaseVector3)
+    @dispatch((BaseVector3, np.ndarray, list))
     def __or__(self, other):
         return self.dot(other)
 
-    @dispatch(BaseVector3)
+    @dispatch((BaseVector3, np.ndarray, list))
     def __ne__(self, other):
         return bool(np.any(super(Vector3, self).__ne__(other)))
 
-    @dispatch(BaseVector3)
+    @dispatch((BaseVector3, np.ndarray, list))
     def __eq__(self, other):
         return bool(np.all(super(Vector3, self).__eq__(other)))
 
