@@ -115,12 +115,15 @@ nature.
     q = Quaternion(m44)
     m33 = Matrix33(q)
 
-    q = m33.quaternion
-    q = m44.quaternion
-    m33 = m44.matrix33
-    m44 = m33.matrix44
-    m33 = q.matrix33
-    m44 = q.matrix44
+    m33 = Matrix44().matrix33
+    m44 = Matrix33().matrix44
+    q = Matrix44().quaternion
+    q = Matrix33().quaternion
+
+    v4 = Vector4().from_vector3(v3, w=1.0)
+
+    m33 = Quaternion().matrix33
+    m44 = Quaternion().matrix44
 
 
 Convenient Operators
@@ -162,16 +165,6 @@ Convenient Operators
     dot = Vector3() | Vector3()
     cross = Vector3() ^ Vector3()
 
-    # conversions
-    m = Matrix44().matrix33
-    m = Matrix33().matrix44
-    q = Matrix44().quaternion
-    q = Matrix33().quaternion
-
-    v = Vector4().from_vector3(Vector3(), w=1.0)
-
-    m = Quaternion().matrix33
-    m = Quaternion().matrix44
 
 
 Installation
