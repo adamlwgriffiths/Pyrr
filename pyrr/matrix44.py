@@ -345,6 +345,16 @@ def create_orthogonal_projection_matrix(
 
 @all_parameters_as_numpy_arrays
 def create_lookAt(eye, target, up, dtype=None):
+    """Creates a lookAt matrix according to OpenGL standards.
+
+    :param numpy.array eye: Position of the camera in world coordinates.
+    :param numpy.array target: The position in world coordinates that the
+        camera is looking at.
+    :param numpy.array up: The up vector of the camera.
+    :rtype numpy.array
+    :return A lookAt matrix that can be used as a viewMatrix
+    """
+
     forward = vector.normalise(target - eye)
     side = vector.normalise(np.cross(forward, up))
     up = vector.normalise(np.cross(side, forward))
