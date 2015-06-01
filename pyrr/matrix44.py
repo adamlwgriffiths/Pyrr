@@ -355,15 +355,15 @@ def create_look_at(eye, target, up, dtype=None):
     :return A look at matrix that can be used as a viewMatrix
     """
 
-    forward = vector.normalise(target - eye)
-    side = vector.normalise(np.cross(forward, up))
-    up = vector.normalise(np.cross(side, forward))
+    forward = vector.normalise(eye - target)
+    side = vector.normalise(np.cross(up, forward))
+    up = vector.normalise(np.cross(forward, side))
 
     return np.array((
-            (side[0],            up[0],            -forward[0],           0.),
-            (side[1],            up[1],            -forward[1],           0.),
-            (side[2],            up[2],            -forward[2],           0.),
-            (-np.dot(side, eye), -np.dot(up, eye), np.dot(forward, eye) , 1.0)
+            (side[0],            up[0],            forward[0],           0.),
+            (side[1],            up[1],            forward[1],           0.),
+            (side[2],            up[2],            forward[2],           0.),
+            (-np.dot(side, eye), -np.dot(up, eye), -np.dot(forward, eye) , 1.0)
         ), dtype=dtype)
         
 
