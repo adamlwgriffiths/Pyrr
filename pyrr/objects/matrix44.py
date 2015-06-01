@@ -161,7 +161,7 @@ class Matrix44(BaseMatrix44):
     def lookAt(cls, eye, target, up, dtype=None):
         """Creates a Matrix44 for use as a lookAt matrix.
         """
-        return cls(matrix44.create_lookAt(eye, target, up, dtype=None))
+        return cls(matrix44.create_lookAt(eye, target, up, dtype))
 
     @classmethod
     def from_translation(cls, translation, dtype=None):
