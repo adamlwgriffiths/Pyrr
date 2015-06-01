@@ -189,6 +189,7 @@ Authors
 
   * [Adam Griffiths](https://github.com/adamlwgriffiths/).
   * [Jakub Stasiak](https://github.com/jstasiak/).
+  * [Bogdan Teleaga](https://github.com/bogdanteleaga/).
 
 Contributions are welcome.
 
