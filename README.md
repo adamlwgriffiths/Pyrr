@@ -188,6 +188,7 @@ Authors
 -------
 
   * [Adam Griffiths](https://github.com/adamlwgriffiths/).
+  * [Chris Bates](https://github.com/chrsbats)
   * [Jakub Stasiak](https://github.com/jstasiak/).
 
 Contributions are welcome.
