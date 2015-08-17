@@ -86,6 +86,36 @@ def create_from_eulers(eulers, dtype=None):
         dtype=dtype
     )
 
+
+@parameters_as_numpy_arrays('axis')
+def create_from_axis_rotation(axis, theta, dtype=None):
+    """Creates a matrix from the specified theta rotation around an axis.
+
+    :param numpy.array axis: A (3,) vector specifying the axis of rotation.
+    :param float theta: A rotation speicified in radians.
+    :rtype: numpy.array
+    :return: A matrix with shape (3,3).
+    """
+    dtype = dtype or axis.dtype
+
+    axis = vector.normalise(axis)
+    x,y,z = axis
+
+    s = np.sin(theta);
+    c = np.cos(theta);
+    t = 1 - c;
+
+    # Construct the elements of the rotation matrix
+    return np.array(
+        [
+            [ x * x * t + c,     y * x * t + z * s, z * x * t - y * s],
+            [ x * y * t - z * s, y * y * t + c,     z * y * t + x * s],
+            [ x * z * t + y * s, y * z * t - x * s, z * z * t + c]
+        ],
+        dtype= dtype
+    )
+    
+
 @parameters_as_numpy_arrays('quat')
 def create_from_quaternion(quat, dtype=None):
     """Creates a matrix with the same rotation as a quaternion.

@@ -65,6 +65,17 @@ class test_matrix44(unittest.TestCase):
         np.testing.assert_almost_equal(result, expected, decimal=5)
         self.assertTrue(result.dtype == np.float)
 
+    def test_create_from_axis_rotation(self):
+        # wolfram alpha can be awesome sometimes
+        result = matrix44.create_from_axis_rotation([0.57735, 0.57735, 0.57735],np.pi)
+        np.testing.assert_almost_equal(result, matrix44.create_from_quaternion([5.77350000e-01, 5.77350000e-01, 5.77350000e-01, 6.12323400e-17]), decimal=3)
+        self.assertTrue(result.dtype == np.float)
+
+    def test_create_from_axis_rotation_non_normalised(self):
+        result = matrix44.create_from_axis_rotation([1.,1.,1.], np.pi)
+        np.testing.assert_almost_equal(result, matrix44.create_from_quaternion([5.77350000e-01, 5.77350000e-01, 5.77350000e-01, 6.12323400e-17]), decimal=3)
+        self.assertTrue(result.dtype == np.float)
+
     def test_create_from_inverse_of_quaternion(self):
         q = quaternion.create_from_x_rotation(np.pi / 2.0)
         result = matrix44.create_from_inverse_of_quaternion(q)

@@ -62,6 +62,25 @@ def create_from_eulers(eulers, dtype=None):
     mat[0:3, 0:3] = matrix33.create_from_eulers(eulers, dtype)
     return mat
 
+@parameters_as_numpy_arrays('axis')
+def create_from_axis_rotation(axis, theta, dtype=None):
+    """Creates a matrix from the specified rotation theta around an axis.
+
+    :param numpy.array axis: A (3,) vector.
+    :param float theta: A rotation in radians.
+        
+    :rtype: numpy.array
+    :return: A matrix with shape (4,4).
+    """
+    dtype = dtype or axis.dtype
+    # set to identity matrix
+    # this will populate our extra rows for us
+    mat = create_identity(dtype)
+    
+    # we'll use Matrix33 for our conversion
+    mat[0:3, 0:3] = matrix33.create_from_axis_rotation(axis, theta, dtype)
+    return mat
+
 @parameters_as_numpy_arrays('quat')
 def create_from_quaternion(quat, dtype=None):
     """Creates a matrix with the same rotation as a quaternion.

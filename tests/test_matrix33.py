@@ -97,6 +97,17 @@ class test_matrix33(unittest.TestCase):
         # TODO: check the result
         matrix33.create_from_eulers([1,2,3])
 
+    def test_create_from_axis_rotation(self):
+        # wolfram alpha can be awesome sometimes
+        result = matrix33.create_from_axis_rotation([0.57735, 0.57735, 0.57735],np.pi)
+        np.testing.assert_almost_equal(result, matrix33.create_from_quaternion([5.77350000e-01, 5.77350000e-01, 5.77350000e-01, 6.12323400e-17]), decimal=3)
+        self.assertTrue(result.dtype == np.float)
+
+    def test_create_from_axis_rotation_non_normalised(self):
+        result = matrix33.create_from_axis_rotation([1.,1.,1.], np.pi)
+        np.testing.assert_almost_equal(result, matrix33.create_from_quaternion([5.77350000e-01, 5.77350000e-01, 5.77350000e-01, 6.12323400e-17]), decimal=3)
+        self.assertTrue(result.dtype == np.float)
+
     def test_create_from_x_rotation(self):
         mat = matrix33.create_from_x_rotation(np.pi / 2.)
         self.assertTrue(np.allclose(np.dot([1.,0.,0.], mat), [1.,0.,0.]))
