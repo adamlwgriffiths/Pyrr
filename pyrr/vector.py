@@ -33,17 +33,10 @@ def normalise(vec):
     # calculate the length
     # this is a duplicate of length(vec) because we
     # always want an array, even a 0-d array.
-    lengths = np.apply_along_axis(
-        np.linalg.norm,
-        vec.ndim - 1,
-        vec
-    )
+    return (vec.T  / np.sqrt(np.sum(vec**2,axis=-1))).T
 
-    # repeat the value for each value of the vector
-    lengths = lengths.repeat(vec.shape[-1]).reshape(vec.shape)
 
-    return vec / lengths
-
+    
 @all_parameters_as_numpy_arrays
 def squared_length(vec):
     """Calculates the squared length of a vector.
@@ -83,17 +76,8 @@ def length(vec):
         Otherwise the result will be an array of scalars with shape
         vec.ndim with the last dimension being size 1.
     """
-    lengths = np.apply_along_axis(
-        np.linalg.norm,
-        vec.ndim - 1,
-        vec
-    )
+    return np.sqrt(np.sum(vec**2,axis=-1))
 
-    # a single vector will return a 0-d array
-    # which doesn't act like a normal np array
-    if lengths.ndim == 0:
-        return lengths.item()
-    return lengths
 
 @parameters_as_numpy_arrays('vec')
 def set_length(vec, len):
@@ -118,17 +102,10 @@ def set_length(vec, len):
     # calculate the length
     # this is a duplicate of length(vec) because we
     # always want an array, even a 0-d array.
-    lengths = np.apply_along_axis(
-        np.linalg.norm,
-        vec.ndim - 1,
-        vec
-    )
 
-    # repeat the value for each value of the vector
-    lengths = lengths.repeat(vec.shape[-1]).reshape(vec.shape)
+    return (vec.T  / np.sqrt(np.sum(vec**2,axis=-1)) * len).T
 
-    return vec / (lengths * (1.0 / len))
-
+    
 @all_parameters_as_numpy_arrays
 def dot(v1, v2):
     """Calculates the dot product of two vectors.
