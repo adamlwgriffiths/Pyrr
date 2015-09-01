@@ -16,7 +16,6 @@ setup(
     description = '3D mathematical functions using NumPy',
     license = 'BSD',
     author = 'Adam Griffiths',
-    author_email = 'adam.lw.griffiths@gmail.com',
     url = 'https://github.com/adamlwgriffiths/Pyrr',
     install_requires = ['numpy', 'multipledispatch'],
     platforms = ['any'],
