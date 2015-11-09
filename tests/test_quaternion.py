@@ -18,6 +18,11 @@ class test_quaternion(unittest.TestCase):
         np.testing.assert_almost_equal(result, [0.,0.,0.,1.], decimal=5)
         self.assertTrue(result.dtype == np.float)
 
+    def test_create_parameters(self):
+        result = quaternion.create(1.0, 2.0, 3.0, 4.0)
+        np.testing.assert_almost_equal(result, [1.0, 2.0, 3.0, 4.0], decimal=5)
+        self.assertTrue(result.dtype == np.float)
+
     def test_create_from_x_rotation(self):
         result = quaternion.create_from_x_rotation(np.pi)
         np.testing.assert_almost_equal(result, [1.,0.,0.,0.], decimal=3)
