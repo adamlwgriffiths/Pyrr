@@ -192,14 +192,10 @@ def cross(quat1, quat2):
 
     return np.array(
         [
-            # x = q1.w * q2.x + q1.x * q2.w + q1.z * q2.y - q1.y * q2.z 
-            (q1w * q2x) + (q1x * q2w) + (q1z * q2y) - (q1y * q2z),
-            # y = q1.w * q2.y + q1.y * q2.w + q1.x * q2.z - q1.z * q2.x
-            (q1w * q2y) + (q1y * q2w) + (q1x * q2z) - (q1z * q2x),
-            # z = q1.w * q2.z + q1.z * q2.w + q1.y * q2.x - q1.x * q2.y
-            (q1w * q2z) + (q1z * q2w) + (q1y * q2x) - (q1x * q2y),
-            # w = q1.w * q2.w - q1.x * q2.x - q1.y * q2.y - q1.z * q2.z
-            (q1w * q2w) - (q1x * q2x) - (q1y * q2y) - (q1z * q2z)
+             q1x * q2w + q1y * q2z - q1z * q2y + q1w * q2x,
+            -q1x * q2z + q1y * q2w + q1z * q2x + q1w * q2y,
+             q1x * q2y - q1y * q2x + q1z * q2w + q1w * q2z,
+            -q1x * q2x - q1y * q2y - q1z * q2z + q1w * q2w,
         ],
         dtype=quat1.dtype
     )
