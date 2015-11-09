@@ -10,6 +10,7 @@ Please ensure any quaternion logic is updated accordingly.
 
 * Fixed quaternion cross product being reversed.
 * Add more tests including quaternion identities.
+* Added subtraction support to object api, this is to support np.allclose.
 
 
 0.6.5
