@@ -207,17 +207,17 @@ class Matrix44(BaseMatrix44):
 
     ########################
     # Matrices
-    @dispatch((BaseMatrix, list))
+    @dispatch((BaseMatrix, np.ndarray, list))
     def __add__(self, other):
-        return Matrix44(super(Matrix44, self).__add__(other.matrix44))
+        return Matrix44(super(Matrix44, self).__add__(Matrix44(other)))
 
-    @dispatch((BaseMatrix, list))
+    @dispatch((BaseMatrix, np.ndarray, list))
     def __sub__(self, other):
-        return Matrix44(super(Matrix44, self).__sub__(other.matrix44))
+        return Matrix44(super(Matrix44, self).__sub__(Matrix44(other)))
 
-    @dispatch((BaseMatrix, list))
+    @dispatch((BaseMatrix, np.ndarray, list))
     def __mul__(self, other):
-        return Matrix44(matrix44.multiply(self, other.matrix44))
+        return Matrix44(matrix44.multiply(self, Matrix44(other)))
 
     ########################
     # Quaternions

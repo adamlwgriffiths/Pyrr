@@ -166,11 +166,15 @@ class Quaternion(BaseQuaternion):
 
     ########################
     # Quaternions
-    @dispatch((BaseQuaternion,list))
+    @dispatch((BaseQuaternion, np.ndarray, list))
+    def __sub__(self, other):
+        return Quaternion(super(Quaternion, self).__sub__(other))
+
+    @dispatch((BaseQuaternion, list))
     def __mul__(self, other):
         return self.cross(other)
 
-    @dispatch((BaseQuaternion,list))
+    @dispatch((BaseQuaternion, list))
     def __or__(self, other):
         return self.dot(other)
 

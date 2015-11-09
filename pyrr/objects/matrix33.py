@@ -167,17 +167,17 @@ class Matrix33(BaseMatrix33):
 
     ########################
     # Matrices
-    @dispatch((BaseMatrix, list))
+    @dispatch((BaseMatrix, np.ndarray, list))
     def __add__(self, other):
-        return Matrix33(super(Matrix33, self).__add__(other.matrix33))
+        return Matrix33(super(Matrix33, self).__add__(Matrix33(other)))
 
-    @dispatch((BaseMatrix, list))
+    @dispatch((BaseMatrix, np.ndarray, list))
     def __sub__(self, other):
-        return Matrix33(super(Matrix33, self).__sub__(other.matrix33))
+        return Matrix33(super(Matrix33, self).__sub__(Matrix33(other)))
 
-    @dispatch((BaseMatrix, list))
+    @dispatch((BaseMatrix, np.ndarray, list))
     def __mul__(self, other):
-        return Matrix33(matrix33.multiply(self, other.matrix33))
+        return Matrix33(matrix33.multiply(self, Matrix33(other)))
 
     ########################
     # Quaternions
