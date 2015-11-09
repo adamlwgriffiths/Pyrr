@@ -140,7 +140,7 @@ def create_from_quaternion(quat, dtype=None):
     wx = w * x
     wy = w * y
     wz = w * z
-    
+
     return np.array(
         [
             # m1
