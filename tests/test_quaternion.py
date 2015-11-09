@@ -248,5 +248,54 @@ class test_quaternion(unittest.TestCase):
         self.assertTrue(np.allclose(quaternion.apply_to_vector(quat,[0.,1.,0.]), [1.,0.,0.]))
         self.assertTrue(np.allclose(quaternion.apply_to_vector(quat,[0.,0.,1.]), [0.,0.,1.]))
 
+    def test_identity(self):
+        # https://en.wikipedia.org/wiki/Quaternion
+        i = quaternion.create(1., 0., 0., 0.)
+        j = quaternion.create(0., 1., 0., 0.)
+        k = quaternion.create(0., 0., 1., 0.)
+
+        # result = self
+        i1 = quaternion.cross(i, quaternion.create(1., 1., 1., 1.))
+        j1 = quaternion.cross(j, quaternion.create(1., 1., 1., 1.))
+        k1 = quaternion.cross(k, quaternion.create(1., 1., 1., 1.))
+        _1i = quaternion.cross(quaternion.create(1., 1., 1., 1.), i)
+        _1j = quaternion.cross(quaternion.create(1., 1., 1., 1.), j)
+        _1k = quaternion.cross(quaternion.create(1., 1., 1., 1.), k)
+
+        print(i1, _1i)
+        self.assertTrue(np.allclose(i1, _1i, i))
+        print(j1, _1j)
+        self.assertTrue(np.allclose(j1, _1j, j))
+        print(k1, _1k)
+        self.assertTrue(np.allclose(k1, _1k, k))
+
+        # result = -1
+        ii = quaternion.cross(i, i)
+        kk = quaternion.cross(k, k)
+        jj = quaternion.cross(j, j)
+        ijk = quaternion.cross(quaternion.cross(i, j), k)
+
+        print(ii, jj, kk, ijk)
+        self.assertTrue(np.allclose(ii, jj, kk, ijk, [-1., -1., -1., -1.]))
+
+        # result = k
+        ij = quaternion.cross(i, j)
+        # result = -k
+        ji = quaternion.cross(j, i)
+        # result = i
+        jk = quaternion.cross(j, k)
+        # result = -i
+        kj = quaternion.cross(k, j)
+
+        print(ij)
+        self.assertTrue(np.allclose(ij, k))
+        print(ji)
+        self.assertTrue(np.allclose(ji, -k))
+        print(jk)
+        self.assertTrue(np.allclose(jk, i))
+        print(kj)
+        self.assertTrue(np.allclose(kj, -i))
+
+
 if __name__ == '__main__':
     unittest.main()
