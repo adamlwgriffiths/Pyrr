@@ -69,15 +69,15 @@ def create_from_axis_rotation(axis, theta, dtype=None):
     # make sure the vector is normalised
     if not np.isclose(np.linalg.norm(axis), 1.):
         axis = vector.normalise(axis)
-    
+
     thetaOver2 = theta * 0.5
     sinThetaOver2 = np.sin(thetaOver2)
-    
+
     return np.array(
         [
-            axis[0] * sinThetaOver2,
-            axis[1] * sinThetaOver2,
-            axis[2] * sinThetaOver2,
+            sinThetaOver2 * axis[0],
+            sinThetaOver2 * axis[1],
+            sinThetaOver2 * axis[2],
             np.cos(thetaOver2)
         ],
         dtype=dtype
