@@ -1,6 +1,17 @@
 Changelog
 =========
 
+0.7.0
+-----
+
+Note: that this version corrected an issue with quaternion rotations (quaternion
+cross) being inverted.
+Please ensure any quaternion logic is updated accordingly.
+
+* Fixed quaternion cross product being reversed.
+* Add more tests including quaternion identities.
+
+
 0.6.5
 -----
 
