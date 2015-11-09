@@ -27,43 +27,92 @@ class test_object_quaternion(unittest.TestCase):
         from pyrr import Quaternion
         from pyrr.objects import Quaternion
         from pyrr.objects.quaternion import Quaternion
-        
+
     def test_create(self):
         q = Quaternion()
-        self.assertTrue(np.array_equal(q, [0.,0.,0.,1.]))
+        self.assertTrue(np.array_equal(q, [0., 0., 0., 1.]))
         self.assertEqual(q.shape, self._shape)
 
-        q = Quaternion([1.,2.,3.,4.])
-        self.assertTrue(np.array_equal(q, [1.,2.,3.,4.]))
+        q = Quaternion([1., 2., 3., 4.])
+        self.assertTrue(np.array_equal(q, [1., 2., 3., 4.]))
         self.assertEqual(q.shape, self._shape)
 
-        q = Quaternion(Quaternion([1.,2.,3.,4.]))
-        self.assertTrue(np.array_equal(q, [1.,2.,3.,4.]))
+        q = Quaternion(Quaternion([1., 2., 3., 4.]))
+        self.assertTrue(np.array_equal(q, [1., 2., 3., 4.]))
         self.assertEqual(q.shape, self._shape)
 
     def test_from_x_rotation(self):
+        # 180 degree turn around X axis
+        q = Quaternion.from_x_rotation(np.pi)
+        self.assertTrue(np.allclose(q, [1., 0., 0., 0.]))
+        self.assertTrue(np.allclose(q * Vector3([1., 0., 0.]), [1., 0., 0.]))
+        self.assertTrue(np.allclose(q * Vector3([0., 1., 0.]), [0.,-1., 0.]))
+        self.assertTrue(np.allclose(q * Vector3([0., 0., 1.]), [0., 0.,-1.]))
+
+        # 90 degree rotation around X axis
         q = Quaternion.from_x_rotation(np.pi / 2.)
-        self.assertTrue(np.allclose(q*Vector3([1.,0.,0.]), [1.,0.,0.]))
-        self.assertTrue(np.allclose(q*Vector3([0.,1.,0.]), [0.,0.,-1.]))
-        self.assertTrue(np.allclose(q*Vector3([0.,0.,1.]), [0.,1.,0.]))
+        self.assertTrue(np.allclose(q, [np.sqrt(0.5), 0., 0., np.sqrt(0.5)]))
+        self.assertTrue(np.allclose(q * Vector3([1., 0., 0.]), [1., 0., 0.]))
+        self.assertTrue(np.allclose(q * Vector3([0., 1., 0.]), [0., 0., 1.]))
+        self.assertTrue(np.allclose(q * Vector3([0., 0., 1.]), [0.,-1., 0.]))
+
+        # -90 degree rotation around X axis
+        q = Quaternion.from_x_rotation(-np.pi / 2.)
+        self.assertTrue(np.allclose(q, [-np.sqrt(0.5), 0., 0., np.sqrt(0.5)]))
+        self.assertTrue(np.allclose(q * Vector3([1., 0., 0.]), [1., 0., 0.]))
+        self.assertTrue(np.allclose(q * Vector3([0., 1., 0.]), [0., 0.,-1.]))
+        self.assertTrue(np.allclose(q * Vector3([0., 0., 1.]), [0., 1., 0.]))
 
     def test_from_y_rotation(self):
+        # 180 degree turn around Y axis
+        q = Quaternion.from_y_rotation(np.pi)
+        self.assertTrue(np.allclose(q, [0., 1., 0., 0.]))
+        self.assertTrue(np.allclose(q * Vector3([1., 0., 0.]), [-1., 0., 0.]))
+        self.assertTrue(np.allclose(q * Vector3([0., 1., 0.]), [0., 1., 0.]))
+        self.assertTrue(np.allclose(q * Vector3([0., 0., 1.]), [0., 0.,-1.]))
+
+        # 90 degree rotation around Y axis
         q = Quaternion.from_y_rotation(np.pi / 2.)
-        self.assertTrue(np.allclose(q*Vector3([1.,0.,0.]), [0.,0.,1.]))
-        self.assertTrue(np.allclose(q*Vector3([0.,1.,0.]), [0.,1.,0.]))
-        self.assertTrue(np.allclose(q*Vector3([0.,0.,1.]), [-1.,0.,0.]))
+        self.assertTrue(np.allclose(q, [0., np.sqrt(0.5), 0., np.sqrt(0.5)]))
+        self.assertTrue(np.allclose(q * Vector3([1., 0., 0.]), [0., 0.,-1.]))
+        self.assertTrue(np.allclose(q * Vector3([0., 1., 0.]), [0., 1., 0.]))
+        self.assertTrue(np.allclose(q * Vector3([0., 0., 1.]), [1., 0., 0.]))
+
+        # -90 degree rotation around Y axis
+        q = Quaternion.from_y_rotation(-np.pi / 2.)
+        self.assertTrue(np.allclose(q, [0., -np.sqrt(0.5), 0., np.sqrt(0.5)]))
+        self.assertTrue(np.allclose(q * Vector3([1., 0., 0.]), [0., 0., 1.]))
+        self.assertTrue(np.allclose(q * Vector3([0., 1., 0.]), [0., 1., 0.]))
+        self.assertTrue(np.allclose(q * Vector3([0., 0., 1.]), [-1., 0., 0.]))
 
     def test_from_z_rotation(self):
+        # 180 degree turn around Z axis
+        q = Quaternion.from_z_rotation(np.pi)
+        self.assertTrue(np.allclose(q, [0., 0., 1., 0.]))
+        self.assertTrue(np.allclose(q * Vector3([1., 0., 0.]), [-1., 0., 0.]))
+        self.assertTrue(np.allclose(q * Vector3([0., 1., 0.]), [0.,-1., 0.]))
+        self.assertTrue(np.allclose(q * Vector3([0., 0., 1.]), [0., 0., 1.]))
+
+        # 90 degree rotation around Z axis
         q = Quaternion.from_z_rotation(np.pi / 2.)
-        self.assertTrue(np.allclose(q*Vector3([1.,0.,0.]), [0.,-1.,0.]))
-        self.assertTrue(np.allclose(q*Vector3([0.,1.,0.]), [1.,0.,0.]))
-        self.assertTrue(np.allclose(q*Vector3([0.,0.,1.]), [0.,0.,1.]))
+        self.assertTrue(np.allclose(q, [0., 0., np.sqrt(0.5), np.sqrt(0.5)]))
+        self.assertTrue(np.allclose(q * Vector3([1., 0., 0.]), [0., 1., 0.]))
+        self.assertTrue(np.allclose(q * Vector3([0., 1., 0.]), [-1., 0., 0.]))
+        self.assertTrue(np.allclose(q * Vector3([0., 0., 1.]), [0., 0., 1.]))
+
+        # -90 degree rotation around Z axis
+        q = Quaternion.from_z_rotation(-np.pi / 2.)
+        self.assertTrue(np.allclose(q, [0., 0., -np.sqrt(0.5), np.sqrt(0.5)]))
+        self.assertTrue(np.allclose(q * Vector3([1., 0., 0.]), [0.,-1., 0.]))
+        self.assertTrue(np.allclose(q * Vector3([0., 1., 0.]), [1., 0., 0.]))
+        self.assertTrue(np.allclose(q * Vector3([0., 0., 1.]), [0., 0., 1.]))
 
     def test_from_axis_rotation(self):
-        q = Quaternion.from_axis_rotation([1.,0.,0.], np.pi / 2.)
-        self.assertTrue(np.allclose(q*Vector3([1.,0.,0.]), [1.,0.,0.]))
-        self.assertTrue(np.allclose(q*Vector3([0.,1.,0.]), [0.,0.,-1.]))
-        self.assertTrue(np.allclose(q*Vector3([0.,0.,1.]), [0.,1.,0.]))
+        q = Quaternion.from_axis_rotation([1., 0., 0.], np.pi / 2.)
+        self.assertTrue(np.allclose(q, [np.sqrt(0.5), 0., 0., np.sqrt(0.5)]))
+        self.assertTrue(np.allclose(q * Vector3([1., 0., 0.]), [1., 0., 0.]))
+        self.assertTrue(np.allclose(q * Vector3([0., 1., 0.]), [0., 0., 1.]))
+        self.assertTrue(np.allclose(q * Vector3([0., 0., 1.]), [0.,-1., 0.]))
 
     @unittest.skip('Not implemented')
     def test_from_eulers(self):
@@ -78,14 +127,14 @@ class test_object_quaternion(unittest.TestCase):
         self.assertTrue(np.allclose(q.length, quaternion.length(q)))
 
     def test_normalise(self):
-        q = Quaternion([1.,2.,3.,4.])
+        q = Quaternion([1., 2., 3., 4.])
         self.assertFalse(np.allclose(q.length, 1.))
-        
+
         q.normalise()
         self.assertTrue(np.allclose(q.length, 1.))
 
     def test_normalised(self):
-        q1 = Quaternion([1.,2.,3.,4.])
+        q1 = Quaternion([1., 2., 3., 4.])
         self.assertFalse(np.allclose(q1.length, 1.))
 
         q2 = q1.normalised
@@ -129,8 +178,8 @@ class test_object_quaternion(unittest.TestCase):
 
     def test_is_identity(self):
         self.assertTrue(quaternion.is_identity(Quaternion()))
-        self.assertTrue(quaternion.is_identity(Quaternion([0.,0.,0.,1.])))
-        self.assertFalse(quaternion.is_identity(Quaternion([1.,0.,0.,0.])))
+        self.assertTrue(quaternion.is_identity(Quaternion([0., 0., 0., 1.])))
+        self.assertFalse(quaternion.is_identity(Quaternion([1., 0., 0., 0.])))
 
     def test_matrix33(self):
         q = Quaternion.from_x_rotation(np.pi / 2.0)
@@ -180,7 +229,9 @@ class test_object_quaternion(unittest.TestCase):
         self.assertRaises(ValueError, lambda: q1 + q2)
 
         # subtract
-        self.assertRaises(ValueError, lambda: q1 - q2)
+        # we had to add this to enable np.array_equal to work
+        # as it uses subtraction
+        #self.assertRaises(ValueError, lambda: q1 - q2)
 
         # multiply
         self.assertTrue(np.array_equal(q1 * q2, quaternion.cross(quaternion.create(), quaternion.create_from_x_rotation(0.5))))
@@ -196,7 +247,7 @@ class test_object_quaternion(unittest.TestCase):
 
     def test_operators_vector3(self):
         q = Quaternion.from_x_rotation(0.5)
-        v = Vector3([1.,0.,0.])
+        v = Vector3([1., 0., 0.])
 
         # add
         self.assertRaises(ValueError, lambda: q + v)
@@ -205,14 +256,14 @@ class test_object_quaternion(unittest.TestCase):
         self.assertRaises(ValueError, lambda: q - v)
 
         # multiply
-        self.assertTrue(np.array_equal(q * v, quaternion.apply_to_vector(quaternion.create_from_x_rotation(0.5), [1.,0.,0.])))
+        self.assertTrue(np.array_equal(q * v, quaternion.apply_to_vector(quaternion.create_from_x_rotation(0.5), [1., 0., 0.])))
 
         # divide
         self.assertRaises(ValueError, lambda: q / v)
 
     def test_operators_vector4(self):
         q = Quaternion.from_x_rotation(0.5)
-        v = Vector4([1.,0.,0.,1.])
+        v = Vector4([1., 0., 0., 1.])
 
         # add
         self.assertRaises(ValueError, lambda: q + v)
@@ -221,21 +272,21 @@ class test_object_quaternion(unittest.TestCase):
         self.assertRaises(ValueError, lambda: q - v)
 
         # multiply
-        self.assertTrue(np.array_equal(q * v, quaternion.apply_to_vector(quaternion.create_from_x_rotation(0.5), [1.,0.,0.,1.])))
+        self.assertTrue(np.array_equal(q * v, quaternion.apply_to_vector(quaternion.create_from_x_rotation(0.5), [1., 0., 0., 1.])))
 
         # divide
         self.assertRaises(ValueError, lambda: q / v)
 
     def test_accessors(self):
         q = Quaternion(np.arange(self._size))
-        self.assertTrue(np.array_equal(q.xy,[0,1]))
-        self.assertTrue(np.array_equal(q.xyz,[0,1,2]))
-        self.assertTrue(np.array_equal(q.xyzw,[0,1,2,3]))
+        self.assertTrue(np.array_equal(q.xy, [0, 1]))
+        self.assertTrue(np.array_equal(q.xyz, [0, 1, 2]))
+        self.assertTrue(np.array_equal(q.xyzw, [0, 1, 2, 3]))
 
-        self.assertTrue(np.array_equal(q.xz,[0,2]))
-        self.assertTrue(np.array_equal(q.xyz,[0,1,2]))
-        self.assertTrue(np.array_equal(q.xyw,[0,1,3]))
-        self.assertTrue(np.array_equal(q.xw,[0,3]))
+        self.assertTrue(np.array_equal(q.xz, [0, 2]))
+        self.assertTrue(np.array_equal(q.xyz, [0, 1, 2]))
+        self.assertTrue(np.array_equal(q.xyw, [0, 1, 3]))
+        self.assertTrue(np.array_equal(q.xw, [0, 3]))
 
         self.assertEqual(q.x, 0)
         self.assertEqual(q.y, 1)
