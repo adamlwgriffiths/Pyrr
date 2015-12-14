@@ -21,7 +21,7 @@ setup(
     install_requires = ['numpy', 'multipledispatch'],
     platforms = ['any'],
     test_suite = 'tests',
-    packages = ['pyrr','pyrr.objects'],
+    packages = ['pyrr','pyrr.objects', 'pyrr.tests'],
     classifiers = [
         'Natural Language :: English',
         'Intended Audience :: Developers',
