@@ -1,6 +1,12 @@
 Changelog
 =========
 
+0.7.1
+-----
+
+* Fix #36 Move tests inside pyrr, include in pkg
+
+
 0.7.0
 -----
 
