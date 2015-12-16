@@ -20,7 +20,7 @@ setup(
     url = 'https://github.com/adamlwgriffiths/Pyrr',
     install_requires = ['numpy', 'multipledispatch'],
     platforms = ['any'],
-    test_suite = 'tests',
+    test_suite = 'pyrr.tests',
     packages = ['pyrr','pyrr.objects', 'pyrr.tests'],
     classifiers = [
         'Natural Language :: English',
