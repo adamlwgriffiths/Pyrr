@@ -1,6 +1,12 @@
 Changelog
 =========
 
+0.7.2
+-----
+
+* Merge #37 - fix test suite name
+
+
 0.7.1
 -----
 
