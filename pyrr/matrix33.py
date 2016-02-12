@@ -8,8 +8,7 @@ numpy.array.T method.
 """
 from __future__ import absolute_import, division, print_function
 import numpy as np
-from . import vector
-from . import quaternion
+from . import vector, quaternion, euler
 from .utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays
 
 
@@ -42,45 +41,34 @@ def create_from_eulers(eulers, dtype=None):
     """
     dtype = dtype or eulers.dtype
 
-    pitchOver2 = eulers[0] * 0.5
-    rollOver2 = eulers[1] * 0.5
-    yawOver2 = eulers[2] * 0.5
-    
-    sinPitch = np.sin(pitchOver2)
-    cosPitch = np.cos(pitchOver2)
-    sinRoll = np.sin(rollOver2)
-    cosRoll = np.cos(rollOver2)
-    sinYaw = np.sin(yawOver2)
-    cosYaw = np.cos(yawOver2)
-    
+    pitch, roll, yaw = euler.pitch(eulers), euler.roll(eulers), euler.yaw(eulers)
+
+    sP = np.sin(pitch)
+    cP = np.cos(pitch)
+    sR = np.sin(roll)
+    cR = np.cos(roll)
+    sY = np.sin(yaw)
+    cY = np.cos(yaw)
+
     return np.array(
         [
             # m1
             [
-                # m11 = cy * cr + sy * sp * sr
-                (cosYaw * cosRoll) + (sinYaw * sinPitch * sinRoll),
-                # m12 = -cy * sr + sy * sp * cr
-                (-cosYaw * sinRoll) + (sinYaw * sinPitch * cosRoll),
-                # m13 = sy * cp
-                sinYaw * cosPitch
+                cY * cP,
+                -cY * sP * cR + sY * sR,
+                cY * sP * sR + sY * cR,
             ],
             # m2
             [
-                # m21 = sr * cp
-                sinRoll * cosPitch,
-                # m22 = cr * cp
-                cosRoll * cosPitch,
-                # m23 = -sp
-                -sinPitch
+                sP,
+                cP * cR,
+                -cP * sR,
             ],
             # m3
             [
-                # m31 = -sy * cr + cy * sp * sr
-                (-sinYaw * cosRoll) + (cosYaw * sinPitch * sinRoll),
-                # m32 = sr * sy + cy * sp * cr
-                (sinRoll * sinYaw) + (cosYaw * sinPitch * cosRoll),
-                # m33 = cy * cp
-                cosYaw * cosPitch
+                -sY * cP,
+                sY * sP * cR + cY * sR,
+                -sY * sP * sR + cY * cR,
             ]
         ],
         dtype=dtype
@@ -114,7 +102,7 @@ def create_from_axis_rotation(axis, theta, dtype=None):
         ],
         dtype= dtype
     )
-    
+
 
 @parameters_as_numpy_arrays('quat')
 def create_from_quaternion(quat, dtype=None):
@@ -196,7 +184,7 @@ def create_from_inverse_of_quaternion(quat, dtype=None):
     wz = w * z
     xz = x * z
     yz = y * z
-    
+
     return np.array(
         [
             # m1
@@ -235,7 +223,7 @@ def create_from_scale(scale, dtype=None):
 
     :param numpy.array scale: The scale to apply as a vector (shape 3).
     :rtype: numpy.array
-    :return: A matrix with shape (3,3) with the scale 
+    :return: A matrix with shape (3,3) with the scale
         set to the specified vector.
     """
     # apply the scale to the values diagonally
@@ -252,7 +240,7 @@ def create_from_x_rotation(theta, dtype=None):
     :rtype: numpy.array
     :return: A matrix with the shape (3,3) with the specified rotation about
         the X-axis.
-    
+
     .. seealso:: http://en.wikipedia.org/wiki/Rotation_matrix#In_three_dimensions
     """
     cosT = np.cos(theta)
@@ -274,12 +262,12 @@ def create_from_y_rotation(theta, dtype=None):
     :rtype: numpy.array
     :return: A matrix with the shape (3,3) with the specified rotation about
         the Y-axis.
-    
+
     .. seealso:: http://en.wikipedia.org/wiki/Rotation_matrix#In_three_dimensions
     """
     cosT = np.cos(theta)
     sinT = np.sin(theta)
-    
+
     return np.array(
         [
             [ cosT, 0.0,sinT ],
@@ -296,12 +284,12 @@ def create_from_z_rotation(theta, dtype=None):
     :rtype: numpy.array
     :return: A matrix with the shape (3,3) with the specified rotation about
         the Z-axis.
-    
+
     .. seealso:: http://en.wikipedia.org/wiki/Rotation_matrix#In_three_dimensions
     """
     cosT = np.cos(theta)
     sinT = np.sin(theta)
-    
+
     return np.array(
         [
             [ cosT,-sinT, 0.0 ],
@@ -373,11 +361,11 @@ def create_direction_scale(direction, scale):
     """
     """
     scaling is defined as:
-    
+
     [p'][1 + (k - 1)n.x^2, (k - 1)n.x n.y^2, (k - 1)n.x n.z   ]
     S(n,k) = [q'][(k - 1)n.x n.y,   1 + (k - 1)n.y,   (k - 1)n.y n.z   ]
     [r'][(k - 1)n.x n.z,   (k - 1)n.y n.z,   1 + (k - 1)n.z^2 ]
-    
+
     where:
     v' is the resulting vector after scaling
     v is the vector to scale

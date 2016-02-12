@@ -1,6 +1,18 @@
 Changelog
 =========
 
+0.8.0
+-----
+
+* Change euler parameter order for create function, was (pitch, roll, yaw, ...), now (roll, pitch, yaw, ..).
+* Make eulers always use the indices for extracting and putting values.
+* Make euler indices configurable by modifying euler.index.(pitch,roll,yaw)
+* Add euler.create_from_(x,y,z)_rotation. This ignores pitch, roll, yaw indices and
+is a straight insertion into the x, y z values of the array.
+* Fix euler -> matrix33 conversion.
+* Add tests to ensure euler, quaternion, and matrix rotations are all equivalent.
+
+
 0.7.2
 -----
 

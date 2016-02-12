@@ -117,28 +117,30 @@ def create_from_eulers(eulers, dtype=None):
     """
     dtype = dtype or eulers.dtype
 
-    halfYaw = eulers[0] * 0.5
-    sinYaw = np.sin(halfYaw)
-    cosYaw = np.cos(halfYaw)
+    pitch, yaw, roll = eulers
 
-    halfPitch = eulers[1] * 0.5
-    sinPitch = np.sin(halfPitch)
-    cosPitch = np.cos(halfPitch)
+    halfPitch = pitch * 0.5
+    sP = np.sin(halfPitch)
+    cP = np.cos(halfPitch)
 
-    halfRoll = eulers[2] * 0.5
-    sinRoll = np.sin(halfRoll)
-    cosRoll = np.cos(halfRoll)
-    
+    halfRoll = roll * 0.5
+    sR = np.sin(halfRoll)
+    cR = np.cos(halfRoll)
+
+    halfYaw = yaw * 0.5
+    sY = np.sin(halfYaw)
+    cY = np.cos(halfYaw)
+
     return np.array(
         [
             # x = -cy * sp * cr - sy * cp * sr
-            (-cosYaw * sinPitch * cosRoll) - (sinYaw * cosPitch * sinRoll),
+            (-cY * sP * cR) - (sY * cP * sR),
             # y = cy * sp * sr - sy * cp * cr
-            (cosYaw * sinPitch * sinRoll) - (sinYaw * cosPitch * cosRoll),
+            (cY * sP * sR) - (sY * cP * cR),
             # z = sy * sp * cr - cy * cp * sr
-            (sinYaw * sinPitch * cosRoll) - (cosYaw * cosPitch * sinRoll),
+            (sY * sP * cR) - (cY * cP * sR),
             # w = cy * cp * cr + sy * sp * sr
-            (cosYaw * cosPitch * cosRoll) + (sinYaw * sinPitch * sinRoll) 
+            (cY * cP * cR) + (sY * sP * sR),
         ],
         dtype=dtype
     )
@@ -152,18 +154,20 @@ def create_from_inverse_of_eulers(eulers, dtype=None):
     """
     dtype = dtype or eulers.dtype
 
-    halfYaw = eulers[0] * 0.5
+    pitch, roll, yaw = euler.pitch(eulers), euler.roll(eulers), euler.yaw(eulers)
+
+    halfRoll = roll * 0.5
+    sinRoll = np.sin(halfRoll)
+    cosRoll = np.cos(halfRoll)
+
+    halfPitch = pitch * 0.5
+    sinPitch = np.sin(halfPitch)
+    cosPitch = np.cos(halfPitch)
+
+    halfYaw = yaw * 0.5
     sinYaw = np.sin(halfYaw)
     cosYaw = np.cos(halfYaw)
 
-    halfPitch = eulers[1] * 0.5
-    sinPitch = np.sin(halfPitch)
-    cosPitch = np.cos(halfPitch)
-    
-    halfRoll = eulers[2] * 0.5
-    sinRoll = np.sin(halfRoll)
-    cosRoll = np.cos(halfRoll)
-    
     return np.array(
         [
             # x = cy * sp * cr + sy * cp * sr
@@ -239,7 +243,7 @@ def squared_length(quat):
 
 def length(quat):
     """Calculates the length of a quaternion.
-    
+
     :param numpy.array quat: The quaternion to measure.
     :rtype: float, numpy.array
     :return: If a 1d array was passed, it will be a scalar.
@@ -252,7 +256,7 @@ def normalise(quat):
     """Ensure a quaternion is unit length (length ~= 1.0).
 
     The quaternion is **not** changed in place.
-    
+
     :param numpy.array quat: The quaternion to normalise.
     :rtype: numpy.array
     :return: The normalised quaternion(s).
@@ -280,16 +284,16 @@ def rotation_axis(quat):
     """
     # extract W component
     sinThetaOver2Sq = 1.0 - (quat[3] ** 2)
-    
+
     # check for zero before we sqrt
     if sinThetaOver2Sq <= 0.0:
         # identity quaternion or numerical imprecision.
         # return a valid vector
         # we'll treat -Z as the default
         return np.array([0.0, 0.0, -1.0], dtype=quat.dtype)
-    
+
     oneOverSinThetaOver2 = 1.0 / np.sqrt(sinThetaOver2Sq)
-    
+
     # we use the x,y,z values
     return np.array(
         [
@@ -351,13 +355,13 @@ def power(quat, exponent):
         # assert for the time being
         assert False
         print("rotation axis was identity")
-        
+
         return quat
-    
+
     alpha = np.arccos(quat[3])
     newAlpha = alpha * exponent
     multi = np.sin(newAlpha) / np.sin(alpha)
-    
+
     return np.array(
         [
             quat[0] * multi,
