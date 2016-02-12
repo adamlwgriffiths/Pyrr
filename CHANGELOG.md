@@ -1,6 +1,13 @@
 Changelog
 =========
 
+0.8.1
+-----
+
+* Remove notes about customising euler indices. If you change the axis indices
+then create_from_(x,y,z)_rotation will no longer work.
+
+
 0.8.0
 -----
 

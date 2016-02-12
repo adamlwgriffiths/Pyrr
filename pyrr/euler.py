@@ -11,17 +11,14 @@ import numpy as np
 
 class index:
     """Defines the indices used to store the Euler values in the numpy array.
-
-    If your axis (x, y, z) and rotations (roll, pitch, yaw) are not as defined
-    by these values, please alter these values before using the Euler class.
     """
-    #: The index of the roll value within the euler, defaults to X axis.
+    #: The index of the roll value within the euler.
     roll = 0
 
-    #: The index of the pitch value within the euler, defaults to Y axis.
+    #: The index of the pitch value within the euler.
     pitch = 1
 
-    #: The index of the yaw value within the euler, defaults to Z axis.
+    #: The index of the yaw value within the euler.
     yaw = 2
 
 
@@ -35,10 +32,7 @@ def create(roll=0., pitch=0., yaw=0., dtype=None):
     :param float yaw: The yaw in radians.
     :rtype: numpy.array
     """
-    e = np.empty((3,), dtype=dtype)
-    e[[index.pitch, index.yaw, index.roll]] = [pitch, yaw, roll]
-    print(e)
-    return e
+    return np.array((roll, pitch, yaw), dtype=dtype)
 
 
 def create_from_x_rotation(theta, dtype=None):
@@ -58,7 +52,7 @@ def roll(eulers):
 
     :rtype: float.
     """
-    return eulers[index.roll]
+    return eulers[0]
 
 
 def yaw(eulers):
@@ -66,7 +60,7 @@ def yaw(eulers):
 
     :rtype: float.
     """
-    return eulers[index.yaw]
+    return eulers[2]
 
 
 def pitch(eulers):
@@ -74,4 +68,4 @@ def pitch(eulers):
 
     :rtype: float.
     """
-    return eulers[index.pitch]
+    return eulers[1]

@@ -14,17 +14,12 @@ class test_euler(unittest.TestCase):
 
     def test_create(self):
         self.assertTrue(np.array_equal(euler.create(), [0., 0., 0.]))
-        self.assertTrue(np.array_equal(euler.create(roll=1., pitch=2., yaw=3.), [1., 2., 3.]))
+        e = euler.create(roll=1., pitch=2., yaw=3.)
+        self.assertEqual(euler.roll(e), 1.)
+        self.assertEqual(euler.pitch(e), 2.)
+        self.assertEqual(euler.yaw(e), 3.)
+        self.assertTrue(np.array_equal(e, [1., 2., 3.]))
 
-        # swap indices
-        indices = euler.index.yaw, euler.index.pitch, euler.index.roll
-        new_indices = indices[1], indices[2], indices[0]
-        euler.index.yaw, euler.index.pitch, euler.index.roll = new_indices
-
-        self.assertTrue(np.array_equal(euler.create(roll=1., pitch=2., yaw=3.), [2., 3., 1.]))
-
-        # reset
-        euler.index.yaw, euler.index.pitch, euler.index.roll = indices
 
 if __name__ == '__main__':
     unittest.main()
