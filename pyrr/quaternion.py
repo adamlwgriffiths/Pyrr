@@ -86,26 +86,37 @@ def create_from_axis_rotation(axis, theta, dtype=None):
 @parameters_as_numpy_arrays('mat')
 def create_from_matrix(mat, dtype=None):
     # http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion/index.htm
+    # optimised "alternative version" does not produce correct results
+    # see issue #42
     dtype = dtype or mat.dtype
 
-    quat = np.array(
-        [
-            np.sqrt(np.maximum(0., 1. + mat[0][0] - mat[1][1] - mat[2][2])) / 2.,
-            np.sqrt(np.maximum(0., 1. - mat[0][0] + mat[1][1] - mat[2][2])) / 2.,
-            np.sqrt(np.maximum(0., 1. - mat[0][0] - mat[1][1] + mat[2][2])) / 2.,
-            np.sqrt(np.maximum(0., 1. + mat[0][0] + mat[1][1] + mat[2][2])) / 2.,
-        ],
-        dtype=dtype
-    )
+    trace = mat[0][0] + mat[1][1] + mat[2][2]
+    if trace > 0:
+        s = 0.5 / np.sqrt(trace + 1.0)
+        qx = (mat[2][1] - mat[1][2]) * s
+        qy = (mat[0][2] - mat[2][0]) * s
+        qz = (mat[1][0] - mat[0][1]) * s
+        qw = 0.25 / s
+    elif mat[0][0] > mat[1][1] and mat[0][0] > mat[2][2]:
+        s = 2.0 * np.sqrt(1.0 + mat[0][0] - mat[1][1] - mat[2][2])
+        qx = 0.25 * s
+        qy = (mat[0][1] + mat[1][0]) / s
+        qz = (mat[0][2] + mat[2][0]) / s
+        qw = (mat[2][1] - mat[1][2]) / s
+    elif mat[1][1] > mat[2][2]:
+        s = 2.0 * np.sqrt(1.0 + mat[1][1] - mat[0][0] - mat[2][2])
+        qx = (mat[0][1] + mat[1][0]) / s
+        qy = 0.25 * s
+        qz = (mat[1][2] + mat[2][1]) / s
+        qw = (mat[0][2] - mat[2][0]) / s
+    else:
+        s = 2.0 * np.sqrt(1.0 + mat[2][2] - mat[0][0] - mat[1][1])
+        qx = (mat[0][2] + mat[2][0]) / s
+        qy = (mat[1][2] + mat[2][1]) / s
+        qz = 0.25 * s
+        qw = (mat[1][0] - mat[0][1]) / s
 
-    # the method suggests this, but it produces the wrong results
-    #if np.sign(quat[0]) != np.sign(mat[2][1]-mat[1][2]):
-    #    quat[0] *= -1
-    #if np.sign(quat[1]) != np.sign(mat[0][2]-mat[2][0]):
-    #    quat[1] *= -1
-    #if np.sign(quat[2]) != np.sign(mat[1][0]-mat[0][1]):
-    #    quat[2] *= -1
-
+    quat = np.array([qx, qy, qz, qw], dtype=dtype)
     return quat
 
 @parameters_as_numpy_arrays('eulers')

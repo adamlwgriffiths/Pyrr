@@ -113,54 +113,42 @@ def create_from_quaternion(quat, dtype=None):
     :return: A matrix with shape (3,3) with the quaternion's rotation.
     """
     dtype = dtype or quat.dtype
+
     # the quaternion must be normalised
     if not np.isclose(np.linalg.norm(quat), 1.):
         quat = quaternion.normalise(quat)
 
-    x, y, z, w = quat
+    # http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToMatrix/index.htm
+    qx, qy, qz, qw = quat[0], quat[1], quat[2], quat[3]
 
-    y2 = y**2
-    x2 = x**2
-    z2 = z**2
-    xy = x * y
-    xz = x * z
-    yz = y * z
-    wx = w * x
-    wy = w * y
-    wz = w * z
+    sqw = qw**2
+    sqx = qx**2
+    sqy = qy**2
+    sqz = qz**2
+    qxy = qx * qy
+    qzw = qz * qw
+    qxz = qx * qz
+    qyw = qy * qw
+    qyz = qy * qz
+    qxw = qx * qw
 
-    return np.array(
-        [
-            # m1
-            [
-                # m11 = 1.0 - 2.0 * (q.y * q.y + q.z * q.z)
-                1.0 - 2.0 * (y2 + z2),
-                # m21 = 2.0 * (q.x * q.y - q.w * q.z)
-                2.0 * (xy - wz),
-                # m31 = 2.0 * (q.x * q.z + q.w * q.y)
-                2.0 * (xz + wy),
-            ],
-            # m2
-            [
-                # m12 = 2.0 * (q.x * q.y + q.w * q.z)
-                2.0 * (xy + wz),
-                # m22 = 1.0 - 2.0 * (q.x * q.x + q.z * q.z)
-                1.0 - 2.0 * (x2 + z2),
-                # m32 = 2.0 * (q.y * q.z - q.w * q.x)
-                2.0 * (yz - wx),
-            ],
-            # m3
-            [
-                # m13 = 2.0 * (q.x * q.z - q.w * q.y)
-                2.0 * (xz - wy),
-                # m23 = 2.0 * (q.y * q.z + q.w * q.x)
-                2.0 * (yz + wx),
-                # m33 = 1.0 - 2.0 * (q.x * q.x + q.y * q.y)
-                1.0 - 2.0 * (x2 + y2),
-            ],
-        ],
-        dtype=dtype
-    )
+    invs = 1 / (sqx + sqy + sqz + sqw)
+    m00 = ( sqx - sqy - sqz + sqw) * invs
+    m11 = (-sqx + sqy - sqz + sqw) * invs
+    m22 = (-sqx - sqy + sqz + sqw) * invs
+    m10 = 2.0 * (qxy + qzw) * invs
+    m01 = 2.0 * (qxy - qzw) * invs
+    m20 = 2.0 * (qxz - qyw) * invs
+    m02 = 2.0 * (qxz + qyw) * invs
+    m21 = 2.0 * (qyz + qxw) * invs
+    m12 = 2.0 * (qyz - qxw) * invs
+
+    return np.array([
+        [m00, m01, m02],
+        [m10, m11, m12],
+        [m20, m21, m22],
+    ], dtype=dtype)
+
 
 @parameters_as_numpy_arrays('quat')
 def create_from_inverse_of_quaternion(quat, dtype=None):

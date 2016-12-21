@@ -39,6 +39,27 @@ class test_matrix_quaternion(unittest.TestCase):
         self.assertTrue(np.allclose(qm, em))
         self.assertTrue(np.allclose(m, em))
 
+    def test_quaternion_matrix_conversion(self):
+        # https://au.mathworks.com/help/robotics/ref/quat2rotm.html?requestedDomain=www.mathworks.com
+        q = Quaternion([0.7071, 0., 0., 0.7071])
+        m33 = q.matrix33
+        expected = np.array([
+            [1., 0., 0.],
+            [0.,-0.,-1.],
+            [0., 1.,-0.],
+        ])
+        self.assertTrue(np.allclose(m33, expected))
+
+        # issue #42
+        q = Quaternion([0.80087974, 0.03166748, 0.59114721,-0.09018753])
+        m33 = q.matrix33
+        q2 = Quaternion.from_matrix(m33)
+        print(q, q2)
+        self.assertTrue(np.allclose(q, q2))
+
+        q3 = Quaternion.from_matrix(m33.T)
+        self.assertFalse(np.allclose(q2, q3))
+
 
 if __name__ == '__main__':
     unittest.main()
