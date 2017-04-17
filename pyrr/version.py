@@ -1,4 +1,4 @@
 # -*- coding: utf-8 -*-
 # the version of software
 # this is used by the setup.py script
-__version__ = '0.8.2'
+__version__ = '0.8.3'
