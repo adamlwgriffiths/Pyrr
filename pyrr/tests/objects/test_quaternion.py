@@ -277,6 +277,23 @@ class test_object_quaternion(unittest.TestCase):
         # divide
         self.assertRaises(ValueError, lambda: q / v)
 
+
+    def test_apply_to_vector_non_unit(self):
+        q = Quaternion.from_x_rotation(np.pi)
+
+        # zero length
+        v = Vector3([0., 0., 0.])
+        self.assertTrue(np.allclose(q * v, quaternion.apply_to_vector(quaternion.create_from_x_rotation(np.pi), [0., 0., 0.])))
+
+        # >1 length
+        v = Vector3([2., 0., 0.])
+        self.assertTrue(np.allclose(q * v, quaternion.apply_to_vector(quaternion.create_from_x_rotation(np.pi), [2., 0., 0.])))
+        v = Vector3([0., 2., 0.])
+        self.assertTrue(np.allclose(q * v, quaternion.apply_to_vector(quaternion.create_from_x_rotation(np.pi), [0., 2., 0.])))
+        v = Vector3([0., 0., 2.])
+        self.assertTrue(np.allclose(q * v, quaternion.apply_to_vector(quaternion.create_from_x_rotation(np.pi), [0., 0., 2.])))
+
+
     def test_accessors(self):
         q = Quaternion(np.arange(self._size))
         self.assertTrue(np.array_equal(q.xy, [0, 1]))

@@ -424,19 +424,7 @@ def apply_to_vector(quat, vec):
     .. seealso:: http://content.gpwiki.org/index.php/OpenGL:Tutorials:Using_Quaternions_to_represent_rotation
     """
     def apply(quat, vec4):
-        """
-        v = numpy.array(vec)
-        return v + 2.0 * vector.cross(
-            quat[:-1],
-            vector.cross(quat[:-1], v) + (quat[-1] * v)
-           )
-        """
-        length = vector.length(vec4)
-        vec4[:] = vector.normalise(vec4)
-
-        # quat * vec * quat^-1
         result = cross(quat, cross(vec4, conjugate(quat)))
-        result *= length
         return result
 
     if vec.size == 3:

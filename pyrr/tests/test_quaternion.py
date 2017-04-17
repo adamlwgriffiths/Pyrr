@@ -315,6 +315,16 @@ class test_quaternion(unittest.TestCase):
         self.assertTrue(np.allclose(quaternion.apply_to_vector(q, [0., 1., 0.]), [1., 0., 0.]))
         self.assertTrue(np.allclose(quaternion.apply_to_vector(q, [0., 0., 1.]), [0., 0., 1.]))
 
+    def test_apply_to_vector_non_unit(self):
+        q = quaternion.create_from_x_rotation(np.pi)
+        # zero length
+        self.assertTrue(np.allclose(quaternion.apply_to_vector(q, [0., 0., 0.]), [0., 0., 0.]))
+
+        # >1 length
+        self.assertTrue(np.allclose(quaternion.apply_to_vector(q, [2., 0., 0.]), [2., 0., 0.]))
+        self.assertTrue(np.allclose(quaternion.apply_to_vector(q, [0., 2., 0.]), [0.,-2., 0.]))
+        self.assertTrue(np.allclose(quaternion.apply_to_vector(q, [0., 0., 2.]), [0., 0.,-2.]))
+
     def test_identity(self):
         # https://en.wikipedia.org/wiki/Quaternion
         i = quaternion.create(1., 0., 0., 0.)
