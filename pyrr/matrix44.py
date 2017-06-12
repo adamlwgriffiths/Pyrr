@@ -247,7 +247,7 @@ def create_perspective_projection_matrix(fovy, aspect, near, far, dtype=None):
     """
     ymax = near * np.tan(fovy * np.pi / 360.0)
     xmax = ymax * aspect
-    return create_perspective_projection_matrix_from_bounds(-xmax, xmax, -ymax, ymax, near, far)
+    return create_perspective_projection_matrix_from_bounds(-xmax, xmax, -ymax, ymax, near, far, dtype=dtype)
 
 def create_perspective_projection_matrix_from_bounds(
     left,
