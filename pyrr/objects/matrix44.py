@@ -158,10 +158,10 @@ class Matrix44(BaseMatrix44):
         return cls(matrix44.create_orthogonal_projection_matrix(left, right, top, bottom, near, far, dtype))
 
     @classmethod
-    def lookAt(cls, eye, target, up, dtype=None):
+    def look_at(cls, eye, target, up, dtype=None):
         """Creates a Matrix44 for use as a lookAt matrix.
         """
-        return cls(matrix44.create_lookAt(eye, target, up, dtype))
+        return cls(matrix44.create_look_at(eye, target, up, dtype))
 
     @classmethod
     def from_translation(cls, translation, dtype=None):
