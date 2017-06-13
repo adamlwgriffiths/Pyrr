@@ -9,6 +9,7 @@ numpy.array.T method.
 from __future__ import absolute_import, division, print_function
 import numpy as np
 from . import matrix33
+from . import vector
 from .utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays
 
 
@@ -247,7 +248,8 @@ def create_perspective_projection_matrix(fovy, aspect, near, far, dtype=None):
     """
     ymax = near * np.tan(fovy * np.pi / 360.0)
     xmax = ymax * aspect
-    return create_perspective_projection_matrix_from_bounds(-xmax, xmax, -ymax, ymax, near, far)
+    return create_perspective_projection_matrix_from_bounds(-xmax, xmax, -ymax,
+                                                            ymax, near, far, dtype=dtype)
 
 def create_perspective_projection_matrix_from_bounds(
     left,
@@ -359,6 +361,30 @@ def create_orthogonal_projection_matrix(
         (0., 0.,  C, 0.),
         (Tx, Ty, Tz, 1.),
     ), dtype=dtype)
+
+@all_parameters_as_numpy_arrays
+def create_look_at(eye, target, up, dtype=None):
+    """Creates a look at matrix according to OpenGL standards.
+
+    :param numpy.array eye: Position of the camera in world coordinates.
+    :param numpy.array target: The position in world coordinates that the
+        camera is looking at.
+    :param numpy.array up: The up vector of the camera.
+    :rtype numpy.array
+    :return A look at matrix that can be used as a viewMatrix
+    """
+
+    forward = vector.normalise(eye - target)
+    side = vector.normalise(np.cross(up, forward))
+    up = vector.normalise(np.cross(forward, side))
+
+    return np.array((
+            (side[0],            up[0],            forward[0],           0.),
+            (side[1],            up[1],            forward[1],           0.),
+            (side[2],            up[2],            forward[2],           0.),
+            (-np.dot(side, eye), -np.dot(up, eye), -np.dot(forward, eye) , 1.0)
+        ), dtype=dtype)
+        
 
 def inverse(m):
     """Returns the inverse of the matrix.
