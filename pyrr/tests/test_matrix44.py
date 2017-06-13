@@ -131,8 +131,8 @@ class test_matrix44(unittest.TestCase):
     def test_create_perspective_projection_matrix_dtype(self):
         m1 = matrix44.create_perspective_projection_matrix(90, 1024./768., 1., 10., dtype='float32')
         m2 = matrix44.create_perspective_projection_matrix(90, 1024./768., 1., 10., dtype='float64')
-        self.assertEqual(len(bytes(m1)), 4 * 4 * 4)
-        self.assertEqual(len(bytes(m2)), 4 * 4 * 8)
+        self.assertEqual(len(m1.tobytes()), 4 * 4 * 4)
+        self.assertEqual(len(m2.tobytes()), 4 * 4 * 8)
 
     def test_create_perspective_projection_matrix_vector4_inside(self):
         def apply_test(m, point, inside):
