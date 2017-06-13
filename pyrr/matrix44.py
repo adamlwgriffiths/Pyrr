@@ -370,8 +370,8 @@ def create_look_at(eye, target, up, dtype=None):
     :param numpy.array target: The position in world coordinates that the
         camera is looking at.
     :param numpy.array up: The up vector of the camera.
-    :rtype numpy.array
-    :return A look at matrix that can be used as a viewMatrix
+    :rtype: numpy.array
+    :return: A look at matrix that can be used as a viewMatrix
     """
 
     forward = vector.normalise(eye - target)
