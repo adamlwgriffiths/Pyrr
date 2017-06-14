@@ -128,6 +128,12 @@ class test_matrix44(unittest.TestCase):
         apply_test(m, np.array((0.,0.,-11.)), False)
         apply_test(m, np.array((1.,1.,-5.)), True)
 
+    def test_create_perspective_projection_matrix_dtype(self):
+        m1 = matrix44.create_perspective_projection_matrix(90, 1024./768., 1., 10., dtype='float32')
+        m2 = matrix44.create_perspective_projection_matrix(90, 1024./768., 1., 10., dtype='float64')
+        self.assertEqual(m1.dtype, np.float32)
+        self.assertEqual(m2.dtype, np.float64)
+
     def test_create_perspective_projection_matrix_vector4_inside(self):
         def apply_test(m, point, inside):
             p = matrix44.apply_to_vector(m, point)
