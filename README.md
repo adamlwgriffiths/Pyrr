@@ -191,6 +191,7 @@ Authors
   * [Chris Bates](https://github.com/chrsbats)
   * [Jakub Stasiak](https://github.com/jstasiak/).
   * [Bogdan Teleaga](https://github.com/bogdanteleaga/).
+  * [Szabolcs Dombi](https://github.com/cprogrammer1994)
 
 Contributions are welcome.
 
