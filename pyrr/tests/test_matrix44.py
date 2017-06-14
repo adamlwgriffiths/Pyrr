@@ -290,6 +290,106 @@ class test_matrix44(unittest.TestCase):
         apply_test(m, np.array((1.1,1.1,-10.,1.)), False)
         apply_test(m, np.array((-1.1,-1.1,-10.,1.)), False)
 
+    def test_create_look_at_determinant(self):
+        m = matrix44.create_look_at(
+            np.array((300.0, 200.0, 100.0)),
+            np.array((0.0, 0.0, 0.0)),
+            np.array((0.0, 0.0, 1.0)),
+        )
+
+        self.assertAlmostEqual(np.linalg.det(m), 1.0)
+
+    def test_create_look_at(self):
+        m = matrix44.create_look_at(
+            np.array((300.0, 200.0, 100.0)),
+            np.array((0.0, 0.0, 10.0)),
+            np.array((0.0, 0.0, 1.0)),
+        )
+
+        points = [
+            (-10.0, -10.0, 0.0, 1.0),
+            (-10.0, 10.0, 0.0, 1.0),
+            (10.0, -10.0, 0.0, 1.0),
+            (10.0, 10.0, 0.0, 1.0),
+            (-10.0, -10.0, 20.0, 1.0),
+            (-10.0, 10.0, 20.0, 1.0),
+            (10.0, -10.0, 20.0, 1.0),
+            (10.0, 10.0, 20.0, 1.0),
+        ]
+
+        for point in points:
+            x, y, z, w = matrix44.apply_to_vector(m, point)
+            self.assertTrue(-20.0 < x and x < 20.0)
+            self.assertTrue(-20.0 < y and y < 20.0)
+            self.assertTrue(z < 0.0)
+            self.assertAlmostEqual(w, 1.0)
+
+    def test_create_look_at_2(self):
+        m = matrix44.create_look_at(
+            np.array((10.0, 0.0, 0.0)),
+            np.array((-10.0, 0.0, 0.0)),
+            np.array((0.0, 1.0, 0.0)),
+        )
+
+        x, y, z, _ = matrix44.apply_to_vector(m, (1.0, 0.0, 0.0, 1.0))
+        self.assertAlmostEqual(x, 0.0)
+        self.assertAlmostEqual(y, 0.0)
+        self.assertAlmostEqual(z, -9.0)
+
+        x, y, z, _ = matrix44.apply_to_vector(m, (0.0, 1.0, 0.0, 1.0))
+        self.assertAlmostEqual(x, 0.0)
+        self.assertAlmostEqual(y, 1.0)
+        self.assertAlmostEqual(z, -10.0)
+
+        x, y, z, _ = matrix44.apply_to_vector(m, (0.0, 0.0, 1.0, 1.0))
+        self.assertAlmostEqual(x, -1.0)
+        self.assertAlmostEqual(y, 0.0)
+        self.assertAlmostEqual(z, -10.0)
+
+    def test_create_look_at_3(self):
+        m = matrix44.create_look_at(
+            np.array((10.0, 0.0, 0.0)),
+            np.array((-10.0, 0.0, 0.0)),
+            np.array((0.0, 1.0, 0.0)),
+        )
+
+        x, y, z, _ = matrix44.apply_to_vector(m, (1.0, 0.0, 0.0, 0.0))
+        self.assertAlmostEqual(x, 0.0)
+        self.assertAlmostEqual(y, 0.0)
+        self.assertAlmostEqual(z, 1.0)
+
+        x, y, z, _ = matrix44.apply_to_vector(m, (0.0, 1.0, 0.0, 0.0))
+        self.assertAlmostEqual(x, 0.0)
+        self.assertAlmostEqual(y, 1.0)
+        self.assertAlmostEqual(z, 0.0)
+
+        x, y, z, _ = matrix44.apply_to_vector(m, (0.0, 0.0, 1.0, 0.0))
+        self.assertAlmostEqual(x, -1.0)
+        self.assertAlmostEqual(y, 0.0)
+        self.assertAlmostEqual(z, 0.0)
+
+    def test_create_look_at_4(self):
+        m = matrix44.create_look_at(
+            np.array((0.0, 0.0, 0.0)),
+            np.array((0.0, 0.0, -1.0)),
+            np.array((0.0, 1.0, 0.0)),
+        )
+
+        x, y, z, _ = matrix44.apply_to_vector(m, (1.0, 0.0, 0.0, 0.0))
+        self.assertAlmostEqual(x, 1.0)
+        self.assertAlmostEqual(y, 0.0)
+        self.assertAlmostEqual(z, 0.0)
+
+        x, y, z, _ = matrix44.apply_to_vector(m, (0.0, 1.0, 0.0, 0.0))
+        self.assertAlmostEqual(x, 0.0)
+        self.assertAlmostEqual(y, 1.0)
+        self.assertAlmostEqual(z, 0.0)
+
+        x, y, z, _ = matrix44.apply_to_vector(m, (0.0, 0.0, 1.0, 0.0))
+        self.assertAlmostEqual(x, 0.0)
+        self.assertAlmostEqual(y, 0.0)
+        self.assertAlmostEqual(z, 1.0)
+
     def test_apply_to_vector_identity(self):
         mat = matrix44.create_identity()
         result = matrix44.apply_to_vector(mat, [1.,0.,0.])
