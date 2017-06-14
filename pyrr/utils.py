@@ -43,10 +43,16 @@ def parameters_as_numpy_arrays(*args_to_convert):
     def decorator(fn):
         # wraps allows us to pass the docstring back
         # or the decorator will hide the function from our doc generator
+
+        try:
+            getfullargspec = inspect.getfullargspec
+        except AttributeError:
+            getfullargspec = inspect.getargspec
+
         @wraps(fn)
         def wrapper(*args, **kwargs):
             # get the arguements of the function we're decorating
-            fn_args = inspect.getargspec(fn)
+            fn_args = getfullargspec(fn)
 
             # convert any values that are specified
             # if the argument isn't in our list, just pass it through
