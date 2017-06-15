@@ -27,7 +27,7 @@ class test_object_matrix44(unittest.TestCase):
         from pyrr import Matrix44
         from pyrr.objects import Matrix44
         from pyrr.objects.matrix44 import Matrix44
-        
+
     def test_create(self):
         m = Matrix44()
         self.assertTrue(np.array_equal(m, np.zeros(self._shape)))
@@ -101,12 +101,12 @@ class test_object_matrix44(unittest.TestCase):
         m1 = Matrix44(np.arange(self._size))
         m2 = Matrix44(np.arange(self._size)[::-1])
         m = m1 * m2
-        self.assertTrue(np.array_equal(m, matrix44.multiply(m1, m2)))
+        self.assertTrue(np.array_equal(m, matrix44.multiply(m2, m1)))
 
         m1 = Matrix44(np.arange(self._size))
         m2 = Matrix33(np.arange(9))
         m = m1 * m2
-        self.assertTrue(np.array_equal(m, matrix44.multiply(m1, matrix44.create_from_matrix33(m2))))
+        self.assertTrue(np.array_equal(m, matrix44.multiply(matrix44.create_from_matrix33(m2), m1)))
 
     def test_inverse(self):
         m1 = Matrix44.identity() * Matrix44.from_x_rotation(0.5)
@@ -134,7 +134,7 @@ class test_object_matrix44(unittest.TestCase):
         self.assertTrue(np.array_equal(m1 - m2, matrix44.create_identity() - matrix44.create_from_x_rotation(0.5)))
 
         # multiply
-        self.assertTrue(np.array_equal(m1 * m2, matrix44.multiply(matrix44.create_identity(), matrix44.create_from_x_rotation(0.5))))
+        self.assertTrue(np.array_equal(m1 * m2, matrix44.multiply(matrix44.create_from_x_rotation(0.5), matrix44.create_identity())))
 
         # divide
         self.assertRaises(ValueError, lambda: m1 / m2)
@@ -150,7 +150,7 @@ class test_object_matrix44(unittest.TestCase):
         self.assertTrue(np.array_equal(m1 - m2, matrix44.create_identity() - matrix44.create_from_x_rotation(0.5)))
 
         # multiply
-        self.assertTrue(np.array_equal(m1 * m2, matrix44.multiply(matrix44.create_identity(), matrix44.create_from_x_rotation(0.5))))
+        self.assertTrue(np.array_equal(m1 * m2, matrix44.multiply(matrix44.create_from_x_rotation(0.5), matrix44.create_identity())))
 
         # divide
         self.assertRaises(ValueError, lambda: m1 / m2)
@@ -161,7 +161,7 @@ class test_object_matrix44(unittest.TestCase):
     def test_operators_quaternion(self):
         m = Matrix44.identity()
         q = Quaternion.from_x_rotation(0.7)
-        
+
         # add
         self.assertRaises(ValueError, lambda: m + q)
 
@@ -169,7 +169,7 @@ class test_object_matrix44(unittest.TestCase):
         self.assertRaises(ValueError, lambda: m - q)
 
         # multiply
-        self.assertTrue(np.array_equal(m * q, matrix44.multiply(matrix44.create_identity(), matrix44.create_from_quaternion(quaternion.create_from_x_rotation(0.7)))))
+        self.assertTrue(np.array_equal(m * q, matrix44.multiply(matrix44.create_from_quaternion(quaternion.create_from_x_rotation(0.7)), matrix44.create_identity())))
 
         # divide
         self.assertRaises(ValueError, lambda: m / q)
@@ -177,7 +177,7 @@ class test_object_matrix44(unittest.TestCase):
     def test_operators_vector3(self):
         m = Matrix44.identity()
         v = Vector3([1,1,1])
-        
+
         # add
         self.assertRaises(ValueError, lambda: m + v)
 
@@ -193,7 +193,7 @@ class test_object_matrix44(unittest.TestCase):
     def test_operators_vector4(self):
         m = Matrix44.identity()
         v = Vector4([1,1,1,1])
-        
+
         # add
         self.assertRaises(ValueError, lambda: m + v)
 
@@ -210,7 +210,7 @@ class test_object_matrix44(unittest.TestCase):
         m = Matrix44.identity()
         fv = np.empty((1,), dtype=[('i', np.int16, 1),('f', np.float32, 1)])
         fv[0] = (2, 2.0)
-        
+
         # add
         self.assertTrue(np.array_equal(m + 1.0, matrix44.create_identity()[:] + 1.0))
         self.assertTrue(np.array_equal(m + 1, matrix44.create_identity()[:] + 1.0))

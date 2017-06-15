@@ -177,7 +177,7 @@ class Matrix33(BaseMatrix33):
 
     @dispatch((BaseMatrix, np.ndarray, list))
     def __mul__(self, other):
-        return Matrix33(matrix33.multiply(self, Matrix33(other)))
+        return Matrix33(matrix33.multiply(Matrix33(other), self))
 
     ########################
     # Quaternions
