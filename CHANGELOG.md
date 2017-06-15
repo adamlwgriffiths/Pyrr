@@ -1,6 +1,21 @@
 Changelog
 =========
 
+0.8.4
+-----
+
+* Fix Matrix33 / Matrix44 object API multiplication being logically backwards.
+
+0.8.3
+-----
+
+* Fix rotation of zero length vector by a quaternion causing error
+
+0.8.2
+-----
+
+* Fix Matrix <-> Quaternion conversions
+
 0.8.1
 -----
 

@@ -223,7 +223,7 @@ class Matrix44(BaseMatrix44):
 
     @dispatch((BaseMatrix, np.ndarray, list))
     def __mul__(self, other):
-        return Matrix44(matrix44.multiply(self, Matrix44(other)))
+        return Matrix44(matrix44.multiply(Matrix44(other), self))
 
     ########################
     # Quaternions
