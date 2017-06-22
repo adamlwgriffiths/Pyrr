@@ -58,7 +58,7 @@ def create_from_eulers(eulers, dtype=None):
     # set to identity matrix
     # this will populate our extra rows for us
     mat = create_identity(dtype)
-    
+
     # we'll use Matrix33 for our conversion
     mat[0:3, 0:3] = matrix33.create_from_eulers(eulers, dtype)
     return mat
@@ -69,7 +69,7 @@ def create_from_axis_rotation(axis, theta, dtype=None):
 
     :param numpy.array axis: A (3,) vector.
     :param float theta: A rotation in radians.
-        
+
     :rtype: numpy.array
     :return: A matrix with shape (4,4).
     """
@@ -77,7 +77,7 @@ def create_from_axis_rotation(axis, theta, dtype=None):
     # set to identity matrix
     # this will populate our extra rows for us
     mat = create_identity(dtype)
-    
+
     # we'll use Matrix33 for our conversion
     mat[0:3, 0:3] = matrix33.create_from_axis_rotation(axis, theta, dtype)
     return mat
@@ -94,7 +94,7 @@ def create_from_quaternion(quat, dtype=None):
     # set to identity matrix
     # this will populate our extra rows for us
     mat = create_identity(dtype)
-    
+
     # we'll use Matrix33 for our conversion
     mat[0:3, 0:3] = matrix33.create_from_quaternion(quat, dtype)
     return mat
@@ -114,7 +114,7 @@ def create_from_inverse_of_quaternion(quat, dtype=None):
     # set to identity matrix
     # this will populate our extra rows for us
     mat = create_identity(dtype)
-    
+
     # we'll use Matrix33 for our conversion
     mat[0:3, 0:3] = matrix33.create_from_inverse_of_quaternion(quat, dtype)
     return mat
@@ -138,7 +138,7 @@ def create_from_scale(scale, dtype=None):
 
     :param numpy.array scale: The scale to apply as a vector (shape 3).
     :rtype: numpy.array
-    :return: A matrix with shape (4,4) with the scale 
+    :return: A matrix with shape (4,4) with the scale
         set to the specified vector.
     """
     # we need to expand 'scale' into it's components
@@ -155,7 +155,7 @@ def create_from_x_rotation(theta, dtype=None):
     :rtype: numpy.array
     :return: A matrix with the shape (4,4) with the specified rotation about
         the X-axis.
-    
+
     .. seealso:: http://en.wikipedia.org/wiki/Rotation_matrix#In_three_dimensions
     """
     mat = create_identity(dtype)
@@ -169,7 +169,7 @@ def create_from_y_rotation(theta, dtype=None):
     :rtype: numpy.array
     :return: A matrix with the shape (4,4) with the specified rotation about
         the Y-axis.
-    
+
     .. seealso:: http://en.wikipedia.org/wiki/Rotation_matrix#In_three_dimensions
     """
     mat = create_identity(dtype)
@@ -183,7 +183,7 @@ def create_from_z_rotation(theta, dtype=None):
     :rtype: numpy.array
     :return: A matrix with the shape (4,4) with the specified rotation about
         the Z-axis.
-    
+
     .. seealso:: http://en.wikipedia.org/wiki/Rotation_matrix#In_three_dimensions
     """
     mat = create_identity(dtype)
@@ -362,7 +362,7 @@ def create_orthogonal_projection_matrix(
     ), dtype=dtype)
 
 @all_parameters_as_numpy_arrays
-def create_look_at(eye, target, up, dtype=None):
+def create_look_at_matrix(eye, target, up, dtype=None):
     """Creates a look at matrix according to OpenGL standards.
 
     :param numpy.array eye: Position of the camera in world coordinates.
@@ -383,7 +383,21 @@ def create_look_at(eye, target, up, dtype=None):
             (side[2], up[2], -forward[2], 0.),
             (-np.dot(side, eye), -np.dot(up, eye), np.dot(forward, eye), 1.0)
         ), dtype=dtype)
-        
+
+
+@all_parameters_as_numpy_arrays
+def create_look_at(eye, target, up, dtype=None):  # TODO: mark as duplicated
+    """Creates a look at matrix according to OpenGL standards.
+
+    :param numpy.array eye: Position of the camera in world coordinates.
+    :param numpy.array target: The position in world coordinates that the
+        camera is looking at.
+    :param numpy.array up: The up vector of the camera.
+    :rtype: numpy.array
+    :return: A look at matrix that can be used as a viewMatrix
+    """
+
+    return create_look_at_matrix(eye, target, up, dtype)
 
 def inverse(m):
     """Returns the inverse of the matrix.
