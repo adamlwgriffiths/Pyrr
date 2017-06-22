@@ -386,7 +386,7 @@ def create_look_at_matrix(eye, target, up, dtype=None):
 
 
 @all_parameters_as_numpy_arrays
-def create_look_at(eye, target, up, dtype=None):  # TODO: mark as duplicated
+def create_look_at(eye, target, up, dtype=None):  # TODO: mark as deprecated
     """Creates a look at matrix according to OpenGL standards.
 
     :param numpy.array eye: Position of the camera in world coordinates.
