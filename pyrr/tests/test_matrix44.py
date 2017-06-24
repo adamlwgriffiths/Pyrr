@@ -291,7 +291,7 @@ class test_matrix44(unittest.TestCase):
         apply_test(m, np.array((-1.1,-1.1,-10.,1.)), False)
 
     def test_create_look_at_determinant(self):
-        m = matrix44.create_look_at_matrix(
+        m = matrix44.create_look_at(
             np.array((300.0, 200.0, 100.0)),
             np.array((0.0, 0.0, 0.0)),
             np.array((0.0, 0.0, 1.0)),
@@ -300,7 +300,7 @@ class test_matrix44(unittest.TestCase):
         self.assertAlmostEqual(np.linalg.det(m), 1.0)
 
     def test_create_look_at(self):
-        m = matrix44.create_look_at_matrix(
+        m = matrix44.create_look_at(
             np.array((300.0, 200.0, 100.0)),
             np.array((0.0, 0.0, 10.0)),
             np.array((0.0, 0.0, 1.0)),
@@ -325,7 +325,7 @@ class test_matrix44(unittest.TestCase):
             self.assertAlmostEqual(w, 1.0)
 
     def test_create_look_at_2(self):
-        m = matrix44.create_look_at_matrix(
+        m = matrix44.create_look_at(
             np.array((10.0, 0.0, 0.0)),
             np.array((-10.0, 0.0, 0.0)),
             np.array((0.0, 1.0, 0.0)),
@@ -347,7 +347,7 @@ class test_matrix44(unittest.TestCase):
         self.assertAlmostEqual(z, -10.0)
 
     def test_create_look_at_3(self):
-        m = matrix44.create_look_at_matrix(
+        m = matrix44.create_look_at(
             np.array((10.0, 0.0, 0.0)),
             np.array((-10.0, 0.0, 0.0)),
             np.array((0.0, 1.0, 0.0)),
@@ -369,7 +369,7 @@ class test_matrix44(unittest.TestCase):
         self.assertAlmostEqual(z, 0.0)
 
     def test_create_look_at_4(self):
-        m = matrix44.create_look_at_matrix(
+        m = matrix44.create_look_at(
             np.array((0.0, 0.0, 0.0)),
             np.array((0.0, 0.0, -1.0)),
             np.array((0.0, 1.0, 0.0)),
