@@ -67,7 +67,7 @@ class test_quaternion(unittest.TestCase):
         np.testing.assert_almost_equal(result, [5.77350000e-01, 5.77350000e-01, 5.77350000e-01, 6.12323400e-17], decimal=3)
         self.assertTrue(result.dtype == np.float)
 
-    def test_create_from_axis_rotation_non_normalised(self):
+    def test_create_from_axis_rotation_non_normalized(self):
         result = quaternion.create_from_axis_rotation([1., 1., 1.], np.pi)
         np.testing.assert_almost_equal(result, [5.77350000e-01, 5.77350000e-01, 5.77350000e-01, 6.12323400e-17], decimal=3)
         self.assertTrue(result.dtype == np.float)
@@ -164,19 +164,19 @@ class test_quaternion(unittest.TestCase):
         ])
         np.testing.assert_almost_equal(result, [1., 2.], decimal=5)
 
-    def test_normalise_identity(self):
-        # normalise an identity quaternion
-        result = quaternion.normalise([0., 0., 0., 1.])
+    def test_normalize_identity(self):
+        # normalize an identity quaternion
+        result = quaternion.normalize([0., 0., 0., 1.])
         np.testing.assert_almost_equal(result, [0., 0., 0., 1.], decimal=5)
 
-    def test_normalise_non_identity(self):
-        # normalise an identity quaternion
-        result = quaternion.normalise([1., 2., 3., 4.])
+    def test_normalize_non_identity(self):
+        # normalize an identity quaternion
+        result = quaternion.normalize([1., 2., 3., 4.])
         np.testing.assert_almost_equal(result, [1. / np.sqrt(30.), np.sqrt(2. / 15.), np.sqrt(3. / 10.), 2. * np.sqrt(2. / 15.)], decimal=5)
 
-    def test_normalise_batch(self):
-        # normalise an identity quaternion
-        result = quaternion.normalise([
+    def test_normalize_batch(self):
+        # normalize an identity quaternion
+        result = quaternion.normalize([
             [0., 0., 0., 1.],
             [1., 2., 3., 4.],
         ])

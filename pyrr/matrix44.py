@@ -461,9 +461,9 @@ def create_look_at(eye, target, up, dtype=None):
     :return: A look at matrix that can be used as a viewMatrix
     """
 
-    forward = vector.normalise(target - eye)
-    side = vector.normalise(np.cross(forward, up))
-    up = vector.normalise(np.cross(side, forward))
+    forward = vector.normalize(target - eye)
+    side = vector.normalize(np.cross(forward, up))
+    up = vector.normalize(np.cross(side, forward))
 
     return np.array((
             (side[0], up[0], -forward[0], 0.),

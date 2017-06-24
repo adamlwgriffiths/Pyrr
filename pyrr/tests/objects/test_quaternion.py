@@ -126,18 +126,18 @@ class test_object_quaternion(unittest.TestCase):
         q = Quaternion.from_x_rotation(np.pi / 2.0)
         self.assertTrue(np.allclose(q.length, quaternion.length(q)))
 
-    def test_normalise(self):
+    def test_normalize(self):
         q = Quaternion([1., 2., 3., 4.])
         self.assertFalse(np.allclose(q.length, 1.))
 
-        q.normalise()
+        q.normalize()
         self.assertTrue(np.allclose(q.length, 1.))
 
-    def test_normalised(self):
+    def test_normalized(self):
         q1 = Quaternion([1., 2., 3., 4.])
         self.assertFalse(np.allclose(q1.length, 1.))
 
-        q2 = q1.normalised
+        q2 = q1.normalized
         self.assertFalse(np.allclose(q1.length, 1.))
         self.assertTrue(np.allclose(q2.length, 1.))
 

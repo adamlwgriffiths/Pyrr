@@ -7,8 +7,8 @@ from .utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays
 
 
 @all_parameters_as_numpy_arrays
-def normalise(vec):
-    """Normalises an Nd list of vectors or a single vector
+def normalize(vec):
+    """normalizes an Nd list of vectors or a single vector
     to unit length.
 
     The vector is **not** changed in place.
@@ -28,7 +28,7 @@ def normalise(vec):
                 [x2, y2, z2]
             ]).
 
-    :rtype: A numpy.array the normalised value
+    :rtype: A numpy.array the normalized value
     """
     # calculate the length
     # this is a duplicate of length(vec) because we
@@ -36,7 +36,7 @@ def normalise(vec):
     return (vec.T  / np.sqrt(np.sum(vec**2,axis=-1))).T
 
 
-    
+
 @all_parameters_as_numpy_arrays
 def squared_length(vec):
     """Calculates the squared length of a vector.
@@ -66,7 +66,7 @@ def length(vec):
             numpy.array([ x, y, z ])
 
         Nd array::
-        
+
             numpy.array([
                 [x1, y1, z1],
                 [x2, y2, z2]
@@ -105,7 +105,7 @@ def set_length(vec, len):
 
     return (vec.T  / np.sqrt(np.sum(vec**2,axis=-1)) * len).T
 
-    
+
 @all_parameters_as_numpy_arrays
 def dot(v1, v2):
     """Calculates the dot product of two vectors.

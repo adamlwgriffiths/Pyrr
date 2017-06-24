@@ -137,10 +137,10 @@ def point_closest_point_on_ray(point, ray):
     n is the ray normal of unit length
     t is the distance along the ray to the point
     """
-    normalised_n = vector.normalise(ray[1])
+    normalized_n = vector.normalize(ray[1])
     relative_point = (point - ray[0])
-    t = vector.dot(relative_point, normalised_n)
-    return ray[0] + (normalised_n * t)
+    t = vector.dot(relative_point, normalized_n)
+    return ray[0] + (normalized_n * t)
 
 @all_parameters_as_numpy_arrays
 def point_closest_point_on_line(point, line):
@@ -155,7 +155,7 @@ def point_closest_point_on_line(point, line):
     """
     rl = va->b (relative line)
     rp = va->p (relative point)
-    u' = u / |u| (normalise)
+    u' = u / |u| (normalize)
     cp = a + (u' * (u'.v))
     where:
     a = line start
@@ -165,7 +165,7 @@ def point_closest_point_on_line(point, line):
     """
     rl = line[1] - line[0]
     rp = point - line[0]
-    rl = vector.normalise(rl)
+    rl = vector.normalize(rl)
     dot = vector.dot(rl, rp)
     return line[0] + (rl * dot)
 
@@ -214,7 +214,7 @@ def vector_parallel_vector(v1, v2):
     # if the result is 0, then they are parallel
     cross = vector3.cross(v1, v2)
     return 0 == np.count_nonzero(cross)
-    
+
 @all_parameters_as_numpy_arrays
 def ray_parallel_ray(ray1, ray2):
     """Checks if two rays are parallel.
@@ -385,7 +385,7 @@ def sphere_penetration_sphere(s1, s2):
     :rtype: float
     :return: The total overlap of the two spheres.
         This is essentially:
-        r1 + r2 - distance 
+        r1 + r2 - distance
         Where r1 and r2 are the radii of circle 1 and 2
         and distance is the length of the vector p2 - p1.
         Will return 0.0 if the circles do not overlap.

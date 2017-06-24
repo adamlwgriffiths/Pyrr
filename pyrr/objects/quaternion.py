@@ -201,16 +201,16 @@ class Quaternion(BaseQuaternion):
         """
         return quaternion.length(self)
 
-    def normalise(self):
-        """Normalises this Quaternion in-place.
+    def normalize(self):
+        """normalizes this Quaternion in-place.
         """
-        self[:] = quaternion.normalise(self)
+        self[:] = quaternion.normalize(self)
 
     @property
-    def normalised(self):
-        """Returns a normalised version of this Quaternion as a new Quaternion.
+    def normalized(self):
+        """Returns a normalized version of this Quaternion as a new Quaternion.
         """
-        return Quaternion(quaternion.normalise(self))
+        return Quaternion(quaternion.normalize(self))
 
     @property
     def angle(self):
