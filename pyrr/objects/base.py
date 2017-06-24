@@ -105,6 +105,13 @@ class BaseVector(BaseObject):
     def normalized(self):
         return type(self)(self._module.normalize(self))
 
+    def normalise(self):    # TODO: mark as deprecated
+        self[:] = self.normalized
+
+    @property
+    def normalised(self):    # TODO: mark as deprecated
+        return type(self)(self._module.normalize(self))
+
     @property
     def squared_length(self):
         return self._module.squared_length(self)

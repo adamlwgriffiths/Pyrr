@@ -38,6 +38,37 @@ def normalize(vec):
 
 
 @all_parameters_as_numpy_arrays
+def normalise(vec):    # TODO: mark as deprecated
+    """normalizes an Nd list of vectors or a single vector
+    to unit length.
+
+    The vector is **not** changed in place.
+
+    For zero-length vectors, the result will be np.nan.
+
+    :param numpy.array vec: an Nd array with the final dimension
+        being vectors
+        ::
+
+            numpy.array([ x, y, z ])
+
+        Or an NxM array::
+
+            numpy.array([
+                [x1, y1, z1],
+                [x2, y2, z2]
+            ]).
+
+    :rtype: A numpy.array the normalized value
+    """
+    # calculate the length
+    # this is a duplicate of length(vec) because we
+    # always want an array, even a 0-d array.
+    return (vec.T  / np.sqrt(np.sum(vec**2,axis=-1))).T
+
+
+
+@all_parameters_as_numpy_arrays
 def squared_length(vec):
     """Calculates the squared length of a vector.
 

@@ -212,6 +212,17 @@ class Quaternion(BaseQuaternion):
         """
         return Quaternion(quaternion.normalize(self))
 
+    def normalise(self):    # TODO: mark as deprecated
+        """normalizes this Quaternion in-place.
+        """
+        self[:] = quaternion.normalize(self)
+
+    @property
+    def normalised(self):    # TODO: mark as deprecated
+        """Returns a normalized version of this Quaternion as a new Quaternion.
+        """
+        return Quaternion(quaternion.normalize(self))
+
     @property
     def angle(self):
         """Returns the angle around the axis of rotation of this Quaternion as a float.

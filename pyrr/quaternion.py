@@ -274,6 +274,17 @@ def normalize(quat):
     """
     return vector4.normalize(quat)
 
+def normalise(quat):    # TODO: mark as deprecated
+    """Ensure a quaternion is unit length (length ~= 1.0).
+
+    The quaternion is **not** changed in place.
+
+    :param numpy.array quat: The quaternion to normalize.
+    :rtype: numpy.array
+    :return: The normalized quaternion(s).
+    """
+    return vector4.normalize(quat)
+
 def rotation_angle(quat):
     """Calculates the rotation around the quaternion's axis.
 
