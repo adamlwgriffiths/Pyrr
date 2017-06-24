@@ -473,20 +473,6 @@ def create_look_at(eye, target, up, dtype=None):
         ), dtype=dtype)
 
 
-@all_parameters_as_numpy_arrays
-def create_look_at_matrix(eye, target, up, dtype=None):    # TODO: mark as duplicated
-    """Creates a look at matrix according to OpenGL standards.
-
-    :param numpy.array eye: Position of the camera in world coordinates.
-    :param numpy.array target: The position in world coordinates that the
-        camera is looking at.
-    :param numpy.array up: The up vector of the camera.
-    :rtype: numpy.array
-    :return: A look at matrix that can be used as a viewMatrix
-    """
-
-    return create_look_at(eye, target, up, dtype)
-
 def inverse(m):
     """Returns the inverse of the matrix.
 
