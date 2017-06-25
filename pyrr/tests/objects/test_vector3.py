@@ -72,11 +72,11 @@ class test_object_vector3(unittest.TestCase):
         v = Vector3([1.,2.,3.])
         self.assertTrue(np.array_equal(v.inverse, [-1.,-2.,-3.]))
 
-    def test_normalise(self):
+    def test_normalize(self):
         v = Vector3([1.,1.,1.])
-        np.testing.assert_almost_equal(v.normalised, [0.57735, 0.57735, 0.57735], decimal=5)
+        np.testing.assert_almost_equal(v.normalized, [0.57735, 0.57735, 0.57735], decimal=5)
 
-        v.normalise()
+        v.normalize()
         np.testing.assert_almost_equal(v, [0.57735, 0.57735, 0.57735], decimal=5)
 
     def test_operators_matrix33(self):

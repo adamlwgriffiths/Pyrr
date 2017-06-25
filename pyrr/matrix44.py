@@ -58,7 +58,7 @@ def create_from_eulers(eulers, dtype=None):
     # set to identity matrix
     # this will populate our extra rows for us
     mat = create_identity(dtype)
-    
+
     # we'll use Matrix33 for our conversion
     mat[0:3, 0:3] = matrix33.create_from_eulers(eulers, dtype)
     return mat
@@ -69,7 +69,7 @@ def create_from_axis_rotation(axis, theta, dtype=None):
 
     :param numpy.array axis: A (3,) vector.
     :param float theta: A rotation in radians.
-        
+
     :rtype: numpy.array
     :return: A matrix with shape (4,4).
     """
@@ -77,7 +77,7 @@ def create_from_axis_rotation(axis, theta, dtype=None):
     # set to identity matrix
     # this will populate our extra rows for us
     mat = create_identity(dtype)
-    
+
     # we'll use Matrix33 for our conversion
     mat[0:3, 0:3] = matrix33.create_from_axis_rotation(axis, theta, dtype)
     return mat
@@ -94,7 +94,7 @@ def create_from_quaternion(quat, dtype=None):
     # set to identity matrix
     # this will populate our extra rows for us
     mat = create_identity(dtype)
-    
+
     # we'll use Matrix33 for our conversion
     mat[0:3, 0:3] = matrix33.create_from_quaternion(quat, dtype)
     return mat
@@ -114,7 +114,7 @@ def create_from_inverse_of_quaternion(quat, dtype=None):
     # set to identity matrix
     # this will populate our extra rows for us
     mat = create_identity(dtype)
-    
+
     # we'll use Matrix33 for our conversion
     mat[0:3, 0:3] = matrix33.create_from_inverse_of_quaternion(quat, dtype)
     return mat
@@ -138,7 +138,7 @@ def create_from_scale(scale, dtype=None):
 
     :param numpy.array scale: The scale to apply as a vector (shape 3).
     :rtype: numpy.array
-    :return: A matrix with shape (4,4) with the scale 
+    :return: A matrix with shape (4,4) with the scale
         set to the specified vector.
     """
     # we need to expand 'scale' into it's components
@@ -155,7 +155,7 @@ def create_from_x_rotation(theta, dtype=None):
     :rtype: numpy.array
     :return: A matrix with the shape (4,4) with the specified rotation about
         the X-axis.
-    
+
     .. seealso:: http://en.wikipedia.org/wiki/Rotation_matrix#In_three_dimensions
     """
     mat = create_identity(dtype)
@@ -169,7 +169,7 @@ def create_from_y_rotation(theta, dtype=None):
     :rtype: numpy.array
     :return: A matrix with the shape (4,4) with the specified rotation about
         the Y-axis.
-    
+
     .. seealso:: http://en.wikipedia.org/wiki/Rotation_matrix#In_three_dimensions
     """
     mat = create_identity(dtype)
@@ -183,7 +183,7 @@ def create_from_z_rotation(theta, dtype=None):
     :rtype: numpy.array
     :return: A matrix with the shape (4,4) with the specified rotation about
         the Z-axis.
-    
+
     .. seealso:: http://en.wikipedia.org/wiki/Rotation_matrix#In_three_dimensions
     """
     mat = create_identity(dtype)
@@ -233,7 +233,7 @@ def multiply(m1, m2):
     """
     return np.dot(m1, m2)
 
-def create_perspective_projection_matrix(fovy, aspect, near, far, dtype=None):
+def create_perspective_projection(fovy, aspect, near, far, dtype=None):
     """Creates perspective projection matrix.
 
     .. seealso:: http://www.opengl.org/sdk/docs/man2/xhtml/gluPerspective.xml
@@ -248,9 +248,24 @@ def create_perspective_projection_matrix(fovy, aspect, near, far, dtype=None):
     """
     ymax = near * np.tan(fovy * np.pi / 360.0)
     xmax = ymax * aspect
-    return create_perspective_projection_matrix_from_bounds(-xmax, xmax, -ymax, ymax, near, far, dtype=dtype)
+    return create_perspective_projection_from_bounds(-xmax, xmax, -ymax, ymax, near, far, dtype=dtype)
 
-def create_perspective_projection_matrix_from_bounds(
+def create_perspective_projection_matrix(fovy, aspect, near, far, dtype=None):    # TDOO: mark as deprecated
+    """Creates perspective projection matrix.
+
+    .. seealso:: http://www.opengl.org/sdk/docs/man2/xhtml/gluPerspective.xml
+    .. seealso:: http://www.geeks3d.com/20090729/howto-perspective-projection-matrix-in-opengl/
+
+    :param float fovy: field of view in y direction in degrees
+    :param float aspect: aspect ratio of the view (width / height)
+    :param float near: distance from the viewer to the near clipping plane (only positive)
+    :param float far: distance from the viewer to the far clipping plane (only positive)
+    :rtype: numpy.array
+    :return: A projection matrix representing the specified perpective.
+    """
+    return create_perspective_projection(fovy, aspect, near, far, dtype)
+
+def create_perspective_projection_from_bounds(
     left,
     right,
     bottom,
@@ -304,7 +319,44 @@ def create_perspective_projection_matrix_from_bounds(
         ( 0., 0.,  D, 0.),
     ), dtype=dtype)
 
-def create_orthogonal_projection_matrix(
+def create_perspective_projection_matrix_from_bounds(
+    left, right, bottom, top, near, far, dtype=None):    # TDOO: mark as deprecated
+    """Creates a perspective projection matrix using the specified near
+    plane dimensions.
+
+    :param float left: The left of the near plane relative to the plane's centre.
+    :param float right: The right of the near plane relative to the plane's centre.
+    :param float top: The top of the near plane relative to the plane's centre.
+    :param float bottom: The bottom of the near plane relative to the plane's centre.
+    :param float near: The distance of the near plane from the camera's origin.
+        It is recommended that the near plane is set to 1.0 or above to avoid rendering issues
+        at close range.
+    :param float far: The distance of the far plane from the camera's origin.
+    :rtype: numpy.array
+    :return: A projection matrix representing the specified perspective.
+
+    .. seealso:: http://www.gamedev.net/topic/264248-building-a-projection-matrix-without-api/
+    .. seealso:: http://www.glprogramming.com/red/chapter03.html
+    """
+
+    """
+    E 0 A 0
+    0 F B 0
+    0 0 C D
+    0 0-1 0
+
+    A = (right+left)/(right-left)
+    B = (top+bottom)/(top-bottom)
+    C = -(far+near)/(far-near)
+    D = -2*far*near/(far-near)
+    E = 2*near/(right-left)
+    F = 2*near/(top-bottom)
+    """
+    return create_perspective_projection_from_bounds(
+        left, right, bottom, top, near, far, dtype
+    )
+
+def create_orthogonal_projection(
     left,
     right,
     bottom,
@@ -361,6 +413,42 @@ def create_orthogonal_projection_matrix(
         (Tx, Ty, Tz, 1.),
     ), dtype=dtype)
 
+def create_orthogonal_projection_matrix(
+    left, right, bottom, top, near, far, dtype=None):    # TDOO: mark as deprecated
+    """Creates an orthogonal projection matrix.
+
+    :param float left: The left of the near plane relative to the plane's centre.
+    :param float right: The right of the near plane relative to the plane's centre.
+    :param float top: The top of the near plane relative to the plane's centre.
+    :param float bottom: The bottom of the near plane relative to the plane's centre.
+    :param float near: The distance of the near plane from the camera's origin.
+        It is recommended that the near plane is set to 1.0 or above to avoid rendering issues
+        at close range.
+    :param float far: The distance of the far plane from the camera's origin.
+    :rtype: numpy.array
+    :return: A projection matrix representing the specified orthogonal perspective.
+
+    .. seealso:: http://msdn.microsoft.com/en-us/library/dd373965(v=vs.85).aspx
+    """
+
+    """
+    A 0 0 Tx
+    0 B 0 Ty
+    0 0 C Tz
+    0 0 0 1
+
+    A = 2 / (right - left)
+    B = 2 / (top - bottom)
+    C = -2 / (far - near)
+
+    Tx = (right + left) / (right - left)
+    Ty = (top + bottom) / (top - bottom)
+    Tz = (far + near) / (far - near)
+    """
+    return create_orthogonal_projection(
+        left, right, bottom, top, near, far, dtype
+    )
+
 @all_parameters_as_numpy_arrays
 def create_look_at(eye, target, up, dtype=None):
     """Creates a look at matrix according to OpenGL standards.
@@ -373,9 +461,9 @@ def create_look_at(eye, target, up, dtype=None):
     :return: A look at matrix that can be used as a viewMatrix
     """
 
-    forward = vector.normalise(target - eye)
-    side = vector.normalise(np.cross(forward, up))
-    up = vector.normalise(np.cross(side, forward))
+    forward = vector.normalize(target - eye)
+    side = vector.normalize(np.cross(forward, up))
+    up = vector.normalize(np.cross(side, forward))
 
     return np.array((
             (side[0], up[0], -forward[0], 0.),
@@ -383,7 +471,7 @@ def create_look_at(eye, target, up, dtype=None):
             (side[2], up[2], -forward[2], 0.),
             (-np.dot(side, eye), -np.dot(up, eye), np.dot(forward, eye), 1.0)
         ), dtype=dtype)
-        
+
 
 def inverse(m):
     """Returns the inverse of the matrix.
