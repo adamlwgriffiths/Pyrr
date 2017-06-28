@@ -1,6 +1,16 @@
 Changelog
 =========
 
+0.9.0
+-----
+
+Thanks to [Szabolcs Dombi](https://github.com/cprogrammer1994) for his contributions to this release.
+
+* Add slerp / lerp to Quaternion.
+* Add American spelling variation of 'normalise' ('normalize').
+* Deprecate matrix functions with `*_matrix` in the name. Use the new alternatives provided.
+* Add `create_look_at` in Matrix.
+
 0.8.4
 -----
 
