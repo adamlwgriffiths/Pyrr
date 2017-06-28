@@ -221,6 +221,7 @@ def lerp(quat1, quat2, t):
     The parameter t is clamped to the range [0, 1]
     """
 
+    t = np.clip(t, 0, 1)
     return normalize(quat1 * (1 - t) + quat2 * t)
 
 @all_parameters_as_numpy_arrays
@@ -229,6 +230,7 @@ def slerp(quat1, quat2, t):
     The parameter t is clamped to the range [0, 1]
     """
 
+    t = np.clip(t, 0, 1)
     dot = vector4.dot(quat1, quat2)
 
     if dot < 0.0:
