@@ -8,7 +8,7 @@ The first vector is the origin of the ray.
 The second vector is the direction of the ray
 relative to the origin.
 
-The following functions will normalise the ray
+The following functions will normalize the ray
 direction to unit length.
 Some functions may work correctly with directions
 that are not unit length, but this may vary from
@@ -34,7 +34,7 @@ def create(start, direction, dtype=None):
     return np.array(
         [
             start,
-            vector.normalise(direction)
+            vector.normalize(direction)
         ],
         dtype=dtype
     )
@@ -48,7 +48,7 @@ def create_from_line(line, dtype=None):
     return np.array(
         [
             line[0],
-            vector.normalise(line[1] - line[0])
+            vector.normalize(line[1] - line[0])
         ],
         dtype=dtype
     )

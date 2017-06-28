@@ -53,12 +53,12 @@ def create_from_points(vector1, vector2, vector3, dtype=None):
     # make the vectors relative to vector2
     relV1 = vector1 - vector2
     relV2 = vector3 - vector2
-    
+
     # cross our relative vectors
     normal = np.cross(relV1, relV2)
     if np.count_nonzero(normal) == 0:
         raise ValueError("Vectors are co-incident")
-    
+
     # create our plane
     return create_from_position(position=vector2, normal=normal, dtype=dtype)
 
@@ -68,7 +68,7 @@ def create_from_position(position, normal, dtype=None):
     and up being the rotation of the plane.
 
     :param numpy.array position: The position of the plane.
-    :param numpy.array normal: The normal of the plane. Will be normalised
+    :param numpy.array normal: The normal of the plane. Will be normalized
         during construction.
     :rtype: numpy.array
     :return: A plane that crosses the specified position with the specified
@@ -76,7 +76,7 @@ def create_from_position(position, normal, dtype=None):
     """
     dtype = dtype or position.dtype
     # -d = a * px  + b * py + c * pz
-    n = vector.normalise(normal)
+    n = vector.normalize(normal)
     d = -np.sum(n * position)
     return create(n, d, dtype)
 

@@ -86,7 +86,7 @@ def create_from_axis_rotation(axis, theta, dtype=None):
     """
     dtype = dtype or axis.dtype
 
-    axis = vector.normalise(axis)
+    axis = vector.normalize(axis)
     x,y,z = axis
 
     s = np.sin(theta);
@@ -114,9 +114,9 @@ def create_from_quaternion(quat, dtype=None):
     """
     dtype = dtype or quat.dtype
 
-    # the quaternion must be normalised
+    # the quaternion must be normalized
     if not np.isclose(np.linalg.norm(quat), 1.):
-        quat = quaternion.normalise(quat)
+        quat = quaternion.normalize(quat)
 
     # http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToMatrix/index.htm
     qx, qy, qz, qw = quat[0], quat[1], quat[2], quat[3]
@@ -364,7 +364,7 @@ def create_direction_scale(direction, scale):
     k is the scaling factor
     """
     if not np.isclose(np.linalg.norm(direction), 1.):
-        direction = vector.normalise(direction)
+        direction = vector.normalize(direction)
 
     x,y,z = direction
 

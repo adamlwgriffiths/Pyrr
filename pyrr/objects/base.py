@@ -98,12 +98,19 @@ class BaseVector(BaseObject):
     def from_matrix44_translation(cls, matrix, dtype=None):
         return cls(cls._module.create_from_matrix44_translation(matrix, dtype))
 
-    def normalise(self):
-        self[:] = self.normalised
+    def normalize(self):
+        self[:] = self.normalized
 
     @property
-    def normalised(self):
-        return type(self)(self._module.normalise(self))
+    def normalized(self):
+        return type(self)(self._module.normalize(self))
+
+    def normalise(self):    # TODO: mark as deprecated
+        self[:] = self.normalized
+
+    @property
+    def normalised(self):    # TODO: mark as deprecated
+        return type(self)(self._module.normalize(self))
 
     @property
     def squared_length(self):
@@ -126,8 +133,8 @@ class BaseVector(BaseObject):
     def interpolate(self, other, delta):
         return type(self)(vector.interpolate(self, type(self)(other), delta))
 
-    def normal(self, v2, v3, normalise_result=True):
-        return type(self)(vector3.generate_normals(self, type(self)(v2), type(self)(v3), normalise_result))
+    def normal(self, v2, v3, normalize_result=True):
+        return type(self)(vector3.generate_normals(self, type(self)(v2), type(self)(v3), normalize_result))
 
 class BaseQuaternion(BaseObject):
     pass

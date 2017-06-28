@@ -12,12 +12,12 @@ class test_vector(unittest.TestCase):
         pyrr.vector
         from pyrr import vector
 
-    def test_normalise_single_vector(self):
-        result = vector3.normalise([1.,1.,1.])
+    def test_normalize_single_vector(self):
+        result = vector3.normalize([1.,1.,1.])
         np.testing.assert_almost_equal(result, [0.57735, 0.57735, 0.57735], decimal=5)
 
-    def test_normalise_batch(self):
-        result = vector3.normalise([
+    def test_normalize_batch(self):
+        result = vector3.normalize([
             [1.,1.,1.],
             [-1.,-1.,-1.],
             [0.,2.,7.],

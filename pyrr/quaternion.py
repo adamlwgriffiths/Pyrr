@@ -66,9 +66,9 @@ def create_from_z_rotation(theta, dtype=None):
 @parameters_as_numpy_arrays('axis')
 def create_from_axis_rotation(axis, theta, dtype=None):
     dtype = dtype or axis.dtype
-    # make sure the vector is normalised
+    # make sure the vector is normalized
     if not np.isclose(np.linalg.norm(axis), 1.):
-        axis = vector.normalise(axis)
+        axis = vector.normalize(axis)
 
     thetaOver2 = theta * 0.5
     sinThetaOver2 = np.sin(thetaOver2)
@@ -297,16 +297,27 @@ def length(quat):
     """
     return vector4.length(quat)
 
-def normalise(quat):
+def normalize(quat):
     """Ensure a quaternion is unit length (length ~= 1.0).
 
     The quaternion is **not** changed in place.
 
-    :param numpy.array quat: The quaternion to normalise.
+    :param numpy.array quat: The quaternion to normalize.
     :rtype: numpy.array
-    :return: The normalised quaternion(s).
+    :return: The normalized quaternion(s).
     """
-    return vector4.normalise(quat)
+    return vector4.normalize(quat)
+
+def normalise(quat):    # TODO: mark as deprecated
+    """Ensure a quaternion is unit length (length ~= 1.0).
+
+    The quaternion is **not** changed in place.
+
+    :param numpy.array quat: The quaternion to normalize.
+    :rtype: numpy.array
+    :return: The normalized quaternion(s).
+    """
+    return vector4.normalize(quat)
 
 def rotation_angle(quat):
     """Calculates the rotation around the quaternion's axis.

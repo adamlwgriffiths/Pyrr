@@ -103,7 +103,7 @@ class test_matrix33(unittest.TestCase):
         np.testing.assert_almost_equal(result, matrix33.create_from_quaternion([5.77350000e-01, 5.77350000e-01, 5.77350000e-01, 6.12323400e-17]), decimal=3)
         self.assertTrue(result.dtype == np.float)
 
-    def test_create_from_axis_rotation_non_normalised(self):
+    def test_create_from_axis_rotation_non_normalized(self):
         result = matrix33.create_from_axis_rotation([1.,1.,1.], np.pi)
         np.testing.assert_almost_equal(result, matrix33.create_from_quaternion([5.77350000e-01, 5.77350000e-01, 5.77350000e-01, 6.12323400e-17]), decimal=3)
         self.assertTrue(result.dtype == np.float)

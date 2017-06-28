@@ -44,11 +44,11 @@ def cross(v1, v2):
     """
     return np.cross(v1, v2)
 
-def generate_normals(v1, v2, v3, normalise_result=True):
+def generate_normals(v1, v2, v3, normalize_result=True):
     """Generates a normal vector for 3 vertices.
 
-    The result is a normalised vector.
-    
+    The result is a normalized vector.
+
     It is assumed the ordering is counter-clockwise starting
     at v1, v2 then v3::
 
@@ -80,16 +80,16 @@ def generate_normals(v1, v2, v3, normalise_result=True):
         being size 3. (a vector)
     :param numpy.array v3: an Nd array with the final dimension
         being size 3. (a vector)
-    :param boolean normalise_result: Specifies if the result should
-        be normalised before being returned.
+    :param boolean normalize_result: Specifies if the result should
+        be normalized before being returned.
     """
     # make vectors relative to v2
     # we assume opengl counter-clockwise ordering
     a = v1 - v2
     b = v3 - v2
     n = cross(b, a)
-    if normalise_result:
-        normalise(n)
+    if normalize_result:
+        normalize(n)
     return n
 
 

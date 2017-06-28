@@ -88,12 +88,12 @@ class test_vector4(unittest.TestCase):
         np.testing.assert_almost_equal(result, [13.,14.,15.,16.], decimal=5)
         self.assertTrue(result.dtype == np.float32)
 
-    def test_normalise_single_vector(self):
-        result = vector4.normalise([1.,1.,1.,1.])
+    def test_normalize_single_vector(self):
+        result = vector4.normalize([1.,1.,1.,1.])
         np.testing.assert_almost_equal(result, [0.5, 0.5, 0.5, 0.5], decimal=5)
 
-    def test_normalise_batch(self):
-        result = vector4.normalise([
+    def test_normalize_batch(self):
+        result = vector4.normalize([
             [1.,1.,1.,1.],
             [-1.,-1.,-1.,1.],
             [0.,2.,7.,1.],
