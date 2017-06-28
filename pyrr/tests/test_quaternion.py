@@ -1,3 +1,6 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
 try:
     import unittest2 as unittest
 except:
@@ -117,6 +120,59 @@ class test_quaternion(unittest.TestCase):
         q2 = quaternion.create_from_x_rotation(-np.pi / 2.0)
         result = quaternion.cross(q1, q2)
         np.testing.assert_almost_equal(result, quaternion.create(), decimal=5)
+
+
+    def test_quaternion_slerp(self):
+        sqrt2 = np.sqrt(2) / 2
+
+        identity = np.array([0.0, 0.0, 0.0, 1.0])
+        y90rot = np.array([0.0, sqrt2, 0.0, sqrt2])
+        y180rot = np.array([0.0, 1.0, 0.0, 0.0])
+
+        # Testing a == 0
+        # Must be id
+        result = quaternion.slerp(identity, y90rot, 0.0)
+        np.testing.assert_almost_equal(result, identity, decimal=4)
+
+        # Testing a == 1
+        # Must be 90° rotation on Y : 0 0.7 0 0.7
+        result = quaternion.slerp(identity, y90rot, 1.0)
+        np.testing.assert_almost_equal(result, y90rot, decimal=4)
+
+        # Testing standard, easy case
+        # Must be 45° rotation on Y : 0 0.38 0 0.92
+        y45rot1 = quaternion.slerp(identity, y90rot, 0.5)
+
+        # Testing reverse case
+        # Must be 45° rotation on Y : 0 0.38 0 0.92
+        y45rot2 = quaternion.slerp(y90rot, identity, 0.5)
+        np.testing.assert_almost_equal(y45rot1, y45rot2, decimal=4)
+
+        # Testing against full circle around the sphere instead of shortest path
+        # Must be 45° rotation on Y
+        # certainly not a 135° rotation
+        # y45rot3 = quaternion.slerp(identity, quaternion.negate(y90rot), 0.5)
+        y45rot3 = quaternion.slerp(identity, y90rot, 0.5)
+        y45angle3 = quaternion.rotation_angle(y45rot3)
+        np.testing.assert_almost_equal(y45angle3 * 180 / np.pi, 45, decimal=4)
+        np.testing.assert_almost_equal(y45angle3, np.pi / 4, decimal=4)
+
+        # # Same, but inverted
+        # # Must also be 45° rotation on Y :  0 0.38 0 0.92
+        # # -0 -0.38 -0 -0.92 is ok too
+        y45rot4 = quaternion.slerp(-y90rot, identity, 0.5)
+        np.testing.assert_almost_equal(np.abs(y45rot4), y45rot2, decimal=4)
+
+        # # Testing q1 = q2
+        # # Must be 90° rotation on Y : 0 0.7 0 0.7
+        y90rot3 = quaternion.slerp(y90rot, y90rot, 0.5);
+        np.testing.assert_almost_equal(y90rot3, y90rot, decimal=4)
+
+        # # Testing 180° rotation
+        # # Must be 90° rotation on almost any axis that is on the XZ plane
+        xz90rot = quaternion.slerp(identity, -y90rot, 0.5)
+        xz90rot = quaternion.rotation_angle(xz90rot)
+        np.testing.assert_almost_equal(xz90rot, np.pi / 4, decimal=4)
 
     def test_is_zero_length(self):
         result = quaternion.is_zero_length([1., 0., 0., 0.])

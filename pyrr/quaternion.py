@@ -215,6 +215,40 @@ def cross(quat1, quat2):
         dtype=quat1.dtype
     )
 
+@all_parameters_as_numpy_arrays
+def lerp(quat1, quat2, t):
+    """Interpolates between quat1 and quat2 by t.
+    The parameter t is clamped to the range [0, 1]
+    """
+
+    t = np.clip(t, 0, 1)
+    return normalize(quat1 * (1 - t) + quat2 * t)
+
+@all_parameters_as_numpy_arrays
+def slerp(quat1, quat2, t):
+    """Spherically interpolates between quat1 and quat2 by t.
+    The parameter t is clamped to the range [0, 1]
+    """
+
+    t = np.clip(t, 0, 1)
+    dot = vector4.dot(quat1, quat2)
+
+    if dot < 0.0:
+        dot = -dot
+        quat3 = -quat2
+
+    else:
+        quat3 = quat2
+
+    if dot < 0.95:
+        angle = np.arccos(dot)
+        res = (quat1 * np.sin(angle * (1 - t)) + quat3 * np.sin(angle * t)) / np.sin(angle)
+
+    else:
+        res = lerp(quat1, quat2, t)
+
+    return res
+
 def is_zero_length(quat):
     """Checks if a quaternion is zero length.
 
