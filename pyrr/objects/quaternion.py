@@ -242,6 +242,18 @@ class Quaternion(BaseQuaternion):
         """
         return Quaternion(quaternion.cross(self, other))
 
+    def lerp(self, other, t):
+        """Interpolates between quat1 and quat2 by t.
+        The parameter t is clamped to the range [0, 1]
+        """
+        return Quaternion(quaternion.lerp(self, other, t))
+
+    def slerp(self, other, t):
+        """Spherically interpolates between quat1 and quat2 by t.
+        The parameter t is clamped to the range [0, 1]
+        """
+        return Quaternion(quaternion.slerp(self, other, t))
+
     def dot(self, other):
         """Returns the dot of this Quaternion and another.
         """
