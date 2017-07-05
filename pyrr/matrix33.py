@@ -21,13 +21,13 @@ def create_identity(dtype=None):
     """
     return np.identity(3, dtype=dtype)
 
-@all_parameters_as_numpy_arrays
 def create_from_matrix44(mat, dtype=None):
     """Creates a Matrix33 from a Matrix44.
 
     :rtype: numpy.array
     :return: A matrix with shape (3,3) with the input matrix rotation.
     """
+    mat = np.asarray(mat)
     return np.array(mat[0:3,0:3], dtype=dtype)
 
 @parameters_as_numpy_arrays('eulers')
