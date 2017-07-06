@@ -1,148 +1,117 @@
-Changelog
-=========
+# Change Log
+All notable changes to this project will be documented in this file.
 
-0.9.1
------
-* Fix `dtype` to numpy array conversion.
+The format is based on [Keep a Changelog](http://keepachangelog.com/)
+and this project adheres to [Semantic Versioning](http://semver.org/).
 
-0.9.0
------
+## [Unreleased]
+
+## [0.9.1] - 2017-07-06
+### Fixed
+- Fix `dtype` to numpy array conversion.
+
+## [0.9.0] - 2017-06-28
 
 Thanks to [Szabolcs Dombi](https://github.com/cprogrammer1994) for his contributions to this release.
 
-* Add slerp / lerp to Quaternion.
-* Add American spelling variation of 'normalise' ('normalize').
-* Deprecate matrix functions with `*_matrix` in the name. Use the new alternatives provided.
-* Add `create_look_at` in Matrix.
+### Added
+- Add slerp / lerp to Quaternion.
+- Add American spelling variation of 'normalise' ('normalize').
+- Deprecate matrix functions with `*_matrix` in the name. Use the new alternatives provided.
+- Add `create_look_at` in Matrix.
 
-0.8.4
------
+## [0.8.4]
+### Fixed
+- Fix Matrix33 / Matrix44 object API multiplication being logically backwards.
 
-* Fix Matrix33 / Matrix44 object API multiplication being logically backwards.
+## [0.8.3]
+### Fixed
+- Fix rotation of zero length vector by a quaternion causing error
 
-0.8.3
------
+## [0.8.2]
+### Fixed
+- Fix Matrix <-> Quaternion conversions
 
-* Fix rotation of zero length vector by a quaternion causing error
+## [0.8.1]
+### Removed
+- Remove notes about customising euler indices. If you change the axis indices then create_from_(x,y,z)_rotation will no longer work.
 
-0.8.2
------
+## [0.8.0]
+### Changed
+- Change euler parameter order for create function, was (pitch, roll, yaw, ...), now (roll, pitch, yaw, ..).
+- Make eulers always use the indices for extracting and putting values.
+- Make euler indices configurable by modifying euler.index.(pitch,roll,yaw)
 
-* Fix Matrix <-> Quaternion conversions
+### Fixed
+- Fix euler -> matrix33 conversion.
 
-0.8.1
------
+### Added
+- Add euler.create_from_(x,y,z)_rotation. This ignores pitch, roll, yaw indices and is a straight insertion into the x, y z values of the array.
+- Add tests to ensure euler, quaternion, and matrix rotations are all equivalent.
 
-* Remove notes about customising euler indices. If you change the axis indices
-then create_from_(x,y,z)_rotation will no longer work.
+## [0.7.2]
+### Fixed
+- Merge #37 - fix test suite name
 
+## [0.7.1]
+### Fixed
+- Fix #36 Move tests inside pyrr, include in pkg
 
-0.8.0
------
+## [0.7.0]
 
-* Change euler parameter order for create function, was (pitch, roll, yaw, ...), now (roll, pitch, yaw, ..).
-* Make eulers always use the indices for extracting and putting values.
-* Make euler indices configurable by modifying euler.index.(pitch,roll,yaw)
-* Add euler.create_from_(x,y,z)_rotation. This ignores pitch, roll, yaw indices and
-is a straight insertion into the x, y z values of the array.
-* Fix euler -> matrix33 conversion.
-* Add tests to ensure euler, quaternion, and matrix rotations are all equivalent.
+> Note: that this version corrected an issue with quaternion rotations (quaternion cross) being inverted. Please ensure any quaternion logic is updated accordingly.
 
+### Fixed
+- Fixed quaternion cross product being reversed.
 
-0.7.2
------
+### Added
+- Add more tests including quaternion identities.
+- Added subtraction support to object api, this is to support np.allclose.
 
-* Merge #37 - fix test suite name
-
-
-0.7.1
------
-
-* Fix #36 Move tests inside pyrr, include in pkg
-
-
-0.7.0
------
-
-Note: that this version corrected an issue with quaternion rotations (quaternion
-cross) being inverted.
-Please ensure any quaternion logic is updated accordingly.
-
-* Fixed quaternion cross product being reversed.
-* Add more tests including quaternion identities.
-* Added subtraction support to object api, this is to support np.allclose.
-
-
-0.6.5
------
-
+## [0.6.5]
+### Added
 * Add tests for Vector3/4 |^ operators
 * Add support for numpy.number types
 
-
-0.6.4
------
-
+## [0.6.4]
+### Fixed
 * Fix Vector3/4 normalise failing.
 
-
-0.6.3
------
-
+## [0.6.3]
+### Added
 * Add support for +- Matrix33/44. Fixes #24.
 * Add scalar support to Matrix33/44. Fixes #23.
 * Add scalar support to Vector3/4. Fixes #22.
+### Fixed
 * Update version (0.6.2 was marked as 0.6.1!)
 
+## [0.6.2]
 
-0.6.2
------
-
-* Remove import of unicode_literals.
-It seems to be buggering up 'from pyrr import *'
-
+* Remove import of unicode_literals. It seems to bebuggering up 'from pyrr import *'
 * Move import tests into each module
 
-
-0.6.1
------
+## [0.6.1]
 
 * Readd vector3|4.from_matrix44_translation.
-
 * Remove unused import
-
 * Use type(obj) instead of obj.__class__
-
 * Add tests for = and += on NpProxy
 
-
-0.6.0
------
+## [0.6.0]
 
 * Remove unused imports.
-
 * Add docstrings to functions.
-
-* Remove Matrix44.translation. Multiply a vector by
-the matrix to get this.
-
+* Remove Matrix44.translation. Multiply a vector by the matrix to get this.
 * Rename vector3|4.negative to inverse. This matches matrix.
-
 * Remove ambiguous conversions in object api Matrix44->Vector, etc.
-
 * Add Vector4.from_vector3 with w parameter, default w=0.0.
-
 * Add Vector4.xyw.
 
-
-0.5.1
------
+## [0.5.1]
 
 * Add multipledispatch to setup.py requirements
 
-
-0.5.0
------
+## [0.5.0]
 
 * Add quaternion.is_identity
 
@@ -187,31 +156,23 @@ Or convert to a matrix44 and then transform.
 matrix44.create_perspective_projection_matrix_from_bounds
 based on code from GLU.
 
-
-0.4.0
------
+## [0.4.0]
 
 * Make vec4 w component default to 0.
 * Remove Vector3 and Vector4 interoperability
 
-
-0.3.0
------
+## [0.3.0]
 
 * Add object oriented API.
 * Fix python 3 errors and numpy deprecated calls (np.array != None).
 * Finally track down and fully resolve matrix / quaternion rotations.
 Matrices were rotating in the opposite direction.
 
-
-0.2.4
------
+## [0.2.4]
 
 * Remove unittest2
 
-
-0.2.3
------
+## [0.2.3]
 
 * Add unittest2 on Travis for python 2.6 to enable skipping tests rather than
 commenting them out.
@@ -230,15 +191,11 @@ vector and therefore returning incorrect results.
 * Fix aabb.clamp_points.
 * Fix aabb.zeros.
 
-
-0.2.2
------
+## [0.2.2]
 
 * skipped
 
-
-0.2.1
------
+## [0.2.1]
 
 * Fix matrix44.create_from_eulers calling function with invalid params.
 * Fix quaternion inverse calling squared_length instead of length.
@@ -246,3 +203,29 @@ vector and therefore returning incorrect results.
 * Fix syntax error in quaternion.power.
 * Remove matrix33.apply_scale. Function was a duplicate of matrix33.create_from_scale
 with an incorrect name.
+
+[Unreleased]: https://github.com/adamlwgriffiths/Pyrr/compare/0.9.1...master
+[0.9.1]: https://github.com/adamlwgriffiths/Pyrr/compare/0.9.0...0.9.1
+[0.9.0]: https://github.com/adamlwgriffiths/Pyrr/tree/0.9.0
+[0.8.4]: https://github.com/adamlwgriffiths/Pyrr/compare/0.8.3...0.8.4
+[0.8.3]: https://github.com/adamlwgriffiths/Pyrr/compare/0.8.2...0.8.3
+[0.8.2]: https://github.com/adamlwgriffiths/Pyrr/compare/0.8.1...0.8.2
+[0.8.1]: https://github.com/adamlwgriffiths/Pyrr/compare/0.8.0...0.8.1
+[0.8.0]: https://github.com/adamlwgriffiths/Pyrr/tree/0.8.0
+[0.7.2]: https://github.com/adamlwgriffiths/Pyrr/compare/0.7.1...0.7.2
+[0.7.1]: https://github.com/adamlwgriffiths/Pyrr/compare/0.7.0...0.7.1
+[0.7.0]: https://github.com/adamlwgriffiths/Pyrr/tree/0.7.0
+[0.6.5]: https://github.com/adamlwgriffiths/Pyrr/compare/0.6.4...0.6.5
+[0.6.4]: https://github.com/adamlwgriffiths/Pyrr/compare/0.6.3...0.6.4
+[0.6.3]: https://github.com/adamlwgriffiths/Pyrr/compare/0.6.2...0.6.3
+[0.6.2]: https://github.com/adamlwgriffiths/Pyrr/compare/0.6.1...0.6.2
+[0.6.1]: https://github.com/adamlwgriffiths/Pyrr/compare/0.6.0...0.6.1
+[0.6.0]: https://github.com/adamlwgriffiths/Pyrr/tree/0.6.0
+[0.5.1]: https://github.com/adamlwgriffiths/Pyrr/compare/0.5.0...0.5.1
+[0.5.0]: https://github.com/adamlwgriffiths/Pyrr/tree/0.5.0
+[0.4.0]: https://github.com/adamlwgriffiths/Pyrr/tree/0.4.0
+[0.3.0]: https://github.com/adamlwgriffiths/Pyrr/tree/0.3.0
+[0.2.4]: https://github.com/adamlwgriffiths/Pyrr/compare/0.2.3...0.2.4
+[0.2.3]: https://github.com/adamlwgriffiths/Pyrr/compare/0.2.2...0.2.3
+[0.2.2]: https://github.com/adamlwgriffiths/Pyrr/compare/0.2.1...0.2.2
+[0.2.1]: https://github.com/adamlwgriffiths/Pyrr/tree/0.2.1
