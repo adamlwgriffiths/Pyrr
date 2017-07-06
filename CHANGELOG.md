@@ -1,6 +1,10 @@
 Changelog
 =========
 
+0.9.1
+-----
+* Fix `dtype` to numpy array conversion.
+
 0.9.0
 -----
 
