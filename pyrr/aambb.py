@@ -76,7 +76,6 @@ def create_from_points(points, dtype=None):
         dtype=dtype
     )
 
-@all_parameters_as_numpy_arrays
 def create_from_aabbs(aabbs, dtype=None):
     """Creates an AAMBB from a list of existing AABBs.
 
@@ -86,6 +85,9 @@ def create_from_aabbs(aabbs, dtype=None):
             AABB,
             ])
     """
+
+    aabbs = np.asarray(aabbs)
+
     dtype = dtype or aabbs.dtype
     # reshape the AABBs as a series of points
     points = aabbs.reshape((-1, 3))

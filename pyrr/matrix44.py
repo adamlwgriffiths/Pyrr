@@ -449,7 +449,6 @@ def create_orthogonal_projection_matrix(
         left, right, bottom, top, near, far, dtype
     )
 
-@all_parameters_as_numpy_arrays
 def create_look_at(eye, target, up, dtype=None):
     """Creates a look at matrix according to OpenGL standards.
 
@@ -460,6 +459,10 @@ def create_look_at(eye, target, up, dtype=None):
     :rtype: numpy.array
     :return: A look at matrix that can be used as a viewMatrix
     """
+
+    eye = np.asarray(eye)
+    target = np.asarray(target)
+    up = np.asarray(up)
 
     forward = vector.normalize(target - eye)
     side = vector.normalize(np.cross(forward, up))

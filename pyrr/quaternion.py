@@ -215,20 +215,24 @@ def cross(quat1, quat2):
         dtype=quat1.dtype
     )
 
-@all_parameters_as_numpy_arrays
 def lerp(quat1, quat2, t):
     """Interpolates between quat1 and quat2 by t.
     The parameter t is clamped to the range [0, 1]
     """
 
+    quat1 = np.asarray(quat1)
+    quat2 = np.asarray(quat2)
+
     t = np.clip(t, 0, 1)
     return normalize(quat1 * (1 - t) + quat2 * t)
 
-@all_parameters_as_numpy_arrays
 def slerp(quat1, quat2, t):
     """Spherically interpolates between quat1 and quat2 by t.
     The parameter t is clamped to the range [0, 1]
     """
+
+    quat1 = np.asarray(quat1)
+    quat2 = np.asarray(quat2)
 
     t = np.clip(t, 0, 1)
     dot = vector4.dot(quat1, quat2)

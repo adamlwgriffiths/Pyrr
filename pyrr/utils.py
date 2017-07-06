@@ -18,10 +18,10 @@ def all_parameters_as_numpy_arrays(fn):
         args = list(args)
         for i, v in enumerate(args):
             if v is not None:
-                args[i] = np.array(v)
+                args[i] = np.asarray(v)
         for k,v in kwargs.items():
             if v is not None:
-                kwargs[k] = np.array(v)
+                kwargs[k] = np.asarray(v)
         return fn(*args, **kwargs)
     return wrapper
 
@@ -33,7 +33,7 @@ def parameters_as_numpy_arrays(*args_to_convert):
     Arguments are specified by their argument name.
     For example
     ::
-    
+
         @parameters_as_numpy_arrays('a', 'b', 'optional')
         def myfunc(a, b, *args, **kwargs):
             pass
