@@ -117,11 +117,11 @@ def generate_vertex_normals(vertices, index, normalize_result=True):
     :param boolean normalize_result: Specifies if the result should
         be normalized before being returned.
     """
-    v1, v2, v3 = np.rollaxis(vertices[index], axis=1)
+    v1, v2, v3 = np.rollaxis(vertices[index], axis=-2)
     face_normals = generate_normals(v1, v2, v3, normalize_result=False)
     vertex_normals = np.zeros_like(vertices)
     for i in range(3):
-        np.add.at(vertex_normals, index[:, i], face_normals)
+        np.add.at(vertex_normals, index[..., i], face_normals)
     if normalize_result:
         vertex_normals = normalize(vertex_normals)
     return vertex_normals
