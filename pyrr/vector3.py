@@ -101,8 +101,8 @@ def generate_vertex_normals(vertices, index, normalize_result=True):
     vertices array. It is assumed the ordering in index is
     counter-clockwise.
 
-    The vertices and index arrays are Nd arrays and must be at
-    least 2d. As long as the final axis is of size 3.
+    The vertices and index arrays are Nd arrays and must be 2d,
+    where the final axis is of size 3.
 
     An example::
         >>> vertices = numpy.array( [ [ 1.0, 0.0, 0.0 ], [ 0.0, 0.0, 0.0 ], [ 0.0, 1.0, 0.0 ] ] )
@@ -110,7 +110,7 @@ def generate_vertex_normals(vertices, index, normalize_result=True):
         >>> vector.generate_vertex_normals( vertices, index )
         array([[ 0.,  0., 1.], [ 0.,  0., 1.], [ 0.,  0., 1.]])
 
-    :param numpy.array vertices: an Nd array with the final dimension
+    :param numpy.array vertices: an 2d array with the final dimension
         being size 3. (a vector)
     :param numpy.array index: an Nd array with the final dimension
         being size 3. (a vector)
