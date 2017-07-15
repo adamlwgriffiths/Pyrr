@@ -102,6 +102,85 @@ class test_vector3(unittest.TestCase):
         ]
         np.testing.assert_almost_equal(result, expected, decimal=5)
 
+    def test_generate_normals(self):
+        vertices = np.array([
+            [2.0, 0.0, 0.0],
+            [0.0, 0.0, 0.0],
+            [0.0, 2.0, 0.0],
+            [2.0, 2.0, 0.0]
+        ])
+        index = np.array([
+            [0, 2, 1],
+            [0, 3, 2],
+        ])
+        v1, v2, v3 = np.rollaxis(vertices[index], axis=1)
+        result = vector3.generate_normals(v1, v2, v3)
+        expected = np.array([
+            [0., 0., 1.],
+            [0., 0., 1.]
+        ])
+        np.testing.assert_array_equal(result, expected)
+
+    def test_generate_normals_unnormalized(self):
+        vertices = np.array([
+            [2.0, 0.0, 0.0],
+            [0.0, 0.0, 0.0],
+            [0.0, 2.0, 0.0],
+            [2.0, 2.0, 0.0]
+        ])
+        index = np.array([
+            [0, 2, 1],
+            [0, 3, 2],
+        ])
+        v1, v2, v3 = np.rollaxis(vertices[index], axis=1)
+        result = vector3.generate_normals(v1, v2, v3, normalize_result=False)
+        expected = np.array([
+            [0., 0., 4.],
+            [0., 0., 4.]
+        ])
+        np.testing.assert_array_equal(result, expected)
+
+    def test_generate_vertex_normals(self):
+        vertices = np.array([
+            [1.0, 0.0, 0.0],
+            [0.0, 0.0, 0.0],
+            [0.0, 1.0, 0.0],
+            [1.0, 1.0, 0.0]
+        ])
+        index = np.array([
+            [0, 2, 1],
+            [0, 3, 2],
+        ])
+        result = vector3.generate_vertex_normals(vertices, index)
+        expected = np.array([
+            [0., 0., 1.],
+            [0., 0., 1.],
+            [0., 0., 1.],
+            [0., 0., 1.]
+        ])
+        np.testing.assert_array_equal(result, expected)
+    
+    def test_generate_vertex_normals_unnormalized(self):
+        vertices = np.array([
+            [1.0, 0.0, 0.0],
+            [0.0, 0.0, 0.0],
+            [0.0, 1.0, 0.0],
+            [1.0, 1.0, 0.0]
+        ])
+        index = np.array([
+            [0, 2, 1],
+            [0, 3, 2],
+        ])
+        result = vector3.generate_vertex_normals(
+            vertices, index, normalize_result=False)
+        expected = np.array([
+            [0., 0., 2.],
+            [0., 0., 1.],
+            [0., 0., 2.],
+            [0., 0., 1.]
+        ])
+        np.testing.assert_array_equal(result, expected)
+
     def test_squared_length_single_vector(self):
         result = vector3.squared_length([1.,1.,1.])
         np.testing.assert_almost_equal(result, 3., decimal=5)
