@@ -25,5 +25,6 @@ Developers and contributors include:
 
     * `Adam Griffiths <https://github.com/adamlwgriffiths/>`_
     * `Jakub Stasiak <https://github.com/jstasiak/>`_
+    * `Korijn van Golen <https://github.com/Korijn/>`_
 
 Is your name left out? Post an issue in `Pyrr's bug tracker <https://github.com/adamlwgriffiths/Pyrr/issues/>`_ =)
