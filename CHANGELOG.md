@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.9.2] - 2017-07-18
+### Added
+- Add `pyrr.vector3.generate_vertex_normals`
+
+### Fixed
+- Fix ignored `normalize_result` in `pyrr.vector3.generate_normals`
+
 ## [0.9.1] - 2017-07-06
 ### Fixed
 - Fix `dtype` to numpy array conversion.
@@ -204,7 +211,8 @@ vector and therefore returning incorrect results.
 * Remove matrix33.apply_scale. Function was a duplicate of matrix33.create_from_scale
 with an incorrect name.
 
-[Unreleased]: https://github.com/adamlwgriffiths/Pyrr/compare/0.9.1...master
+[Unreleased]: https://github.com/adamlwgriffiths/Pyrr/compare/0.9.2...master
+[0.9.2]: https://github.com/adamlwgriffiths/Pyrr/compare/0.9.1...0.9.2
 [0.9.1]: https://github.com/adamlwgriffiths/Pyrr/compare/0.9.0...0.9.1
 [0.9.0]: https://github.com/adamlwgriffiths/Pyrr/tree/0.9.0
 [0.8.4]: https://github.com/adamlwgriffiths/Pyrr/compare/0.8.3...0.8.4
