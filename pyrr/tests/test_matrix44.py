@@ -3,7 +3,7 @@ try:
 except:
     import unittest
 import numpy as np
-from pyrr import matrix44, quaternion
+from pyrr import matrix44, quaternion, vector3
 
 
 class test_matrix44(unittest.TestCase):
@@ -455,6 +455,35 @@ class test_matrix44(unittest.TestCase):
         m = matrix44.create_from_y_rotation(np.pi)
         result = matrix44.inverse(m)
         self.assertTrue(np.allclose(result, matrix44.create_from_y_rotation(-np.pi)))
+    
+    def test_decompose(self):
+        # define expectations
+        expected_scale = vector3.create(*[1, 1, 2], dtype='f4')
+        expected_rotation = quaternion.create_from_y_rotation(np.pi, dtype='f4')
+        expected_translation = vector3.create(*[10, 0, -5], dtype='f4')
+        expected_model = np.array([
+            [-1, 0, 0, 0],
+            [0, 1, 0, 0],
+            [0, 0, -2, 0],
+            [10, 0, -5, 1],
+        ], dtype='f4')
+
+        # compose matrix using Pyrr
+        s = matrix44.create_from_scale(expected_scale, dtype='f4')
+        r = matrix44.create_from_quaternion(expected_rotation, dtype='f4')
+        t = matrix44.create_from_translation(expected_translation, dtype='f4')
+        model = s.dot(r).dot(t)
+        np.testing.assert_almost_equal(model, expected_model)
+        self.assertTrue(model.dtype == expected_model.dtype)
+
+        # decompose matrix
+        scale, rotation, translation = matrix44.decompose(model)
+        np.testing.assert_almost_equal(scale, expected_scale)
+        self.assertTrue(scale.dtype == expected_scale.dtype)
+        np.testing.assert_almost_equal(rotation, expected_rotation)
+        self.assertTrue(rotation.dtype == expected_rotation.dtype)
+        np.testing.assert_almost_equal(translation, expected_translation)
+        self.assertTrue(translation.dtype == expected_translation.dtype)
 
 
 if __name__ == '__main__':

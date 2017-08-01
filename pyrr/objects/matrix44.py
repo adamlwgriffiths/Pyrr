@@ -283,5 +283,19 @@ class Matrix44(BaseMatrix44):
         """
         return Quaternion(self)
 
+    def decompose(self):
+        """Decomposes an affine transformation matrix into its scale, rotation and
+        translation components.
+
+        :param numpy.array m: A matrix.
+        :return: tuple (scale, rotation, translation)
+            Vector3 scale
+            Quaternion rotation
+            Vector3 translation
+        """
+        scale, rotate, translate = matrix44.decompose(self)
+        return Vector3(scale), Quaternion(rotate), Vector3(translate)
+
 from .matrix33 import Matrix33
 from .quaternion import Quaternion
+from .vector3 import Vector3

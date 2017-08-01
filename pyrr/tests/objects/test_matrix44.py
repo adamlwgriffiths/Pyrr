@@ -280,5 +280,37 @@ class test_object_matrix44(unittest.TestCase):
         self.assertEqual(m.m11, 2)
         self.assertEqual(m[0,0], 2)
 
+    def test_decompose(self):
+        # define expectations
+        expected_scale = Vector3([1, 1, 2], dtype='f4')
+        expected_rotation = Quaternion.from_y_rotation(np.pi, dtype='f4')
+        expected_translation = Vector3([10, 0, -5], dtype='f4')
+        expected_model = Matrix44([
+            [-1, 0, 0, 0],
+            [0, 1, 0, 0],
+            [0, 0, -2, 0],
+            [10, 0, -5, 1],
+        ], dtype='f4')
+
+        # compose matrix using Pyrr
+        s = Matrix44.from_scale(expected_scale, dtype='f4')
+        r = Matrix44.from_quaternion(expected_rotation, dtype='f4')
+        t = Matrix44.from_translation(expected_translation, dtype='f4')
+        model = t * r * s
+        np.testing.assert_almost_equal(model, expected_model)
+        self.assertTrue(model.dtype == expected_model.dtype)
+
+        # decompose matrix
+        scale, rotation, translation = model.decompose()
+        np.testing.assert_almost_equal(scale, expected_scale)
+        self.assertTrue(scale.dtype == expected_scale.dtype)
+        self.assertTrue(isinstance(scale, Vector3))
+        np.testing.assert_almost_equal(rotation, expected_rotation)
+        self.assertTrue(rotation.dtype == expected_rotation.dtype)
+        self.assertTrue(isinstance(rotation, Quaternion))
+        np.testing.assert_almost_equal(translation, expected_translation)
+        self.assertTrue(translation.dtype == expected_translation.dtype)
+        self.assertTrue(isinstance(translation, Vector3))
+
 if __name__ == '__main__':
     unittest.main()
