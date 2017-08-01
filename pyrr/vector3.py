@@ -127,6 +127,12 @@ def generate_vertex_normals(vertices, index, normalize_result=True):
     return vertex_normals
 
 
+def generate_vertex_normals_ts(vertices, index, normalize_result=True):
+    zipped = zip(index[0:], index[1:], index[2:])
+    modified_index = np.array([(i, j, k) for i, j, k in zipped if -1 not in (i, j, k)])
+    return generate_vertex_normals(vertices, modified_index, normalize_result)
+
+
 class index:
     #: The index of the X value within the vector
     x = 0
