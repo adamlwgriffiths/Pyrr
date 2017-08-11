@@ -245,6 +245,14 @@ class test_object_quaternion(unittest.TestCase):
         # inverse
         self.assertTrue(np.array_equal(~q2, quaternion.conjugate(quaternion.create_from_x_rotation(0.5))))
 
+        # ==
+        self.assertTrue(Quaternion() == Quaternion())
+        self.assertFalse(Quaternion() == Quaternion([0., 0., 0., 0.]))
+
+        # !=
+        self.assertTrue(Quaternion() != Quaternion([1., 1., 1., 1.]))
+        self.assertFalse(Quaternion() != Quaternion())
+
     def test_operators_vector3(self):
         q = Quaternion.from_x_rotation(0.5)
         v = Vector3([1., 0., 0.])

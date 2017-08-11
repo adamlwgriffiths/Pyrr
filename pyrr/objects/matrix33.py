@@ -179,6 +179,14 @@ class Matrix33(BaseMatrix33):
     def __mul__(self, other):
         return Matrix33(matrix33.multiply(Matrix33(other), self))
 
+    @dispatch((BaseMatrix, np.ndarray, list))
+    def __ne__(self, other):
+        return bool(np.any(super(Matrix33, self).__ne__(other)))
+
+    @dispatch((BaseMatrix, np.ndarray, list))
+    def __eq__(self, other):
+        return bool(np.all(super(Matrix33, self).__eq__(other)))
+
     ########################
     # Quaternions
     @dispatch(BaseQuaternion)

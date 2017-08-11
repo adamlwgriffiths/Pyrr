@@ -142,6 +142,14 @@ class test_object_matrix33(unittest.TestCase):
         # inverse
         self.assertTrue(np.array_equal(~m2, matrix33.inverse(matrix33.create_from_x_rotation(0.5))))
 
+        # ==
+        self.assertTrue(Matrix33() == Matrix33())
+        self.assertFalse(Matrix33() == Matrix33([1. for n in range(9)]))
+
+        # !=
+        self.assertTrue(Matrix33() != Matrix33([1. for n in range(9)]))
+        self.assertFalse(Matrix33() != Matrix33())
+
     def test_operators_matrix44(self):
         m1 = Matrix33.identity()
         m2 = Matrix44.from_x_rotation(0.5)

@@ -158,6 +158,14 @@ class test_object_matrix44(unittest.TestCase):
         # inverse
         self.assertTrue(np.array_equal(~m2, matrix44.inverse(matrix44.create_from_x_rotation(0.5))))
 
+        # ==
+        self.assertTrue(Matrix44() == Matrix44())
+        self.assertFalse(Matrix44() == Matrix44([1. for n in range(16)]))
+
+        # !=
+        self.assertTrue(Matrix44() != Matrix44([1. for n in range(16)]))
+        self.assertFalse(Matrix44() != Matrix44())
+
     def test_operators_quaternion(self):
         m = Matrix44.identity()
         q = Quaternion.from_x_rotation(0.7)
