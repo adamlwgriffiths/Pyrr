@@ -181,6 +181,14 @@ class Quaternion(BaseQuaternion):
     def __invert__(self):
         return self.conjugate
 
+    @dispatch((BaseQuaternion, np.ndarray, list))
+    def __ne__(self, other):
+        return bool(np.any(super(Quaternion, self).__ne__(other)))
+
+    @dispatch((BaseQuaternion, np.ndarray, list))
+    def __eq__(self, other):
+        return bool(np.all(super(Quaternion, self).__eq__(other)))
+
     ########################
     # Matrices
     @dispatch(BaseMatrix)
