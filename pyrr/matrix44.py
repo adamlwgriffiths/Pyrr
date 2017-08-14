@@ -504,7 +504,7 @@ def decompose(m):
     """
     m = np.asarray(m)
 
-    scale = np.linalg.norm(m[:3, :3], axis=0)
+    scale = np.linalg.norm(m[:3, :3], axis=1)
 
     det = np.linalg.det(m)
     if det < 0:
@@ -512,6 +512,6 @@ def decompose(m):
 
     position = m[3, :3]
 
-    rotation = m[:3, :3] * (1 / scale)
+    rotation = m[:3, :3] * (1 / scale)[:, None]
 
     return scale, quaternion.create_from_matrix(rotation), position
