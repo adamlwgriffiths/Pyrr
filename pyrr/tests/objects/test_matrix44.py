@@ -288,5 +288,56 @@ class test_object_matrix44(unittest.TestCase):
         self.assertEqual(m.m11, 2)
         self.assertEqual(m[0,0], 2)
 
+    def test_decompose(self):
+        # define expectations for multiple cases
+        testsets = [
+            (
+                Vector3([1, 1, 2], dtype='f4'),
+                Quaternion.from_y_rotation(np.pi, dtype='f4'),
+                Vector3([10, 0, -5], dtype='f4'),
+                Matrix44([
+                    [-1, 0, 0, 0],
+                    [0, 1, 0, 0],
+                    [0, 0, -2, 0],
+                    [10, 0, -5, 1],
+                ], dtype='f4')
+            ),
+            (
+                Vector3([-1, 3, .5], dtype='f4'),
+                Quaternion.from_axis_rotation(Vector3([.75, .75, 0], dtype='f4').normalized, np.pi, dtype='f4').normalized,
+                Vector3([1, -1, 1], dtype='f4'),
+                Matrix44([
+                    [0, -1, 0, 0],
+                    [3, 0, 0, 0],
+                    [0, 0, -.5, 0],
+                    [1, -1, 1, 1],
+                ], dtype='f4')
+            ),
+        ]
+
+        for expected_scale, expected_rotation, expected_translation, expected_model in testsets:
+            # compose model matrix using original inputs
+            s = Matrix44.from_scale(expected_scale, dtype='f4')
+            r = Matrix44.from_quaternion(expected_rotation, dtype='f4')
+            t = Matrix44.from_translation(expected_translation, dtype='f4')
+            m = t * r * s
+
+            # check that it's the same as the expected matrix
+            np.testing.assert_almost_equal(m, expected_model)
+            self.assertTrue(m.dtype == expected_model.dtype)
+            self.assertTrue(isinstance(m, expected_model.__class__))
+
+            # decompose this matrix and recompose the model matrix from the decomposition
+            ds, dr, dt = m.decompose()
+            ds = Matrix44.from_scale(ds, dtype='f4')
+            dr = Matrix44.from_quaternion(dr, dtype='f4')
+            dt = Matrix44.from_translation(dt, dtype='f4')
+            dm = dt * dr * ds
+
+            # check that it's the same as the original matrix
+            np.testing.assert_almost_equal(m, dm)
+            self.assertTrue(m.dtype == dm.dtype)
+            self.assertTrue(isinstance(dm, m.__class__))
+
 if __name__ == '__main__':
     unittest.main()
