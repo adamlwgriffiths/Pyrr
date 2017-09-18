@@ -124,19 +124,19 @@ def create_from_eulers(eulers, dtype=None):
     """Creates a quaternion from a set of Euler angles.
 
     Eulers are an array of length 3 in the following order::
-        [yaw, pitch, roll]
+        [roll, pitch, yaw]
     """
     dtype = dtype or eulers.dtype
 
-    pitch, yaw, roll = eulers
-
-    halfPitch = pitch * 0.5
-    sP = np.sin(halfPitch)
-    cP = np.cos(halfPitch)
+    pitch, roll, yaw = euler.pitch(eulers), euler.roll(eulers), euler.yaw(eulers)
 
     halfRoll = roll * 0.5
     sR = np.sin(halfRoll)
     cR = np.cos(halfRoll)
+
+    halfPitch = pitch * 0.5
+    sP = np.sin(halfPitch)
+    cP = np.cos(halfPitch)
 
     halfYaw = yaw * 0.5
     sY = np.sin(halfYaw)
@@ -161,7 +161,7 @@ def create_from_inverse_of_eulers(eulers, dtype=None):
     """Creates a quaternion from the inverse of a set of Euler angles.
 
     Eulers are an array of length 3 in the following order::
-        [yaw, pitch, roll]
+        [roll, pitch, yaw]
     """
     dtype = dtype or eulers.dtype
 
