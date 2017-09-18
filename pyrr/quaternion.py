@@ -3,7 +3,7 @@
 """
 from __future__ import absolute_import, division, print_function
 import numpy as np
-from . import vector, vector3, vector4
+from . import vector, vector3, vector4, euler
 from .utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays
 
 
@@ -123,12 +123,12 @@ def create_from_matrix(mat, dtype=None):
 def create_from_eulers(eulers, dtype=None):
     """Creates a quaternion from a set of Euler angles.
 
-    Eulers are an array of length 3 in the following order::
+    Eulers are an array of length 3 in the following order:
         [roll, pitch, yaw]
     """
     dtype = dtype or eulers.dtype
 
-    pitch, roll, yaw = euler.pitch(eulers), euler.roll(eulers), euler.yaw(eulers)
+    roll, pitch, yaw = euler.roll(eulers), euler.pitch(eulers), euler.yaw(eulers)
 
     halfRoll = roll * 0.5
     sR = np.sin(halfRoll)
@@ -144,28 +144,24 @@ def create_from_eulers(eulers, dtype=None):
 
     return np.array(
         [
-            # x = -cy * sp * cr - sy * cp * sr
-            (-cY * sP * cR) - (sY * cP * sR),
-            # y = cy * sp * sr - sy * cp * cr
-            (cY * sP * sR) - (sY * cP * cR),
-            # z = sy * sp * cr - cy * cp * sr
-            (sY * sP * cR) - (cY * cP * sR),
-            # w = cy * cp * cr + sy * sp * sr
-            (cY * cP * cR) + (sY * sP * sR),
+            (sR * cP * cY) + (cR * sP * sY),
+            (cR * sP * cY) - (sR * cP * sY),
+            (cR * cP * sY) + (sR * sP * cY),
+            (cR * cP * cY) - (sR * sP * sY),
         ],
         dtype=dtype
     )
 
-@parameters_as_numpy_arrays('axis')
+@parameters_as_numpy_arrays('eulers')
 def create_from_inverse_of_eulers(eulers, dtype=None):
     """Creates a quaternion from the inverse of a set of Euler angles.
 
-    Eulers are an array of length 3 in the following order::
+    Eulers are an array of length 3 in the following order:
         [roll, pitch, yaw]
     """
     dtype = dtype or eulers.dtype
 
-    pitch, roll, yaw = euler.pitch(eulers), euler.roll(eulers), euler.yaw(eulers)
+    roll, pitch, yaw = euler.roll(eulers), euler.pitch(eulers), euler.yaw(eulers)
 
     halfRoll = roll * 0.5
     sinRoll = np.sin(halfRoll)

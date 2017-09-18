@@ -107,9 +107,15 @@ class test_quaternion(unittest.TestCase):
         np.testing.assert_almost_equal(result, [0., 0., 1., 0.], decimal=5)
         self.assertTrue(result.dtype == np.float)
 
-    @unittest.skip('Not implemented')
+    def test_create_from_eulers_identity(self):
+        result = quaternion.create_from_eulers([0., 0., 0.])
+        np.testing.assert_equal(result, [0., 0., 0., 1.])
+        self.assertTrue(result.dtype == np.float)
+
     def test_create_from_eulers(self):
-        pass
+        result = quaternion.create_from_eulers([1.0, 2.0, 3.0])
+        np.testing.assert_almost_equal(result, [0.7549338, -0.2061492, 0.5015091, -0.3688714], decimal=5)
+        self.assertTrue(result.dtype == np.float)
 
     @unittest.skip('Not implemented')
     def test_create_from_inverse_of_eulers(self):
