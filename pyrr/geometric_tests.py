@@ -285,6 +285,7 @@ def ray_intersect_aabb(ray, aabb):
     t5 = (aabb[0,2] - ray[0,2]) * dir_fraction[ 2 ]
     t6 = (aabb[1,2] - ray[0,2]) * dir_fraction[ 2 ]
 
+
     tmin = max(min(t1, t2), min(t3, t4), min(t5, t6))
     tmax = min(max(t1, t2), max(t3, t4), max(t5, t6))
 
