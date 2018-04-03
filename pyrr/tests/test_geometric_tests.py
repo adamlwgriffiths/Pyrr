@@ -6,6 +6,7 @@ import numpy as np
 from pyrr import geometric_tests as gt
 from pyrr import line, plane, ray, sphere
 
+
 class test_geometric_tests(unittest.TestCase):
     def test_import(self):
         import pyrr
@@ -188,6 +189,12 @@ class test_geometric_tests(unittest.TestCase):
         result = gt.ray_intersect_aabb(r, a)
         self.assertTrue(np.array_equal(result, [1.0, 1.0, 1.0]))
 
+    def test_ray_intersect_aabb_valid_3(self):
+        a = np.array([[-1.0, -1.0, -1.0], [1.0, 1.0, 1.0]])
+        r = np.array([[.5, .5, .5], [0, 0, 1.0]])
+        result = gt.ray_intersect_aabb(r, a)
+        self.assertTrue(np.array_equal(result, [.5, .5, 1.0]))
+
     def test_ray_intersect_aabb_invalid_1(self):
         a = np.array([[-1.0,-1.0,-1.0], [ 1.0, 1.0, 1.0]])
         r = np.array([[2.0, 2.0, 2.0], [ 1.0, 1.0, 1.0]])
@@ -251,6 +258,7 @@ class test_geometric_tests(unittest.TestCase):
         s1 = sphere.create()
         s2 = sphere.create([3.,0.,0.], 1.0)
         self.assertEqual(gt.sphere_penetration_sphere(s1, s2), 0.0)
+
 
 if __name__ == '__main__':
     unittest.main()

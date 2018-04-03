@@ -301,7 +301,7 @@ def ray_intersect_aabb(ray, aabb):
     # t is the distance from the ray point
     # to intersection
 
-    t = abs(tmin)
+    t = min(x for x in [tmin, tmax] if x >= 0)
     point = ray[0] + (ray[1] * t)
     return point
 
