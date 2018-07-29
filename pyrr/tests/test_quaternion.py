@@ -75,6 +75,13 @@ class test_quaternion(unittest.TestCase):
         np.testing.assert_almost_equal(result, [5.77350000e-01, 5.77350000e-01, 5.77350000e-01, 6.12323400e-17], decimal=3)
         self.assertTrue(result.dtype == np.float)
 
+    def test_create_from_axis(self):
+        source = np.array([np.pi, np.pi, np.pi])
+        result = quaternion.create_from_axis(source)
+        expected = np.array([0.2358916, 0.2358916, 0.2358916, -0.9127242])
+        np.testing.assert_almost_equal(result, expected)
+        self.assertTrue(result.dtype == np.float)
+
     def test_create_from_matrix_unit(self):
         result = quaternion.create_from_matrix(np.eye(3))
         np.testing.assert_almost_equal(result, [0., 0., 0., 1.], decimal=5)

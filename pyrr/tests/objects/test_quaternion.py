@@ -114,6 +114,22 @@ class test_object_quaternion(unittest.TestCase):
         self.assertTrue(np.allclose(q * Vector3([0., 1., 0.]), [0., 0., 1.]))
         self.assertTrue(np.allclose(q * Vector3([0., 0., 1.]), [0.,-1., 0.]))
 
+    def test_from_axis(self):
+        source = np.array([np.pi / 2, 0, 0])
+        result = Quaternion.from_axis(source)
+        expected = np.array([np.sqrt(0.5), 0, 0,np.sqrt(0.5)])
+        self.assertTrue(np.allclose(result, expected))
+
+        source = np.array([0, np.pi, 0])
+        result = Quaternion.from_axis(source)
+        expected = np.array([0, 1, 0, 0])
+        self.assertTrue(np.allclose(result, expected))
+
+        source = np.array([0, 0, 2 * np.pi])
+        result = Quaternion.from_axis(source)
+        expected = np.array([0, 0, 0, -1])
+        self.assertTrue(np.allclose(result, expected))
+
     @unittest.skip('Not implemented')
     def test_from_eulers(self):
         pass
