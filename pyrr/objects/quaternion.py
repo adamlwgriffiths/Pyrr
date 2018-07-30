@@ -111,6 +111,12 @@ class Quaternion(BaseQuaternion):
         return cls(quaternion.create_from_axis_rotation(axis, theta, dtype))
 
     @classmethod
+    def from_axis(cls, axis, dtype=None):
+        """Creates a new Quaternion from an axis with angle magnitude.
+        """
+        return cls(quaternion.create_from_axis(axis, dtype))
+
+    @classmethod
     def from_matrix(cls, matrix, dtype=None):
         """Creates a Quaternion from the specified Matrix (Matrix33 or Matrix44).
         """

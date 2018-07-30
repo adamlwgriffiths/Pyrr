@@ -83,6 +83,12 @@ def create_from_axis_rotation(axis, theta, dtype=None):
         dtype=dtype
     )
 
+@parameters_as_numpy_arrays('axis')
+def create_from_axis(axis, dtype=None):
+    dtype = dtype or axis.dtype
+    theta = np.linalg.norm(axis)
+    return create_from_axis_rotation(axis, theta, dtype)
+
 @parameters_as_numpy_arrays('mat')
 def create_from_matrix(mat, dtype=None):
     # http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion/index.htm
