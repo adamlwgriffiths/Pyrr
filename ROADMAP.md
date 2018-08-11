@@ -15,7 +15,7 @@ Tasks
 -----
 
    * Complete AABB / AAMBB.
-   * Add LERP / SLERP to quaternion (and matrix?).
+   * Add LERP / SLERP to matrix?.
    * Add numba / numexpr or some other numpy optimisation lib.
    * Fix vector.interpolate.
 
