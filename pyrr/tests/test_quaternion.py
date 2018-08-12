@@ -297,6 +297,17 @@ class test_quaternion(unittest.TestCase):
         result = quaternion.conjugate([5.77350000e-01, 5.77350000e-01, 5.77350000e-01, 6.12323400e-17])
         np.testing.assert_almost_equal(result, [-0.57735, -0.57735, -0.57735, 6.12323e-17], decimal=5)
 
+    def test_exp(self):
+        source = np.array([0, 0, 0, 1.0])
+        result = quaternion.exp(source)
+        expected = np.array([0, 0, 0, np.exp(1)])
+        np.testing.assert_almost_equal(result, expected)
+
+        source = quaternion.create_from_eulers([np.pi, 0, 0])
+        result = quaternion.exp(source)
+        expected = np.array([0.84147098, 0, 0, 0.54030231])
+        np.testing.assert_almost_equal(result, expected)
+
     @unittest.skip('Not implemented')
     def test_power(self):
         pass
