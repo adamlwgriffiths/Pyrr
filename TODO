@@ -1,11 +1,8 @@
 Quaternion
-Add slerp
-Add lerp
 Add 'difference'
 Add log
 Add exponential
 Add squad
-Add create_from_matrix
 
 
 Add more maths functions from here
