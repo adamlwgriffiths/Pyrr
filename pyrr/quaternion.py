@@ -401,6 +401,34 @@ def conjugate(quat):
     )
 
 @parameters_as_numpy_arrays('quat')
+def exp(quat):
+    """Calculate the exponential of the quaternion
+
+    :param numpy.array quat: The quaternion.
+    :rtype: numpy.array.
+    :return: The exponential of the quaternion
+    """
+    e = np.exp(quat[3])
+    vector_norm = np.linalg.norm(quat[:3])
+
+    if np.isclose(vector_norm, 0):
+        return np.array(
+            [0, 0, 0, e],
+            dtype = quat.dtype
+        )
+
+    s = np.sin(vector_norm) / vector_norm
+    return e * np.array(
+        [
+            quat[0] * s,
+            quat[1] * s,
+            quat[2] * s,
+            np.cos(vector_norm),
+        ],
+        dtype = quat.dtype
+    )
+
+@parameters_as_numpy_arrays('quat')
 def power(quat, exponent):
     """Multiplies the quaternion by the exponent.
 

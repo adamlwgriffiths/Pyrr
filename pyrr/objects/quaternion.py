@@ -287,6 +287,11 @@ class Quaternion(BaseQuaternion):
         """
         return Quaternion(quaternion.inverse(self))
 
+    def exp(self):
+        """Returns a new Quaternion representing the exponentional of this Quaternion
+        """
+        return Quaternion(quaternion.exp(self))
+
     def power(self, exponent):
         """Returns a new Quaternion representing this Quaternion to the power of the exponent.
         """

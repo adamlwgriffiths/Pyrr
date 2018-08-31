@@ -117,7 +117,7 @@ class test_object_quaternion(unittest.TestCase):
     def test_from_axis(self):
         source = np.array([np.pi / 2, 0, 0])
         result = Quaternion.from_axis(source)
-        expected = np.array([np.sqrt(0.5), 0, 0,np.sqrt(0.5)])
+        expected = np.array([np.sqrt(0.5), 0, 0, np.sqrt(0.5)])
         self.assertTrue(np.allclose(result, expected))
 
         source = np.array([0, np.pi, 0])
@@ -182,6 +182,12 @@ class test_object_quaternion(unittest.TestCase):
     def test_inverse(self):
         q = Quaternion.from_x_rotation(np.pi / 2.0)
         self.assertTrue(np.allclose(q.inverse, quaternion.inverse(q)))
+
+    def test_exp(self):
+        source = Quaternion.from_eulers([0, np.pi / 2, 0])
+        result = source.exp()
+        expected = np.array([0, 1.31753841, 0, 1.54186346])
+        self.assertTrue(np.allclose(result, expected))
 
     def test_power(self):
         q1 = Quaternion.from_x_rotation(np.pi / 2.0)
