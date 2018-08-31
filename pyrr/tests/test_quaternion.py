@@ -308,6 +308,25 @@ class test_quaternion(unittest.TestCase):
         expected = np.array([0.84147098, 0, 0, 0.54030231])
         np.testing.assert_almost_equal(result, expected)
 
+        # Tests from the boost::math::quaternion
+        source = np.array([4 * np.arctan(1), 0, 0, 0])
+        result = quaternion.exp(source) + [0, 0, 0, 1.0]
+        result = np.linalg.norm(result)
+        expected = 2 * np.finfo(result.dtype).eps
+        np.testing.assert_almost_equal(result, expected)
+
+        source = np.array([0, 4 * np.arctan(1), 0, 0])
+        result = quaternion.exp(source) + [0, 0, 0, 1.0]
+        result = np.linalg.norm(result)
+        expected = 2 * np.finfo(result.dtype).eps
+        np.testing.assert_almost_equal(result, expected)
+
+        source = np.array([0, 0, 4 * np.arctan(1), 0])
+        result = quaternion.exp(source) + [0, 0, 0, 1.0]
+        result = np.linalg.norm(result)
+        expected = 2 * np.finfo(result.dtype).eps
+        np.testing.assert_almost_equal(result, expected)
+
     @unittest.skip('Not implemented')
     def test_power(self):
         pass
