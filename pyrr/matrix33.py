@@ -84,7 +84,8 @@ def create_from_axis_rotation(axis, theta, dtype=None):
     :rtype: numpy.array
     :return: A matrix with shape (3,3).
     """
-    dtype = dtype or axis.dtype
+    if dtype is None and not np.issubdtype(axis.dtype, np.floating):
+        dtype = float
 
     axis = vector.normalize(axis)
     x,y,z = axis
