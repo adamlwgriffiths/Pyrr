@@ -108,6 +108,15 @@ class test_matrix33(unittest.TestCase):
         np.testing.assert_almost_equal(result, matrix33.create_from_quaternion([5.77350000e-01, 5.77350000e-01, 5.77350000e-01, 6.12323400e-17]), decimal=3)
         self.assertTrue(result.dtype == np.float)
 
+    def test_create_from_axis_rotation_float_dtype_by_default(self):
+        axis_int = [1, 0, 0]
+        result = matrix33.create_from_axis_rotation(axis_int, np.pi)
+        self.assertTrue(result.dtype == np.float)
+
+    def test_create_from_axis_rotation_override_dtype(self):
+        result = matrix33.create_from_axis_rotation([1.0, 0.0, 0.0], np.pi, dtype=int)
+        self.assertTrue(result.dtype == np.int)
+
     def test_create_from_x_rotation(self):
         mat = matrix33.create_from_x_rotation(np.pi / 2.)
         self.assertTrue(np.allclose(np.dot([1.,0.,0.], mat), [1.,0.,0.]))
