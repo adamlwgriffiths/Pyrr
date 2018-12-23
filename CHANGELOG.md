@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [0.10.0] - 2018-12-23
 
+- Fix unit tests failing due to changes in numpy.testing (#77)
+- Drop Python 3.3 as numpy no longer supports it.
 - Ensure the latest versions of dependencies are installed when testing (#79)
 - Add quaternion exp method (#74)
 - Remove todo notes about quaternion methods that exist (#73)
