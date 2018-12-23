@@ -27,6 +27,8 @@ Maintain a rotation (quaternion) and translation (vector) and convert to a matri
 
 ### Object Oriented Interface
 
+This is a long winded example to demonstrate various features.
+
 ```python
 from pyrr import Quaternion, Matrix44, Vector3
 import numpy as np
@@ -44,16 +46,17 @@ rotation = Quaternion.from_y_rotation(np.pi / 2.0)
 orientation = rotation * orientation
 
 # create a matrix
-# start our matrix off using the scale
-matrix = Matrix44.from_scale(scale)
+matrix = Matrix44.identity()
+
+# apply our translation
+matrix = matrix * Matrix44.from_translation(translation)
 
 # apply our orientation
 # we can multiply matricies and quaternions directly!
 matrix = matrix * orientation
 
-# apply our translation
-translation = Matrix44.from_translation(translation)
-matrix = matrix * translation
+# apply our scale
+matrix = matrix * Matrix44.from_scale(scale)
 
 # transform our point by the matrix
 # vectors are transformable by matrices and quaternions directly
@@ -79,16 +82,19 @@ rotation = quaternion.create_from_y_rotation(np.pi / 2.0)
 orientation = quaternion.cross(rotation, orientation)
 
 # create a matrix
-# start our matrix off using the scale
-matrix = matrix44.create_from_scale(scale)
-
-# apply our orientation
-orientation = matrix44.create_from_quaternion(orientation)
-matrix = matrix44.multiply(matrix, orientation)
+matrix = matrix44.create_identity()
 
 # apply our translation
 translation_matrix = matrix44.create_from_translation(translation)
 matrix = matrix44.multiply(matrix, translation_matrix)
+
+# apply our orientation
+orientation_matrix = matrix44.create_from_quaternion(orientation)
+matrix = matrix44.multiply(matrix, orientation_matrix)
+
+# start our matrix off using the scale
+scale_matrix = matrix44.create_from_scale(scale)
+matrix = matrix44.multiply(matrix, scale_matrix)
 
 # transform our point by the matrix
 point = matrix44.apply_to_vector(matrix, point)
