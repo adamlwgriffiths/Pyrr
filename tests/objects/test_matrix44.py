@@ -323,7 +323,7 @@ class test_object_matrix44(unittest.TestCase):
             m = t * r * s
 
             # check that it's the same as the expected matrix
-            np.testing.assert_almost_equal(m, expected_model)
+            np.testing.assert_almost_equal(np.array(m), np.array(expected_model))
             self.assertTrue(m.dtype == expected_model.dtype)
             self.assertTrue(isinstance(m, expected_model.__class__))
 
@@ -335,7 +335,7 @@ class test_object_matrix44(unittest.TestCase):
             dm = dt * dr * ds
 
             # check that it's the same as the original matrix
-            np.testing.assert_almost_equal(m, dm)
+            np.testing.assert_almost_equal(np.array(m), np.array(dm))
             self.assertTrue(m.dtype == dm.dtype)
             self.assertTrue(isinstance(dm, m.__class__))
 

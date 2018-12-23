@@ -12,17 +12,17 @@ with open('pyrr/version.py', 'r') as f:
     exec(f.read())
 
 setup(
-    name = 'pyrr',
-    version = __version__,
-    description = '3D mathematical functions using NumPy',
-    license = 'BSD',
-    author = 'Adam Griffiths',
-    url = 'https://github.com/adamlwgriffiths/Pyrr',
-    install_requires = ['numpy', 'multipledispatch'],
-    platforms = ['any'],
-    test_suite = 'pyrr.tests',
-    packages = ['pyrr','pyrr.objects', 'pyrr.tests'],
-    classifiers = [
+    name='pyrr',
+    version=__version__,
+    description='3D mathematical functions using NumPy',
+    license='BSD',
+    author='Adam Griffiths',
+    url='https://github.com/adamlwgriffiths/Pyrr',
+    install_requires=['numpy', 'multipledispatch'],
+    platforms=['any'],
+    test_suite='tests',
+    packages=['pyrr', 'pyrr.objects'],
+    classifiers=[
         'Natural Language :: English',
         'Intended Audience :: Developers',
         'Operating System :: MacOS :: MacOS X',

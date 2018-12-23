@@ -57,10 +57,10 @@ class test_object_vector4(unittest.TestCase):
 
     def test_normalize(self):
         v = Vector4([1.,1.,1.,1.])
-        np.testing.assert_almost_equal(v.normalized, [0.5, 0.5, 0.5, 0.5], decimal=5)
+        np.testing.assert_almost_equal(np.array(v.normalized), [0.5, 0.5, 0.5, 0.5], decimal=5)
 
         v.normalize()
-        np.testing.assert_almost_equal(v, [0.5, 0.5, 0.5, 0.5], decimal=5)
+        np.testing.assert_almost_equal(np.array(v), [0.5, 0.5, 0.5, 0.5], decimal=5)
 
     def test_operators_matrix33(self):
         v = Vector4()

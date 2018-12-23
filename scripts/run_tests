@@ -12,7 +12,7 @@ cd ..
 
 #PYTHONPATH="$PYTHONPATH:$PWD"
 python -m unittest discover
+#nosetests --exe
 
 # return our path to its original state
 popd
-

@@ -26,8 +26,8 @@ class test_matrix_quaternion(unittest.TestCase):
         self.assertTrue(np.allclose(q * Vector4([1., 0., 0., 1.]), [1., 0., 0., 1.]))
         self.assertTrue(np.allclose(mq * Vector4([1., 0., 0., 1.]), [1., 0., 0., 1.]))
 
-        np.testing.assert_almost_equal(q, mq, decimal=5)
-        np.testing.assert_almost_equal(m, qm, decimal=5)
+        np.testing.assert_almost_equal(np.array(q), np.array(mq), decimal=5)
+        np.testing.assert_almost_equal(np.array(m), np.array(qm), decimal=5)
 
     def test_euler_equivalence(self):
         eulers = euler.create_from_x_rotation(np.pi / 2.)

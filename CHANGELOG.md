@@ -4,7 +4,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased]
+## [0.10.0] - 2018-12-23
+
+- Ensure the latest versions of dependencies are installed when testing (#79)
+- Add quaternion exp method (#74)
+- Remove todo notes about quaternion methods that exist (#73)
+- Remove Python 2.6 Support (#76)
+- Add methods to create a quaternion from an axis (#72)
+- Handle negative values in ray_intersect_aabb (#71)
+- Made create_from_eulers use configurable order from euler.py (#69)
+- Affine matrix decomposition (#65)
+- Added equality operators for quaternion and matrices objects (#67)
 
 ## [0.9.2] - 2017-07-18
 ### Added
