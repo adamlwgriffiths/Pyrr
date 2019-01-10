@@ -3,10 +3,13 @@
 various forms data types.
 """
 from __future__ import absolute_import, division, print_function
+
 import math
+
 import numpy as np
+
 from . import rectangle, vector, vector3
-from .utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays
+from .utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays, solve_quadratic_equation
 
 """
 TODO: line_intersect_plane
@@ -15,6 +18,7 @@ TODO: ray_intersect_ray
 TODO: line_intersect_line
 TODO: line_segment_intersect_line_segment
 """
+
 
 @all_parameters_as_numpy_arrays
 def point_intersect_line(point, line):
@@ -32,6 +36,7 @@ def point_intersect_line(point, line):
     if np.count_nonzero(cross) > 0:
         return None
     return point
+
 
 @all_parameters_as_numpy_arrays
 def point_intersect_line_segment(point, line):
@@ -57,6 +62,7 @@ def point_intersect_line_segment(point, line):
         return None
     return point
 
+
 @all_parameters_as_numpy_arrays
 def point_intersect_rectangle(point, rect):
     """Calculates the intersection point of a point and a 2D rectangle.
@@ -68,12 +74,13 @@ def point_intersect_rectangle(point, rect):
     """
     left, right, bottom, top = rectangle.bounds(rect)
     if \
-        point[0] < left or \
-        point[0] > right or \
-        point[1] < bottom or \
-        point[1] > top:
+            point[0] < left or \
+                    point[0] > right or \
+                    point[1] < bottom or \
+                    point[1] > top:
         return None
     return point
+
 
 @parameters_as_numpy_arrays('ray', 'plane')
 def ray_intersect_plane(ray, plane, front_only=False):
@@ -119,6 +126,7 @@ def ray_intersect_plane(ray, plane, front_only=False):
     t = (pd - p0_n) / rd_n
     return ray[0] + (ray[1] * t)
 
+
 @all_parameters_as_numpy_arrays
 def point_closest_point_on_ray(point, ray):
     """Calculates the point on a ray that is closest to a point.
@@ -141,6 +149,7 @@ def point_closest_point_on_ray(point, ray):
     relative_point = (point - ray[0])
     t = vector.dot(relative_point, normalized_n)
     return ray[0] + (normalized_n * t)
+
 
 @all_parameters_as_numpy_arrays
 def point_closest_point_on_line(point, line):
@@ -168,6 +177,7 @@ def point_closest_point_on_line(point, line):
     rl = vector.normalize(rl)
     dot = vector.dot(rl, rp)
     return line[0] + (rl * dot)
+
 
 @all_parameters_as_numpy_arrays
 def point_closest_point_on_line_segment(point, segment):
@@ -202,6 +212,7 @@ def point_closest_point_on_line_segment(point, segment):
     # perform the same calculation as closest_point_on_line
     return segment[0] + (rl * dot)
 
+
 @all_parameters_as_numpy_arrays
 def vector_parallel_vector(v1, v2):
     """Checks if two vectors are parallel.
@@ -215,6 +226,7 @@ def vector_parallel_vector(v1, v2):
     cross = vector3.cross(v1, v2)
     return 0 == np.count_nonzero(cross)
 
+
 @all_parameters_as_numpy_arrays
 def ray_parallel_ray(ray1, ray2):
     """Checks if two rays are parallel.
@@ -225,7 +237,8 @@ def ray_parallel_ray(ray1, ray2):
     """
     # we use a cross product in-case the ray direction
     # isn't unit length
-    return vector_parallel_vector(ray1[ 1 ], ray2[ 1 ])
+    return vector_parallel_vector(ray1[1], ray2[1])
+
 
 @all_parameters_as_numpy_arrays
 def ray_coincident_ray(ray1, ray2):
@@ -256,6 +269,7 @@ def ray_coincident_ray(ray1, ray2):
         return True
     return False
 
+
 @all_parameters_as_numpy_arrays
 def ray_intersect_aabb(ray, aabb):
     """Calculates the intersection point of a ray and an AABB
@@ -274,17 +288,16 @@ def ray_intersect_aabb(ray, aabb):
     # so where the ray direction value is 0.0, just use infinity
     # which is what we want anyway
     direction = ray[1]
-    dir_fraction = np.empty(3, dtype = ray.dtype)
+    dir_fraction = np.empty(3, dtype=ray.dtype)
     dir_fraction[direction == 0.0] = np.inf
     dir_fraction[direction != 0.0] = np.divide(1.0, direction[direction != 0.0])
 
-    t1 = (aabb[0,0] - ray[0,0]) * dir_fraction[ 0 ]
-    t2 = (aabb[1,0] - ray[0,0]) * dir_fraction[ 0 ]
-    t3 = (aabb[0,1] - ray[0,1]) * dir_fraction[ 1 ]
-    t4 = (aabb[1,1] - ray[0,1]) * dir_fraction[ 1 ]
-    t5 = (aabb[0,2] - ray[0,2]) * dir_fraction[ 2 ]
-    t6 = (aabb[1,2] - ray[0,2]) * dir_fraction[ 2 ]
-
+    t1 = (aabb[0, 0] - ray[0, 0]) * dir_fraction[0]
+    t2 = (aabb[1, 0] - ray[0, 0]) * dir_fraction[0]
+    t3 = (aabb[0, 1] - ray[0, 1]) * dir_fraction[1]
+    t4 = (aabb[1, 1] - ray[0, 1]) * dir_fraction[1]
+    t5 = (aabb[0, 2] - ray[0, 2]) * dir_fraction[2]
+    t6 = (aabb[1, 2] - ray[0, 2]) * dir_fraction[2]
 
     tmin = max(min(t1, t2), min(t3, t4), min(t5, t6))
     tmax = min(max(t1, t2), max(t3, t4), max(t5, t6))
@@ -305,6 +318,7 @@ def ray_intersect_aabb(ray, aabb):
     point = ray[0] + (ray[1] * t)
     return point
 
+
 @all_parameters_as_numpy_arrays
 def point_height_above_plane(point, plane):
     """Calculates how high a point is above a plane.
@@ -324,6 +338,7 @@ def point_height_above_plane(point, plane):
     Just perform Pn . [XYZ1]
     """
     return np.dot(plane, [point[0], point[1], point[2], 1.0])
+
 
 @all_parameters_as_numpy_arrays
 def point_closest_point_on_plane(point, plane):
@@ -348,6 +363,7 @@ def point_closest_point_on_plane(point, plane):
     d = np.dot(p, n)
     qn = np.dot(point, n)
     return point + (n * (d - qn))
+
 
 @all_parameters_as_numpy_arrays
 def sphere_does_intersect_sphere(s1, s2):
@@ -375,6 +391,7 @@ def sphere_does_intersect_sphere(s1, s2):
         return False
     return True
 
+
 @all_parameters_as_numpy_arrays
 def sphere_penetration_sphere(s1, s2):
     """Calculates the distance two spheres have penetrated
@@ -399,3 +416,42 @@ def sphere_penetration_sphere(s1, s2):
     if penetration <= 0.0:
         return 0.0
     return penetration
+
+
+@all_parameters_as_numpy_arrays
+def ray_intersect_sphere(ray, sphere):
+    """ Returns the intersection points of a ray and a sphere.
+    See: https://www.scratchapixel.com/lessons/3d-basic-rendering/minimal-ray-tracer-rendering-simple-shapes/ray-sphere-intersection
+    The ray is defined via the following equation O+tD. Where O is the origin point and D is a direction vector.
+    A sphere is defined as |P−C|^2=R2 where P is the origin and C is the center of the sphere.
+    R is the radius of the sphere.
+
+    Args:
+        ray: Ray geometry
+        sphere: Sphere geometry
+
+    Returns:
+        list: Intersection points as 3D vector list
+
+    :param numpy.array ray: Ray parameter.
+    :param numpy.array sphere: Sphere parameter.
+    :rtype: float
+    :return: Intersection points as a list of points.
+    """
+    sphere_center = sphere[:3]
+    sphere_radius = sphere[3]
+    ray_origin = ray[0]
+    ray_direction = ray[1]
+
+    a = 1
+    b = 2 * np.dot(ray_direction, (ray_origin - sphere_center))
+    c = np.dot(ray_origin - sphere_center, ray_origin - sphere_center) - sphere_radius * sphere_radius
+
+    t_list = solve_quadratic_equation(a, b, c)
+
+    ret = list()
+    for t in t_list:
+        # We are calculating intersection for ray not line! Use only positive t for ray.
+        if t >= 0:
+            ret.append(ray_origin + ray_direction * t)
+    return ret
