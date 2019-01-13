@@ -4,7 +4,6 @@
 import inspect
 import math
 from functools import wraps
-
 import numpy as np
 
 
@@ -13,7 +12,6 @@ def all_parameters_as_numpy_arrays(fn):
 
     Used as a decorator to reduce duplicate code.
     """
-
     # wraps allows us to pass the docstring back
     # or the decorator will hide the function from our doc generator
     @wraps(fn)
@@ -22,13 +20,11 @@ def all_parameters_as_numpy_arrays(fn):
         for i, v in enumerate(args):
             if v is not None:
                 args[i] = np.asarray(v)
-        for k, v in kwargs.items():
+        for k,v in kwargs.items():
             if v is not None:
                 kwargs[k] = np.asarray(v)
         return fn(*args, **kwargs)
-
     return wrapper
-
 
 def parameters_as_numpy_arrays(*args_to_convert):
     """Converts specific arguments to numpy arrays.
@@ -45,7 +41,6 @@ def parameters_as_numpy_arrays(*args_to_convert):
 
         myfunc(1, [2,2], optional=[3,3,3])
     """
-
     def decorator(fn):
         # wraps allows us to pass the docstring back
         # or the decorator will hide the function from our doc generator
@@ -78,9 +73,7 @@ def parameters_as_numpy_arrays(*args_to_convert):
 
             # pass the converted values to our function
             return fn(*args, **kwargs)
-
         return wrapper
-
     return decorator
 
 

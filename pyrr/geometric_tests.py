@@ -3,11 +3,8 @@
 various forms data types.
 """
 from __future__ import absolute_import, division, print_function
-
 import math
-
 import numpy as np
-
 from . import rectangle, vector, vector3
 from .utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays, solve_quadratic_equation
 
@@ -74,13 +71,12 @@ def point_intersect_rectangle(point, rect):
     """
     left, right, bottom, top = rectangle.bounds(rect)
     if \
-            point[0] < left or \
-                    point[0] > right or \
-                    point[1] < bottom or \
-                    point[1] > top:
+        point[0] < left or \
+        point[0] > right or \
+        point[1] < bottom or \
+        point[1] > top:
         return None
     return point
-
 
 @parameters_as_numpy_arrays('ray', 'plane')
 def ray_intersect_plane(ray, plane, front_only=False):
