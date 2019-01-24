@@ -45,13 +45,7 @@ A bad example::
 
 * Functions shall not modify data in-place.
 
-* Class implementations shall have a function equivalent, where appropriate.
-
-For example, a Sphere object may provide a function to collide against a Plane.
-In this case, there must be a function that performs the same operation without the use of the Sphere class.
-
-Higher level logic may be left exclusive to Classes.
-For example, a generic collision handler function which can select the appropriate collision function based on the colliding objects.
+* Procedural and Class implementations shall remain in lock-step.
 
 
 .. _coding_standard_function_names:
@@ -59,25 +53,27 @@ For example, a generic collision handler function which can select the appropria
 Function names
 ==============
 
-* Function names and parameters shall be lower-case with underscores delimiting words::
-
-    def an_example_function(with_some, parameters):
-       pass
+* Each type shall provide convenience *create* functions for conversions and other initialisations.
 
 * Each type shall have a basic *create* function which returns a zero-ed type, where it makes sense.
 
 A good example::
 
     # vector3.py
-    def create():
-        # vectors are commonly initialised manually
-        # so this is ok
-        pass
+    def create(x=0., y=0., z=0., dtype=None):
+        if isinstance(x, (list, np.ndarray)):
+            raise ValueError('Function requires non-list arguments')
+        return np.array([x,y,z], dtype=dtype)
 
-    # matrix33.py
-    def create_identity():
-        # creates the matrix in a standard, known state
-        pass
+    def create_unit_length_x(dtype=None):
+        return np.array([1.0, 0.0, 0.0], dtype=dtype)
+
+    def create_unit_length_y(dtype=None):
+        return np.array([0.0, 1.0, 0.0], dtype=dtype)
+
+    def create_unit_length_z(dtype=None):
+        return np.array([0.0, 0.0, 1.0], dtype=dtype)
+
 
 A bad example::
 
@@ -85,14 +81,6 @@ A bad example::
     def create():
         # matrices aren't initialised manually
         # so this isn't ok
-        pass
-
-* Where multiple creation functions are defined, each function shall be prefixed with *create_*::
-
-    def create_identity():
-        pass
-
-    def create_unit_length_x():
         pass
 
 * Conversion functions shall be prefixed with *create_from_* followed by the type being converted from::
@@ -135,18 +123,9 @@ Tests
 
 * Each source file shall have its own test file.
 
-* Each function shall have a test case associated with it::
+* Each test function shall have a test case associated with it
 
-    # vector3.py
-    def create_identity():
-        pass
-
-    # test_vector3.py
-    def test_create_identity():
-        vec = vector3.create_identity()
-        expected = [ 0.0, 0.0, 0.0 ]
-        self.assertTrue(numpy.array_equal(vec, expected), "Vector zeros not zeroed")
-
+* All test cases for a function shall be in a single test function
 
 .. _coding_standard_layout:
 
@@ -155,9 +134,7 @@ Layout
 
 These are not strict rules, but are merely suggestions to keep the layout of code in Pyrr consistent.
 
-There are times when the following rules may be broken to improve readability.
-
-* Code shall be spaced vertically rather than extending horizontally too far. Vertical spacing shall be performed at variable or data type boundaries.
+* Code shall be spaced vertically where doing so helps the readability of complex mathematical functions. Vertical spacing shall be performed at variable or data type boundaries.
 
 A good example::
 
@@ -167,14 +144,12 @@ A good example::
     # where appropriate, values are still laid out horizontally.
     # provide links where appropriate
     #  http://www.example.com/a/link/to/a/relevant/explanation/of/this/code
-    my_value = numpy.array(
-        [
-            # X = some comment about how X is calculated
-            (0.0, 0.0, 0.0),
-            # Y = some comment about how Y is calculated
-            (1.0, 1.0, 1.0)
-        ],
-        dtype=[('position', 'float32', (3,))]
+    my_value = numpy.array([
+        # X = some comment about how X is calculated
+        (0.0, 0.0, 0.0),
+        # Y = some comment about how Y is calculated
+        (1.0, 1.0, 1.0)
+    ], dtype=[('position', 'float32', (3,))]
     )
 
     # laying out parameters vertically can improve readability.
@@ -185,7 +160,42 @@ A good example::
         param_two,
         param_three,
         param_four,
-        True if param_five else False
+        True if param_five else False,
+    )
+
+A more complicated example::
+
+    return np.array(
+        [
+            # m1
+            [
+                # m11 = 1.0 - 2.0 * (q.y * q.y + q.z * q.z)
+                1.0 - 2.0 * (y2 + z2),
+                # m21 = 2.0 * (q.x * q.y + q.w * q.z)
+                2.0 * (xy + wz),
+                # m31 = 2.0 * (q.x * q.z - q.w * q.y)
+                2.0 * (xz - wy),
+            ],
+            # m2
+            [
+                # m12 = 2.0 * (q.x * q.y - q.w * q.z)
+                2.0 * (xy - wz),
+                # m22 = 1.0 - 2.0 * (q.x * q.x + q.z * q.z)
+                1.0 - 2.0 * (x2 + z2),
+                # m32 = 2.0 * (q.y * q.z + q.w * q.x)
+                2.0 * (yz + wx),
+            ],
+            # m3
+            [
+                # m13 = 2.0 * ( q.x * q.z + q.w * q.y)
+                2.0 * (xz + wy),
+                # m23 = 2.0 * (q.y * q.z - q.w * q.x)
+                2.0 * (yz - wx),
+                # m33 = 1.0 - 2.0 * (q.x * q.x + q.y * q.y)
+                1.0 - 2.0 * (x2 + y2),
+            ]
+        ],
+        dtype=dtype
     )
 
 A bad example::
@@ -215,47 +225,3 @@ Should become::
 
 
 * Code may extend beyond 80 columns, where appropriate.
-
-* Classes should have 2 lines between them and any other definition::
-
-    class X:
-        pass
-
-
-    class Y:
-        pass
-
-
-* Class variables and functions shall be separated by a single white line::
-
-    class X:
-        a = 1
-
-        def __init__( self ):
-            pass
-
-* Class members and variables shall begin immediately below the class declaration::
-
-    class X:
-        a = 1
-        b = 2
-
-* Variables and methods should have a single, empty line between them::
-
-    class X:
-        a = 1
-        b = 2
-
-        def do_something( self ):
-            pass
-
-* Imports and functions should have two empty lines between them::
-
-    import math
-    import numpy
-
-
-    def some_function():
-        pass
-
-
