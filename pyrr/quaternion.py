@@ -499,8 +499,6 @@ def apply_to_vector(quat, vec):
     :rtype: numpy.array
     :return: The vector rotated by the quaternion.
     :raise ValueError: raised if the vector is an unsupported size
-
-    .. seealso:: http://content.gpwiki.org/index.php/OpenGL:Tutorials:Using_Quaternions_to_represent_rotation
     """
     def apply(quat, vec4):
         result = cross(quat, cross(vec4, conjugate(quat)))
