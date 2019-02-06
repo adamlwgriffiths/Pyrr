@@ -5,7 +5,7 @@ various forms data types.
 from __future__ import absolute_import, division, print_function
 import math
 import numpy as np
-from . import rectangle, vector, vector3
+from . import rectangle, vector, vector3, plane
 from .utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays
 
 """
@@ -306,7 +306,7 @@ def ray_intersect_aabb(ray, aabb):
     return point
 
 @all_parameters_as_numpy_arrays
-def point_height_above_plane(point, plane):
+def point_height_above_plane(point, pl):
     """Calculates how high a point is above a plane.
 
     :param numpy.array point: The point to check.
@@ -316,17 +316,17 @@ def point_height_above_plane(point, plane):
         negative if the point is behind the plane.
     """
     """
-    http://www.vitutor.com/geometry/distance/point_plane.html
-    d(P) = (AX + BY + CZ + D) / sqrt(A^2 + B^2 + C^2)
-
-    Normal is unit length, so it's length is 1.0.
-    Therefore, we can ignore the division all together.
-    Just perform Pn . [XYZ1]
+    Because we store normalised normal, we can simply
+    use: n . (p - p0)
+    where:
+        n is the plane normal
+        p is the plane position
+        p0 is the point
     """
-    return np.dot(plane, [point[0], point[1], point[2], 1.0])
+    return vector.dot(plane.normal(pl), plane.position(pl) - point)
 
 @all_parameters_as_numpy_arrays
-def point_closest_point_on_plane(point, plane):
+def point_closest_point_on_plane(point, pl):
     """Calculates the point on a plane that is closest to a point.
 
     :param numpy.array point: The point to check with.
@@ -343,8 +343,8 @@ def point_closest_point_on_plane(point, plane):
     d is the value of normal dot position
     n is the plane normal
     """
-    n = plane[:3]
-    p = n * plane[3]
+    n = plane.normal(pl)
+    p = n * plane.distance(pl)
     d = np.dot(p, n)
     qn = np.dot(point, n)
     return point + (n * (d - qn))

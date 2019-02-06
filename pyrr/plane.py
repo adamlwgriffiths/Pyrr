@@ -75,9 +75,9 @@ def create_from_position(position, normal, dtype=None):
         normal.
     """
     dtype = dtype or position.dtype
-    # -d = a * px  + b * py + c * pz
+    # d = a * x  + b * y + c * z
     n = vector.normalize(normal)
-    d = -np.sum(n * position)
+    d = np.sum(n * position)
     return create(n, d, dtype)
 
 def create_xy(invert=False, distance=0., dtype=None):
@@ -127,7 +127,7 @@ def position(plane):
     :rtype: numpy.array
     :return: A valid position that lies on the plane.
     """
-    return plane[:3] * plane[3]
+    return normal(plane) * distance(plane)
 
 def normal(plane):
     """Extracts the normal vector from a plane.
@@ -137,3 +137,8 @@ def normal(plane):
     :return: The normal vector of the plane.
     """
     return plane[:3].copy()
+
+def distance(plane):
+    """Distance of the plane from the origin.
+    """
+    return plane[3]

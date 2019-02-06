@@ -211,7 +211,12 @@ class test_geometric_tests(unittest.TestCase):
         pl = plane.invert_normal(pl)
 
         result = gt.point_height_above_plane(p, pl)
-        self.assertEqual(result, 19.)
+        self.assertEqual(result, -19.)
+
+        pl = plane.create_xz(distance=5.)
+        p = np.array([0., 5., 0.])
+        h = gt.point_height_above_plane(p, pl)
+        self.assertEqual(h, 0.)
 
     def test_point_closest_point_on_plane(self):
         pl = np.array([ 0.0, 1.0, 0.0, 0.0])
@@ -262,4 +267,3 @@ class test_geometric_tests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-
