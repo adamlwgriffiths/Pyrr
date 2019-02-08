@@ -5,7 +5,8 @@ Planes are represented using a numpy.array of shape (4,).
 The values represent the plane equation using the values A,B,C,D.
 
 The first three values are the normal vector.
-The fourth value is the distance of the plane from the origin, down the normal.
+The fourth value is the distance of the origin from the plane, down the normal.
+A negative value indicates the origin is behind the plane, relative to the normal.
 
 .. seealso: http://en.wikipedia.org/wiki/Plane_(geometry)
 .. seealso: http://mathworld.wolfram.com/Plane.html
@@ -17,12 +18,15 @@ from .utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays
 
 
 def create(normal=None, distance=0.0, dtype=None):
-    """Creates a plane that runs along the X,Y plane.
+    """Creates a plane oriented toward the normal, at distance below the origin.
+    If no normal is provided, the plane will by created at the origin with a normal
+    of [0, 0, 1].
 
-    It crosses the origin with a normal of 0,0,1 (+Z).
+    Negative distance indicates the origin is behind the plane.
 
     :rtype: numpy.array
-    :return: A plane that runs along the X,Y plane.
+    :return: A plane with the specified normal at a distance from the origin of
+    -distance.
     """
     if normal is None:
         normal = [0.0, 0.0, 1.0]
@@ -75,9 +79,9 @@ def create_from_position(position, normal, dtype=None):
         normal.
     """
     dtype = dtype or position.dtype
-    # d = a * x  + b * y + c * z
+    # -d = a * x  + b * y + c * z
     n = vector.normalize(normal)
-    d = np.sum(n * position)
+    d = -np.sum(n * position)
     return create(n, d, dtype)
 
 def create_xy(invert=False, distance=0., dtype=None):
@@ -127,7 +131,7 @@ def position(plane):
     :rtype: numpy.array
     :return: A valid position that lies on the plane.
     """
-    return normal(plane) * distance(plane)
+    return normal(plane) * -distance(plane)
 
 def normal(plane):
     """Extracts the normal vector from a plane.
@@ -139,6 +143,8 @@ def normal(plane):
     return plane[:3].copy()
 
 def distance(plane):
-    """Distance of the plane from the origin.
+    """Distance of the plane below the origin.
+
+    Negative value indicates the origin is behind the plane.
     """
     return plane[3]

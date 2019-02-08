@@ -323,7 +323,7 @@ def point_height_above_plane(point, pl):
         p is the plane position
         p0 is the point
     """
-    return vector.dot(plane.normal(pl), plane.position(pl) - point)
+    return vector.dot(plane.normal(pl), point - plane.position(pl))
 
 @all_parameters_as_numpy_arrays
 def point_closest_point_on_plane(point, pl):

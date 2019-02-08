@@ -32,7 +32,7 @@ class test_plane(unittest.TestCase):
             [1., 1., 1.],
             [0., 1., 1.],
         )
-        expected = plane.create([0.,1.,0.], 1.)
+        expected = plane.create([0.,1.,0.], -1.)
         self.assertTrue(np.allclose(result, expected))
         self.assertTrue(np.allclose(plane.position(result), [0., 1., 0.]))
 
@@ -75,7 +75,7 @@ class test_plane(unittest.TestCase):
         self.assertTrue(np.allclose(result, [-1.0, 0.0, 0.0, -1.0]))
 
     def test_position(self):
-        p = plane.create_xz(distance=5.)
+        p = plane.create_xz(distance=-5.)
         result = plane.position(p)
         self.assertTrue(np.allclose(result, [0.,5.,0.]))
 

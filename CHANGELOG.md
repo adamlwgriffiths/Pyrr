@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.10.1] - 2019-02-06
+
+- Fix negative distance in plane.create_from_position.
+- Fix incorrect distance in point_height_above_plane.
+
 ## [0.10.0] - 2018-12-23
 
 - Fix unit tests failing due to changes in numpy.testing (#77)
