@@ -2,7 +2,6 @@
 """Provides common utility functions.
 """
 import inspect
-import math
 from functools import wraps
 import numpy as np
 
@@ -95,7 +94,7 @@ def solve_quadratic_equation(a, b, c):
         # Why not use simple form:
         # s1 = (-b + math.sqrt(delta)) / (2 * a)
         # s2 = (-b - math.sqrt(delta)) / (2 * a)
-        q = -0.5 * (b + math.sqrt(delta)) if b > 0 else -0.5 * (b - math.sqrt(delta))
+        q = -0.5 * (b + np.math.sqrt(delta)) if b > 0 else -0.5 * (b - np.math.sqrt(delta))
         s1 = q / a
         s2 = c / q
         return [s1, s2]
