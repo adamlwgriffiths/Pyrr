@@ -61,12 +61,12 @@ def parameters_as_numpy_arrays(*args_to_convert):
             # we zip the args with the argument names we received from
             # the inspect function
             args = list(args)
-            for i, (k,v) in enumerate(zip(fn_args.args, args)):
+            for i, (k, v) in enumerate(zip(fn_args.args, args)):
                 if k in args_to_convert and v is not None:
                     args[i] = np.array(v)
 
             # convert the **kwargs dict
-            for k, v in kwargs.items():
+            for k,v in kwargs.items():
                 if k in args_to_convert and v is not None:
                     kwargs[k] = np.array(v)
 
