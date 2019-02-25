@@ -22,7 +22,7 @@ def create(normal=None, distance=0.0, dtype=None):
     If no normal is provided, the plane will by created at the origin with a normal
     of [0, 0, 1].
 
-    Negative distance indicates the origin is behind the plane.
+    Negative distance indicates the plane is facing toward the origin.
 
     :rtype: numpy.array
     :return: A plane with the specified normal at a distance from the origin of
@@ -82,34 +82,40 @@ def create_from_position(position, normal, dtype=None):
     # -d = a * x  + b * y + c * z
     n = vector.normalize(normal)
     d = -np.sum(n * position)
-    return create(n, d, dtype)
+    return create(n, -d, dtype)
 
 def create_xy(invert=False, distance=0., dtype=None):
     """Create a plane on the XY plane, starting at the origin with +Z being
     the up vector.
 
-    The distance is the distance along the normal (-Z if inverted, otherwise +Z).
+    The plane is distance units along the Z axis. -Z if inverted.
     """
-    invert = -1. if invert else 1.
-    return np.array([0., 0., 1. * invert, distance])
+    pl = np.array([0., 0., 1., distance])
+    if invert:
+        pl = invert_normal(pl)
+    return pl
 
 def create_xz(invert=False, distance=0., dtype=None):
     """Create a plane on the XZ plane, starting at the origin with +Y being
     the up vector.
 
-    The distance is the distance along the normal (-Y if inverted, otherwise +Y).
+    The plane is distance units along the Y axis. -Y if inverted.
     """
-    invert = -1. if invert else 1.
-    return np.array([0., 1. * invert, 0., distance])
+    pl = np.array([0., 1., 0., distance])
+    if invert:
+        pl = invert_normal(pl)
+    return pl
 
 def create_yz(invert=False, distance=0., dtype=None):
     """Create a plane on the YZ plane, starting at the origin with +X being
     the up vector.
 
-    The distance is the distance along the normal (-X if inverted, otherwise +X).
+    The plane is distance units along the X axis. -X if inverted.
     """
-    invert = -1. if invert else 1.
-    return np.array([1. * invert, 0., 0., distance])
+    pl = np.array([1., 0., 0., distance])
+    if invert:
+        pl = invert_normal(pl)
+    return pl
 
 def invert_normal(plane):
     """Flips the normal of the plane.
@@ -131,7 +137,7 @@ def position(plane):
     :rtype: numpy.array
     :return: A valid position that lies on the plane.
     """
-    return normal(plane) * -distance(plane)
+    return normal(plane) * distance(plane)
 
 def normal(plane):
     """Extracts the normal vector from a plane.
@@ -143,8 +149,8 @@ def normal(plane):
     return plane[:3].copy()
 
 def distance(plane):
-    """Distance of the plane below the origin.
+    """Distance the plane is from the origin along its the normal.
 
-    Negative value indicates the origin is behind the plane.
+    Negative value indicates the plane is facing the origin.
     """
     return plane[3]

@@ -32,7 +32,7 @@ class test_plane(unittest.TestCase):
             [1., 1., 1.],
             [0., 1., 1.],
         )
-        expected = plane.create([0.,1.,0.], -1.)
+        expected = plane.create([0.,1.,0.], 1.)
         self.assertTrue(np.allclose(result, expected))
         self.assertTrue(np.allclose(plane.position(result), [0., 1., 0.]))
 
@@ -52,22 +52,32 @@ class test_plane(unittest.TestCase):
         result = plane.create_xy()
         self.assertTrue(np.allclose(result, [0., 0., 1., 0.]))
 
+        result = plane.create_xy(distance=2.)
+        self.assertTrue(np.allclose(result, [0., 0., 1., 2.]))
+
         result = plane.create_xy(invert=True, distance=2.)
-        self.assertTrue(np.allclose(result, [0., 0., -1., 2.]))
+        self.assertTrue(np.allclose(result, [0., 0., -1., -2.]))
 
     def test_create_xz(self):
         result = plane.create_xz()
         self.assertTrue(np.allclose(result, [0., 1., 0., 0.]))
 
+        result = plane.create_xz(distance=2.)
+        self.assertTrue(np.allclose(result, [0., 1., 0., 2.]))
+
         result = plane.create_xz(invert=True, distance=2.)
-        self.assertTrue(np.allclose(result, [0., -1., 0., 2.]))
+        self.assertTrue(np.allclose(result, [0., -1., 0., -2.]))
 
     def test_create_yz(self):
         result = plane.create_yz()
         self.assertTrue(np.allclose(result, [1., 0., 0., 0.]))
 
+        result = plane.create_yz(distance=2.)
+        self.assertTrue(np.allclose(result, [1., 0., 0., 2.]))
+
         result = plane.create_yz(invert=True, distance=2.)
-        self.assertTrue(np.allclose(result, [-1., 0., 0., 2.]))
+        print(result)
+        self.assertTrue(np.allclose(result, [-1., 0., 0., -2.]))
 
     def test_invert_normal(self):
         p = np.array([1.0, 0.0, 0.0, 1.0])
@@ -77,7 +87,7 @@ class test_plane(unittest.TestCase):
     def test_position(self):
         p = plane.create_xz(distance=-5.)
         result = plane.position(p)
-        self.assertTrue(np.allclose(result, [0.,5.,0.]))
+        self.assertTrue(np.allclose(result, [0.,-5.,0.]))
 
         p = plane.create_from_position(position=[0., 0., 1.], normal=[0., 0., 1.])
         self.assertTrue(np.allclose(plane.position(p), [0., 0., 1.]))

@@ -202,7 +202,7 @@ class test_geometric_tests(unittest.TestCase):
         self.assertEqual(result, None)
 
     def test_point_height_above_plane(self):
-        pl = plane.create([0., 1., 0.], -1.)
+        pl = plane.create([0., 1., 0.], 1.)
         p = np.array([0., 1., 0.])
         result = gt.point_height_above_plane(p, pl)
         self.assertEqual(result, 0.)
@@ -222,7 +222,7 @@ class test_geometric_tests(unittest.TestCase):
         result = gt.point_height_above_plane(p, pl)
         self.assertEqual(result, 19.)
 
-        pl = plane.create_xz(distance=-5.)
+        pl = plane.create_xz(distance=5.)
         p = np.array([0., 5., 0.])
         h = gt.point_height_above_plane(p, pl)
         self.assertEqual(h, 0.)

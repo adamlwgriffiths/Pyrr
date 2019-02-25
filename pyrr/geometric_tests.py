@@ -75,12 +75,12 @@ def point_intersect_rectangle(point, rect):
         return None
     return point
 
-@parameters_as_numpy_arrays('ray', 'plane')
-def ray_intersect_plane(ray, plane, front_only=False):
+@parameters_as_numpy_arrays('ray', 'pl')
+def ray_intersect_plane(ray, pl, front_only=False):
     """Calculates the intersection point of a ray and a plane.
 
     :param numpy.array ray: The ray to test for intersection.
-    :param numpy.array plane: The ray to test for intersection.
+    :param numpy.array pl: The plane to test for intersection.
     :param boolean front_only: Specifies if the ray should
     only hit the front of the plane.
     Collisions from the rear of the plane will be
@@ -103,8 +103,8 @@ def ray_intersect_plane(ray, plane, front_only=False):
     if rd.n == 0, the ray is parallel to the
     plane.
     """
-    p = plane[:3] * plane[3]
-    n = plane[:3]
+    p = plane.position(pl)
+    n = plane.normal(pl)
     rd_n = vector.dot(ray[1], n)
 
     if rd_n == 0.0:
