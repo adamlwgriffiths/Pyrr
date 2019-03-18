@@ -347,6 +347,20 @@ class test_object_quaternion(unittest.TestCase):
         self.assertEqual(q.x, 2)
         self.assertEqual(q[0], 2)
 
+    def test_equality(self):
+        q1 = Quaternion([0, 0, 0, 1])
+        q2 = Quaternion([0, 0, 0, 1])
+        q3 = Quaternion([0, 0, 1, -1])
+        self.assertEqual(q1, q2)
+        self.assertNotEqual(q1, q3)
+        self.assertNotEqual(q2, q3)
+
+    def test_equality_negative(self):
+        q1 = Quaternion([0, 0, 0, 1])
+        q2 = Quaternion([0, 0, 0, -1])
+        q3 = Quaternion([0, 0, 1, -1])
+        self.assertEqual(q1, q2)
+        self.assertNotEqual(q1, q3)
 
 if __name__ == '__main__':
     unittest.main()
