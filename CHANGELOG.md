@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.10.2] - 2019-03-13
+
+- Add MANIFEST.in and add /tests and /docs to source dist (#90)
+
+## [0.10.1] - Unreleased
+
 ## [0.10.0] - 2018-12-23
 
 - Fix unit tests failing due to changes in numpy.testing (#77)
