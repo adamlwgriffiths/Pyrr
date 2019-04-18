@@ -189,11 +189,15 @@ class Quaternion(BaseQuaternion):
 
     @dispatch((BaseQuaternion, np.ndarray, list))
     def __ne__(self, other):
-        return bool(np.any(super(Quaternion, self).__ne__(other)))
+        # For quaternions q and -q represent the same rotation
+        return bool(np.any(super(Quaternion, self).__ne__(other)))\
+               or bool(np.all(super(Quaternion, self).__eq__(-other)))
 
     @dispatch((BaseQuaternion, np.ndarray, list))
     def __eq__(self, other):
-        return bool(np.all(super(Quaternion, self).__eq__(other)))
+        # For quaternions q and -q represent the same rotation
+        return bool(np.all(super(Quaternion, self).__eq__(other))) \
+               or bool(np.all(super(Quaternion, self).__eq__(-other)))
 
     ########################
     # Matrices

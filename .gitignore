@@ -30,3 +30,6 @@ pip-log.txt
 
 # vi swap files
 *.swp
+
+# Pycharm ide
+*.idea

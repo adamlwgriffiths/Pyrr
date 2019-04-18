@@ -6,7 +6,7 @@ from __future__ import absolute_import, division, print_function
 import math
 import numpy as np
 from . import rectangle, vector, vector3, plane
-from .utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays
+from .utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays, solve_quadratic_equation
 
 """
 TODO: line_intersect_plane
@@ -399,3 +399,41 @@ def sphere_penetration_sphere(s1, s2):
     if penetration <= 0.0:
         return 0.0
     return penetration
+
+@all_parameters_as_numpy_arrays
+def ray_intersect_sphere(ray, sphere):
+    """ Returns the intersection points of a ray and a sphere.
+    See: https://www.scratchapixel.com/lessons/3d-basic-rendering/minimal-ray-tracer-rendering-simple-shapes/ray-sphere-intersection
+    The ray is defined via the following equation O+tD. Where O is the origin point and D is a direction vector.
+    A sphere is defined as |P−C|^2=R2 where P is the origin and C is the center of the sphere.
+    R is the radius of the sphere.
+
+    Args:
+        ray: Ray geometry
+        sphere: Sphere geometry
+
+    Returns:
+        list: Intersection points as 3D vector list
+
+    :param numpy.array ray: Ray parameter.
+    :param numpy.array sphere: Sphere parameter.
+    :rtype: float
+    :return: Intersection points as a list of points.
+    """
+    sphere_center = sphere[:3]
+    sphere_radius = sphere[3]
+    ray_origin = ray[0]
+    ray_direction = ray[1]
+
+    a = 1
+    b = 2 * np.dot(ray_direction, (ray_origin - sphere_center))
+    c = np.dot(ray_origin - sphere_center, ray_origin - sphere_center) - sphere_radius * sphere_radius
+
+    t_list = solve_quadratic_equation(a, b, c)
+
+    ret = list()
+    for t in t_list:
+        # We are calculating intersection for ray not line! Use only positive t for ray.
+        if t >= 0:
+            ret.append(ray_origin + ray_direction * t)
+    return ret

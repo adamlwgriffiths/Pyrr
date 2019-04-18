@@ -190,6 +190,7 @@ Pyrr requires the following software:
 - [Bogdan Teleaga](https://github.com/bogdanteleaga/)
 - [Szabolcs Dombi](https://github.com/cprogrammer1994/)
 - [Korijn van Golen](https://github.com/Korijn/)
+- [Armin Becher](https://github.com/ArminBecher)
 
 Contributions are welcome.
 
