@@ -30,7 +30,8 @@ def create(normal=None, distance=0.0, dtype=None):
     """
     if normal is None:
         normal = [0.0, 0.0, 1.0]
-    return np.array([normal[0], normal[1], normal[2], distance], dtype=dtype)
+    n = vector.normalize(normal)
+    return np.array([n[0], n[1], n[2], distance], dtype=dtype)
 
 @parameters_as_numpy_arrays('vector1', 'vector2', 'vector3')
 def create_from_points(vector1, vector2, vector3, dtype=None):

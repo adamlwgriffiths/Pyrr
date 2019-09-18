@@ -344,8 +344,7 @@ def point_closest_point_on_plane(point, pl):
     n is the plane normal
     """
     n = plane.normal(pl)
-    p = n * plane.distance(pl)
-    d = np.dot(p, n)
+    d = np.dot(plane.position(pl), n)
     qn = np.dot(point, n)
     return point + (n * (d - qn))
 
