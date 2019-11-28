@@ -209,14 +209,14 @@ def apply_to_vector(mat, vec):
     if vec.size == 3:
         # convert to a vec4
         vec4 = np.array([vec[0], vec[1], vec[2], 1.], dtype=vec.dtype)
-        vec4 = np.dot(vec4, mat)
+        vec4 = np.dot(mat, vec4)
         if np.allclose(vec4[3], 0.):
             vec4[:] = [np.inf, np.inf, np.inf, np.inf]
         else:
             vec4 /= vec4[3]
         return vec4[:3]
     elif vec.size == 4:
-        return np.dot(vec, mat)
+        return np.dot(mat, vec)
     else:
         raise ValueError("Vector size unsupported")
 
