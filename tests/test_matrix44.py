@@ -84,7 +84,7 @@ class test_matrix44(unittest.TestCase):
     def test_create_from_translation( self ):
         result = matrix44.create_from_translation([2.,3.,4.])
         expected = np.eye(4)
-        expected[3,:3] = [2.,3.,4.]
+        expected[:3,3] = [2.,3.,4.]
         np.testing.assert_almost_equal(result, expected, decimal=5)
 
     def test_create_from_scale( self ):

@@ -132,7 +132,7 @@ def create_from_translation(vec, dtype=None):
     """
     dtype = dtype or vec.dtype
     mat = create_identity(dtype)
-    mat[3, 0:3] = vec[:3]
+    mat[0:3, 3] = vec[:3]
     return mat
 
 def create_from_scale(scale, dtype=None):
