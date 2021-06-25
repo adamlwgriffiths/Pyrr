@@ -203,6 +203,12 @@ class test_geometric_tests(unittest.TestCase):
         result = gt.ray_intersect_aabb(r, a)
         self.assertEqual(result, None)
 
+    def test_ray_intersect_aabb_ray_on_a_boundary_plane(self):
+        a = np.array([[1.0,1.0,1.0], [4.0,4.0,4.0]])
+        r = np.array([[1.0,0.0,0.0], [0.0,1.0,1.0]])
+        result = gt.ray_intersect_aabb(r, a)
+        self.assertTrue(np.array_equal(result, [1.0, 1.0, 1.0]))
+
     def test_point_height_above_plane(self):
         pl = plane.create([0., 1., 0.], 1.)
         p = np.array([0., 1., 0.])
