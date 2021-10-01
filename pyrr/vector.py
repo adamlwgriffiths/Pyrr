@@ -28,7 +28,8 @@ def normalize(vec):
                 [x2, y2, z2]
             ]).
 
-    :rtype: A numpy.array the normalized value
+    :rtype: numpy.array
+    :return: The normalized vector/s
     """
     # calculate the length
     # this is a duplicate of length(vec) because we
@@ -59,7 +60,8 @@ def normalise(vec):    # TODO: mark as deprecated
                 [x2, y2, z2]
             ]).
 
-    :rtype: A numpy.array the normalized value
+    :rtype: numpy.array
+    :return: The normalized vector/s
     """
     # calculate the length
     # this is a duplicate of length(vec) because we
@@ -76,9 +78,11 @@ def squared_length(vec):
     penalty of a square root operation.
 
     :param numpy.array vec: An Nd numpy.array.
-    :rtype: If one vector is supplied, the result with be a scalar.
-        Otherwise the result will be an array of scalars with shape
-        vec.ndim with the last dimension being size 1.
+    :rtype: np.array
+    :return: The squared length of vec, if a 1D vector is input, the
+    result will be a scalar. If a Matrix is input, the result
+    will be a row vector, with each element representing the
+    squared length along the matrix's corresponding row.
     """
     lengths = np.sum(vec ** 2., axis=-1)
 
@@ -103,16 +107,18 @@ def length(vec):
                 [x2, y2, z2]
             ]).
 
-    :rtype: If a 1d array was passed, it will be a scalar.
-        Otherwise the result will be an array of scalars with shape
-        vec.ndim with the last dimension being size 1.
+    :rtype: np.array
+    :return: The length of vec, if a 1D vector is input, the
+    result will be a scalar. If a Matrix is input, the result
+    will be a row vector, with each element representing the
+    length along the matrix's corresponding row.
     """
     return np.sqrt(np.sum(vec**2,axis=-1))
 
 
 @parameters_as_numpy_arrays('vec')
 def set_length(vec, len):
-    """Resizes an Nd list of vectors or a single vector to 'length'.
+    """Renormalizes an Nd list of vectors or a single vector to 'length'.
 
     The vector is **not** changed in place.
 
@@ -128,7 +134,11 @@ def set_length(vec, len):
                 [x2, y2, z2]
             ]).
 
-    :rtype: A numpy.array of shape vec.shape.
+    :rtype: numpy.array
+    :return: A renormalized copy of vec, normalized according to its
+    the last axis.
+    If a vector is input, the result is a vector. If a Matrix is input, 
+    the result will be a Matrix, with each row renormalized to a length of len.
     """
     # calculate the length
     # this is a duplicate of length(vec) because we
@@ -145,9 +155,11 @@ def dot(v1, v2):
         being size 3. (a vector)
     :param numpy.array v2: an Nd array with the final dimension
         being size 3 (a vector)
-    :rtype: If a 1d array was passed, it will be a scalar.
-        Otherwise the result will be an array of scalars with shape
-        vec.ndim with the last dimension being size 1.
+    :rtype: numpy.array
+    :return: The resulting dot product. If a 1d array was passed, 
+    it will be a scalar.
+    Otherwise the result will be an array of scalars storing the
+    dot product of corresponding rows.
     """
     return np.sum(v1 * v2, axis=-1)
 
@@ -165,7 +177,8 @@ def interpolate(v1, v2, delta):
         When delta is 0.0, the result will be v1.
         When delta is 1.0, the result will be v2.
         Values inbetween will be an interpolation.
-    :rtype: A numpy.array with shape v1.shape.
+    :rtype: numpy.array
+    :return: The result of intperpolation between v1 and v2
     """
     # scale the difference based on the time
     # we must do it this 'unreadable' way to avoid

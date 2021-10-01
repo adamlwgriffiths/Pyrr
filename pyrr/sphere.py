@@ -22,7 +22,8 @@ def create_from_points(points, dtype=None):
     the furthest point in the provided list.
 
     :param numpy.array points: An Nd array of vectors.
-    :rtype: A sphere as a two value tuple.
+    :rtype: numpy.array
+    return: A sphere as a two value tuple, [centre, radius].
     """
     dtype = dtype or points.dtype
     # calculate the lengths of all the points

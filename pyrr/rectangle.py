@@ -63,7 +63,7 @@ def bounds(rect):
 
     This caters for rectangles with a negative width.
 
-    :rtype: Tuple of 4 floats
+    :rtype: (float,float,float,float)
     :return: The absolute left, right, bottom and top of the rectangle.
     """
     left = rect[0,0]

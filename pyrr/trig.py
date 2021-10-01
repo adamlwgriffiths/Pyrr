@@ -17,7 +17,8 @@ def calculate_fov(zoom, height=1.0):
     :param float height: The desired view height at the specified
         distance.
         The default is 1.0.
-    :rtype: A float representing the FOV to use in degrees.
+    :rtype: float
+    :return: The FOV to use in degrees.
     """
     # http://www.glprogramming.com/red/chapter03.html
     rad_theta = 2.0 * math.atan2(height / 2.0, zoom)
@@ -30,7 +31,8 @@ def calculate_zoom(fov, height=1.0):
     :param float fov: The FOV to use.
     :param float height: The height of the image at the
         desired distance.
-    :rtype: A float representing the zoom (distance) from the camera for the
+    :rtype: float
+    :return: The zoom (distance) from the camera for the
         desired height at the specified FOV.
     :raise ZeroDivisionError: Raised if the fov is
         0.0.
@@ -44,7 +46,8 @@ def calculate_height(fov, zoom):
     :param float fov: The current FOV.
     :param float zoom: The distance to calculate the height
         for.
-    :rtype: A float representing the height at the specified distance for the
+    :rtype: float
+    :return: The height at the specified distance for the
         specified FOV.
     """
     height = zoom * (math.tan(fov / 2.0))
@@ -59,8 +62,8 @@ def calculate_plane_size(aspect_ratio, fov, distance):
     :param float fov: The FOV of the frustrum.
     :param float distance: The distance from the origin/camera
         of the plane to calculate.
-    :rtype: A tuple of two floats: width and height: The width and height of
-        the plane.
+    :rtype: (float,float)
+    :return: The width and height of the plane.
     """
     # http://www.songho.ca/opengl/gl_transform.html
     # http://nehe.gamedev.net/article/replacement_for_gluperspective/21002/
