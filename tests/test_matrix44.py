@@ -84,7 +84,7 @@ class test_matrix44(unittest.TestCase):
     def test_create_from_translation( self ):
         result = matrix44.create_from_translation([2.,3.,4.])
         expected = np.eye(4)
-        expected[3,:3] = [2.,3.,4.]
+        expected[:3,3] = [2.,3.,4.]
         np.testing.assert_almost_equal(result, expected, decimal=5)
 
     def test_create_from_scale( self ):
@@ -400,15 +400,30 @@ class test_matrix44(unittest.TestCase):
         result = matrix44.apply_to_vector(mat, [0.,1.,0.])
         np.testing.assert_almost_equal(result, [0.,-1.,0.], decimal=5)
 
+    def test_apply_to_vector_x_rotation2(self):
+        mat = matrix44.create_from_x_rotation(np.pi/2.0)
+        result = matrix44.apply_to_vector(mat, [0.,1.,0.])
+        np.testing.assert_almost_equal(result, [0.,0.,1.], decimal=5)
+
     def test_apply_to_vector_y_rotation(self):
         mat = matrix44.create_from_y_rotation(np.pi)
         result = matrix44.apply_to_vector(mat, [1.,0.,0.])
         np.testing.assert_almost_equal(result, [-1.,0.,0.], decimal=5)
 
+    def test_apply_to_vector_y_rotation2(self):
+        mat = matrix44.create_from_y_rotation(np.pi/2.)
+        result = matrix44.apply_to_vector(mat, [1.,0.,0.])
+        np.testing.assert_almost_equal(result, [0.,0.,-1.], decimal=5)
+
     def test_apply_to_vector_z_rotation(self):
         mat = matrix44.create_from_z_rotation(np.pi)
         result = matrix44.apply_to_vector(mat, [1.,0.,0.])
         np.testing.assert_almost_equal(result, [-1.,0.,0.], decimal=5)
+
+    def test_apply_to_vector_z_rotation2(self):
+        mat = matrix44.create_from_z_rotation(np.pi/2.0)
+        result = matrix44.apply_to_vector(mat, [1.,0.,0.])
+        np.testing.assert_almost_equal(result, [0.,1.,0.], decimal=5)
 
     def test_apply_to_vector_with_translation(self):
         mat = matrix44.create_from_translation([2.,3.,4.])

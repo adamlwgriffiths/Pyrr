@@ -20,11 +20,11 @@ class test_matrix_quaternion(unittest.TestCase):
         q = quaternion.create_from_x_rotation(np.pi / 2.)
         qm = matrix44.create_from_quaternion(q)
 
-        self.assertTrue(np.allclose(np.dot([1., 0., 0., 1.], m), [1., 0., 0., 1.]))
-        self.assertTrue(np.allclose(np.dot([1., 0., 0., 1.], qm), [1., 0., 0., 1.]))
+        self.assertTrue(np.allclose(np.dot(m, [0., 1., 0., 1.]), [0., 0., 1., 1.]))
+        self.assertTrue(np.allclose(np.dot(qm, [0., 1., 0., 1.]), [0., 0., 1., 1.]))
 
-        self.assertTrue(np.allclose(quaternion.apply_to_vector(q, [1., 0., 0., 1.]), [1., 0., 0., 1.]))
-        self.assertTrue(np.allclose(quaternion.apply_to_vector(mq, [1., 0., 0., 1.]), [1., 0., 0., 1.]))
+        self.assertTrue(np.allclose(quaternion.apply_to_vector(q, [0., 1., 0., 1.]), [0., 0., 1., 1.]))
+        self.assertTrue(np.allclose(quaternion.apply_to_vector(mq, [0., 1., 0., 1.]), [0., 0., 1., 1.]))
 
         np.testing.assert_almost_equal(q, mq, decimal=5)
         np.testing.assert_almost_equal(m, qm, decimal=5)
@@ -54,7 +54,6 @@ class test_matrix_quaternion(unittest.TestCase):
         q = quaternion.create(*[0.80087974, 0.03166748, 0.59114721,-0.09018753])
         m33 = matrix33.create_from_quaternion(q)
         q2 = quaternion.create_from_matrix(m33)
-        print(q, q2)
         self.assertTrue(np.allclose(q, q2))
 
         q3 = quaternion.create_from_matrix(m33.T)

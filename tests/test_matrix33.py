@@ -171,11 +171,25 @@ class test_matrix33(unittest.TestCase):
         expected = -vec
         self.assertTrue(np.allclose(result, expected))
 
+    def test_apply_to_vector_rotated_x2(self):
+        mat = matrix33.create_from_x_rotation(np.pi/2.)
+        vec = vector3.unit.y
+        result = matrix33.apply_to_vector(mat, vec)
+        expected = vector3.unit.z
+        self.assertTrue(np.allclose(result, expected))
+
     def test_apply_to_vector_rotated_y(self):
         mat = matrix33.create_from_y_rotation(np.pi)
         vec = vector3.unit.x
         result = matrix33.apply_to_vector(mat, vec)
         expected = -vec
+        self.assertTrue(np.allclose(result, expected))
+
+    def test_apply_to_vector_rotated_y2(self):
+        mat = matrix33.create_from_y_rotation(np.pi/2.)
+        vec = vector3.unit.x
+        result = matrix33.apply_to_vector(mat, vec)
+        expected = -vector3.unit.z
         self.assertTrue(np.allclose(result, expected))
 
     def test_apply_to_vector_rotated_z(self):
@@ -184,6 +198,14 @@ class test_matrix33(unittest.TestCase):
         result = matrix33.apply_to_vector(mat, vec)
         expected = -vec
         self.assertTrue(np.allclose(result, expected))
+
+    def test_apply_to_vector_rotated_z2(self):
+        mat = matrix33.create_from_z_rotation(np.pi/2.)
+        vec = vector3.unit.x
+        result = matrix33.apply_to_vector(mat, vec)
+        expected = vector3.unit.y
+        self.assertTrue(np.allclose(result, expected))
+
 
     def test_multiply_identity(self):
         m1 = matrix33.create_identity()

@@ -302,7 +302,7 @@ def apply_to_vector(mat, vec):
     :return: The vectors rotated by the specified matrix.
     """
     if vec.size == 3:
-        return np.dot(vec, mat)
+        return np.dot(mat, vec)
     else:
         raise ValueError("Vector size unsupported")
 
