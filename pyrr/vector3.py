@@ -40,7 +40,8 @@ def cross(v1, v2):
         being size 3. (a vector)
     :param numpy.array v2: an Nd array with the final dimension
         being size 3. (a vector)
-    :rtype: A np.array with shape v1.shape.
+    :rtype: np.array
+    :return: The cross product of v1 and v2.
     """
     return np.cross(v1, v2)
 
