@@ -297,11 +297,12 @@ def apply_to_vector(mat, vec):
     :param numpy.array mat: The rotation / translation matrix.
         Can be a list of matrices.
     :param numpy.array vec: The vector to modify.
-        Can be a list of vectors.
+        Can be a numpy.array of vectors. ie. numpy.array([[x1,...], [x2,...], ...])
     :rtype: numpy.array
     :return: The vectors rotated by the specified matrix.
     """
-    if vec.size == 3:
+    size = vec.shape[len(vec.shape) - 1]
+    if size == 3:
         return np.dot(vec, mat)
     else:
         raise ValueError("Vector size unsupported")

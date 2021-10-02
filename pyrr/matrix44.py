@@ -202,20 +202,31 @@ def apply_to_vector(mat, vec):
     :param numpy.array mat: The rotation / translation matrix.
         Can be a list of matrices.
     :param numpy.array vec: The vector to modify.
-        Can be a list of vectors.
+        Can be a numpy.array of vectors. ie. numpy.array([[x1,...], [x2,...], ...])
     :rtype: numpy.array
     :return: The vectors rotated by the specified matrix.
     """
-    if vec.size == 3:
+    size = vec.shape[len(vec.shape) - 1]
+    if size == 3:
         # convert to a vec4
-        vec4 = np.array([vec[0], vec[1], vec[2], 1.], dtype=vec.dtype)
-        vec4 = np.dot(vec4, mat)
-        if np.allclose(vec4[3], 0.):
-            vec4[:] = [np.inf, np.inf, np.inf, np.inf]
+        if len(vec.shape) == 1:
+            vec4 = np.array([vec[0], vec[1], vec[2], 1.], dtype=vec.dtype)
+            vec4 = np.dot(vec4, mat)
+            if np.abs(vec4[3]) < 1e-8:
+                vec4[:] = [np.inf, np.inf, np.inf, np.inf]
+            else:
+                vec4 /= vec4[3]
+            return vec4[:3]
         else:
-            vec4 /= vec4[3]
-        return vec4[:3]
-    elif vec.size == 4:
+            vec4 = np.array([[v[0], v[1], v[2], 1.] for v in vec], dtype=vec.dtype)
+            vec4 = np.dot(vec4, mat)
+            for i in range(vec4.shape[0]):
+                if np.abs(vec4[i,3])<1e-8:
+                    vec4[i,:] = [np.inf, np.inf, np.inf, np.inf]
+                else:
+                    vec4[i,:] /= vec4[i,3]
+            return vec4[:,:3]
+    elif size == 4:
         return np.dot(vec, mat)
     else:
         raise ValueError("Vector size unsupported")
