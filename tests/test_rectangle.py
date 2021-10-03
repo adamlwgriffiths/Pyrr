@@ -17,7 +17,7 @@ class test_rectangle(unittest.TestCase):
         np.testing.assert_almost_equal(result, [[0,0],[1,1]], decimal=5)
 
     def test_create_dtype(self):
-        result = rectangle.create(dtype=np.float)
+        result = rectangle.create(dtype=float)
         np.testing.assert_almost_equal(result, [[0.,0.],[1.,1.]], decimal=5)
 
     def test_create_zeros(self):
