@@ -193,56 +193,56 @@ class test_object_vector3(unittest.TestCase):
         # add
         self.assertTrue(np.array_equal(v1 + 1., [2., 3., 4.]))
         self.assertTrue(np.array_equal(v1 + 1, [2., 3., 4.]))
-        self.assertTrue(np.array_equal(v1 + np.float(1.), [2., 3., 4.]))
+        self.assertTrue(np.array_equal(v1 + 1., [2., 3., 4.]))
         self.assertTrue(np.array_equal(v1 + fv[0]['f'], [3., 4., 5.]))
         self.assertTrue(np.array_equal(v1 + fv[0]['i'], [3., 4., 5.]))
 
         # subtract
         self.assertTrue(np.array_equal(v1 - 1., [0., 1., 2.]))
         self.assertTrue(np.array_equal(v1 - 1, [0., 1., 2.]))
-        self.assertTrue(np.array_equal(v1 - np.float(1.), [0., 1., 2.]))
+        self.assertTrue(np.array_equal(v1 - 1., [0., 1., 2.]))
         self.assertTrue(np.array_equal(v1 - fv[0]['f'], [-1., 0., 1.]))
         self.assertTrue(np.array_equal(v1 - fv[0]['i'], [-1., 0., 1.]))
 
         # multiply
         self.assertTrue(np.array_equal(v1 * 2., [2., 4., 6.]))
         self.assertTrue(np.array_equal(v1 * 2, [2., 4., 6.]))
-        self.assertTrue(np.array_equal(v1 * np.float(2.), [2., 4., 6.]))
+        self.assertTrue(np.array_equal(v1 * 2., [2., 4., 6.]))
         self.assertTrue(np.array_equal(v1 * fv[0]['f'], [2., 4., 6.]))
         self.assertTrue(np.array_equal(v1 * fv[0]['i'], [2., 4., 6.]))
 
         # divide
         self.assertTrue(np.array_equal(v1 / 2., [.5, 1., 1.5]))
         self.assertTrue(np.array_equal(v1 / 2, [.5, 1., 1.5]))
-        self.assertTrue(np.array_equal(v1 / np.float(2.), [.5, 1., 1.5]))
+        self.assertTrue(np.array_equal(v1 / 2., [.5, 1., 1.5]))
         self.assertTrue(np.array_equal(v1 / fv[0]['f'], [.5, 1., 1.5]))
         self.assertTrue(np.array_equal(v1 / fv[0]['i'], [.5, 1., 1.5]))
 
         # or
         self.assertRaises(ValueError, lambda: v1 | .5)
         self.assertRaises(ValueError, lambda: v1 | 5)
-        self.assertRaises(ValueError, lambda: v1 | np.float(2.))
+        self.assertRaises(ValueError, lambda: v1 | 2.)
         self.assertRaises(ValueError, lambda: v1 | fv[0]['f'])
         self.assertRaises(ValueError, lambda: v1 | fv[0]['i'])
 
         # xor
         self.assertRaises(ValueError, lambda: v1 ^ .5)
         self.assertRaises(ValueError, lambda: v1 ^ 5)
-        self.assertRaises(ValueError, lambda: v1 ^ np.float(2.))
+        self.assertRaises(ValueError, lambda: v1 ^ 2.)
         self.assertRaises(ValueError, lambda: v1 ^ fv[0]['f'])
         self.assertRaises(ValueError, lambda: v1 ^ fv[0]['i'])
 
         # ==
         self.assertRaises(ValueError, lambda: v1 == .5)
         self.assertRaises(ValueError, lambda: v1 == 5)
-        self.assertRaises(ValueError, lambda: v1 == np.float(2.))
+        self.assertRaises(ValueError, lambda: v1 == 2.)
         self.assertRaises(ValueError, lambda: v1 == fv[0]['f'])
         self.assertRaises(ValueError, lambda: v1 == fv[0]['i'])
 
         # !=
         self.assertRaises(ValueError, lambda: v1 != .5)
         self.assertRaises(ValueError, lambda: v1 != 5)
-        self.assertRaises(ValueError, lambda: v1 != np.float(2.))
+        self.assertRaises(ValueError, lambda: v1 != 2.)
         self.assertRaises(ValueError, lambda: v1 != fv[0]['f'])
         self.assertRaises(ValueError, lambda: v1 != fv[0]['i'])
 

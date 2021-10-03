@@ -17,7 +17,7 @@ class test_matrix33(unittest.TestCase):
     def test_create_from_quaternion_unit(self):
         result = matrix33.create_from_quaternion([0.,0.,0.,1.])
         np.testing.assert_almost_equal(result, np.eye(3), decimal=5)
-        self.assertTrue(result.dtype == np.float)
+        self.assertTrue(result.dtype == float)
 
     def test_create_from_quaternion_x(self):
         result = matrix33.create_from_quaternion([1.,0.,0.,0.])
@@ -27,7 +27,7 @@ class test_matrix33(unittest.TestCase):
             [0.,0.,-1.],
         ]
         np.testing.assert_almost_equal(result, expected, decimal=5)
-        self.assertTrue(result.dtype == np.float)
+        self.assertTrue(result.dtype == float)
 
     def test_create_from_quaternion_y(self):
         result = matrix33.create_from_quaternion([0.,1.,0.,0.])
@@ -37,7 +37,7 @@ class test_matrix33(unittest.TestCase):
             [0.,0.,-1.],
         ]
         np.testing.assert_almost_equal(result, expected, decimal=5)
-        self.assertTrue(result.dtype == np.float)
+        self.assertTrue(result.dtype == float)
 
     def test_create_from_quaternion_z(self):
         result = matrix33.create_from_quaternion([0.,0.,1.,0.])
@@ -47,7 +47,7 @@ class test_matrix33(unittest.TestCase):
             [0.,0.,1.],
         ]
         np.testing.assert_almost_equal(result, expected, decimal=5)
-        self.assertTrue(result.dtype == np.float)
+        self.assertTrue(result.dtype == float)
 
     def test_create_from_quaternion_rotation(self):
         result = matrix33.create_from_quaternion([.57735,.57735,.57735,0.])
@@ -57,13 +57,13 @@ class test_matrix33(unittest.TestCase):
             [0.666667, 0.666667, -0.333333],
         ]
         np.testing.assert_almost_equal(result, expected, decimal=5)
-        self.assertTrue(result.dtype == np.float)
+        self.assertTrue(result.dtype == float)
 
     def test_create_from_quaternion_equivalent(self):
         result = matrix33.create_from_quaternion(quaternion.create_from_x_rotation(0.5))
         expected = matrix33.create_from_x_rotation(0.5)
         np.testing.assert_almost_equal(result, expected, decimal=5)
-        self.assertTrue(result.dtype == np.float)
+        self.assertTrue(result.dtype == float)
 
     def test_inverse_equivalence(self):
         q = [5.77350000e-01, 5.77350000e-01, 5.77350000e-01, 6.12323400e-17]
@@ -84,7 +84,7 @@ class test_matrix33(unittest.TestCase):
     def test_create_identity(self):
         result = matrix33.create_identity()
         np.testing.assert_almost_equal(result, np.eye(3), decimal=5)
-        self.assertTrue(result.dtype == np.float)
+        self.assertTrue(result.dtype == float)
 
     def create_from_matrix44(self):
         m44 = np.arange((4,4))
@@ -101,12 +101,12 @@ class test_matrix33(unittest.TestCase):
         # wolfram alpha can be awesome sometimes
         result = matrix33.create_from_axis_rotation([0.57735, 0.57735, 0.57735],np.pi)
         np.testing.assert_almost_equal(result, matrix33.create_from_quaternion([5.77350000e-01, 5.77350000e-01, 5.77350000e-01, 6.12323400e-17]), decimal=3)
-        self.assertTrue(result.dtype == np.float)
+        self.assertTrue(result.dtype == float)
 
     def test_create_from_axis_rotation_non_normalized(self):
         result = matrix33.create_from_axis_rotation([1.,1.,1.], np.pi)
         np.testing.assert_almost_equal(result, matrix33.create_from_quaternion([5.77350000e-01, 5.77350000e-01, 5.77350000e-01, 6.12323400e-17]), decimal=3)
-        self.assertTrue(result.dtype == np.float)
+        self.assertTrue(result.dtype == float)
 
     def test_create_from_x_rotation(self):
         mat = matrix33.create_from_x_rotation(np.pi / 2.)

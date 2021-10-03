@@ -222,28 +222,28 @@ class test_object_matrix44(unittest.TestCase):
         # add
         self.assertTrue(np.array_equal(m + 1.0, matrix44.create_identity()[:] + 1.0))
         self.assertTrue(np.array_equal(m + 1, matrix44.create_identity()[:] + 1.0))
-        self.assertTrue(np.array_equal(m + np.float(1.), matrix44.create_identity()[:] + 1.0))
+        self.assertTrue(np.array_equal(m + 1., matrix44.create_identity()[:] + 1.0))
         self.assertTrue(np.array_equal(m + fv[0]['f'], matrix44.create_identity()[:] + 2.0))
         self.assertTrue(np.array_equal(m + fv[0]['i'], matrix44.create_identity()[:] + 2.0))
 
         # subtract
         self.assertTrue(np.array_equal(m - 1.0, matrix44.create_identity()[:] - 1.0))
         self.assertTrue(np.array_equal(m - 1, matrix44.create_identity()[:] - 1.0))
-        self.assertTrue(np.array_equal(m - np.float(1.), matrix44.create_identity()[:] - 1.0))
+        self.assertTrue(np.array_equal(m - 1., matrix44.create_identity()[:] - 1.0))
         self.assertTrue(np.array_equal(m - fv[0]['f'], matrix44.create_identity()[:] - 2.0))
         self.assertTrue(np.array_equal(m - fv[0]['i'], matrix44.create_identity()[:] - 2.0))
 
         # multiply
         self.assertTrue(np.array_equal(m * 2.0, matrix44.create_identity()[:] * 2.0))
         self.assertTrue(np.array_equal(m * 2, matrix44.create_identity()[:] * 2.0))
-        self.assertTrue(np.array_equal(m * np.float(2.), matrix44.create_identity()[:] * 2.0))
+        self.assertTrue(np.array_equal(m * 2., matrix44.create_identity()[:] * 2.0))
         self.assertTrue(np.array_equal(m * fv[0]['f'], matrix44.create_identity()[:] * 2.0))
         self.assertTrue(np.array_equal(m * fv[0]['i'], matrix44.create_identity()[:] * 2.0))
 
         # divide
         self.assertTrue(np.array_equal(m / 2.0, matrix44.create_identity()[:] / 2.0))
         self.assertTrue(np.array_equal(m / 2, matrix44.create_identity()[:] / 2.0))
-        self.assertTrue(np.array_equal(m / np.float(2.), matrix44.create_identity()[:] / 2.0))
+        self.assertTrue(np.array_equal(m / 2., matrix44.create_identity()[:] / 2.0))
         self.assertTrue(np.array_equal(m / fv[0]['f'], matrix44.create_identity()[:] / 2.0))
         self.assertTrue(np.array_equal(m / fv[0]['i'], matrix44.create_identity()[:] / 2.0))
 
