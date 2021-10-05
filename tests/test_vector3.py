@@ -15,7 +15,7 @@ class test_vector3(unittest.TestCase):
     def test_create(self):
         result = vector3.create()
         np.testing.assert_almost_equal(result, [0.,0.,0.], decimal=5)
-        self.assertTrue(result.dtype == np.float)
+        self.assertTrue(result.dtype == float)
 
     def test_create_values(self):
         result = vector3.create(1., 2., 3., dtype=np.float32)
@@ -29,7 +29,7 @@ class test_vector3(unittest.TestCase):
     def test_create_unit_length_x(self):
         result = vector3.create_unit_length_x()
         np.testing.assert_almost_equal(result, [1.,0.,0.], decimal=5)
-        self.assertTrue(result.dtype == np.float)
+        self.assertTrue(result.dtype == float)
 
     def test_create_unit_length_x_dtype(self):
         result = vector3.create_unit_length_x(dtype=np.float32)
@@ -39,7 +39,7 @@ class test_vector3(unittest.TestCase):
     def test_create_unit_length_y(self):
         result = vector3.create_unit_length_y()
         np.testing.assert_almost_equal(result, [0.,1.,0.], decimal=5)
-        self.assertTrue(result.dtype == np.float)
+        self.assertTrue(result.dtype == float)
 
     def test_create_unit_length_y_dtype(self):
         result = vector3.create_unit_length_y(dtype=np.float32)
@@ -49,7 +49,7 @@ class test_vector3(unittest.TestCase):
     def test_create_unit_length_z(self):
         result = vector3.create_unit_length_z()
         np.testing.assert_almost_equal(result, [0.,0.,1.], decimal=5)
-        self.assertTrue(result.dtype == np.float)
+        self.assertTrue(result.dtype == float)
 
     def test_create_unit_length_z_dtype(self):
         result = vector3.create_unit_length_z(dtype=np.float32)
@@ -72,7 +72,7 @@ class test_vector3(unittest.TestCase):
         ])
         result = vector3.create_from_matrix44_translation(mat)
         np.testing.assert_almost_equal(result, [13.,14.,15.], decimal=5)
-        self.assertTrue(result.dtype == np.float)
+        self.assertTrue(result.dtype == float)
 
     def test_create_from_matrix44_translation_dtype_matches(self):
         mat = np.array([

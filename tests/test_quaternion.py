@@ -20,12 +20,12 @@ class test_quaternion(unittest.TestCase):
     def test_create(self):
         result = quaternion.create()
         np.testing.assert_almost_equal(result, [0., 0., 0., 1.], decimal=5)
-        self.assertTrue(result.dtype == np.float)
+        self.assertTrue(result.dtype == float)
 
     def test_create_parameters(self):
         result = quaternion.create(1.0, 2.0, 3.0, 4.0)
         np.testing.assert_almost_equal(result, [1.0, 2.0, 3.0, 4.0], decimal=5)
-        self.assertTrue(result.dtype == np.float)
+        self.assertTrue(result.dtype == float)
 
     def test_create_from_x_rotation(self):
         # 180 degree turn around X axis
@@ -68,24 +68,24 @@ class test_quaternion(unittest.TestCase):
         # wolfram alpha can be awesome sometimes
         result = quaternion.create_from_axis_rotation([0.57735, 0.57735, 0.57735], np.pi)
         np.testing.assert_almost_equal(result, [5.77350000e-01, 5.77350000e-01, 5.77350000e-01, 6.12323400e-17], decimal=3)
-        self.assertTrue(result.dtype == np.float)
+        self.assertTrue(result.dtype == float)
 
     def test_create_from_axis_rotation_non_normalized(self):
         result = quaternion.create_from_axis_rotation([1., 1., 1.], np.pi)
         np.testing.assert_almost_equal(result, [5.77350000e-01, 5.77350000e-01, 5.77350000e-01, 6.12323400e-17], decimal=3)
-        self.assertTrue(result.dtype == np.float)
+        self.assertTrue(result.dtype == float)
 
     def test_create_from_axis(self):
         source = np.array([np.pi, np.pi, np.pi])
         result = quaternion.create_from_axis(source)
         expected = np.array([0.2358916, 0.2358916, 0.2358916, -0.9127242])
         np.testing.assert_almost_equal(result, expected)
-        self.assertTrue(result.dtype == np.float)
+        self.assertTrue(result.dtype == float)
 
     def test_create_from_matrix_unit(self):
         result = quaternion.create_from_matrix(np.eye(3))
         np.testing.assert_almost_equal(result, [0., 0., 0., 1.], decimal=5)
-        self.assertTrue(result.dtype == np.float)
+        self.assertTrue(result.dtype == float)
 
     def test_create_from_matrix_x(self):
         result = quaternion.create_from_matrix([
@@ -94,7 +94,7 @@ class test_quaternion(unittest.TestCase):
             [0., 0., -1.],
         ])
         np.testing.assert_almost_equal(result, [1., 0., 0., 0.], decimal=5)
-        self.assertTrue(result.dtype == np.float)
+        self.assertTrue(result.dtype == float)
 
     def test_create_from_matrix_y(self):
         result = quaternion.create_from_matrix([
@@ -103,7 +103,7 @@ class test_quaternion(unittest.TestCase):
             [0., 0., -1.],
         ])
         np.testing.assert_almost_equal(result, [0., 1., 0., 0.], decimal=5)
-        self.assertTrue(result.dtype == np.float)
+        self.assertTrue(result.dtype == float)
 
     def test_create_from_matrix_z(self):
         result = quaternion.create_from_matrix([
@@ -112,17 +112,17 @@ class test_quaternion(unittest.TestCase):
             [0., 0., 1.],
         ])
         np.testing.assert_almost_equal(result, [0., 0., 1., 0.], decimal=5)
-        self.assertTrue(result.dtype == np.float)
+        self.assertTrue(result.dtype == float)
 
     def test_create_from_eulers_identity(self):
         result = quaternion.create_from_eulers([0., 0., 0.])
         np.testing.assert_equal(result, [0., 0., 0., 1.])
-        self.assertTrue(result.dtype == np.float)
+        self.assertTrue(result.dtype == float)
 
     def test_create_from_eulers(self):
         result = quaternion.create_from_eulers([1.0, 2.0, 3.0])
         np.testing.assert_almost_equal(result, [0.7549338, -0.2061492, 0.5015091, -0.3688714], decimal=5)
-        self.assertTrue(result.dtype == np.float)
+        self.assertTrue(result.dtype == float)
 
     @unittest.skip('Not implemented')
     def test_create_from_inverse_of_eulers(self):
