@@ -90,7 +90,7 @@ def create_quad(scale=(1.0,1.0), st=False, rgba=False, dtype='float32', type='tr
         If the shape is (3,), the values are interpreted as being an RGB value (no alpha)
         to set on all vertices.
 
-        If the shape is (4,), the values are intepreted the same as the shape (3,) except
+        If the shape is (4,), the values are interpreted the same as the shape (3,) except
         the alpha value is included.
 
         If the shape is (4,3,), the values are interpreted as being a colour to set on
@@ -100,7 +100,7 @@ def create_quad(scale=(1.0,1.0), st=False, rgba=False, dtype='float32', type='tr
 
             [top-right, top-left, bottom-left, bottom-right]
 
-        If the shape is (4,4,), the values are intepreted the same as the shape (4,3,)
+        If the shape is (4,4,), the values are interpreted the same as the shape (4,3,)
         except the alpha value is included.
 
     :param string type: The type of indices to generate.
@@ -310,7 +310,7 @@ def create_cube(scale=(1.0,1.0,1.0), st=False, rgba=False, dtype='float32', type
         If the shape is (3,), the values are interpreted as being an RGB value (no alpha)
         to set on all vertices.
 
-        If the shape is (4,), the values are intepreted the same as the shape (3,) except
+        If the shape is (4,), the values are interpreted the same as the shape (3,) except
         the alpha value is included.
 
         If the shape is (4,3,), the values are interpreted as being a colour to set on
@@ -320,7 +320,7 @@ def create_cube(scale=(1.0,1.0,1.0), st=False, rgba=False, dtype='float32', type
 
             [top-right, top-left, bottom-left, bottom-right]
 
-        If the shape is (4,4,), the values are intepreted the same as the shape (4,3,)
+        If the shape is (4,4,), the values are interpreted the same as the shape (4,3,)
         except the alpha value is included.
 
         If the shape is (6,3,), the values are interpreted as being one RGB value (no alpha)

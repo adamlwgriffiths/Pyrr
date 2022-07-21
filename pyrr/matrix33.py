@@ -80,7 +80,7 @@ def create_from_axis_rotation(axis, theta, dtype=None):
     """Creates a matrix from the specified theta rotation around an axis.
 
     :param numpy.array axis: A (3,) vector specifying the axis of rotation.
-    :param float theta: A rotation speicified in radians.
+    :param float theta: A rotation specified in radians.
     :rtype: numpy.array
     :return: A matrix with shape (3,3).
     """

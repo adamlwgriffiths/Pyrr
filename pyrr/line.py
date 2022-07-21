@@ -15,7 +15,7 @@ A line is defined by two points but extends infinitely.
 A line segment only exists between two points.
 It does not extend forever.
 
-The choice to interprete a line as a line or line segment is up to the
+The choice to interpret a line as a line or line segment is up to the
 function being called. Check the function signature of documentation
 to determine how a line will be interpreted.
 """

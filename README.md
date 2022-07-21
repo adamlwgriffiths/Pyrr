@@ -102,7 +102,7 @@ point = matrix44.apply_to_vector(matrix, point)
 
 ## Object Oriented Features
 
-### Convertable types
+### Convertible types
 
 ```python
 from pyrr import Quaternion, Matrix33, Matrix44, Vector3, Vector4
@@ -149,7 +149,7 @@ q = ~Quaternion()
 # quaternion dot product
 d = Quaternion() | Quaternion()
 
-# vector oprations
+# vector operations
 v = Vector3() + Vector3()
 v = Vector4() - Vector4()
 
