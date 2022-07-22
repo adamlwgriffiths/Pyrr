@@ -18,7 +18,7 @@ TODO: line_segment_intersect_line_segment
 
 @all_parameters_as_numpy_arrays
 def point_intersect_line(point, line):
-    """Calculates the intersection point of a point and aline.
+    """Calculates the intersection point of a point and a line.
 
     Performed by checking if the cross-product
     of the point relative to the line is

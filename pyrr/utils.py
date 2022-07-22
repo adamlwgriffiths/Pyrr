@@ -51,7 +51,7 @@ def parameters_as_numpy_arrays(*args_to_convert):
 
         @wraps(fn)
         def wrapper(*args, **kwargs):
-            # get the arguements of the function we're decorating
+            # get the arguments of the function we're decorating
             fn_args = getfullargspec(fn)
 
             # convert any values that are specified

@@ -80,7 +80,7 @@ class test_oo_examples(unittest.TestCase):
         # quaternion dot product
         d = Quaternion() | Quaternion()
 
-        # vector oprations
+        # vector operations
         v = Vector3() + Vector3()
         v = Vector4() - Vector4()
 

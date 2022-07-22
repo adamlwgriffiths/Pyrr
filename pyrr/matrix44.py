@@ -105,7 +105,7 @@ def create_from_quaternion(quat, dtype=None):
 def create_from_inverse_of_quaternion(quat, dtype=None):
     """Creates a matrix with the inverse rotation of a quaternion.
 
-    This can be used to go from object space to intertial space.
+    This can be used to go from object space to inertial space.
 
     :param numpy.array quat: The quaternion to make the matrix from (shape 4).
     :rtype: numpy.array

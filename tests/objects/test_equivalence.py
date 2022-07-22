@@ -9,7 +9,7 @@ from pyrr import Quaternion, Matrix44, Matrix33, Vector3, Vector4, euler
 
 class test_matrix_quaternion(unittest.TestCase):
     def test_m44_q_equivalence(self):
-        """Test for equivalance of matrix and quaternion rotations.
+        """Test for equivalence of matrix and quaternion rotations.
 
         Create a matrix and quaternion, rotate each by the same values
         then convert matrix<->quaternion and check the results are the same.

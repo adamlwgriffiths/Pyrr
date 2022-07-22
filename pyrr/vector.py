@@ -176,7 +176,7 @@ def interpolate(v1, v2, delta):
         where 0.0 <= delta <= 1.0.
         When delta is 0.0, the result will be v1.
         When delta is 1.0, the result will be v2.
-        Values inbetween will be an interpolation.
+        Values in between will be an interpolation.
     :rtype: numpy.array
     :return: The result of intperpolation between v1 and v2
     """

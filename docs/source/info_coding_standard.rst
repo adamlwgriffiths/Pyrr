@@ -153,7 +153,7 @@ A good example::
     )
 
     # laying out parameters vertically can improve readability.
-    # we'll be less likely to accidently pass an invalid value
+    # we'll be less likely to accidentally pass an invalid value
     # and we can more easily, and more clearly, add logic to the parameters.
     some_complex_function_call(
         param_one,
