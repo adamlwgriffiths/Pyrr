@@ -214,6 +214,20 @@ class test_object_matrix44(unittest.TestCase):
         # divide
         self.assertRaises(ValueError, lambda: m / v)
 
+    def test_apply_to_vector_list(self):
+        
+        # transform 5 3D vectors by a matrix44
+        list_of_vectors = np.array([np.array([np.cos(i), np.sin(i), 0]) for i in range(5)])
+        theoretical_result = np.array([np.array([2 * np.cos(i), 3 * np.sin(i), 0]) for i in range(5)])
+        matrix4 = np.array([[2, 0, 0, 0], [0, 3, 0, 0], [0, 0, 4, 0], [0, 0, 0, 1]])
+        self.assertTrue(np.array_equal(theoretical_result, matrix44.apply_to_vector(matrix4, list_of_vectors)))
+
+        # transform 5 4D vectors by a matrix44
+        list_of_vectors = np.array([np.array([np.cos(i), np.sin(i), 0, 1]) for i in range(5)])
+        theoretical_result = np.array([np.array([2 * np.cos(i), 3 * np.sin(i), 0, 1]) for i in range(5)])
+        matrix4 = np.array([[2, 0, 0, 0], [0, 3, 0, 0], [0, 0, 4, 0], [0, 0, 0, 1]])
+        self.assertTrue(np.array_equal(theoretical_result, matrix44.apply_to_vector(matrix4, list_of_vectors)))
+
     def test_operators_number(self):
         m = Matrix44.identity()
         fv = np.empty((1,), dtype=[('i', np.int16, 1),('f', np.float32, 1)])

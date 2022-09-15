@@ -246,6 +246,18 @@ class test_object_matrix33(unittest.TestCase):
         self.assertTrue(np.array_equal(m / 2., matrix33.create_identity()[:] / 2.0))
         self.assertTrue(np.array_equal(m / fv[0]['f'], matrix33.create_identity()[:] / 2.0))
         self.assertTrue(np.array_equal(m / fv[0]['i'], matrix33.create_identity()[:] / 2.0))
+    
+    def test_apply_to_vector_list(self):
+        
+        # transform 5 3D vectors by a matrix33
+        list_of_vectors = np.array([np.array([np.cos(i), np.sin(i), 0]) for i in range(5)])
+        theoretical_result = np.array([np.array([2 * np.cos(i), 3 * np.sin(i), 0]) for i in range(5)])
+        matrix3 = np.array([[2, 0, 0, 0], [0, 3, 0, 0], [0, 0, 4, 0]])
+        self.assertTrue(np.array_equal(theoretical_result, matrix33.apply_to_vector(matrix3, list_of_vectors)))
+
+        # transforming 4D vectors by a matrix33 should throw a value error
+        list_of_vectors = np.array([np.array([np.cos(i), np.sin(i), 0, 1]) for i in range(5)])
+        self.assertRaises(ValueError, lambda: matrix33.apply_to_vector(matrix3, list_of_vectors))
 
     def test_accessors(self):
         m = Matrix33(np.arange(self._size))
