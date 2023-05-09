@@ -307,6 +307,43 @@ def ray_intersect_aabb(ray, aabb):
     return point
 
 @all_parameters_as_numpy_arrays
+def plane_intersect_aabb(pl, aabb):
+    """Calculates one intersection point of the plane and the aabb.
+       This point is granted to be inside the aabb and along the ray passing by the aabb center and
+       parallel to the plane normal. Otherwise explained it is the intersecting point nearest to the
+       aabb center.
+    :param numpy.array palne: The plane to check.
+    :param numpy.array aabb: The Axis-Aligned Bounding Box to check against.
+    :rtype: numpy.array
+    :return: Returns a point if an intersection occurs.
+        Returns None if no intersection occurs.
+    """
+    """
+    https://gdbooks.gitbooks.io/3dcollisions/content/Chapter2/static_aabb_plane.html
+    """
+
+    # Convert AABB to center-extents representation
+    aabb_center = pyrr.aabb.centre_point(aabb)
+    bary_extent = pyrr.aabb.maximum(aabb) - aabb_center
+
+    plane_origin = pyrr.plane.position(pl)
+    plane_normal = pyrr.plane.normal(pl)
+
+    # Compute the projection interval radius of aabb onto L(t) = aabb_center + t * plane_normal
+    r = np.dot(bary_extent, np.abs(plane_normal))
+    # r = bary_extent[0]*abs(plane_normal[0]) + bary_extent[1]*abs(plane_normal[1]) + bary_extent[2]*abs(plane_normal[2])
+
+    # Compute distance of aabb center from plane origin along plane normal
+    s = np.dot(plane_normal, plane_origin - aabb_center)
+
+    # Intersection occurs when distance s falls within [-r,+r] interval
+    if abs(s) <= r:
+        return aabb_center + plane_normal * s
+    else:
+        return None
+
+
+@all_parameters_as_numpy_arrays
 def point_height_above_plane(point, pl):
     """Calculates how high a point is above a plane.
 
