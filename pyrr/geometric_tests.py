@@ -342,7 +342,6 @@ def plane_intersect_aabb(pl, aabb):
     else:
         return None
 
-
 @all_parameters_as_numpy_arrays
 def point_height_above_plane(point, pl):
     """Calculates how high a point is above a plane.
