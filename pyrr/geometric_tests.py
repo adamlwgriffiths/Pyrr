@@ -5,7 +5,7 @@ various forms data types.
 from __future__ import absolute_import, division, print_function
 import math
 import numpy as np
-from . import rectangle, vector, vector3, plane
+from . import rectangle, vector, vector3, plane, aabb
 from .utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays, solve_quadratic_equation
 
 """
@@ -307,12 +307,12 @@ def ray_intersect_aabb(ray, aabb):
     return point
 
 @all_parameters_as_numpy_arrays
-def plane_intersect_aabb(pl, aabb):
+def plane_intersect_aabb(plane, aabb):
     """Calculates one intersection point of the plane and the aabb.
        This point is granted to be inside the aabb and along the ray passing by the aabb center and
        parallel to the plane normal. Otherwise explained it is the intersecting point nearest to the
        aabb center.
-    :param numpy.array palne: The plane to check.
+    :param numpy.array plane: The plane to check.
     :param numpy.array aabb: The Axis-Aligned Bounding Box to check against.
     :rtype: numpy.array
     :return: Returns a point if an intersection occurs.
@@ -326,12 +326,11 @@ def plane_intersect_aabb(pl, aabb):
     aabb_center = pyrr.aabb.centre_point(aabb)
     bary_extent = pyrr.aabb.maximum(aabb) - aabb_center
 
-    plane_origin = pyrr.plane.position(pl)
-    plane_normal = pyrr.plane.normal(pl)
+    plane_origin = pyrr.plane.position(plane)
+    plane_normal = pyrr.plane.normal(plane)
 
     # Compute the projection interval radius of aabb onto L(t) = aabb_center + t * plane_normal
     r = np.dot(bary_extent, np.abs(plane_normal))
-    # r = bary_extent[0]*abs(plane_normal[0]) + bary_extent[1]*abs(plane_normal[1]) + bary_extent[2]*abs(plane_normal[2])
 
     # Compute distance of aabb center from plane origin along plane normal
     s = np.dot(plane_normal, plane_origin - aabb_center)
