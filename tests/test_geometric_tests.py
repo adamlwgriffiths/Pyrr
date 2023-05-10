@@ -6,7 +6,7 @@ except:
     import unittest
 import numpy as np
 from pyrr import geometric_tests as gt
-from pyrr import line, plane, ray, sphere
+from pyrr import line, plane, ray, sphere, aabb
 
 
 class test_geometric_tests(unittest.TestCase):
@@ -217,8 +217,8 @@ class test_geometric_tests(unittest.TestCase):
         p_pos = np.array(plane_orig)
         plane_normal = [1.0, 0.0, 0.0]
         p_norm = np.array(plane_normal)
-        plane = pyrr.plane.create_from_position(p_pos, p_norm)
-        result = plane_intersect_aabb(plane, aabb)
+        plane = plane.create_from_position(p_pos, p_norm)
+        result = gt.plane_intersect_aabb(plane, aabb)
         expected_result = np.array([plane_orig[0], (aabb_min[1]+aabb_max[1]) * 0.5, (aabb_min[2]+aabb_max[2]) * 0.5])
         self.assertTrue(np.array_equal(result, expected_result))
 
@@ -230,8 +230,8 @@ class test_geometric_tests(unittest.TestCase):
         p_pos = np.array(plane_orig)
         plane_normal = [0.0, 1.0, 0.0]
         p_norm = np.array(plane_normal)
-        plane = pyrr.plane.create_from_position(p_pos, p_norm)
-        result = plane_intersect_aabb(plane, aabb)
+        plane = plane.create_from_position(p_pos, p_norm)
+        result = gt.plane_intersect_aabb(plane, aabb)
         expected_result = np.array([(aabb_min[0]+aabb_max[0]) * 0.5, plane_orig[1], (aabb_min[2]+aabb_max[2]) * 0.5])
         self.assertTrue(np.array_equal(result, expected_result))        
 
@@ -243,8 +243,8 @@ class test_geometric_tests(unittest.TestCase):
         p_pos = np.array(plane_orig)
         plane_normal = [ 0.0, 0.0, -1.0]
         p_norm = np.array(plane_normal)
-        plane = pyrr.plane.create_from_position(p_pos, p_norm)
-        result = plane_intersect_aabb(plane, aabb)
+        plane = plane.create_from_position(p_pos, p_norm)
+        result = gt.plane_intersect_aabb(plane, aabb)
         expected_result = np.array([(aabb_min[0]+aabb_max[0]) * 0.5, (aabb_min[1]+aabb_max[1]) * 0.5, plane_orig[2]])
         self.assertTrue(np.array_equal(result, expected_result))
         
@@ -256,8 +256,8 @@ class test_geometric_tests(unittest.TestCase):
         p_pos = np.array(plane_orig)
         plane_normal = [ 0.0, 0.0, -1.0]
         p_norm = np.array(plane_normal)
-        plane = pyrr.plane.create_from_position(p_pos, p_norm)
-        result = plane_intersect_aabb(plane, aabb)
+        plane = plane.create_from_position(p_pos, p_norm)
+        result = gt.plane_intersect_aabb(plane, aabb)
         expected_result = np.array([(aabb_min[0]+aabb_max[0]) * 0.5, (aabb_min[1]+aabb_max[1]) * 0.5, plane_orig[2]])
         self.assertTrue(np.array_equal(result, expected_result))        
 
@@ -269,8 +269,8 @@ class test_geometric_tests(unittest.TestCase):
         p_pos = np.array(plane_orig)
         plane_normal = np.array(aabb_max) - np.array(aabb_min)
         p_norm = plane_normal
-        plane = pyrr.plane.create_from_position(p_pos, p_norm)
-        result = plane_intersect_aabb(plane, aabb)
+        plane = plane.create_from_position(p_pos, p_norm)
+        result = gt.plane_intersect_aabb(plane, aabb)
         self.assertEqual(result, None)
         
     def test_plane_intersect_aabb_invalid_2(self):
@@ -285,8 +285,8 @@ class test_geometric_tests(unittest.TestCase):
         plane_normal = plane_normal / np.linalg.norm(plane_normal)
         p_norm = plane_normal
         p_pos = p_pos + plane_normal * -10.0
-        plane = pyrr.plane.create_from_position(p_pos, p_norm)
-        result = plane_intersect_aabb(plane, aabb)
+        plane = plane.create_from_position(p_pos, p_norm)
+        result = gt.plane_intersect_aabb(plane, aabb)
         self.assertEqual(result, None)        
 
     def test_point_height_above_plane(self):
