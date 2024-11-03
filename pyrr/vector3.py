@@ -46,7 +46,7 @@ def cross(v1, v2):
     return np.cross(v1, v2)
 
 def generate_normals(v1, v2, v3, normalize_result=True):
-    """Generates a normal vector for 3 vertices.
+    r"""Generates a normal vector for 3 vertices.
 
     The result is a normalized vector.
 
