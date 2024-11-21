@@ -5,7 +5,7 @@ various forms data types.
 from __future__ import absolute_import, division, print_function
 import math
 import numpy as np
-from . import rectangle, vector, vector3, plane
+from . import rectangle, vector, vector3, plane, aabb
 from .utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays, solve_quadratic_equation
 
 """
@@ -305,6 +305,42 @@ def ray_intersect_aabb(ray, aabb):
     t = min(x for x in [tmin, tmax] if x >= 0)
     point = ray[0] + (ray[1] * t)
     return point
+
+@all_parameters_as_numpy_arrays
+def plane_intersect_aabb(plane_in, aabb_in):
+    """Calculates one intersection point of the plane and the aabb.
+       This point is granted to be inside the aabb and along the ray passing by the aabb center and
+       parallel to the plane normal. Otherwise explained it is the intersecting point nearest to the
+       aabb center.
+    :param numpy.array plane: The plane to check.
+    :param numpy.array aabb: The Axis-Aligned Bounding Box to check against.
+    :rtype: numpy.array
+    :return: Returns a point if an intersection occurs.
+        Returns None if no intersection occurs.
+    """
+    """
+    https://gdbooks.gitbooks.io/3dcollisions/content/Chapter2/static_aabb_plane.html
+    """
+
+    # Convert AABB to center-extents representation
+    obj_aabb = aabb.create_from_points(aabb_in)
+    aabb_center = aabb.centre_point(obj_aabb)
+    bary_extent = aabb.maximum(obj_aabb) - aabb_center
+
+    plane_origin = plane.position(plane_in)
+    plane_normal = plane.normal(plane_in)
+
+    # Compute the projection interval radius of aabb onto L(t) = aabb_center + t * plane_normal
+    r = np.dot(bary_extent, np.abs(plane_normal))
+
+    # Compute distance of aabb center from plane origin along plane normal
+    s = np.dot(plane_normal, plane_origin - aabb_center)
+
+    # Intersection occurs when distance s falls within [-r,+r] interval
+    if abs(s) <= r:
+        return aabb_center + plane_normal * s
+    else:
+        return None
 
 @all_parameters_as_numpy_arrays
 def point_height_above_plane(point, pl):
