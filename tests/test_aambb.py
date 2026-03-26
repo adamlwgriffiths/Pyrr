@@ -4,7 +4,6 @@ except:
     import unittest
 import numpy as np
 from pyrr import aambb
-from pyrr import aabb
 from pyrr import vector
 
 
@@ -12,7 +11,6 @@ class test_aambb(unittest.TestCase):
     def test_import(self):
         import pyrr
         pyrr.aambb
-        from pyrr import aambb
 
     def test_create_zeros(self):
         result = aambb.create_zeros()

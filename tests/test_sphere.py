@@ -10,7 +10,6 @@ class test_sphere(unittest.TestCase):
     def test_import(self):
         import pyrr
         pyrr.sphere
-        from pyrr import sphere
 
     def test_create_from_points(self):
         # the biggest should be 5,5,5

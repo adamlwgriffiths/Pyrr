@@ -10,7 +10,6 @@ class test_aabb(unittest.TestCase):
     def test_import(self):
         import pyrr
         pyrr.aabb
-        from pyrr import aabb
 
     def test_create_zeros(self):
         result = aabb.create_zeros()

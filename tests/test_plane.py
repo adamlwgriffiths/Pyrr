@@ -9,7 +9,6 @@ class test_plane(unittest.TestCase):
     def test_import(self):
         import pyrr
         pyrr.plane
-        from pyrr import plane
 
     def test_create(self):
         result = plane.create()

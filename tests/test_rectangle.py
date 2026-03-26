@@ -10,7 +10,6 @@ class test_rectangle(unittest.TestCase):
     def test_import(self):
         import pyrr
         pyrr.rectangle
-        from pyrr import rectangle
 
     def test_create(self):
         result = rectangle.create()

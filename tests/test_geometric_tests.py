@@ -13,7 +13,6 @@ class test_geometric_tests(unittest.TestCase):
     def test_import(self):
         import pyrr
         pyrr.geometric_tests
-        from pyrr import geometric_tests
 
     def test_point_intersect_line(self):
         p = np.array([1.,1.,1.])

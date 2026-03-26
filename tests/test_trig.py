@@ -9,7 +9,6 @@ class test_trig(unittest.TestCase):
     def test_import(self):
         import pyrr
         pyrr.trig
-        from pyrr import trig
 
     def test_aspec_ratio(self):
         self.assertEqual(trig.aspect_ratio(1920, 1080), 1920./1080.)

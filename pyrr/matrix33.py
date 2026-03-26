@@ -9,7 +9,7 @@ numpy.array.T method.
 from __future__ import absolute_import, division, print_function
 import numpy as np
 from . import vector, quaternion, euler
-from .utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays
+from .utils import parameters_as_numpy_arrays
 
 
 def create_identity(dtype=None):

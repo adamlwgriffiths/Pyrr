@@ -14,7 +14,7 @@ A negative value indicates the origin is behind the plane, relative to the norma
 from __future__ import absolute_import, division, print_function
 import numpy as np
 from . import vector
-from .utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays
+from .utils import parameters_as_numpy_arrays
 
 
 def create(normal=None, distance=0.0, dtype=None):
