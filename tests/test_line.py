@@ -9,7 +9,6 @@ class test_line(unittest.TestCase):
     def test_import(self):
         import pyrr
         pyrr.line
-        from pyrr import line
 
     def test_create_zeros(self):
         result = line.create_zeros()

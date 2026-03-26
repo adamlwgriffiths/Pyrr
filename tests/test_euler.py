@@ -10,7 +10,6 @@ class test_euler(unittest.TestCase):
     def test_import(self):
         import pyrr
         pyrr.euler
-        from pyrr import euler
 
     def test_create(self):
         self.assertTrue(np.array_equal(euler.create(), [0., 0., 0.]))

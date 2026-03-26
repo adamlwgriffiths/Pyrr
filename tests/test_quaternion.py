@@ -15,7 +15,6 @@ class test_quaternion(unittest.TestCase):
     def test_import(self):
         import pyrr
         pyrr.quaternion
-        from pyrr import quaternion
 
     def test_create(self):
         result = quaternion.create()

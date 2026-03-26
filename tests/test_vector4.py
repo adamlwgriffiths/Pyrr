@@ -10,7 +10,6 @@ class test_vector4(unittest.TestCase):
     def test_import(self):
         import pyrr
         pyrr.vector4
-        from pyrr import vector4
 
     def test_create(self):
         result = vector4.create()

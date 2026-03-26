@@ -4,7 +4,7 @@ try:
 except:
     import unittest
 import numpy as np
-from pyrr import Quaternion, Matrix44, Matrix33, Vector3, Vector4, euler
+from pyrr import Quaternion, Matrix44, Matrix33, Vector4, euler
 
 
 class test_matrix_quaternion(unittest.TestCase):

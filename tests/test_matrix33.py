@@ -12,7 +12,6 @@ class test_matrix33(unittest.TestCase):
     def test_import(self):
         import pyrr
         pyrr.matrix33
-        from pyrr import matrix33
 
     def test_create_from_quaternion_unit(self):
         result = matrix33.create_from_quaternion([0.,0.,0.,1.])

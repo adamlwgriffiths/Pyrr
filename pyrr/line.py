@@ -21,7 +21,7 @@ to determine how a line will be interpreted.
 """
 from __future__ import absolute_import, division, print_function
 import numpy as np
-from .utils import all_parameters_as_numpy_arrays, parameters_as_numpy_arrays
+from .utils import all_parameters_as_numpy_arrays
 
 
 class index:
