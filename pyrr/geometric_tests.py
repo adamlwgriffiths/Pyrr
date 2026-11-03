@@ -139,7 +139,7 @@ def point_closest_point_on_ray(point, ray):
     """
     normalized_n = vector.normalize(ray[1])
     relative_point = (point - ray[0])
-    t = vector.dot(relative_point, normalized_n)
+    t = max(0.0, vector.dot(relative_point, normalized_n))
     return ray[0] + (normalized_n * t)
 
 @all_parameters_as_numpy_arrays
