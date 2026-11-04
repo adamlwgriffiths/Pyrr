@@ -90,6 +90,7 @@ def ray_intersect_plane(ray, pl, front_only=False):
     if the ray is parallel to the plane.
     Returns None if the ray intersects the back
     of the plane and front_only is True.
+    Returns None if the intersection is behind the ray origin.
     """
     """
     Distance to plane is defined as
@@ -117,6 +118,8 @@ def ray_intersect_plane(ray, pl, front_only=False):
     pd = vector.dot(p, n)
     p0_n = vector.dot(ray[0], n)
     t = (pd - p0_n) / rd_n
+    if t < 0.0:
+        return None
     return ray[0] + (ray[1] * t)
 
 @all_parameters_as_numpy_arrays
