@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+
+- Fix swapped top and bottom bounds in `Matrix44.orthogonal_projection`.
+
 ## [0.10.3] - 2019-04-19
 
 - Fix some of the plane.create_(xz,xy,yz) not inverting correctly.

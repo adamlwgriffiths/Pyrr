@@ -155,7 +155,7 @@ class Matrix44(BaseMatrix44):
     def orthogonal_projection(cls, left, right, top, bottom, near, far, dtype=None):
         """Creates a Matrix44 for use as an orthogonal projection matrix.
         """
-        return cls(matrix44.create_orthogonal_projection(left, right, top, bottom, near, far, dtype))
+        return cls(matrix44.create_orthogonal_projection(left, right, bottom, top, near, far, dtype))
 
     @classmethod
     def look_at(cls, eye, target, up, dtype=None):
