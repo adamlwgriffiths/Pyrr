@@ -55,9 +55,29 @@ class test_object_matrix44(unittest.TestCase):
     def test_perspective_projection_bounds(self):
         pass
 
-    @unittest.skip('Not implemented')
     def test_orthogonal_projection(self):
-        pass
+        m = Matrix44.orthogonal_projection(-3., 5., 7., -1., 2., 11.)
+        np.testing.assert_allclose(
+            matrix44.apply_to_vector(m, [-3., -1., -2.]), [-1., -1., -1.])
+        np.testing.assert_allclose(
+            matrix44.apply_to_vector(m, [5., 7., -11.]), [1., 1., 1.])
+
+    def test_orthogonal_projection_keyword_bounds(self):
+        m = Matrix44.orthogonal_projection(
+            left=-3., right=5., top=7., bottom=-1., near=2., far=11.)
+        np.testing.assert_allclose(
+            matrix44.apply_to_vector(m, [1., 3., -6.5]), [0., 0., 0.], atol=1e-7)
+        np.testing.assert_allclose(
+            matrix44.apply_to_vector(m, [1., 7., -6.5]), [0., 1., 0.], atol=1e-7)
+
+    def test_orthogonal_projection_dtype(self):
+        for dtype in (np.float32, np.float64):
+            m = Matrix44.orthogonal_projection(
+                -3., 5., 7., -1., 2., 11., dtype=dtype)
+            self.assertIsInstance(m, Matrix44)
+            self.assertEqual(m.dtype, dtype)
+            np.testing.assert_allclose(
+                matrix44.apply_to_vector(m, [1., 7., -2.]), [0., 1., -1.], atol=1e-7)
 
     @unittest.skip('Not implemented')
     def test_from_translation(self):
